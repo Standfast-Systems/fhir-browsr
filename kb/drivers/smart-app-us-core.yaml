@@ -1,0 +1,84 @@
+# Non-regulatory sanity profile: a plain SMART on FHIR app that reads US Core.
+#
+# No regulation applies to the app. The versions are the ones every certified (g)(10) server must
+# still support on the target date (the 45 CFR 170.215 adopted versions, not SVAP options), so an app
+# built to them works against any certified EHR. Curated 2026-10-20.
+
+id: smart-app-us-core
+name: "SMART app reading US Core (sanity profile)"
+short: "SMART app + US Core"
+kind: profile
+authority: "HL7 (no regulation)"
+summary: >-
+  A SMART App Launch client that reads US Core data from certified EHR APIs. Initializr targets the
+  versions every certified server must support on your target date, so the app works everywhere.
+roles: [app-developer, provider-org, hie, payer, ehr-developer]
+fhir: ["4.0.1"]
+cite:
+  source: ecfr-170-315
+  pin: "(g)(10)"
+  url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(10)
+
+components:
+  - id: standalone
+    name: Standalone launch (patient-facing)
+    in_force: {}
+    default: true
+    cite: {source: ig-smart-app-launch}
+  - id: ehr-launch
+    name: EHR launch (clinician-facing)
+    in_force: {}
+    default: true
+    cite: {source: ig-smart-app-launch}
+
+rules:
+  - id: app-us-core
+    ig: hl7.fhir.us.core
+    actor: client
+    strength: recommended
+    capstmts: [http://hl7.org/fhir/us/core/CapabilityStatement/us-core-client]
+    note: >-
+      Build to the oldest version certified servers must still serve. Servers may also offer SVAP versions
+      (US Core 7.0.0–9.0.0); test against the versions your target EHRs actually run.
+    cite: {source: ig-us-core}
+    versions:
+      - version: "3.1.1"
+        basis: profile
+        expires: "2026-01-01"
+        cite:
+          source: ecfr-170-215
+          pin: "(b)(1)(i)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(b)(1)(i)
+      - version: "6.1.0"
+        basis: profile
+        from: "2024-02-08"
+        cite:
+          source: ecfr-170-215
+          pin: "(b)(1)(ii)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(b)(1)(ii)
+
+  - id: app-smart
+    ig: hl7.fhir.uv.smart-app-launch
+    actor: client
+    strength: recommended
+    capstmts: []  # SMART's only CapabilityStatement (App State) is an optional capability
+    note: SMART 2.0.0 is the version certified servers must support; 2.2.0 servers remain compatible for typical launches.
+    cite: {source: ig-smart-app-launch}
+    versions:
+      - version: "1.0.0"
+        basis: profile
+        expires: "2026-01-01"
+        cite:
+          source: ecfr-170-215
+          pin: "(c)(1)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(c)(1)
+      - version: "2.0.0"
+        basis: profile
+        from: "2024-02-08"
+        cite:
+          source: ecfr-170-215
+          pin: "(c)(2)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(c)(2)
+
+notes:
+  - This profile is not a regulation. It exists as a sanity check and as the default for app developers.

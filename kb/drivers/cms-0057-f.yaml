@@ -1,0 +1,576 @@
+# CMS Interoperability and Prior Authorization Final Rule (CMS-0057-F), plus the Patient Access and
+# Provider Directory APIs it builds on (CMS-9115-F).
+#
+# Curated 2026-10-20 against eCFR (current to 2026-10-16), the Federal Register, and CMS's
+# recommended-IG page (last modified 2026-08-31). Medicare Advantage sections are cited; Medicaid,
+# CHIP and QHP parallels are listed in the notes.
+#
+# Modelling choices:
+#   - The CFR still cross-references the 170.215 paragraphs for US Core 3.1.1 and SMART 1.0.0, which
+#     expired in ONC's program on 2026-01-01. Those versions stay "adopted" here because CMS's text
+#     names them; newer versions are "permitted-update" under 42 CFR 422.119(c)(4).
+#   - CMS-recommended IGs are "recommended", never "required" (CMS FAQ says so explicitly).
+#   - CMS-0062-P is proposed only. Its versions appear as "proposed" windows: shown, never accepted.
+
+id: cms-0057-f
+name: "CMS Interoperability and Prior Authorization (CMS-0057-F)"
+short: "CMS-0057-F"
+kind: regulation
+authority: "CMS (HHS)"
+summary: >-
+  Impacted payers (Medicare Advantage, Medicaid and CHIP fee-for-service and managed care, and QHP
+  issuers on the federally facilitated exchanges) must run FHIR APIs for patients, providers, other
+  payers and prior authorization, most from January 1, 2027. The rule requires the base standards in
+  45 CFR 170.215 and recommends Da Vinci and CARIN implementation guides.
+roles: [payer, app-developer, provider-org, ehr-developer]
+fhir: ["4.0.1"]
+cite:
+  source: fr-cms-0057-f
+  pin: "89 FR 8758"
+
+components:
+  - id: patient-access
+    name: Patient Access API
+    summary: Claims, encounter, clinical and (from 2027) prior authorization data for members' apps.
+    in_force: {from: "2021-01-01"}
+    default: true
+    cite:
+      source: ecfr-42-422-119
+      pin: "(b)(1)"
+      url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(b)(1)
+  - id: provider-access
+    name: Provider Access API
+    summary: Member data for in-network providers with a treatment relationship, individually or in bulk.
+    in_force: {from: "2027-01-01"}
+    default: true
+    cite:
+      source: ecfr-42-422-121
+      pin: "(a)"
+      url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.121#p-422.121(a)
+  - id: payer-to-payer
+    name: Payer-to-Payer API
+    summary: Member data exchanged with a member's previous and concurrent payers.
+    in_force: {from: "2027-01-01"}
+    default: true
+    cite:
+      source: ecfr-42-422-121
+      pin: "(b)"
+      url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.121#p-422.121(b)
+  - id: prior-auth
+    name: Prior Authorization API
+    summary: Lets providers discover requirements, gather documentation, and submit and track prior authorization.
+    in_force: {from: "2027-01-01"}
+    default: true
+    cite:
+      source: ecfr-42-422-122
+      pin: "(b)"
+      url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.122#p-422.122(b)
+  - id: provider-directory
+    name: Provider Directory API
+    summary: Public, unauthenticated provider directory (not required of QHP issuers on the FFEs).
+    in_force: {from: "2021-01-01"}
+    default: true
+    cite:
+      source: ecfr-42-422-120
+      pin: "(c)"
+      url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.120#p-422.120(c)
+      quote: "This section is applicable beginning January 1, 2021."
+
+rules:
+  # ------------------------------------------------------------------------------------------
+  # Required base standards (payer as API server)
+
+  - id: cms-us-core
+    ig: hl7.fhir.us.core
+    actor: server
+    strength: required
+    roles: [payer]
+    capstmts: [http://hl7.org/fhir/us/core/CapabilityStatement/us-core-server]
+    note: Every CMS API cross-references 45 CFR 170.215(b)(1)(i) (US Core); updated versions are allowed under the flexibility clause.
+    cite:
+      source: ecfr-42-422-119
+      pin: "(c)(1)"
+      url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(c)(1)
+      quote: "Must implement and maintain API technology conformant with 45 CFR 170.215(a)(1), (b)(1)(i), (c)(1), and (e)(1);"
+    versions:
+      - version: "3.1.1"
+        basis: adopted
+        note: Named by cross-reference to 45 CFR 170.215(b)(1)(i), which expired in ONC's program on 2026-01-01.
+        cite:
+          source: ecfr-42-422-119
+          pin: "(c)(1)"
+          url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(c)(1)
+          quote: "Must implement and maintain API technology conformant with 45 CFR 170.215(a)(1), (b)(1)(i), (c)(1), and (e)(1);"
+      - version: "6.1.0"
+        basis: permitted-update
+        from: "2024-02-08"
+        note: Adopted by ONC at 170.215(b)(1)(ii); CMS's FAQ says it meets the updated-version condition.
+        cite:
+          source: ecfr-42-422-119
+          pin: "(c)(4)"
+          url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(c)(4)
+          quote: "the National Coordinator has approved the updated version for use in the ONC Health IT Certification Program"
+      - version: "7.0.0"
+        basis: permitted-update
+        from: "2024-08-19"
+        note: Approved by the National Coordinator through SVAP 2024.
+        cite:
+          source: ecfr-42-422-119
+          pin: "(c)(4)"
+          url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(c)(4)
+      - version: "8.0.0"
+        basis: permitted-update
+        from: "2025-08-29"
+        note: Approved through SVAP 2025.
+        cite:
+          source: ecfr-42-422-119
+          pin: "(c)(4)"
+          url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(c)(4)
+      - version: "8.0.1"
+        basis: permitted-update
+        from: "2026-08-13"
+        note: Errata of 8.0.0 recognized by ONC for testing from August 13, 2026.
+        cite:
+          source: ecfr-42-422-119
+          pin: "(c)(4)"
+          url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(c)(4)
+      - version: "9.0.0"
+        basis: permitted-update
+        from: "2026-08-29"
+        note: Approved through SVAP 2026.
+        cite:
+          source: ecfr-42-422-119
+          pin: "(c)(4)"
+          url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(c)(4)
+
+  - id: cms-smart
+    ig: hl7.fhir.uv.smart-app-launch
+    actor: server
+    strength: required
+    capstmts: []  # SMART's only CapabilityStatement (App State) is an optional capability
+    roles: [payer]
+    components: [patient-access, provider-access, prior-auth]
+    note: Patient Access, Provider Access and Prior Authorization cross-reference 170.215(c)(1); Payer-to-Payer and Provider Directory do not.
+    cite:
+      source: ecfr-42-422-119
+      pin: "(c)(1)"
+      url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(c)(1)
+    versions:
+      - version: "1.0.0"
+        basis: adopted
+        note: Named by cross-reference to 45 CFR 170.215(c)(1), which expired in ONC's program on 2026-01-01.
+        cite:
+          source: ecfr-42-422-119
+          pin: "(c)(1)"
+          url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(c)(1)
+      - version: "2.0.0"
+        basis: permitted-update
+        from: "2024-02-08"
+        note: Adopted by ONC at 170.215(c)(2); CMS's FAQ says it meets the updated-version condition.
+        cite:
+          source: cms-faq-standards
+          quote: "CMS is exploring rulemaking to align with the updated versions finalized at 45 CFR 170.215 prior to the API compliance dates."
+      - version: "2.2.0"
+        basis: permitted-update
+        from: "2024-08-19"
+        note: Approved through SVAP 2024.
+        cite:
+          source: ecfr-42-422-119
+          pin: "(c)(4)"
+          url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(c)(4)
+
+  - id: cms-bulk
+    ig: hl7.fhir.uv.bulkdata
+    actor: server
+    strength: required
+    roles: [payer]
+    components: [provider-access, payer-to-payer]
+    cite:
+      source: ecfr-42-422-121
+      pin: "(a), (b)"
+      url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.121
+      quote: "The standards in 45 CFR 170.215(a)(1), (b)(1)(i), (c)(1), and (d)(1)."
+    versions:
+      - version: "1.0.0"
+        basis: adopted
+        cite:
+          source: ecfr-42-422-121
+          pin: "(a)"
+          quote: "The standards in 45 CFR 170.215(a)(1), (b)(1)(i), (c)(1), and (d)(1)."
+      - version: "1.0.1"
+        basis: adopted
+        note: Errata of the adopted v1.0.0.
+        cite: {source: onc-ccg-g10, pin: "Technical explanations: Bulk Data 1.0.1 errata"}
+      - version: "2.0.0"
+        basis: permitted-update
+        from: "2022-08-29"
+        note: Approved through SVAP 2022.
+        cite:
+          source: ecfr-42-422-119
+          pin: "(c)(4)"
+          url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119#p-422.119(c)(4)
+
+  # ------------------------------------------------------------------------------------------
+  # Recommended IGs (payer as API server). Not required: CMS FAQ, "not required to be used at this time".
+
+  - id: cms-carin-bb
+    ig: hl7.fhir.us.carin-bb
+    actor: server
+    strength: recommended
+    roles: [payer]
+    components: [patient-access, provider-access, payer-to-payer]
+    cite:
+      source: cms-recommended-igs
+      quote: "CMS recommends payers use the IGs to support implementation"
+    versions:
+      - version: "2.0.0"
+        basis: recommended
+        from: "2024-02-08"
+        note: CMS marks it as derived from adopted standards that expired January 1, 2026.
+        cite: {source: cms-recommended-igs, pin: "Patient Access / Provider Access / Payer-to-Payer"}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        note: On CMS's page by April 14, 2026 (first-listed date not recorded).
+        cite: {source: cms-recommended-igs, pin: "Patient Access / Provider Access / Payer-to-Payer"}
+      - version: "2.2.0"
+        basis: proposed
+        from: "2027-10-01"
+        note: CMS-0062-P would require the unexpired 170.215(k)(1) version, now CARIN BB 2.2.0.
+        cite:
+          source: fr-cms-0062-p
+          quote: "We are proposing an October 1, 2027 compliance date to implement the proposed standards."
+
+  - id: cms-pdex
+    ig: hl7.fhir.us.davinci-pdex
+    actor: server
+    strength: recommended
+    capstmts:
+      - http://hl7.org/fhir/us/davinci-pdex/CapabilityStatement/pdex-server-6-1
+      - http://hl7.org/fhir/us/davinci-pdex/CapabilityStatement/pdex-provider-access-server
+      - http://hl7.org/fhir/us/davinci-pdex/CapabilityStatement/pdex-payer-access-server
+    roles: [payer]
+    components: [patient-access, provider-access, payer-to-payer]
+    cite:
+      source: cms-recommended-igs
+      quote: "CMS recommends payers use the IGs to support implementation"
+    versions:
+      - version: "2.0.0"
+        basis: recommended
+        from: "2024-02-08"
+        note: CMS marks it as derived from adopted standards that expired January 1, 2026.
+        cite: {source: cms-recommended-igs}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        cite: {source: cms-recommended-igs}
+      - version: "2.1.0"
+        basis: proposed
+        from: "2027-10-01"
+        note: CMS-0062-P would require the 170.215(k)(2) version, PDex 2.1.0.
+        cite: {source: fr-cms-0062-p}
+
+  - id: cms-formulary
+    ig: hl7.fhir.us.davinci-drug-formulary
+    actor: server
+    strength: recommended
+    roles: [payer]
+    components: [patient-access]
+    cite: {source: cms-recommended-igs, pin: "Patient Access"}
+    versions:
+      - version: "2.0.1"
+        basis: recommended
+        from: "2024-02-08"
+        cite: {source: cms-recommended-igs, pin: "Patient Access"}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        cite: {source: cms-recommended-igs, pin: "Patient Access"}
+      - version: "2.1.0"
+        basis: proposed
+        from: "2027-10-01"
+        note: CMS-0062-P would require the 170.215(m)(1) version, US Drug Formulary 2.1.0.
+        cite: {source: fr-cms-0062-p}
+
+  - id: cms-plan-net
+    ig: hl7.fhir.us.davinci-pdex-plan-net
+    actor: server
+    strength: recommended
+    roles: [payer]
+    components: [provider-directory]
+    cite: {source: cms-recommended-igs, pin: "Provider Directory"}
+    versions:
+      - version: "1.1.0"
+        basis: recommended
+        from: "2024-02-08"
+        cite: {source: cms-recommended-igs, pin: "Provider Directory"}
+      - version: "1.2.0"
+        basis: recommended
+        from: "2026-04-14"
+        cite: {source: cms-recommended-igs, pin: "Provider Directory"}
+      - version: "1.2.0"
+        basis: proposed
+        from: "2027-10-01"
+        note: CMS-0062-P would require the 170.215(n)(1) version, Plan-Net 1.2.0.
+        cite: {source: fr-cms-0062-p}
+
+  - id: cms-crd
+    ig: hl7.fhir.us.davinci-crd
+    actor: server
+    strength: recommended
+    capstmts:
+      - http://hl7.org/fhir/us/davinci-crd/CapabilityStatement/crd-server
+    roles: [payer]
+    components: [prior-auth]
+    cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+    versions:
+      - version: "2.0.1"
+        basis: recommended
+        from: "2024-02-08"
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        note: ONC declined to adopt 2.1.0 ("the National Coordinator ... has not approved version 2.1.0").
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.2.1"
+        basis: proposed
+        from: "2027-10-01"
+        note: CMS-0062-P would require the 170.215(j)(1) version, now CRD 2.2.1 — the version provider EHRs certify to.
+        cite: {source: fr-cms-0062-p}
+
+  - id: cms-dtr
+    ig: hl7.fhir.us.davinci-dtr
+    actor: server
+    strength: recommended
+    capstmts:
+      - http://hl7.org/fhir/us/davinci-dtr/CapabilityStatement/dtr-payer-service
+    roles: [payer]
+    components: [prior-auth]
+    cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+    versions:
+      - version: "2.0.1"
+        basis: recommended
+        from: "2024-02-08"
+        note: The 2024 preamble text says DTR 2.0.0; CMS's page says 2.0.1.
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.2.0"
+        basis: proposed
+        from: "2027-10-01"
+        note: CMS-0062-P would require the 170.215(j)(2) version, now DTR 2.2.0.
+        cite: {source: fr-cms-0062-p}
+
+  - id: cms-pas
+    ig: hl7.fhir.us.davinci-pas
+    actor: server
+    strength: recommended
+    capstmts:
+      - http://hl7.org/fhir/us/davinci-pas/CapabilityStatement/IntermediaryCapabilities
+    roles: [payer]
+    components: [prior-auth]
+    cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+    versions:
+      - version: "2.0.1"
+        basis: recommended
+        from: "2024-02-08"
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.2.1"
+        basis: proposed
+        from: "2027-10-01"
+        note: CMS-0062-P would require the 170.215(j)(3) version, now PAS 2.2.1.
+        cite: {source: fr-cms-0062-p}
+
+  - id: cms-smart-backend-p2p
+    ig: hl7.fhir.uv.smart-app-launch
+    actor: server
+    strength: recommended
+    capstmts: []  # SMART's only CapabilityStatement (App State) is an optional capability
+    roles: [payer]
+    components: [payer-to-payer]
+    note: CMS recommends SMART Backend Services to authorize Payer-to-Payer and Provider Access exchanges.
+    cite: {source: cms-recommended-igs, pin: "Payer-to-Payer: SMART App Launch 2.0.0 Backend Services"}
+    versions:
+      - version: "2.0.0"
+        basis: recommended
+        from: "2024-02-08"
+        cite: {source: cms-recommended-igs, pin: "Payer-to-Payer"}
+
+  # ------------------------------------------------------------------------------------------
+  # Payer as client: requesting data from previous/concurrent payers' Payer-to-Payer APIs.
+  # The CFR sets standards for the API being called, so these are "recommended", not "required".
+
+  - id: cms-p2p-bulk-client
+    ig: hl7.fhir.uv.bulkdata
+    actor: client
+    strength: recommended
+    roles: [payer]
+    components: [payer-to-payer]
+    note: You request member data from other payers' Payer-to-Payer APIs, which are built to these standards.
+    cite:
+      source: ecfr-42-422-121
+      pin: "(b)"
+      url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.121#p-422.121(b)
+      quote: "The standards in 45 CFR 170.215(a)(1), (b)(1)(i), and (d)(1)."
+    versions:
+      - version: "1.0.1"
+        basis: adopted
+        cite: {source: ecfr-42-422-121, pin: "(b)"}
+      - version: "2.0.0"
+        basis: permitted-update
+        from: "2022-08-29"
+        cite: {source: ecfr-42-422-119, pin: "(c)(4)"}
+
+  - id: cms-p2p-us-core-client
+    ig: hl7.fhir.us.core
+    actor: client
+    strength: recommended
+    roles: [payer]
+    components: [payer-to-payer]
+    capstmts: [http://hl7.org/fhir/us/core/CapabilityStatement/us-core-client]
+    cite: {source: ecfr-42-422-121, pin: "(b)"}
+    versions:
+      - version: "3.1.1"
+        basis: adopted
+        cite: {source: ecfr-42-422-121, pin: "(b)"}
+      - version: "6.1.0"
+        basis: permitted-update
+        from: "2024-02-08"
+        cite: {source: ecfr-42-422-119, pin: "(c)(4)"}
+      - version: "7.0.0"
+        basis: permitted-update
+        from: "2024-08-19"
+        cite: {source: ecfr-42-422-119, pin: "(c)(4)"}
+      - version: "8.0.0"
+        basis: permitted-update
+        from: "2025-08-29"
+        cite: {source: ecfr-42-422-119, pin: "(c)(4)"}
+      - version: "8.0.1"
+        basis: permitted-update
+        from: "2026-08-13"
+        cite: {source: ecfr-42-422-119, pin: "(c)(4)"}
+      - version: "9.0.0"
+        basis: permitted-update
+        from: "2026-08-29"
+        cite: {source: ecfr-42-422-119, pin: "(c)(4)"}
+
+  - id: cms-p2p-pdex-client
+    ig: hl7.fhir.us.davinci-pdex
+    actor: client
+    strength: recommended
+    roles: [payer]
+    components: [payer-to-payer]
+    cite: {source: cms-recommended-igs, pin: "Payer-to-Payer"}
+    versions:
+      - version: "2.0.0"
+        basis: recommended
+        from: "2024-02-08"
+        cite: {source: cms-recommended-igs, pin: "Payer-to-Payer"}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        cite: {source: cms-recommended-igs, pin: "Payer-to-Payer"}
+
+  # ------------------------------------------------------------------------------------------
+  # Counterparties. CMS-0057-F binds payers; these roles connect to payers' APIs as clients.
+
+  - id: cms-app-carin-client
+    ig: hl7.fhir.us.carin-bb
+    actor: client
+    strength: optional
+    roles: [app-developer]
+    components: [patient-access]
+    note: Payers' Patient Access APIs are recommended to follow CARIN Blue Button; your app reads them as a client.
+    cite: {source: cms-recommended-igs, pin: "Patient Access"}
+    versions:
+      - version: "2.0.0"
+        basis: recommended
+        from: "2024-02-08"
+        cite: {source: cms-recommended-igs, pin: "Patient Access"}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        cite: {source: cms-recommended-igs, pin: "Patient Access"}
+
+  - id: cms-app-smart-client
+    ig: hl7.fhir.uv.smart-app-launch
+    actor: client
+    strength: optional
+    capstmts: []  # SMART's only CapabilityStatement (App State) is an optional capability
+    roles: [app-developer]
+    components: [patient-access]
+    note: Patient Access APIs authorize apps with SMART App Launch and OpenID Connect.
+    cite: {source: ecfr-42-422-119, pin: "(c)(1)"}
+    versions:
+      - version: "2.0.0"
+        basis: permitted-update
+        from: "2024-02-08"
+        cite: {source: cms-faq-standards}
+      - version: "2.2.0"
+        basis: permitted-update
+        from: "2024-08-19"
+        cite: {source: ecfr-42-422-119, pin: "(c)(4)"}
+
+  - id: cms-provider-bulk-client
+    ig: hl7.fhir.uv.bulkdata
+    actor: client
+    strength: optional
+    roles: [provider-org, ehr-developer]
+    components: [provider-access]
+    note: Providers pull attributed members' data from payers' Provider Access APIs, often in bulk.
+    cite: {source: ecfr-42-422-121, pin: "(a)"}
+    versions:
+      - version: "1.0.1"
+        basis: adopted
+        cite: {source: ecfr-42-422-121, pin: "(a)"}
+      - version: "2.0.0"
+        basis: permitted-update
+        from: "2022-08-29"
+        cite: {source: ecfr-42-422-119, pin: "(c)(4)"}
+
+  - id: cms-provider-pdex-client
+    ig: hl7.fhir.us.davinci-pdex
+    actor: client
+    strength: optional
+    roles: [provider-org, ehr-developer]
+    components: [provider-access]
+    cite: {source: cms-recommended-igs, pin: "Provider Access"}
+    versions:
+      - version: "2.0.0"
+        basis: recommended
+        from: "2024-02-08"
+        cite: {source: cms-recommended-igs, pin: "Provider Access"}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        cite: {source: cms-recommended-igs, pin: "Provider Access"}
+
+notes:
+  - >-
+    Compliance dates differ by payer type: Medicare Advantage and Medicaid/CHIP fee-for-service by
+    January 1, 2027; Medicaid and CHIP managed care by the rating period beginning on or after
+    January 1, 2027; QHP issuers on the FFEs for plan years beginning on or after January 1, 2027.
+    Parallel sections: Medicaid 42 CFR 431.60/.61/.70/.80, CHIP 457.730/.731/.732/.760, managed care
+    438.242 and 457.1233(d), QHP 45 CFR 156.221/.222/.223 (QHPs have no Provider Directory API duty).
+  - >-
+    The CFR still cites 45 CFR 170.215(b)(1)(i) (US Core 3.1.1) and (c)(1) (SMART 1.0.0), which expired
+    in ONC's program on January 1, 2026. Newer versions are allowed under 42 CFR 422.119(c)(4) when the
+    National Coordinator has approved them. CMS-0062-P (proposed April 14, 2026; not final as of this KB)
+    would switch the cross-references to "unexpired" versions and require the Da Vinci and CARIN IGs at
+    their 170.215 versions from October 1, 2027.
+  - >-
+    CMS's recommended IGs are not required: "the recommended IGs listed in table H3 are not required to
+    be used at this time" (CMS FAQ). Its page still lists CRD/DTR/PAS 2.0.1 and 2.1.0, while provider
+    EHRs certify (g)(31)–(33) to CRD 2.2.1, DTR 2.2.0 and PAS 2.2.1 since October 1, 2026.
+  - >-
+    Not FHIR packages but still required: OpenID Connect Core 1.0 for Patient Access, USCDI content
+    (45 CFR 170.213), the HIPAA X12 278 transaction for prior authorization (CMS's National Standards
+    Group will not enforce it against FHIR-based prior authorization, per its February 28, 2024 letter),
+    specific denial reasons from January 1, 2026, and annual metrics reporting from 2026.

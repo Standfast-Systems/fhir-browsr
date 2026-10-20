@@ -1,0 +1,206 @@
+@if (p(); as p) {
+  @if (kb(); as kb) {
+    <section class="step">
+      <h2><span class="n">1</span> Where</h2>
+      <mat-button-toggle-group class="realm" value="us" aria-label="Project realm">
+        <mat-button-toggle value="us">United States</mat-button-toggle>
+        <mat-button-toggle
+          value="intl"
+          disabled
+          matTooltip="International realms (national bases, IPA, IPS) are planned"
+          >International · later</mat-button-toggle
+        >
+      </mat-button-toggle-group>
+      <p class="hint">FHIR R4 (4.0.1). US Core is pulled in by the drivers below.</p>
+    </section>
+
+    <section class="step">
+      <h2><span class="n">2</span> Who you are</h2>
+      <div class="roles" role="radiogroup" aria-label="Role">
+        @for (r of kb.roles; track r.id) {
+          <button
+            type="button"
+            class="role"
+            role="radio"
+            [attr.aria-checked]="p.role === r.id"
+            [class.on]="p.role === r.id"
+            (click)="setRole(r.id)"
+            [matTooltip]="r.summary"
+          >
+            {{ r.label }}
+          </button>
+        }
+      </div>
+      <div class="actors">
+        <span class="lbl">Acting as</span>
+        <mat-checkbox
+          [checked]="p.actors.includes('server')"
+          (change)="toggleActor('server', $event.checked)"
+          >FHIR server</mat-checkbox
+        >
+        <mat-checkbox
+          [checked]="p.actors.includes('client')"
+          (change)="toggleActor('client', $event.checked)"
+          >FHIR client</mat-checkbox
+        >
+      </div>
+    </section>
+
+    <section class="step">
+      <h2><span class="n">3</span> Compliant as of</h2>
+      <div class="date-row">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="date">
+          <mat-label>Target date</mat-label>
+          <input
+            matInput
+            type="date"
+            [ngModel]="p.asOf"
+            (ngModelChange)="setDate($event)"
+            min="2020-01-01"
+            max="2032-12-31"
+          />
+        </mat-form-field>
+        <div class="quick">
+          @for (d of quickDates; track d) {
+            <button type="button" class="chip" [class.on]="p.asOf === d" (click)="setDate(d)">
+              {{ d }}
+            </button>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="step">
+      <h2><span class="n">4</span> What drives the project</h2>
+      <div class="drivers">
+        @for (d of drivers(); track d.id) {
+          <div class="driver" [class.on]="isOn(d)" [class.offrole]="!d.roles.includes(p.role)">
+            <mat-checkbox [checked]="isOn(d)" (change)="toggleDriver(d, $event.checked)">
+              <span class="dname">{{ d.short }}</span>
+              <span class="kind">{{ d.kind === 'profile' ? 'profile' : d.authority }}</span>
+            </mat-checkbox>
+            <p class="dsum">{{ d.summary }}</p>
+            @if (isOn(d)) {
+              <div class="comps" role="group" [attr.aria-label]="d.short + ' components'">
+                @for (c of componentsFor(d); track c.id) {
+                  <button
+                    type="button"
+                    class="chip"
+                    [class.on]="activeComponents(d).includes(c.id)"
+                    [attr.aria-pressed]="activeComponents(d).includes(c.id)"
+                    (click)="toggleComponent(d, c.id)"
+                    [matTooltip]="c.summary ?? ''"
+                  >
+                    {{ c.name }}
+                    @if (c.in_force.from) {
+                      <span class="when">{{ inForceLabel(c.in_force.from) }}</span>
+                    }
+                  </button>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="step">
+      <h2><span class="n">5</span> Workflows, capabilities &amp; content</h2>
+      <p class="hint">
+        Pick the exchanges you do and anything else your system needs from the
+        {{ kb.catalog.length }}-guide catalog.
+      </p>
+      <button mat-stroked-button type="button" (click)="openPicker()">
+        <mat-icon fontSet="material-symbols-outlined">add</mat-icon>
+        Add guides
+      </button>
+      @if (extras().length) {
+        <mat-chip-set class="extras" aria-label="Added guides">
+          @for (e of extras(); track e.npm) {
+            <mat-chip (removed)="removeExtra(e.npm)" [matTooltip]="e.npm">
+              {{ e.name }}
+              <button matChipRemove [attr.aria-label]="'Remove ' + e.name">
+                <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
+              </button>
+            </mat-chip>
+          }
+        </mat-chip-set>
+      }
+    </section>
+
+    <section class="step">
+      <h2><span class="n">6</span> Already implemented</h2>
+      <p class="hint">
+        Initializr keeps a version you already run when it still qualifies, and flags it when it
+        doesn't.
+      </p>
+      <div class="impl-row">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="impl-pkg">
+          <mat-label>Package</mat-label>
+          <input
+            matInput
+            [ngModel]="implPkg()"
+            (ngModelChange)="implPkg.set($event)"
+            [matAutocomplete]="auto"
+            placeholder="hl7.fhir.us.core"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            (optionSelected)="implPkg.set($event.option.value)"
+          >
+            @for (o of implOptions(); track o) {
+              <mat-option [value]="o">{{ o }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="impl-ver">
+          <mat-label>Version</mat-label>
+          <mat-select
+            [value]="implVersion()"
+            (selectionChange)="implVersion.set($event.value)"
+            [disabled]="!implVersions().length"
+          >
+            @for (v of implVersions(); track v) {
+              <mat-option [value]="v">{{ v }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <button
+          mat-icon-button
+          type="button"
+          (click)="addImplemented()"
+          [disabled]="!implPkg() || !implVersion()"
+          aria-label="Add implemented version"
+        >
+          <mat-icon fontSet="material-symbols-outlined">add</mat-icon>
+        </button>
+      </div>
+      @if (implemented().length) {
+        <mat-chip-set aria-label="Implemented versions">
+          @for (i of implemented(); track i[0]) {
+            <mat-chip (removed)="removeImplemented(i[0])">
+              <span class="mono">{{ i[0] }}&#64;{{ i[1] }}</span>
+              <button matChipRemove [attr.aria-label]="'Remove ' + i[0]">
+                <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
+              </button>
+            </mat-chip>
+          }
+        </mat-chip-set>
+      }
+    </section>
+
+    <section class="step">
+      <h2><span class="n">7</span> Project name <span class="opt">optional</span></h2>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="name">
+        <mat-label>Used in generated files</mat-label>
+        <input
+          matInput
+          [ngModel]="p.projectName ?? ''"
+          (ngModelChange)="setName($event)"
+          maxlength="80"
+          placeholder="acme-payer-apis"
+        />
+      </mat-form-field>
+    </section>
+  }
+}

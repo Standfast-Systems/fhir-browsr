@@ -1,0 +1,244 @@
+@if (m(); as m) {
+  <div class="summary">
+    <div class="stat">
+      <span class="num">{{ m.igs.length }}</span>
+      <span class="lbl">IGs in scope</span>
+    </div>
+    <div class="stat">
+      <span class="num">{{ m.dependencies.length }}</span>
+      <span class="lbl">packages incl. dependencies</span>
+    </div>
+    <button
+      type="button"
+      class="stat sev"
+      (click)="tab.set(1)"
+      [class.has-error]="counts().error"
+      [attr.aria-label]="'Show warnings'"
+    >
+      @if (counts().error) {
+        <span class="num sev-error">{{ counts().error }}</span
+        ><span class="lbl">errors</span>
+      }
+      <span class="num sev-warn">{{ counts().warn }}</span
+      ><span class="lbl">warnings</span> <span class="num sev-info">{{ counts().info }}</span
+      ><span class="lbl">notes</span>
+    </button>
+    <div class="stat date">
+      <span class="lbl">compliant as of</span>
+      <span class="num mono">{{ m.profile.asOf }}</span>
+    </div>
+  </div>
+
+  <mat-tab-group
+    [selectedIndex]="tab()"
+    (selectedIndexChange)="tab.set($event)"
+    animationDuration="0ms"
+    mat-stretch-tabs="false"
+  >
+    <mat-tab label="Scope">
+      <div class="pane">
+        @if (!m.igs.length) {
+          <div class="empty">
+            <p>
+              <strong>Pick a driver</strong> on the left (or add guides) to see the IGs your project
+              needs.
+            </p>
+            <p class="muted">Try “CMS-0057-F” as a payer, or “ONC (g)(10)” as an EHR developer.</p>
+          </div>
+        }
+        @for (g of groups(); track g.id) {
+          <section class="group">
+            <h3>
+              {{ g.title }} <span class="faint">· {{ g.hint }}</span>
+            </h3>
+            <div class="cards">
+              @for (ig of g.igs; track ig.package) {
+                <fi-ig-card [ig]="ig" [allWarnings]="m.warnings" [asOf]="m.profile.asOf" />
+              }
+            </div>
+          </section>
+        }
+        @if (m.driverNotes.length) {
+          <section class="group notes">
+            <h3>Notes from the drivers</h3>
+            <ul>
+              @for (n of m.driverNotes; track $index) {
+                <li>
+                  <strong>{{ n.driver }}</strong> — {{ n.note }}
+                </li>
+              }
+            </ul>
+          </section>
+        }
+      </div>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        Warnings
+        <span class="badge" [class.err]="counts().error">{{ counts().error + counts().warn }}</span>
+      </ng-template>
+      <div class="pane">
+        @for (g of warningGroups(); track g.severity) {
+          <h3 class="wh" [class]="'sev-' + g.severity">
+            {{ g.severity === 'error' ? 'Errors' : g.severity === 'warn' ? 'Warnings' : 'Notes' }}
+          </h3>
+          <ul class="warnings">
+            @for (w of g.items; track $index) {
+              <li [class]="g.severity">
+                <mat-icon fontSet="material-symbols-outlined" [class]="'sev-' + w.severity">{{
+                  icon(w)
+                }}</mat-icon>
+                <div>
+                  <p class="wt">
+                    <span class="kind">{{ kindLabel(w.kind) }}</span> {{ w.title }}
+                  </p>
+                  <p class="wd">{{ w.detail }}</p>
+                  @for (c of w.cites; track $index) {
+                    <p class="wc">
+                      <a [href]="c.url" target="_blank" rel="noopener"
+                        >{{ c.title }}{{ c.pin ? ' ' + c.pin : '' }}</a
+                      >
+                    </p>
+                  }
+                </div>
+              </li>
+            }
+          </ul>
+        } @empty {
+          <p class="muted">No warnings.</p>
+        }
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Surface">
+      <div class="pane">
+        <p class="intro muted">
+          Resources, interactions, search parameters and operations at SHALL/SHOULD, merged from
+          each IG's own CapabilityStatements for your role. Where a guide publishes none, Initializr
+          says “narrative only” instead of guessing.
+        </p>
+        @if (store.loadingDeep()) {
+          <p class="faint">Loading IG details…</p>
+        }
+        <fi-surface-view [surface]="m.surface" />
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Dependencies">
+      <div class="pane">
+        <p class="intro muted">
+          Read from each pinned package's own manifest. Rows in amber are needed at more than one
+          version.
+        </p>
+        <table class="deps">
+          <thead>
+            <tr>
+              <th>Package</th>
+              <th>Version</th>
+              <th>Needed by</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (d of m.dependencies; track d.name + d.version) {
+              <tr [class.multi]="(multi().get(d.name) ?? 0) > 1" [class.top]="d.topLevel">
+                <td class="mono">
+                  {{ d.name }}
+                  @if (d.aliases.length) {
+                    <span class="faint"> as {{ d.aliases.join(', ') }}</span>
+                  }
+                </td>
+                <td class="mono">{{ d.version }}</td>
+                <td class="by">
+                  {{ d.topLevel ? 'this project' : ''
+                  }}{{ d.topLevel && d.requiredBy.length ? ' · ' : ''
+                  }}{{ d.requiredBy.join(', ') }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Tests">
+      <div class="pane">
+        <p class="intro muted">
+          Inferno test kits that exercise this scope. Hosted at inferno.healthit.gov, or run them
+          locally from each repo.
+        </p>
+        <div class="kits">
+          @for (t of m.tests; track t.kit) {
+            <article class="kit">
+              <h4>
+                <a [href]="t.url" target="_blank" rel="noopener">{{ t.title }}</a>
+              </h4>
+              <ul class="kit-igs">
+                @for (i of t.igs; track i.ig) {
+                  <li>
+                    <span class="mono">{{ i.ig }} {{ i.version }}</span>
+                    @if (i.supported) {
+                      <span class="pill required">covered</span>
+                    } @else {
+                      <span class="pill warn">no suite for this version yet</span>
+                    }
+                  </li>
+                }
+              </ul>
+              @if (t.suites.length) {
+                <p class="suites">
+                  @for (s of t.suites; track s.id) {
+                    <code [matTooltip]="s.title + ' (' + s.actor + ')'">{{ s.id }}</code>
+                  }
+                </p>
+              }
+              @if (t.note) {
+                <p class="faint small">{{ t.note }}</p>
+              }
+              @if (t.repo) {
+                <p class="small">
+                  <a [href]="t.repo" target="_blank" rel="noopener">Source &amp; local run</a>
+                </p>
+              }
+            </article>
+          } @empty {
+            <p class="muted">No Inferno kit in the KB covers these IGs yet.</p>
+          }
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Files">
+      <div class="pane">
+        @if (store.registry(); as reg) {
+          <fi-files-view [manifest]="m" [registry]="reg" />
+        }
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Sources">
+      <div class="pane">
+        <p class="intro muted">
+          Every source behind this scope. Curators re-check each one; the date is when it was last
+          confirmed.
+        </p>
+        <ul class="sources">
+          @for (x of sources(); track x.c.title) {
+            <li>
+              <span class="pill" [class.warn]="x.s?.kind === 'proposed-rule'">{{
+                x.s?.kind ?? x.c.kind
+              }}</span>
+              <a [href]="x.s?.url ?? x.c.url" target="_blank" rel="noopener">{{ x.c.title }}</a>
+              <span class="faint"
+                >{{ x.c.publisher }}
+                @if (x.s?.checked) {
+                  · checked {{ x.s?.checked }}
+                }
+              </span>
+            </li>
+          }
+        </ul>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+}

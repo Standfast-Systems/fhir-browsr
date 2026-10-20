@@ -1,0 +1,109 @@
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import type { ManifestIg, ManifestWarning, ResolvedCitation } from '../core/index.ts';
+import { FilesView } from './files-view';
+import { IgCard } from './ig-card';
+import { InitializrStore } from './store';
+import { SurfaceView } from './surface-view';
+
+@Component({
+  selector: 'fi-results',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatIconModule, MatTabsModule, MatTooltipModule, IgCard, SurfaceView, FilesView],
+  templateUrl: './results.html',
+  styleUrl: './results.scss',
+})
+export class Results {
+  protected readonly store = inject(InitializrStore);
+  protected readonly m = this.store.manifest;
+  protected readonly tab = signal(0);
+
+  protected readonly groups = computed(() => {
+    const m = this.m();
+    if (!m) return [];
+    const by = (pred: (i: ManifestIg) => boolean) => m.igs.filter(pred);
+    const ruled = (i: ManifestIg) => i.reasons.some((r) => r.kind === 'rule');
+    return [
+      {
+        id: 'required',
+        title: 'Required',
+        hint: 'A regulation in scope requires these.',
+        igs: by((i) => ruled(i) && i.strength === 'required'),
+      },
+      {
+        id: 'recommended',
+        title: 'Recommended',
+        hint: 'Agency-recommended, or the profile you chose names them.',
+        igs: by((i) => ruled(i) && i.strength === 'recommended'),
+      },
+      {
+        id: 'optional',
+        title: 'Optional',
+        hint: 'Useful for your role; nothing requires them.',
+        igs: by((i) => ruled(i) && i.strength === 'optional'),
+      },
+      {
+        id: 'selected',
+        title: 'Added by you',
+        hint: 'Guides you picked or already implement.',
+        igs: by((i) => !ruled(i)),
+      },
+    ].filter((g) => g.igs.length);
+  });
+
+  protected readonly counts = computed(() => {
+    const w = this.m()?.warnings ?? [];
+    return {
+      error: w.filter((x) => x.severity === 'error').length,
+      warn: w.filter((x) => x.severity === 'warn').length,
+      info: w.filter((x) => x.severity === 'info').length,
+    };
+  });
+
+  protected readonly warningGroups = computed(() => {
+    const w = this.m()?.warnings ?? [];
+    return (['error', 'warn', 'info'] as const)
+      .map((s) => ({ severity: s, items: w.filter((x) => x.severity === s) }))
+      .filter((g) => g.items.length);
+  });
+
+  protected readonly multi = computed(() => {
+    const deps = this.m()?.dependencies ?? [];
+    const n = new Map<string, number>();
+    for (const d of deps) n.set(d.name, (n.get(d.name) ?? 0) + 1);
+    return n;
+  });
+
+  protected readonly sources = computed(() => {
+    const m = this.m();
+    const kb = this.store.kb();
+    if (!m || !kb) return [];
+    const seen = new Map<string, ResolvedCitation>();
+    const add = (c?: ResolvedCitation) => {
+      if (c && !seen.has(c.title)) seen.set(c.title, c);
+    };
+    for (const ig of m.igs)
+      for (const r of ig.reasons) {
+        add(r.cite);
+        r.windows.forEach((w) => add(w.cite));
+      }
+    for (const w of m.warnings) w.cites.forEach(add);
+    const byTitle = new Map(Object.values(kb.sources).map((s) => [s.title, s]));
+    return [...seen.values()]
+      .map((c) => ({ c, s: byTitle.get(c.title) }))
+      .sort(
+        (a, b) =>
+          (a.s?.kind ?? '').localeCompare(b.s?.kind ?? '') || a.c.title.localeCompare(b.c.title),
+      );
+  });
+
+  protected icon(w: ManifestWarning): string {
+    return w.severity === 'error' ? 'error' : w.severity === 'warn' ? 'warning' : 'info';
+  }
+
+  protected kindLabel(k: string): string {
+    return k.replace(/-/g, ' ');
+  }
+}

@@ -1,0 +1,29 @@
+# FHIR Initializr knowledge base: metadata.
+# Bump kb_as_of whenever a curator re-checks the sources (quarterly at minimum).
+kb_version: 0.1.0
+kb_as_of: "2026-10-20"
+disclaimer: >-
+  Scoping guidance with citations, not a compliance determination. Check every requirement
+  against the cited source and your own counsel before relying on it.
+
+roles:
+  - id: ehr-developer
+    label: EHR / health IT developer
+    summary: Builds certified health IT or an EHR that serves data over FHIR and calls payer and app APIs.
+    defaultActors: [server, client]
+  - id: payer
+    label: Payer
+    summary: Health plan or payer organization (MA, Medicaid, CHIP, QHP, commercial).
+    defaultActors: [server, client]
+  - id: provider-org
+    label: Provider organization
+    summary: Hospital, health system or practice that runs an EHR and connects to payers and apps.
+    defaultActors: [client]
+  - id: app-developer
+    label: App developer
+    summary: Builds patient- or provider-facing apps that connect to FHIR servers.
+    defaultActors: [client]
+  - id: hie
+    label: HIE / network
+    summary: Health information exchange, QHIN participant or intermediary.
+    defaultActors: [server, client]

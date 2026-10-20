@@ -1,0 +1,86 @@
+<header class="top">
+  <a class="brand" href="./" aria-label="FHIR Initializr home">
+    <svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+      <rect width="64" height="64" rx="14" fill="#141517" />
+      <path
+        d="M32 9c2 13 9 20 23 23-14 3-21 10-23 23-2-13-9-20-23-23 14-3 21-10 23-23z"
+        fill="#a3e635"
+      />
+      <circle cx="50" cy="14" r="4" fill="#eff1e9" />
+    </svg>
+    <span class="name">FHIR <strong>Initializr</strong></span>
+  </a>
+  <p class="tagline">
+    Start a FHIR project with the implementation guides it needs — pinned, cited, ready to load.
+  </p>
+  <nav class="toplinks">
+    @if (store.kb(); as kb) {
+      <span
+        class="kbdate"
+        matTooltip="When curators last checked every regulation and source in the knowledge base"
+        >KB as of {{ kb.kbAsOf }}</span
+      >
+    }
+    <a [href]="repo" target="_blank" rel="noopener">GitHub</a>
+    <a
+      href="data/index.json"
+      target="_blank"
+      rel="noopener"
+      matTooltip="The knowledge base and registry snapshot are plain JSON"
+      >Data</a
+    >
+  </nav>
+</header>
+
+@if (store.error(); as err) {
+  <div class="error" role="alert">{{ err }}</div>
+}
+@if (!store.manifest() && !store.error()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+<main class="layout">
+  <aside class="config" aria-label="Project">
+    <fi-profile-panel />
+  </aside>
+  <section class="results" aria-label="Scope">
+    <fi-results />
+  </section>
+</main>
+
+<footer class="foot">
+  @if (store.kb(); as kb) {
+    <p class="disclaimer">{{ kb.disclaimer }}</p>
+    <p class="faint">
+      Knowledge base v{{ kb.kbVersion }} as of {{ kb.kbAsOf }} · registry snapshot
+      {{ store.registry()?.generated?.slice(0, 10) }} · {{ kb.drivers.length }} drivers ·
+      {{ kb.catalog.length }} guides classified · FHIR® is the registered trademark of HL7 and is
+      used with permission; this tool is not endorsed by HL7, ONC or CMS.
+    </p>
+  }
+  <p class="faint">
+    A free tool by
+    <a href="https://standfastsystems.com" target="_blank" rel="noopener">Standfast Systems</a>.
+    Corrections welcome on <a [href]="repo + '/issues'" target="_blank" rel="noopener">GitHub</a>.
+  </p>
+</footer>
+
+@if (store.manifest(); as m) {
+  <div class="actionbar" role="toolbar" aria-label="Actions">
+    <div class="inner">
+      <span class="sum">
+        <strong>{{ m.igs.length }}</strong> IGs ·
+        <span class="mono">{{ m.profile.asOf }}</span>
+      </span>
+      <button mat-flat-button type="button" (click)="downloadAll()" [disabled]="!m.igs.length">
+        <mat-icon fontSet="material-symbols-outlined">folder_zip</mat-icon> Download ZIP
+      </button>
+      <button mat-stroked-button type="button" (click)="copyLink()">
+        <mat-icon fontSet="material-symbols-outlined">link</mat-icon> Copy share link
+      </button>
+      <button mat-button type="button" (click)="copyCli()" [matTooltip]="cli()">
+        <mat-icon fontSet="material-symbols-outlined">terminal</mat-icon> CLI
+      </button>
+    </div>
+  </div>
+}
