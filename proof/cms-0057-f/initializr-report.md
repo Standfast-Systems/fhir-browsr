@@ -2,7 +2,7 @@
 
 > Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.
 >
-> FHIR Initializr 0.1.0 is a pre-MVP preview, under construction.
+> FHIR Initializr 0.2.0 is a pre-MVP preview, under construction.
 
 - **Where:** United States
 - **Target date:** 2027-01-01
@@ -25,7 +25,11 @@
 | [PDex Plan-Net](http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1.2/)<br>`hl7.fhir.us.davinci-pdex-plan-net` | 1.2.0 | 1.2.0, 1.1.0 | Recommended | server | CMS-0057-F: Provider Directory API |
 | [PDex US Drug Formulary](http://hl7.org/fhir/us/davinci-drug-formulary/STU2.1/)<br>`hl7.fhir.us.davinci-drug-formulary` | 2.1.0 | 2.1.0, 2.0.1 | Recommended | server | CMS-0057-F: Patient Access API |
 
-## Warnings
+## Needs action
+
+None.
+
+## Heads-ups
 
 - **WARN · multi-version** — hl7.fhir.us.carin-bb is needed at 2 versions: 2.1.0, 2.0.0. 2.1.0 ← this project, hl7.fhir.us.davinci-pdex@2.1.0; 2.0.0 ← hl7.fhir.us.davinci-pas@2.1.0, hl7.fhir.us.davinci-cdex@2.1.0. Tools that load one version per package id need an alias (e.g. "v311@npm:hl7.fhir.us.core") or a separate install.
 - **WARN · multi-version** — hl7.fhir.us.core is needed at 3 versions: 7.0.0, 6.1.0, 3.1.1. 7.0.0 ← this project, hl7.fhir.us.davinci-crd@2.1.0, hl7.fhir.us.davinci-dtr@2.1.0, hl7.fhir.us.davinci-pas@2.1.0, hl7.fhir.us.davinci-pdex@2.1.0, hl7.fhir.us.davinci-pdex-plan-net@1.2.0 and 4 more; 6.1.0 ← hl7.fhir.us.carin-bb@2.1.0, hl7.fhir.us.davinci-crd@2.1.0, hl7.fhir.us.davinci-dtr@2.1.0, hl7.fhir.us.davinci-pas@2.1.0, hl7.fhir.us.davinci-pdex@2.1.0, hl7.fhir.us.davinci-pdex-plan-net@1.2.0 and 5 more; 3.1.1 ← hl7.fhir.us.carin-bb@2.1.0, hl7.fhir.us.davinci-crd@2.1.0, hl7.fhir.us.davinci-dtr@2.1.0, hl7.fhir.us.davinci-pas@2.1.0, hl7.fhir.us.davinci-pdex@2.1.0, hl7.fhir.us.davinci-pdex-plan-net@1.2.0 and 9 more. Tools that load one version per package id need an alias (e.g. "v311@npm:hl7.fhir.us.core") or a separate install.

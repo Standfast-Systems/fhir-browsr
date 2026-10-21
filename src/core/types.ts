@@ -192,7 +192,12 @@ export interface CatalogGroup {
 
 export interface CatalogGuide {
   npm: string;
+  /** Display name: igs.yaml short name, else kb/names.yaml, else the tidied registry title. */
   name: string;
+  /** The IG registry's own title (search only). */
+  registryName?: string;
+  /** One plain sentence about what the guide is for (kb/names.yaml). */
+  blurb?: string;
   realm: string;
   group: string;
   registry_category?: string;
@@ -243,6 +248,11 @@ export interface RegistryPackage {
   ciBuild?: string;
   /** Released versions, newest first. */
   versions: RegistryVersion[];
+  /**
+   * The version the publisher marks current in package-list.json (`"current": true`), when it is
+   * also on packages.fhir.org. Pins prefer it over the newest release.
+   */
+  current?: string;
   /** Whether package-list.json could be read (links are less precise without it). */
   packageList: boolean;
   /** False when packages.fhir.org has no such package (versions then come from the IG registry). */
@@ -458,6 +468,11 @@ export type WarningKind =
 export interface ManifestWarning {
   kind: WarningKind;
   severity: 'error' | 'warn' | 'info';
+  /**
+   * Needs the user to act: a conflict, a version choice that doesn't qualify, a removed
+   * requirement, a driver without its side. Everything else is a heads-up. Set by the resolver.
+   */
+  action?: boolean;
   package?: string;
   title: string;
   detail: string;

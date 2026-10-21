@@ -150,15 +150,6 @@
     color: var(--fi-muted);
     font-size: 12px;
   }
-  .stage {
-    padding: 1px 8px;
-    border-radius: 999px;
-    border: 1px solid color-mix(in srgb, var(--fi-warn) 55%, transparent);
-    color: var(--fi-warn);
-    font-size: 12px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
 }
 
 // The under-construction banner. Amber with a hazard-stripe edge; always shown, never dismissed.

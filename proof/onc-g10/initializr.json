@@ -1,12 +1,12 @@
 {
   "tool": {
     "name": "FHIR Initializr",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "stage": "pre-MVP preview, under construction"
   },
   "kbVersion": "0.2.0",
   "kbAsOf": "2026-10-21",
-  "snapshotAsOf": "2026-10-21T16:14:49.235Z",
+  "snapshotAsOf": "2026-10-21T21:07:22.463Z",
   "generated": "2026-10-20T00:00:00Z",
   "disclaimer": "Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.",
   "profile": {
@@ -5001,7 +5001,8 @@
       "package": "hl7.fhir.us.core",
       "title": "No Inferno suite tests US Core 9.0.0 yet",
       "detail": "ONC Certification (g)(10) Standardized API Test Kit tests 7.0.0, 6.1.0 for the server role; US Core Test Kit tests 8.0.0, 7.0.0, 6.1.0, 5.0.1, 4.0.0, 3.1.1 for the server role. 7.0.0 is also accepted here and is testable today.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "newer-available",
@@ -5009,14 +5010,16 @@
       "package": "hl7.fhir.uv.bulkdata",
       "title": "Bulk Data 3.0.0 is published but not accepted here",
       "detail": "Newer releases (3.0.0) exist, but ONC (g)(10) accepts at most 2.0.0 on this date.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "multi-version",
       "severity": "info",
       "title": "Terminology, extension and core packages appear at several versions",
       "detail": "hl7.fhir.uv.extensions.r4 ×4, hl7.terminology.r4 ×2. This is normal: package tools usually load the newest. Act only if validation results disagree between tools.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "narrative-only",
@@ -5024,7 +5027,8 @@
       "package": "hl7.fhir.uv.smart-app-launch",
       "title": "SMART App Launch 2.2.0: no machine-readable REST expectations for your side",
       "detail": "The package has no CapabilityStatement for your side of the exchange. Read the guide's conformance pages; Initializr does not guess.",
-      "cites": []
+      "cites": [],
+      "action": false
     }
   ],
   "tests": [

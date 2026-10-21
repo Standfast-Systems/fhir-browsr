@@ -100,13 +100,25 @@ import { BASIS_LABEL, Timeline } from './timeline';
       @if (g.pinNote) {
         <p class="note">{{ g.pinNote }}</p>
       }
-      @for (w of warnings(); track $index) {
+      @for (w of actions(); track $index) {
         <p class="inline-warn" [class]="'sev-' + w.severity">
           <mat-icon fontSet="material-symbols-outlined">{{
-            w.severity === 'error' ? 'error' : w.severity === 'warn' ? 'warning' : 'info'
+            w.severity === 'error' ? 'error' : 'warning'
           }}</mat-icon>
           <span>{{ w.title }}</span>
         </p>
+      }
+      @if (headsUps().length) {
+        <details class="heads-up">
+          <summary>
+            {{ headsUps().length }} heads-up{{ headsUps().length === 1 ? '' : 's' }}
+          </summary>
+          <ul>
+            @for (w of headsUps(); track $index) {
+              <li>{{ w.title }}</li>
+            }
+          </ul>
+        </details>
       }
 
       <details>
@@ -333,6 +345,18 @@ import { BASIS_LABEL, Timeline } from './timeline';
     details {
       margin-top: 10px;
     }
+    .heads-up {
+      margin-top: 6px;
+    }
+    .heads-up summary {
+      color: var(--fi-faint);
+    }
+    .heads-up ul {
+      margin: 4px 0 0;
+      padding-left: 18px;
+      font-size: 12.5px;
+      color: var(--fi-muted);
+    }
     summary {
       cursor: pointer;
       color: var(--fi-muted);
@@ -447,9 +471,13 @@ export class IgCard {
   readonly ig = input.required<ManifestIg>();
   readonly allWarnings = input<ManifestWarning[]>([]);
   readonly asOf = input.required<string>();
-  protected readonly warnings = computed(() =>
-    this.allWarnings().filter((w) => w.package === this.ig().package && w.severity !== 'info'),
+  private readonly mine = computed(() =>
+    this.allWarnings().filter((w) => w.package === this.ig().package),
   );
+  /** Shown in full: what needs fixing. */
+  protected readonly actions = computed(() => this.mine().filter((w) => w.action));
+  /** One collapsed line; the Warnings tab has them all. */
+  protected readonly headsUps = computed(() => this.mine().filter((w) => !w.action));
   /** Published R4 versions outside the accepted list, newest first. */
   protected readonly others = computed(() => {
     const g = this.ig();

@@ -12,6 +12,7 @@ The knowledge base in [kb/](../kb/) is the part of Initializr nobody else has. I
 | `realms.yaml` | "Where is the project?": each country's national foundation IGs, plus the international defaults |
 | `testkits.yaml` | Inferno kits: which IG versions each tests, per actor, and suite ids |
 | `igs.yaml` | Short names and chat.fhir.org streams |
+| `names.yaml` | Display names and one-line blurbs for catalog guides (copied from FHIR Matchbook) |
 | `catalog.yaml` | The 277-guide classification into layers and groups, synced from the `ig-map.yaml` that FHIR Matchbook also reads |
 
 ## A driver
@@ -91,6 +92,7 @@ FHIR server and client are not curated per driver: the app presets them from the
       kind: base            # extensions, identifiers, naming systems; few mandatory constraints
     - ig: hl7.fhir.au.core
       kind: core            # must-support constraints, usually with CapabilityStatements
+      version: "2.0.2"      # hand pin: only when the publisher has no package-list.json
   note: shown when the realm has no usable published base
   cite: {source: ..., url: ...}
 ```
@@ -98,6 +100,12 @@ FHIR server and client are not curated per driver: the app presets them from the
 The realm with id `intl` holds the international defaults (IPA + IPS). A country whose only national guides are drafts, ballots or R5-only gets an entry with no packages and a `note` saying what exists, so the tool can explain why it fell back. Every driver lists its `realms`; a driver selected for a project elsewhere is ignored with a warning.
 
 The IG registry's "National Base" category is not a reliable signal (some countries tag every guide with it), so each country is judged by hand: what the HL7 affiliate or national health authority publishes as the foundation, at a published R4 version on packages.fhir.org.
+
+Pins follow the release each publisher marks `"current": true` in its `package-list.json` (the snapshot records it, ignoring ballot builds), so a realm needs no `version` unless the publisher has no version list. UK Core is the one such case today.
+
+## Guide names
+
+`names.yaml` gives catalog guides a display name and a one-line blurb. It was copied from FHIR Matchbook's `data/notes.yaml`; the apps aren't linked, so edit it here. A curated `short` name in `igs.yaml` wins, so a guide reads the same in the picker and on its card; guides with neither show the registry title without its "FHIR Implementation Guide" tail.
 
 ## Rules of thumb
 

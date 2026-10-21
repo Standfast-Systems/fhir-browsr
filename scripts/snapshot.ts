@@ -59,6 +59,7 @@ interface PackageListEntry {
   sequence?: string;
   fhirversion?: string;
   date?: string;
+  current?: boolean;
 }
 
 const log = (...a: unknown[]) => console.log('[snapshot]', ...a);
@@ -117,6 +118,9 @@ async function main() {
       history: ig?.history,
       ciBuild: ig?.['ci-build'],
       versions,
+      // A release only: some publishers mark a ballot or withdrawal build current.
+      current: list.find((e) => e.current && !isPrerelease(e.version) && meta.versions[e.version])
+        ?.version,
       packageList: list.length > 0,
       inRegistry: true,
     };

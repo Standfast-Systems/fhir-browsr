@@ -24,6 +24,7 @@ import type {
   ProjectProfile,
   RegistrySnapshot,
 } from '../src/core/index.ts';
+import { ICONS, iconsInTemplates } from '../scripts/icons.ts';
 import { loadKb, ROOT } from '../scripts/lib/kb-load.ts';
 
 const kb = loadKb();
@@ -445,5 +446,74 @@ describe('profiles and emitters', () => {
     assert.ok(compareVersions('9.0.0', '9.0.0-ballot') > 0);
     assert.ok(compareVersions('10.0.0', '9.0.0') > 0);
     assert.ok(compareVersions('2.2.1', '2.2.0') > 0);
+  });
+});
+
+describe('v0.2.0 review fixes', () => {
+  it("pins the publisher's current release over a newer one", () => {
+    // India's publisher marks 6.0.0 current; 6.5.0 is a newer R4 release on packages.fhir.org.
+    const india = ig(scope({ realm: 'in', asOf: '2027-01-01' }), 'ndhm.in')!;
+    assert.equal(reg.packages['ndhm.in'].current, '6.0.0');
+    assert.equal(india.pin, '6.0.0');
+    assert.ok(india.allowed.includes('6.5.0'), 'newer releases stay accepted');
+    assert.match(india.pinNote ?? '', /current release/);
+    // A rule still decides what's accepted: ONC (g)(32) accepts only DTR 2.2.0, the current one.
+    const dtr = ig(
+      scope({ drivers: [{ id: 'onc-epa' }], asOf: '2027-01-01' }),
+      'hl7.fhir.us.davinci-dtr',
+    )!;
+    assert.equal(dtr.pin, '2.2.0');
+  });
+  it('counts a current release even when its publisher marks every version draft (Chile)', () => {
+    const cl = kb.realms.find((r) => r.id === 'cl')!;
+    assert.equal(cl.packages[0].version, undefined, 'no hand pin');
+    assert.equal(
+      ig(scope({ realm: 'cl', asOf: '2027-01-01' }), 'hl7.fhir.cl.clcore')!.pin,
+      '1.9.3',
+    );
+  });
+  it('never treats a ballot build as current', () => {
+    for (const p of Object.values(reg.packages))
+      if (p.current) assert.ok(!p.current.includes('-'), `${p.name} current ${p.current}`);
+  });
+  it('keeps KR Core at 1.0.2 because 2.0.0 is not on packages.fhir.org', () => {
+    assert.ok(!reg.packages['hl7.fhir.kr.core'].versions.some((v) => v.version === '2.0.0'));
+    assert.equal(ig(scope({ realm: 'kr', asOf: '2027-01-01' }), 'hl7.fhir.kr.core')!.pin, '1.0.2');
+  });
+  it('opens the headline payer scope with nothing that needs action', () => {
+    const m = scope({ drivers: [{ id: 'cms-0057-f', side: 'payer' }], asOf: '2027-01-01' });
+    assert.deepEqual(
+      m.warnings.filter((w) => w.action).map((w) => w.kind),
+      [],
+    );
+    assert.ok(m.warnings.some((w) => w.kind === 'untested' && !w.action));
+    const removed = scope({
+      drivers: [{ id: 'cms-0057-f', side: 'payer' }],
+      removed: ['hl7.fhir.us.core'],
+      asOf: '2027-01-01',
+    });
+    assert.ok(removed.warnings.some((w) => w.kind === 'removed' && w.action));
+    const unsided = scope({ drivers: [{ id: 'cms-0057-f' }], asOf: '2027-01-01' });
+    assert.ok(unsided.warnings[0].action, 'actions sort first');
+  });
+  it('names guides the same in the picker as on the cards', () => {
+    const crd = kb.catalog.find((g) => g.npm === 'hl7.fhir.us.davinci-crd')!;
+    assert.equal(crd.name, 'Da Vinci CRD');
+    assert.equal(crd.registryName, 'Coverage Requirements Determination (Da Vinci)');
+    assert.ok(crd.blurb);
+    const pr = kb.catalog.find((g) => g.npm === 'hl7.fhir.us.davinci-pr')!;
+    assert.doesNotMatch(pr.name, /Implementation Guide/);
+    const card = ig(scope({ extras: ['hl7.fhir.us.davinci-pr'], asOf: '2027-01-01' }), pr.npm)!;
+    assert.equal(card.title, pr.name);
+  });
+});
+
+describe('site', () => {
+  it('self-hosts every icon the templates use', () => {
+    assert.ok(existsSync(join(ROOT, 'public', 'fonts', 'material-symbols-outlined.woff2')));
+    assert.deepEqual(
+      iconsInTemplates().filter((i) => !ICONS.includes(i)),
+      [],
+    );
   });
 });

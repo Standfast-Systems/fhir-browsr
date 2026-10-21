@@ -1,12 +1,12 @@
 {
   "tool": {
     "name": "FHIR Initializr",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "stage": "pre-MVP preview, under construction"
   },
   "kbVersion": "0.2.0",
   "kbAsOf": "2026-10-21",
-  "snapshotAsOf": "2026-10-21T16:14:49.235Z",
+  "snapshotAsOf": "2026-10-21T21:07:22.463Z",
   "generated": "2026-10-20T00:00:00Z",
   "disclaimer": "Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.",
   "profile": {
@@ -12379,7 +12379,8 @@
       "package": "hl7.fhir.us.carin-bb",
       "title": "hl7.fhir.us.carin-bb is needed at 2 versions: 2.1.0, 2.0.0",
       "detail": "2.1.0 ← this project, hl7.fhir.us.davinci-pdex@2.1.0; 2.0.0 ← hl7.fhir.us.davinci-pas@2.1.0, hl7.fhir.us.davinci-cdex@2.1.0. Tools that load one version per package id need an alias (e.g. \"v311@npm:hl7.fhir.us.core\") or a separate install.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "multi-version",
@@ -12387,7 +12388,8 @@
       "package": "hl7.fhir.us.core",
       "title": "hl7.fhir.us.core is needed at 3 versions: 7.0.0, 6.1.0, 3.1.1",
       "detail": "7.0.0 ← this project, hl7.fhir.us.davinci-crd@2.1.0, hl7.fhir.us.davinci-dtr@2.1.0, hl7.fhir.us.davinci-pas@2.1.0, hl7.fhir.us.davinci-pdex@2.1.0, hl7.fhir.us.davinci-pdex-plan-net@1.2.0 and 4 more; 6.1.0 ← hl7.fhir.us.carin-bb@2.1.0, hl7.fhir.us.davinci-crd@2.1.0, hl7.fhir.us.davinci-dtr@2.1.0, hl7.fhir.us.davinci-pas@2.1.0, hl7.fhir.us.davinci-pdex@2.1.0, hl7.fhir.us.davinci-pdex-plan-net@1.2.0 and 5 more; 3.1.1 ← hl7.fhir.us.carin-bb@2.1.0, hl7.fhir.us.davinci-crd@2.1.0, hl7.fhir.us.davinci-dtr@2.1.0, hl7.fhir.us.davinci-pas@2.1.0, hl7.fhir.us.davinci-pdex@2.1.0, hl7.fhir.us.davinci-pdex-plan-net@1.2.0 and 9 more. Tools that load one version per package id need an alias (e.g. \"v311@npm:hl7.fhir.us.core\") or a separate install.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "multi-version",
@@ -12395,7 +12397,8 @@
       "package": "hl7.fhir.us.davinci-crd",
       "title": "hl7.fhir.us.davinci-crd is needed at 2 versions: 2.1.0, 2.0.0",
       "detail": "2.1.0 ← this project, hl7.fhir.us.davinci-dtr@2.1.0, hl7.fhir.us.davinci-pdex@2.1.0; 2.0.0 ← hl7.fhir.us.davinci-pas@2.1.0. Tools that load one version per package id need an alias (e.g. \"v311@npm:hl7.fhir.us.core\") or a separate install.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "multi-version",
@@ -12403,7 +12406,8 @@
       "package": "hl7.fhir.us.davinci-hrex",
       "title": "hl7.fhir.us.davinci-hrex is needed at 2 versions: 1.1.0, 1.0.0",
       "detail": "1.1.0 ← hl7.fhir.us.davinci-crd@2.1.0, hl7.fhir.us.davinci-dtr@2.1.0, hl7.fhir.us.davinci-pas@2.1.0, hl7.fhir.us.davinci-pdex@2.1.0, hl7.fhir.us.davinci-pdex-plan-net@1.2.0, hl7.fhir.us.davinci-drug-formulary@2.1.0 and 2 more; 1.0.0 ← hl7.fhir.us.davinci-crd@2.0.0. Tools that load one version per package id need an alias (e.g. \"v311@npm:hl7.fhir.us.core\") or a separate install.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "multi-version",
@@ -12411,7 +12415,8 @@
       "package": "hl7.fhir.us.udap-security",
       "title": "hl7.fhir.us.udap-security is needed at 2 versions: 1.0.0, 0.1.0",
       "detail": "1.0.0 ← hl7.fhir.us.ndh@1.0.0; 0.1.0 ← hl7.fhir.us.davinci-hrex@1.0.0. Tools that load one version per package id need an alias (e.g. \"v311@npm:hl7.fhir.us.core\") or a separate install.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "multi-version",
@@ -12419,7 +12424,8 @@
       "package": "hl7.fhir.uv.smart-app-launch",
       "title": "hl7.fhir.uv.smart-app-launch is needed at 2 versions: 2.1.0, 2.0.0",
       "detail": "2.1.0 ← hl7.fhir.us.core@6.1.0, hl7.fhir.us.davinci-atr@2.1.0; 2.0.0 ← this project, hl7.fhir.us.core@7.0.0. Tools that load one version per package id need an alias (e.g. \"v311@npm:hl7.fhir.us.core\") or a separate install.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "untested",
@@ -12427,7 +12433,8 @@
       "package": "hl7.fhir.us.carin-bb",
       "title": "No Inferno suite tests CARIN Blue Button 2.1.0 yet",
       "detail": "CARIN IG for Blue Button Test Kit tests 2.0.0, 1.1.0 for the server role. 2.0.0 is also accepted here and is testable today.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "untested",
@@ -12435,7 +12442,8 @@
       "package": "hl7.fhir.us.davinci-crd",
       "title": "No Inferno suite tests Da Vinci CRD 2.1.0 yet",
       "detail": "Da Vinci CRD Test Kit tests 2.2.1, 2.0.1 for the server role. 2.0.1 is also accepted here and is testable today.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "untested",
@@ -12443,7 +12451,8 @@
       "package": "hl7.fhir.us.davinci-dtr",
       "title": "No Inferno suite tests Da Vinci DTR 2.1.0 yet",
       "detail": "Da Vinci DTR Test Kit tests 2.2.0, 2.0.1 for the server role. 2.0.1 is also accepted here and is testable today.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "untested",
@@ -12451,7 +12460,8 @@
       "package": "hl7.fhir.us.davinci-pas",
       "title": "No Inferno suite tests Da Vinci PAS 2.1.0 yet",
       "detail": "Da Vinci PAS Test Kit tests 2.2.1, 2.0.1 for the server role. 2.0.1 is also accepted here and is testable today.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "untested",
@@ -12459,7 +12469,8 @@
       "package": "hl7.fhir.us.davinci-pdex",
       "title": "No Inferno suite tests Da Vinci PDex 2.1.0 yet",
       "detail": "Da Vinci PDex Test Kit tests 2.0.0 for the server/client role. 2.0.0 is also accepted here and is testable today.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "untested",
@@ -12467,7 +12478,8 @@
       "package": "hl7.fhir.us.davinci-pdex-plan-net",
       "title": "No Inferno suite tests PDex Plan-Net 1.2.0 yet",
       "detail": "Da Vinci Plan Net Test Kit tests 1.1.0 for the server role. 1.1.0 is also accepted here and is testable today.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "untested",
@@ -12475,7 +12487,8 @@
       "package": "hl7.fhir.us.davinci-drug-formulary",
       "title": "No Inferno suite tests PDex US Drug Formulary 2.1.0 yet",
       "detail": "Da Vinci US Drug Formulary Test Kit tests 2.0.1 for the server role. 2.0.1 is also accepted here and is testable today.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "aligned",
@@ -12483,7 +12496,8 @@
       "package": "hl7.fhir.us.core",
       "title": "US Core pinned to 7.0.0 (not 9.0.0) to match the IGs that use it",
       "detail": "Da Vinci PDex, PDex US Drug Formulary, PDex Plan-Net, Da Vinci CRD, Da Vinci DTR, Da Vinci PAS depend on US Core 7.0.0, so pinning 9.0.0 would load two versions. Choose 9.0.0 on the guide to keep it anyway.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "newer-available",
@@ -12491,7 +12505,8 @@
       "package": "hl7.fhir.uv.bulkdata",
       "title": "Bulk Data 3.0.0 is published but not accepted here",
       "detail": "Newer releases (3.0.0) exist, but CMS-0057-F accepts at most 2.0.0 on this date.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "proposed",
@@ -12507,7 +12522,8 @@
           "quote": "We are proposing an October 1, 2027 compliance date to implement the proposed standards.",
           "kind": "proposed-rule"
         }
-      ]
+      ],
+      "action": false
     },
     {
       "kind": "newer-available",
@@ -12515,7 +12531,8 @@
       "package": "hl7.fhir.us.carin-bb",
       "title": "CARIN Blue Button 2.2.0 is published but not accepted here",
       "detail": "Newer releases (2.2.0) exist, but CMS-0057-F accepts at most 2.1.0 on this date.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "newer-available",
@@ -12523,7 +12540,8 @@
       "package": "hl7.fhir.us.davinci-pdex",
       "title": "Da Vinci PDex 2.2.0 is published but not accepted here",
       "detail": "Newer releases (2.2.0) exist, but CMS-0057-F accepts at most 2.1.0 on this date.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "proposed",
@@ -12538,7 +12556,8 @@
           "url": "https://www.federalregister.gov/documents/2026/04/14/2026-07205/medicare-and-medicaid-programs-patient-protection-and-affordable-care-act-interoperability-standards",
           "kind": "proposed-rule"
         }
-      ]
+      ],
+      "action": false
     },
     {
       "kind": "newer-available",
@@ -12546,7 +12565,8 @@
       "package": "hl7.fhir.us.davinci-crd",
       "title": "Da Vinci CRD 2.2.1 is published but not accepted here",
       "detail": "Newer releases (2.2.1, 2.2.0) exist, but CMS-0057-F accepts at most 2.1.0 on this date.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "proposed",
@@ -12561,7 +12581,8 @@
           "url": "https://www.federalregister.gov/documents/2026/04/14/2026-07205/medicare-and-medicaid-programs-patient-protection-and-affordable-care-act-interoperability-standards",
           "kind": "proposed-rule"
         }
-      ]
+      ],
+      "action": false
     },
     {
       "kind": "newer-available",
@@ -12569,7 +12590,8 @@
       "package": "hl7.fhir.us.davinci-dtr",
       "title": "Da Vinci DTR 2.2.0 is published but not accepted here",
       "detail": "Newer releases (2.2.0) exist, but CMS-0057-F accepts at most 2.1.0 on this date.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "proposed",
@@ -12584,7 +12606,8 @@
           "url": "https://www.federalregister.gov/documents/2026/04/14/2026-07205/medicare-and-medicaid-programs-patient-protection-and-affordable-care-act-interoperability-standards",
           "kind": "proposed-rule"
         }
-      ]
+      ],
+      "action": false
     },
     {
       "kind": "newer-available",
@@ -12592,14 +12615,16 @@
       "package": "hl7.fhir.us.davinci-pas",
       "title": "Da Vinci PAS 2.2.1 is published but not accepted here",
       "detail": "Newer releases (2.2.1, 2.2.0) exist, but CMS-0057-F accepts at most 2.1.0 on this date.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "multi-version",
       "severity": "info",
       "title": "Terminology, extension and core packages appear at several versions",
       "detail": "hl7.fhir.r4.core ×2, hl7.fhir.uv.extensions.r4 ×3, hl7.terminology.r4 ×8, us.nlm.vsac ×5. This is normal: package tools usually load the newest. Act only if validation results disagree between tools.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "narrative-only",
@@ -12607,7 +12632,8 @@
       "package": "hl7.fhir.us.davinci-crd",
       "title": "Da Vinci CRD 2.1.0: no machine-readable REST expectations for your side",
       "detail": "Its CapabilityStatement (CRD Server USCDI 1, 3, 4) lists no resources or operations; the requirements are in the guide's narrative.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "verify",
@@ -12615,7 +12641,8 @@
       "package": "hl7.fhir.us.davinci-drug-formulary",
       "title": "PDex US Drug Formulary: classification under review",
       "detail": "registry also lists hl7.fhir.us.Davinci-drug-formulary (case duplicate)",
-      "cites": []
+      "cites": [],
+      "action": false
     }
   ],
   "tests": [

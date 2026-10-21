@@ -2,7 +2,7 @@
 
 > Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.
 >
-> FHIR Initializr 0.1.0 is a pre-MVP preview, under construction.
+> FHIR Initializr 0.2.0 is a pre-MVP preview, under construction.
 
 - **Where:** United States
 - **Target date:** 2027-01-01
@@ -17,7 +17,11 @@
 | [US Core](http://hl7.org/fhir/us/core/STU6.1/)<br>`hl7.fhir.us.core` | 6.1.0 | 6.1.0 | Recommended | client | SMART app + US Core: Standalone launch (patient-facing), EHR launch (clinician-facing); National core for United States. |
 | [SMART App Launch](http://hl7.org/fhir/smart-app-launch/STU2/)<br>`hl7.fhir.uv.smart-app-launch` | 2.0.0 | 2.0.0 | Recommended | client | SMART app + US Core: Standalone launch (patient-facing), EHR launch (clinician-facing) |
 
-## Warnings
+## Needs action
+
+None.
+
+## Heads-ups
 
 - **WARN · multi-version** — hl7.fhir.uv.smart-app-launch is needed at 2 versions: 2.1.0, 2.0.0. 2.1.0 ← hl7.fhir.us.core@6.1.0; 2.0.0 ← this project. Tools that load one version per package id need an alias (e.g. "v311@npm:hl7.fhir.us.core") or a separate install.
 - **WARN · untested** — No Inferno suite tests SMART App Launch 2.0.0 yet. SMART App Launch Test Kit tests 2.2.0 for the client role. Test against the guide by hand, or wait for the kit to catch up.

@@ -2,7 +2,7 @@
 
 > Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.
 >
-> FHIR Initializr 0.1.0 is a pre-MVP preview, under construction.
+> FHIR Initializr 0.2.0 is a pre-MVP preview, under construction.
 
 - **Where:** United States
 - **Target date:** 2027-01-01
@@ -18,7 +18,11 @@
 | [Bulk Data](http://hl7.org/fhir/uv/bulkdata/STU2/)<br>`hl7.fhir.uv.bulkdata` | 2.0.0 | 2.0.0, 1.0.1, 1.0.0 | Required | server | ONC (g)(10): Multiple-patient API (Bulk Data) |
 | [SMART App Launch](http://hl7.org/fhir/smart-app-launch/STU2.2/)<br>`hl7.fhir.uv.smart-app-launch` | 2.2.0 | 2.2.0, 2.0.0 | Required | server | ONC (g)(10): Single-patient API (patients and clinicians), Multiple-patient API (Bulk Data) |
 
-## Warnings
+## Needs action
+
+None.
+
+## Heads-ups
 
 - **WARN · untested** — No Inferno suite tests US Core 9.0.0 yet. ONC Certification (g)(10) Standardized API Test Kit tests 7.0.0, 6.1.0 for the server role; US Core Test Kit tests 8.0.0, 7.0.0, 6.1.0, 5.0.1, 4.0.0, 3.1.1 for the server role. 7.0.0 is also accepted here and is testable today.
 - **INFO · newer-available** — Bulk Data 3.0.0 is published but not accepted here. Newer releases (3.0.0) exist, but ONC (g)(10) accepts at most 2.0.0 on this date.

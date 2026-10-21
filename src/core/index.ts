@@ -11,6 +11,7 @@ export {
   componentsForSide,
   driversNeedingSide,
   driverActors,
+  needsAction,
   driverApplies,
   realmFor,
   deepKeysFor,

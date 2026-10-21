@@ -12,7 +12,6 @@
   </a>
   <span class="release">
     <span class="version mono">v{{ tool.version }}</span>
-    <span class="stage">Under construction</span>
   </span>
   <p class="tagline">
     Start a FHIR project with the implementation guides it needs — pinned, cited, ready to load.
@@ -68,8 +67,8 @@
     <p class="faint">
       Knowledge base v{{ kb.kbVersion }} as of {{ kb.kbAsOf }} · registry snapshot
       {{ data.registry()?.generated?.slice(0, 10) }} · {{ kb.drivers.length }} drivers ·
-      {{ kb.catalog.length }} guides classified · FHIR® is the registered trademark of HL7 and is
-      used with permission; this tool is not endorsed by HL7, ONC or CMS.
+      {{ kb.catalog.length }} guides classified · FHIR® is the registered trademark of HL7. This
+      tool isn't affiliated with or endorsed by HL7, ONC or CMS.
     </p>
   }
   <p class="faint">

@@ -102,6 +102,9 @@ const AUDIENCES: { title: string; groups: string[] }[] = [
                     </mat-checkbox>
                     <span class="npm mono">{{ r.guide.npm }}</span>
                     <span class="status" [class]="r.statusKind">{{ r.status }}</span>
+                    @if (r.guide.blurb) {
+                      <span class="blurb">{{ r.guide.blurb }}</span>
+                    }
                     @if (r.guide.verify) {
                       <mat-icon
                         class="verify"
@@ -190,6 +193,12 @@ const AUDIENCES: { title: string; groups: string[] }[] = [
       color: var(--fi-faint);
       font-size: 11.5px;
     }
+    .blurb {
+      flex-basis: 100%;
+      margin: -2px 0 4px 40px;
+      font-size: 12px;
+      color: var(--fi-muted);
+    }
     .status {
       margin-left: auto;
       font-size: 11.5px;
@@ -276,6 +285,8 @@ export class GuidePicker {
       (!q ||
         [
           g.name,
+          g.registryName,
+          g.blurb,
           g.npm,
           kb.groups[g.group]?.label,
           g.registry_category,

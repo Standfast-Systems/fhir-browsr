@@ -1,12 +1,12 @@
 {
   "tool": {
     "name": "FHIR Initializr",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "stage": "pre-MVP preview, under construction"
   },
   "kbVersion": "0.2.0",
   "kbAsOf": "2026-10-21",
-  "snapshotAsOf": "2026-10-21T16:14:49.235Z",
+  "snapshotAsOf": "2026-10-21T21:07:22.463Z",
   "generated": "2026-10-20T00:00:00Z",
   "disclaimer": "Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.",
   "profile": {
@@ -4487,7 +4487,8 @@
       "package": "hl7.fhir.uv.smart-app-launch",
       "title": "hl7.fhir.uv.smart-app-launch is needed at 2 versions: 2.1.0, 2.0.0",
       "detail": "2.1.0 ← hl7.fhir.us.core@6.1.0; 2.0.0 ← this project. Tools that load one version per package id need an alias (e.g. \"v311@npm:hl7.fhir.us.core\") or a separate install.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "untested",
@@ -4495,7 +4496,8 @@
       "package": "hl7.fhir.uv.smart-app-launch",
       "title": "No Inferno suite tests SMART App Launch 2.0.0 yet",
       "detail": "SMART App Launch Test Kit tests 2.2.0 for the client role. Test against the guide by hand, or wait for the kit to catch up.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "newer-available",
@@ -4503,7 +4505,8 @@
       "package": "hl7.fhir.us.core",
       "title": "US Core 9.0.0 is published but not accepted here",
       "detail": "Newer releases (9.0.0, 8.0.1, 8.0.0, 7.0.0) exist, but SMART app + US Core accepts at most 6.1.0 on this date.",
-      "cites": []
+      "cites": [],
+      "action": false
     },
     {
       "kind": "newer-available",
@@ -4511,7 +4514,8 @@
       "package": "hl7.fhir.uv.smart-app-launch",
       "title": "SMART App Launch 2.2.0 is published but not accepted here",
       "detail": "Newer releases (2.2.0, 2.1.0) exist, but SMART app + US Core accepts at most 2.0.0 on this date.",
-      "cites": []
+      "cites": [],
+      "action": false
     }
   ],
   "tests": [

@@ -1,6 +1,6 @@
 {
   "name": "fhir-initializr",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -14,7 +14,8 @@
     "prebuild": "node scripts/build-data.ts",
     "prestart": "node scripts/build-data.ts",
     "test:core": "node --test \"test/*.test.ts\"",
-    "links": "node scripts/check-links.ts"
+    "links": "node scripts/check-links.ts",
+    "icons": "node scripts/icons.ts"
   },
   "private": true,
   "packageManager": "npm@11.17.0",

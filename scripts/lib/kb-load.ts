@@ -41,6 +41,10 @@ export function loadKb(dir = KB_DIR): KnowledgeBase {
     join(dir, 'igs.yaml'),
   );
   const igList = igFile.igs ?? [];
+  const shortNames = new Map(igList.map((i) => [i.ig, i.short]));
+  const names =
+    yaml<{ names?: Record<string, { name?: string; blurb?: string }> }>(join(dir, 'names.yaml'))
+      .names ?? {};
   const drivers = readdirSync(join(dir, 'drivers'))
     .filter((f) => f.endsWith('.yaml'))
     .sort()
@@ -57,6 +61,19 @@ export function loadKb(dir = KB_DIR): KnowledgeBase {
     igs: Object.fromEntries(igList.map((i) => [i.ig, i])),
     chatDefaults: igFile.chat_defaults ?? [],
     groups: catalog.groups,
-    catalog: catalog.guides.map((g) => ({ ...g, fhir: (g.fhir ?? []).map(String) })),
+    // One name per guide everywhere: the curated short name, else the hand-written one, else the
+    // registry title without its "FHIR Implementation Guide" tail.
+    catalog: catalog.guides.map((g) => ({
+      ...g,
+      name: shortNames.get(g.npm) ?? names[g.npm]?.name ?? tidyTitle(g.name),
+      registryName: g.name,
+      blurb: names[g.npm]?.blurb,
+      fhir: (g.fhir ?? []).map(String),
+    })),
   };
+}
+
+/** "HEARTLAND Protocol FHIR Implementation Guide" -> "HEARTLAND Protocol". */
+function tidyTitle(title: string): string {
+  return title.replace(/\s+(FHIR\s+)?(Implementation Guide|IG)$/i, '').trim() || title;
 }
