@@ -81,7 +81,7 @@ export const REGIONS: readonly Region[] = [
   { key: 'pt', parties: ['patient'], label: 'Patient only' },
   { key: 'pr', parties: ['provider'], label: 'Provider only' },
   { key: 'py', parties: ['payer'], label: 'Payer only' },
-  { key: 'none', parties: [], label: 'Outside all three' },
+  { key: 'none', parties: [], label: 'Other' },
 ];
 
 export const REGION_KEYS = REGIONS.map((r) => r.key);
