@@ -55,6 +55,21 @@ export function addedBy(g: ScopedGuide): Record<AddedBy, boolean> {
   return { drafts: !isPublished(g.release), r5: !g.release.fhir.some(isR4) };
 }
 
+/**
+ * A Domain or Program (family) pick narrows to all of it, whatever the region; both combine.
+ * Region selection is set aside while either is picked.
+ */
+export function inFocus(g: Guide, family: string | null, domain: string | null): boolean {
+  return (!family || g.family === family) && (!domain || g.domains.includes(domain));
+}
+
+/** How many guides carry each key, e.g. each domain or family, for the dropdown counts. */
+export function countBy(guides: readonly Guide[], keys: (g: Guide) => readonly string[]) {
+  const n = new Map<string, number>();
+  for (const g of guides) for (const k of keys(g)) n.set(k, (n.get(k) ?? 0) + 1);
+  return n;
+}
+
 export interface ScopedGuide extends Guide {
   release: Release;
   region: RegionKey;
@@ -210,8 +225,10 @@ export interface ViewState {
   regions: RegionKey[];
   /** "What are you working on?" filter, only while Provider-only is selected. */
   bucket: string | null;
-  /** Family filter from a row's family chip: shows the whole family, whatever its regions. */
+  /** Program (family) pick, from the dropdown or a row's family tag: all of it, any region. */
   family: string | null;
+  /** Domain pick, from the dropdown or a row's domain tag: all of it, any region. */
+  domain: string | null;
   /** Narrow to what a scope toggle added; only while that toggle is on. */
   added: AddedBy | null;
   scope: ScopeOptions;
@@ -226,6 +243,7 @@ export const DEFAULT_VIEW: ViewState = {
   regions: ['all'],
   bucket: null,
   family: null,
+  domain: null,
   added: null,
   scope: DEFAULT_SCOPE,
   query: '',

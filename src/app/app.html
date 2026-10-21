@@ -79,15 +79,28 @@
     <div class="filters">
       <div class="filter-row">
         <span class="sel-label">Showing</span>
-        @if (activeFamily(); as f) {
-          <button
-            type="button"
-            class="chip on family"
-            (click)="store.setFamily(null)"
-            [attr.aria-label]="'Stop showing the ' + f.label + ' family'"
-          >
-            {{ f.label }} family <b>{{ poolSize() }}</b> <span aria-hidden="true">×</span>
-          </button>
+        @if (focused()) {
+          <!-- A Program or Domain pick replaces the region chips; both can apply at once. -->
+          @if (activeFamily(); as f) {
+            <button
+              type="button"
+              class="chip on"
+              (click)="store.setFamily(null)"
+              [attr.aria-label]="'Stop showing all ' + f.label + ' guides'"
+            >
+              {{ f.label }} <b>{{ f.count }}</b> <span aria-hidden="true">×</span>
+            </button>
+          }
+          @if (activeDomain(); as d) {
+            <button
+              type="button"
+              class="chip on"
+              (click)="store.setDomain(null)"
+              [attr.aria-label]="'Stop showing all ' + d.label + ' guides'"
+            >
+              {{ d.label }} <b>{{ d.count }}</b> <span aria-hidden="true">×</span>
+            </button>
+          }
         } @else if (everyRegion()) {
           <button
             type="button"
@@ -173,7 +186,7 @@
         </div>
       }
 
-      <!-- Search and sort only once there is something to list. -->
+      <!-- These filter the table, so like the table they only show once something is selected. -->
       @if (hasSelection()) {
         <div class="filter-row search-sort">
           <label class="search">
@@ -185,20 +198,57 @@
               (input)="store.setQuery($any($event.target).value)"
             />
           </label>
-          <label class="sort">
+          <!-- One pick at a time: choosing in one dropdown disables the other. -->
+          <label class="pick">
+            Domain
+            <select
+              [disabled]="!!view().family"
+              (change)="store.setDomain($any($event.target).value || null)"
+            >
+              <option value="" [selected]="!view().domain">Any</option>
+              @for (d of domainOptions(); track d.id) {
+                <option
+                  [value]="d.id"
+                  [selected]="d.id === view().domain"
+                  [disabled]="!d.count && d.id !== view().domain"
+                >
+                  {{ d.label }} ({{ d.count }})
+                </option>
+              }
+            </select>
+          </label>
+          <label class="pick">
+            Program
+            <select
+              [disabled]="!!view().domain"
+              (change)="store.setFamily($any($event.target).value || null)"
+            >
+              <option value="" [selected]="!view().family">Any</option>
+              @for (f of programOptions(); track f.id) {
+                <option
+                  [value]="f.id"
+                  [selected]="f.id === view().family"
+                  [disabled]="!f.count && f.id !== view().family"
+                >
+                  {{ f.label }} ({{ f.count }})
+                </option>
+              }
+            </select>
+          </label>
+          <label class="pick">
             Sort
-            <select [value]="view().sort" (change)="store.setSort($any($event.target).value)">
-              <option value="start">Start here first</option>
-              <option value="name">Name</option>
-              <option value="date">Newest release</option>
-              <option value="family">Group by family</option>
+            <select (change)="store.setSort($any($event.target).value)">
+              <option value="start" [selected]="view().sort === 'start'">Start here first</option>
+              <option value="name" [selected]="view().sort === 'name'">Name</option>
+              <option value="date" [selected]="view().sort === 'date'">Newest release</option>
+              <option value="family" [selected]="view().sort === 'family'">Group by family</option>
             </select>
           </label>
         </div>
       }
     </div>
 
-    @if (!activeFamily() && view().regions.length === 1 && view().regions[0] === 'py') {
+    @if (!focused() && view().regions.length === 1 && view().regions[0] === 'py') {
       <p class="region-note">
         Why only one? Handing a member's coverage history to their next health plan is the one
         exchange where payers build both ends. Every other payer guide has a provider or a patient
@@ -216,7 +266,9 @@
         [page]="view().page"
         [sort]="view().sort"
         [families]="families()"
+        [domains]="domains()"
         (familyChange)="store.setFamily($event)"
+        (domainChange)="store.setDomain($event)"
         (pageChange)="store.setPage($event)"
       >
         @if (view().query.trim()) {

@@ -31,13 +31,14 @@ export class ViewStore {
   }
 
   /**
-   * Picking regions leaves family mode, and drops the bucket filter once Provider-only, the only
+   * Picking regions leaves program and domain mode, and drops the bucket filter once Provider-only, the only
    * region that shows bucket chips, is no longer selected.
    */
   private setRegions(sel: ReadonlySet<RegionKey>) {
     this.update({
       regions: REGION_KEYS.filter((k) => sel.has(k)),
       family: null,
+      domain: null,
       bucket: sel.has('pr') ? this.state().bucket : null,
     });
   }
@@ -74,8 +75,16 @@ export class ViewStore {
     this.update({ bucket: bucket === this.state().bucket ? null : bucket });
   }
 
+  /**
+   * Picking a program or a domain shows all of it, across regions; "Any" (null) goes back. Only
+   * one applies at a time, so picking one clears the other (a row tag of the other kind swaps).
+   */
   setFamily(family: string | null) {
-    this.update({ family });
+    this.update({ family, domain: null });
+  }
+
+  setDomain(domain: string | null) {
+    this.update({ domain, family: null });
   }
 
   setCountry(country: Country) {

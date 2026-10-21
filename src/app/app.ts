@@ -3,7 +3,9 @@ import {
   REGIONS,
   REGION_KEYS,
   applyScope,
+  countBy,
   countByRegion,
+  inFocus,
   matches,
   regionsWith,
   sortGuides,
@@ -12,7 +14,7 @@ import {
   type Region,
   type ScopedGuide,
 } from '../core/scope';
-import type { Dataset, Family, ScopeOptions } from '../core/types';
+import type { Dataset, Domain, Family, ScopeOptions } from '../core/types';
 import { GuideTable } from './guide-table';
 import { Venn } from './venn';
 import { ViewStore } from './view-store';
@@ -53,29 +55,61 @@ export class App {
     () => new Map<string, Family>((this.data()?.families ?? []).map((f) => [f.id, f])),
   );
   private readonly familyOrder = computed(() => (this.data()?.families ?? []).map((f) => f.id));
-  protected readonly activeFamily = computed(() => {
-    const id = this.view().family;
-    return id ? (this.families().get(id) ?? null) : null;
-  });
-
-  /** True when there's something to list: a family from a chip, or at least one region. */
-  protected readonly hasSelection = computed(
-    () => !!this.view().family || this.selected().size > 0,
+  protected readonly domains = computed(
+    () => new Map<string, Domain>((this.data()?.domains ?? []).map((d) => [d.id, d])),
   );
 
+  /** A Program or Domain pick shows all of it across regions, setting the region selection aside. */
+  protected readonly focused = computed(() => !!this.view().family || !!this.view().domain);
+
   /**
-   * Rows before the bucket filter: a whole family when a family chip was clicked, otherwise the
-   * selected regions, narrowed by the search box. Nothing selected lists nothing.
+   * Every guide a Program or Domain pick could show: the current view (country and toggles), any
+   * region, narrowed by the search box and the toggle chips just as the table would be.
+   */
+  private readonly pickable = computed(() => {
+    const q = this.view().query;
+    return this.scoped().filter((g) => matches(g, q) && this.inAdded()(g));
+  });
+
+  /**
+   * Dropdown options with the number of rows picking each would show. Options that would show
+   * nothing stay listed but disabled. Only one dropdown applies at a time.
+   */
+  protected readonly programOptions = computed(() => {
+    const n = countBy(this.pickable(), (g) => (g.family ? [g.family] : []));
+    return (this.data()?.families ?? []).map((f) => ({ ...f, count: n.get(f.id) ?? 0 }));
+  });
+  protected readonly domainOptions = computed(() => {
+    const n = countBy(this.pickable(), (g) => g.domains);
+    return [...(this.data()?.domains ?? [])]
+      .sort((a, b) => a.label.localeCompare(b.label))
+      .map((d) => ({ ...d, count: n.get(d.id) ?? 0 }));
+  });
+  /** The picked program or domain, with the same count as its dropdown option. */
+  protected readonly activeFamily = computed(
+    () => this.programOptions().find((f) => f.id === this.view().family) ?? null,
+  );
+  protected readonly activeDomain = computed(
+    () => this.domainOptions().find((d) => d.id === this.view().domain) ?? null,
+  );
+
+  /** True when there's something to list: a program or domain pick, or at least one region. */
+  protected readonly hasSelection = computed(() => this.focused() || this.selected().size > 0);
+
+  /**
+   * Rows before the topic and toggle chips: everything in the picked program and domain, or else
+   * the selected regions, narrowed by the search box. Nothing selected lists nothing.
    */
   private readonly pool = computed(() => {
     const v = this.view();
     const sel = this.selected();
-    const inView = (g: ScopedGuide) => (v.family ? g.family === v.family : sel.has(g.region));
+    const inView = (g: ScopedGuide) =>
+      this.focused() ? inFocus(g, v.family, v.domain) : sel.has(g.region);
     return this.scoped().filter((g) => inView(g) && matches(g, v.query));
   });
 
   /** "What are you working on?" chips show only with Provider-only selected. */
-  private readonly showBuckets = computed(() => !this.view().family && this.selected().has('pr'));
+  private readonly showBuckets = computed(() => !this.focused() && this.selected().has('pr'));
   /** The "added by" chips show while either scope toggle is on. */
   private readonly showAdded = computed(() => this.view().scope.drafts || this.view().scope.r5);
 
@@ -112,7 +146,6 @@ export class App {
     if (r5) chips.push({ id: 'r5', label: 'R5/R6', count: count('r5') });
     return { all: base.length, chips };
   });
-  protected readonly poolSize = computed(() => this.pool().length);
 
   protected readonly rows = computed(() =>
     sortGuides(
@@ -124,7 +157,7 @@ export class App {
 
   /** With every region selected, the bar shows one chip instead of eight. */
   protected readonly everyRegion = computed(
-    () => !this.view().family && this.view().regions.length === REGION_KEYS.length,
+    () => !this.focused() && this.view().regions.length === REGION_KEYS.length,
   );
 
   /** The centre's chip keeps its name: "All three · Foundation". */
@@ -135,17 +168,16 @@ export class App {
   /** The visually hidden table heading: the filter bar's chips, read out as one line. */
   protected readonly heading = computed(() => {
     const v = this.view();
-    const family = this.activeFamily();
-    if (!family && !v.regions.length) return 'No regions selected';
-    const parts = [
-      family
-        ? `${family.label} family`
-        : this.everyRegion()
-          ? 'Every region'
-          : REGIONS.filter((r) => v.regions.includes(r.key))
-              .map((r) => this.chipLabel(r))
-              .join(', '),
-    ];
+    if (!this.hasSelection()) return 'No regions selected';
+    const parts = this.focused()
+      ? [this.activeFamily()?.label ?? '', this.activeDomain()?.label ?? '']
+      : [
+          this.everyRegion()
+            ? 'Every region'
+            : REGIONS.filter((r) => v.regions.includes(r.key))
+                .map((r) => this.chipLabel(r))
+                .join(', '),
+        ];
     const bucket = this.bucketChips() && v.bucket;
     if (bucket) parts.push(this.data()?.buckets.find((b) => b.id === bucket)?.label ?? '');
     const added = this.addedChips()?.chips.find((c) => c.id === v.added);

@@ -39,6 +39,8 @@ export interface Guide {
   family: string | null;
   /** Reading order inside the family; 0 for prefix families, which sort by name. */
   familyRank: number;
+  /** Clinical domain ids (data/domains.yaml); most guides have none. */
+  domains: string[];
   parties: Party[];
   blurb: string;
   /** True when the one-liner is hand-written; false when it falls back to the registry text. */
@@ -59,6 +61,12 @@ export interface Family {
   blurb: string;
 }
 
+/** A clinical domain: the clinical area a guide's content is about. */
+export interface Domain {
+  id: string;
+  label: string;
+}
+
 export interface Bucket {
   id: string;
   label: string;
@@ -71,6 +79,7 @@ export interface Dataset {
   families: Family[];
   /** In display order. */
   buckets: Bucket[];
+  domains: Domain[];
   guides: Guide[];
 }
 
