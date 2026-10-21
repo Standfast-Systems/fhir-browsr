@@ -7,11 +7,10 @@ import { join } from 'node:path';
 import { describe, it } from 'node:test';
 import {
   EMITTERS,
+  TOOL,
   compareVersions,
   deepKeysFor,
-  decodeProfile,
   defaultProfile,
-  encodeProfile,
   publishedR4,
   resolve,
   validateKb,
@@ -301,18 +300,11 @@ describe('conflicts', () => {
 });
 
 describe('profiles and emitters', () => {
-  it('round-trips a profile through the share-link query', () => {
-    const p: ProjectProfile = {
-      ...defaultProfile(kb, 'payer'),
-      drivers: [{ id: 'cms-0057-f', components: ['prior-auth', 'patient-access'] }],
-      asOf: '2027-10-01',
-      extras: ['hl7.fhir.uv.sdc'],
-      implemented: { 'hl7.fhir.us.core': '6.1.0' },
-      projectName: 'acme',
-    };
-    assert.deepEqual(decodeProfile(kb, encodeProfile(p)), p);
-    const abroad: ProjectProfile = { ...defaultProfile(kb, 'app-developer'), realm: 'intl' };
-    assert.equal(decodeProfile(kb, encodeProfile(abroad)).realm, 'intl');
+  it("starts a new profile in the US with the role's usual actors", () => {
+    const p = defaultProfile(kb, 'payer');
+    assert.equal(p.realm, 'us');
+    assert.deepEqual(p.actors, ['server', 'client']);
+    assert.deepEqual(p.drivers, []);
   });
   it('emits every file, and package.json pins what the manifest pins', () => {
     const m = scope({ role: 'payer', drivers: [{ id: 'cms-0057-f' }], asOf: '2027-01-01' });
@@ -332,6 +324,12 @@ describe('profiles and emitters', () => {
     assert.doesNotMatch(hapi, /name: hl7\.fhir\.us\.core\.v\d+/);
     const terminology = hapi.match(/name: hl7\.terminology\.r4\n/g) ?? [];
     assert.equal(terminology.length, 1);
+  });
+  it('stamps the same version the package declares', () => {
+    const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
+    assert.equal(TOOL.version, pkg.version);
+    const m = scope({ role: 'payer', asOf: '2027-01-01' });
+    assert.equal(m.tool.version, pkg.version);
   });
   it('orders versions with pre-releases below their release', () => {
     assert.ok(compareVersions('9.0.0', '9.0.0-ballot') > 0);

@@ -35,7 +35,15 @@ import type {
   TestPlanItem,
 } from './types.ts';
 
-export const TOOL = { name: 'FHIR Initializr', version: '0.1.0' };
+/**
+ * The tool's identity, stamped on every manifest and generated file. Keep `version` equal to
+ * package.json (a test checks); `stage` says how far from an MVP the tool is.
+ */
+export const TOOL = {
+  name: 'FHIR Initializr',
+  version: '0.1.0',
+  stage: 'pre-MVP preview, under construction',
+};
 
 /** Months ahead of the target date in which an expiring pin earns a warning. */
 const EXPIRY_HORIZON_MONTHS = 18;
@@ -51,7 +59,7 @@ const LEVEL_RANK: Record<string, number> = {
 
 export interface ResolveOptions {
   /** Deep package data (profiles, CapabilityStatements), keyed "name@version". */
-  deep?: Map<string, PackageSnapshot>;
+  deep?: ReadonlyMap<string, PackageSnapshot>;
   /** Timestamp to stamp on the manifest (pass a fixed value for reproducible output). */
   now?: string;
 }
@@ -902,7 +910,7 @@ function linksFor(
   kb: KnowledgeBase,
   reg: RegistrySnapshot,
   ig: ManifestIg,
-  deep: Map<string, PackageSnapshot>,
+  deep: ReadonlyMap<string, PackageSnapshot>,
 ) {
   const pkg = reg.packages[ig.package];
   const path = versionPath(reg, ig.package, ig.pin);
@@ -967,7 +975,7 @@ function buildSurface(
   profile: ProjectProfile,
   igs: ManifestIg[],
   drafts: Map<string, Draft>,
-  deep: Map<string, PackageSnapshot>,
+  deep: ReadonlyMap<string, PackageSnapshot>,
   warnings: ManifestWarning[],
 ): ActorSurface[] {
   // Profile canonical -> page, across every deep package we hold.

@@ -13,7 +13,6 @@ import {
   DEFAULT_AS_OF,
   EMITTERS,
   defaultProfile,
-  decodeProfile,
   deepKeysFor,
   emitterById,
   resolve,
@@ -45,7 +44,6 @@ Scope options:
   --extra <package>      Add a catalog guide by package id (repeatable)
   --implemented <p@v>    A version you already implement (repeatable)
   --name <text>          Project name for generated files
-  --url <query>          Start from a share-link query string instead
   --format <id>          ${EMITTERS.map((e) => e.id).join(' | ')} (default report)
   --out <dir>            Write every output file into <dir>
   --now <iso>            Fixed timestamp for reproducible output
@@ -83,7 +81,6 @@ function main() {
       extra: { type: 'string', multiple: true },
       implemented: { type: 'string', multiple: true },
       name: { type: 'string' },
-      url: { type: 'string' },
       format: { type: 'string' },
       out: { type: 'string' },
       now: { type: 'string' },
@@ -132,39 +129,31 @@ function main() {
     return;
   }
 
-  let profile: ProjectProfile;
-  if (values.url)
-    profile = decodeProfile(
-      kb,
-      values.url.includes('?') ? values.url.slice(values.url.indexOf('?')) : values.url,
-    );
-  else {
-    const role = (values.role ?? 'ehr-developer') as Role;
-    if (!kb.roles.some((r) => r.id === role))
-      throw new Error(`Unknown role "${role}". Roles: ${kb.roles.map((r) => r.id).join(', ')}`);
-    profile = defaultProfile(kb, role);
-    if (values.realm) {
-      if (!kb.realms.some((r) => r.id === values.realm))
-        throw new Error(`Unknown realm "${values.realm}". Run "initializr realms".`);
-      profile.realm = values.realm;
-    }
-    profile.drivers = (values.driver ?? []).map((s) => {
-      const [id, comps] = s.split(':');
-      if (!kb.drivers.some((d) => d.id === id))
-        throw new Error(`Unknown driver "${id}". Run "initializr drivers".`);
-      return comps ? { id, components: comps.split(/[+,]/) } : { id };
-    });
-    if (values['as-of']) profile.asOf = values['as-of'];
-    if (values.actor?.length) profile.actors = values.actor as Actor[];
-    profile.extras = values.extra ?? [];
-    profile.implemented = Object.fromEntries(
-      (values.implemented ?? []).map((s) => [
-        s.slice(0, s.lastIndexOf('@')),
-        s.slice(s.lastIndexOf('@') + 1),
-      ]),
-    );
-    if (values.name) profile.projectName = values.name;
+  const role = (values.role ?? 'ehr-developer') as Role;
+  if (!kb.roles.some((r) => r.id === role))
+    throw new Error(`Unknown role "${role}". Roles: ${kb.roles.map((r) => r.id).join(', ')}`);
+  const profile: ProjectProfile = defaultProfile(kb, role);
+  if (values.realm) {
+    if (!kb.realms.some((r) => r.id === values.realm))
+      throw new Error(`Unknown realm "${values.realm}". Run "initializr realms".`);
+    profile.realm = values.realm;
   }
+  profile.drivers = (values.driver ?? []).map((s) => {
+    const [id, comps] = s.split(':');
+    if (!kb.drivers.some((d) => d.id === id))
+      throw new Error(`Unknown driver "${id}". Run "initializr drivers".`);
+    return comps ? { id, components: comps.split(/[+,]/) } : { id };
+  });
+  if (values['as-of']) profile.asOf = values['as-of'];
+  if (values.actor?.length) profile.actors = values.actor as Actor[];
+  profile.extras = values.extra ?? [];
+  profile.implemented = Object.fromEntries(
+    (values.implemented ?? []).map((s) => [
+      s.slice(0, s.lastIndexOf('@')),
+      s.slice(s.lastIndexOf('@') + 1),
+    ]),
+  );
+  if (values.name) profile.projectName = values.name;
 
   const reg = loadRegistry();
   const first = resolve(kb, reg, profile, { now: values.now });

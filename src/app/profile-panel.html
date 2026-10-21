@@ -5,7 +5,7 @@
       <mat-button-toggle-group
         class="realm"
         [value]="p.realm === 'us' ? 'us' : 'intl'"
-        (change)="setRealmMode($event.value)"
+        (change)="store.setRealmMode($event.value)"
         aria-label="Where is the project?"
       >
         <mat-button-toggle value="us">United States</mat-button-toggle>
@@ -14,7 +14,7 @@
       @if (p.realm !== 'us') {
         <mat-form-field appearance="outline" subscriptSizing="dynamic" class="country">
           <mat-label>Country</mat-label>
-          <mat-select [value]="p.realm" (selectionChange)="setRealm($event.value)">
+          <mat-select [value]="p.realm" (selectionChange)="store.setRealm($event.value)">
             @for (r of countries(); track r.id) {
               <mat-option [value]="r.id">
                 {{ r.name }}
@@ -39,7 +39,7 @@
             role="radio"
             [attr.aria-checked]="p.role === r.id"
             [class.on]="p.role === r.id"
-            (click)="setRole(r.id)"
+            (click)="store.setRole(r.id)"
             [matTooltip]="r.summary"
           >
             {{ r.label }}
@@ -50,12 +50,12 @@
         <span class="lbl">Acting as</span>
         <mat-checkbox
           [checked]="p.actors.includes('server')"
-          (change)="toggleActor('server', $event.checked)"
+          (change)="store.setActor('server', $event.checked)"
           >FHIR server</mat-checkbox
         >
         <mat-checkbox
           [checked]="p.actors.includes('client')"
-          (change)="toggleActor('client', $event.checked)"
+          (change)="store.setActor('client', $event.checked)"
           >FHIR client</mat-checkbox
         >
       </div>
@@ -70,14 +70,14 @@
             matInput
             type="date"
             [ngModel]="p.asOf"
-            (ngModelChange)="setDate($event)"
+            (ngModelChange)="store.setAsOf($event)"
             min="2020-01-01"
             max="2032-12-31"
           />
         </mat-form-field>
         <div class="quick">
           @for (d of quickDates; track d) {
-            <button type="button" class="chip" [class.on]="p.asOf === d" (click)="setDate(d)">
+            <button type="button" class="chip" [class.on]="p.asOf === d" (click)="store.setAsOf(d)">
               {{ d }}
             </button>
           }
@@ -96,7 +96,7 @@
       <div class="drivers">
         @for (d of drivers(); track d.id) {
           <div class="driver" [class.on]="isOn(d)" [class.offrole]="!d.roles.includes(p.role)">
-            <mat-checkbox [checked]="isOn(d)" (change)="toggleDriver(d, $event.checked)">
+            <mat-checkbox [checked]="isOn(d)" (change)="store.setDriver(d.id, $event.checked)">
               <span class="dname">{{ d.short }}</span>
               <span class="kind">{{ d.kind === 'profile' ? 'profile' : d.authority }}</span>
             </mat-checkbox>
@@ -109,7 +109,7 @@
                     class="chip"
                     [class.on]="activeComponents(d).includes(c.id)"
                     [attr.aria-pressed]="activeComponents(d).includes(c.id)"
-                    (click)="toggleComponent(d, c.id)"
+                    (click)="store.toggleComponent(d.id, c.id)"
                     [matTooltip]="c.summary ?? ''"
                   >
                     {{ c.name }}
@@ -138,7 +138,7 @@
       @if (extras().length) {
         <mat-chip-set class="extras" aria-label="Added guides">
           @for (e of extras(); track e.npm) {
-            <mat-chip (removed)="removeExtra(e.npm)" [matTooltip]="e.npm">
+            <mat-chip (removed)="store.setExtra(e.npm, false)" [matTooltip]="e.npm">
               {{ e.name }}
               <button matChipRemove [attr.aria-label]="'Remove ' + e.name">
                 <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
@@ -199,7 +199,7 @@
       @if (implemented().length) {
         <mat-chip-set aria-label="Implemented versions">
           @for (i of implemented(); track i[0]) {
-            <mat-chip (removed)="removeImplemented(i[0])">
+            <mat-chip (removed)="store.removeImplemented(i[0])">
               <span class="mono">{{ i[0] }}&#64;{{ i[1] }}</span>
               <button matChipRemove [attr.aria-label]="'Remove ' + i[0]">
                 <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
@@ -217,7 +217,7 @@
         <input
           matInput
           [ngModel]="p.projectName ?? ''"
-          (ngModelChange)="setName($event)"
+          (ngModelChange)="store.setProjectName($event)"
           maxlength="80"
           placeholder="acme-payer-apis"
         />

@@ -479,7 +479,7 @@ export interface TestPlanItem {
 }
 
 export interface Manifest {
-  tool: { name: string; version: string };
+  tool: { name: string; version: string; stage?: string };
   kbVersion: string;
   kbAsOf: IsoDate;
   snapshotAsOf: string;

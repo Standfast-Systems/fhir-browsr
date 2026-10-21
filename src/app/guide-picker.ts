@@ -10,7 +10,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { isR4, publishedR4, r4PackageFor } from '../core/index.ts';
 import type { CatalogGuide } from '../core/index.ts';
-import { InitializrStore } from './store';
+import { DataStore } from './data-store';
+import { ProfileStore } from './profile-store';
 
 interface Section {
   id: string;
@@ -216,17 +217,18 @@ const AUDIENCES: { title: string; groups: string[] }[] = [
   `,
 })
 export class GuidePicker {
-  private readonly store = inject(InitializrStore);
+  private readonly data = inject(DataStore);
+  private readonly store = inject(ProfileStore);
   protected readonly q = signal('');
   protected readonly showHidden = signal(false);
   protected readonly showUs = signal(false);
   protected readonly international = computed(() => (this.store.profile()?.realm ?? 'us') !== 'us');
   protected readonly selected = computed(() => new Set(this.store.profile()?.extras ?? []));
-  protected readonly total = computed(() => this.store.kb()?.catalog.length ?? 0);
+  protected readonly total = computed(() => this.data.kb()?.catalog.length ?? 0);
 
   private readonly rows = computed(() => {
-    const kb = this.store.kb();
-    const reg = this.store.registry();
+    const kb = this.data.kb();
+    const reg = this.data.registry();
     const m = this.store.manifest();
     if (!kb || !reg) return new Map<string, GuideRow>();
     const inScope = new Set(
@@ -263,11 +265,11 @@ export class GuidePicker {
   });
 
   protected readonly sections = computed<Section[]>(() => {
-    const kb = this.store.kb();
+    const kb = this.data.kb();
     if (!kb) return [];
     const q = this.q().trim().toLowerCase();
     const rows = this.rows();
-    const reg = this.store.registry();
+    const reg = this.data.registry();
     const realmOk = (g: CatalogGuide) => !this.international() || this.showUs() || g.realm !== 'us';
     const match = (g: CatalogGuide) =>
       realmOk(g) &&
@@ -324,11 +326,6 @@ export class GuidePicker {
   });
 
   protected toggle(npm: string, on: boolean) {
-    this.store.update((p) => {
-      const extras = new Set(p.extras ?? []);
-      if (on) extras.add(npm);
-      else extras.delete(npm);
-      return { ...p, extras: [...extras] };
-    });
+    this.store.setExtra(npm, on);
   }
 }

@@ -4,6 +4,8 @@
 
 **Live:** https://standfast-systems.github.io/fhir-initializr/
 
+> **Under construction: v0.1.0, a pre-MVP preview.** The knowledge base is young and the outputs haven't been checked by implementers yet. Use it to explore, not to make compliance or architecture decisions. Corrections are welcome as [issues](https://github.com/Standfast-Systems/fhir-initializr/issues).
+
 Package tools (SUSHI, Firely Terminal, the FHIR Package Loader) resolve a dependency tree once you know the root IG and version. Nothing tells you which IGs you need in the first place, or which versions a regulation accepts on the date you have to comply. FHIR Initializr does that part, the way [start.spring.io](https://start.spring.io) sets up a Spring project.
 
 Tell it **where** the project is (the US, a country, or nowhere in particular), your **role** (EHR developer, payer, provider organization, app developer, HIE), your **actor** (FHIR server, client or both), your **drivers** (ONC (g)(10), CMS-0057-F, HTI-4 prior authorization…) and a **target date**. It returns a scope manifest:
@@ -40,7 +42,7 @@ npm ci
 npm start
 ```
 
-Then open http://localhost:4200. Every scope is a share link: the profile lives in the query string.
+Then open http://localhost:4200. The project you're scoping lives in a signal store in memory, so a reload starts over; **Copy CLI command** gives you a command that reproduces it.
 
 ### CLI
 
@@ -119,6 +121,10 @@ Proof of done for each driver: generate the HAPI config, boot the server, load t
 - **Language:** TypeScript end to end, since resolution runs in the browser (no backend) and the same core serves the CLI.
 - **Dependency closure** reads each package's own `package.json` (FHIR package dependencies are exact versions), including the version-suffixed wrapper packages HL7 publishes for side-by-side installs (`hl7.fhir.us.core.v610`) and the `alias@npm:package` form.
 - Named for and modeled on [Spring Initializr](https://github.com/spring-io/initializr): a metadata model, version ranges, and emitters as contributors, without its server. Not affiliated with the Spring project or Broadcom.
+
+## Versioning
+
+[Semantic versioning](https://semver.org), staying at 0.x until the tool reaches an MVP. The version lives in `package.json` (a test keeps the tool's own stamp in step) and shows in the header, the footer and every generated file. A release is bumped on its branch, merged to `main` by PR, then tagged `vX.Y.Z` on the merge commit with a GitHub release and notes.
 
 ## License
 

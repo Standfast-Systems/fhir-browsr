@@ -118,7 +118,7 @@
           each IG's own CapabilityStatements for your role. Where a guide publishes none, Initializr
           says “narrative only” instead of guessing.
         </p>
-        @if (store.loadingDeep()) {
+        @if (data.loadingDeep()) {
           <p class="faint">Loading IG details…</p>
         }
         <fi-surface-view [surface]="m.surface" />
@@ -210,7 +210,7 @@
 
     <mat-tab label="Files">
       <div class="pane">
-        @if (store.registry(); as reg) {
+        @if (data.registry(); as reg) {
           <fi-files-view [manifest]="m" [registry]="reg" />
         }
       </div>

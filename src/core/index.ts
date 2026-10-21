@@ -18,4 +18,4 @@ export type { Emitter } from './emit.ts';
 export { validateKb } from './validate.ts';
 export type { Finding } from './validate.ts';
 export { compareVersions, sortDesc, isR4 } from './semver.ts';
-export { DEFAULT_AS_OF, defaultProfile, encodeProfile, decodeProfile } from './profile.ts';
+export { DEFAULT_AS_OF, defaultProfile } from './profile.ts';
