@@ -24,6 +24,7 @@ export function defaultProfile(kb: KnowledgeBase, role: Role = 'ehr-developer'):
 
 export function encodeProfile(p: ProjectProfile): string {
   const q = new URLSearchParams();
+  if (p.realm !== 'us') q.set('realm', p.realm);
   q.set('role', p.role);
   q.set('actors', p.actors.join(','));
   q.set('asOf', p.asOf);
@@ -48,6 +49,8 @@ export function decodeProfile(kb: KnowledgeBase, query: string): ProjectProfile 
   const roleParam = q.get('role') as Role | null;
   const role = roleParam && ROLES.includes(roleParam) ? roleParam : 'ehr-developer';
   const p = defaultProfile(kb, role);
+  const realm = q.get('realm');
+  if (realm && kb.realms.some((r) => r.id === realm)) p.realm = realm;
   const actors = (q.get('actors') ?? '')
     .split(',')
     .filter((a): a is Actor => a === 'server' || a === 'client');

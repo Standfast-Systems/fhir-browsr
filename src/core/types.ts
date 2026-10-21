@@ -22,6 +22,7 @@ export type Strength = 'required' | 'recommended' | 'optional';
 /** Why a particular version is acceptable. */
 export type Basis =
   | 'adopted' // named in regulation text
+  | 'program' // named in a program's governing documents (e.g. TEFCA SOPs), not regulation
   | 'svap' // approved through ONC's Standards Version Advancement Process
   | 'recommended' // named in agency guidance, not regulation
   | 'enforcement-discretion' // agency said it won't enforce against this version
@@ -47,7 +48,14 @@ export interface Source {
   /** When a curator last checked the source. */
   checked: IsoDate;
   kind:
-    'regulation' | 'final-rule' | 'proposed-rule' | 'guidance' | 'approved-list' | 'ig' | 'tool';
+    | 'regulation'
+    | 'final-rule'
+    | 'proposed-rule'
+    | 'program'
+    | 'guidance'
+    | 'approved-list'
+    | 'ig'
+    | 'tool';
 }
 
 export interface Citation {
@@ -118,12 +126,36 @@ export interface Driver {
   summary: string;
   /** Roles the driver regulates or typically applies to (UI hint and rule filter). */
   roles: Role[];
+  /** Realms (see RealmDef.id) where the driver applies. Absent: every realm. */
+  realms?: string[];
   fhir: string[];
   cite: Citation;
   components: Component[];
   rules: Rule[];
   /** Caveats shown with every manifest that uses this driver. */
   notes?: string[];
+}
+
+/**
+ * Where a project is. "Where is the project?" in the question tree: the national foundation for a
+ * country is added automatically; a country without a usable published one gets the international
+ * defaults (the realm with id "intl": IPA and IPS).
+ */
+export interface RealmDef {
+  /** ISO 3166-1 alpha-2, lowercase (as in the IG registry), or "intl" for the default. */
+  id: string;
+  name: string;
+  /** National foundation IGs to add, base before core. Empty: use the "intl" packages. */
+  packages: {
+    ig: string;
+    kind: 'base' | 'core';
+    /** Pin this version when the newest published one isn't the publisher's current release. */
+    version?: string;
+    note?: string;
+  }[];
+  /** Shown when the realm has no usable national base (drafts only, R5 only, nothing). */
+  note?: string;
+  cite: Citation;
 }
 
 export interface TestKit {
@@ -158,6 +190,8 @@ export interface CatalogGuide {
   registry_category?: string;
   fhir: string[];
   verify?: string;
+  /** Parties that build to the guide (shared ig-map.yaml; FHIR Matchbook uses it). */
+  parties?: string[];
 }
 
 export interface RoleDef {
@@ -174,6 +208,7 @@ export interface KnowledgeBase {
   roles: RoleDef[];
   sources: Record<string, Source>;
   drivers: Driver[];
+  realms: RealmDef[];
   testkits: TestKit[];
   igs: Record<string, IgExtra>;
   /** Fallback chat streams by package-id prefix (e.g. every ihe.* guide -> #ihe). */
@@ -290,7 +325,8 @@ export interface RegistrySnapshot {
 // Resolver input and output
 
 export interface ProjectProfile {
-  realm: 'us';
+  /** "us", an ISO country code from the KB's realms, or "intl" (no particular country). */
+  realm: string;
   role: Role;
   actors: Actor[];
   drivers: { id: string; components?: string[] }[];
@@ -313,7 +349,7 @@ export interface ResolvedCitation {
 }
 
 export interface Reason {
-  kind: 'rule' | 'selected' | 'implemented';
+  kind: 'rule' | 'realm' | 'selected' | 'implemented';
   driver?: string;
   driverName?: string;
   component?: string;
@@ -335,6 +371,8 @@ export interface Reason {
   }[];
   status: 'in-force' | 'upcoming' | 'lapsed';
   inForceFrom?: IsoDate;
+  /** The KB vouches these versions are releases, whatever the publisher's package-list.json says. */
+  attested?: boolean;
   text: string;
   cite?: ResolvedCitation;
 }
@@ -392,6 +430,7 @@ export type WarningKind =
   | 'newer-available'
   | 'proposed'
   | 'aligned'
+  | 'realm-mismatch'
   | 'dead-link';
 
 export interface ManifestWarning {
@@ -447,6 +486,8 @@ export interface Manifest {
   generated: string;
   disclaimer: string;
   profile: ProjectProfile;
+  /** Where the project is; fallback means the international defaults stood in for a national base. */
+  realm: { id: string; name: string; fallback: boolean };
   igs: ManifestIg[];
   dependencies: ManifestDependency[];
   surface: ActorSurface[];

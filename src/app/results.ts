@@ -45,10 +45,20 @@ export class Results {
         igs: by((i) => ruled(i) && i.strength === 'optional'),
       },
       {
+        id: 'realm',
+        title: `Foundation for ${m.realm.id === 'intl' ? 'international projects' : m.realm.name}`,
+        hint: m.realm.fallback
+          ? m.realm.id === 'intl'
+            ? 'No country chosen, so the international defaults apply.'
+            : `${m.realm.name} has no usable published national base, so the international defaults apply.`
+          : 'The national foundation every project here starts from.',
+        igs: by((i) => !ruled(i) && i.reasons.some((r) => r.kind === 'realm')),
+      },
+      {
         id: 'selected',
         title: 'Added by you',
         hint: 'Guides you picked or already implement.',
-        igs: by((i) => !ruled(i)),
+        igs: by((i) => !ruled(i) && !i.reasons.some((r) => r.kind === 'realm')),
       },
     ].filter((g) => g.igs.length);
   });

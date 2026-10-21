@@ -297,6 +297,9 @@ import { BASIS_LABEL, Timeline } from './timeline';
     .basis.adopted {
       color: var(--fi-basis-adopted);
     }
+    .basis.program {
+      color: var(--fi-basis-program);
+    }
     .basis.svap {
       color: var(--fi-basis-svap);
     }

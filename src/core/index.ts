@@ -8,6 +8,8 @@ export {
   publishedR4,
   r4PackageFor,
   selectedComponents,
+  driverApplies,
+  realmFor,
   deepKeysFor,
 } from './resolve.ts';
 export type { ResolveOptions } from './resolve.ts';

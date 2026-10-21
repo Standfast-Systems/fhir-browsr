@@ -69,7 +69,17 @@ const AUDIENCES: { title: string; groups: string[] }[] = [
         <mat-slide-toggle [checked]="showHidden()" (change)="showHidden.set($event.checked)"
           >Show legacy &amp; non-FHIR</mat-slide-toggle
         >
+        @if (international()) {
+          <mat-slide-toggle [checked]="showUs()" (change)="showUs.set($event.checked)"
+            >Show US-realm guides</mat-slide-toggle
+          >
+        }
       </div>
+      @if (international() && !showUs()) {
+        <p class="hint">
+          Showing universal-realm guides. US-realm guides are hidden for a project outside the US.
+        </p>
+      }
       @for (s of sections(); track s.id) {
         <section class="section">
           <h3>{{ s.title }}</h3>
@@ -209,6 +219,8 @@ export class GuidePicker {
   private readonly store = inject(InitializrStore);
   protected readonly q = signal('');
   protected readonly showHidden = signal(false);
+  protected readonly showUs = signal(false);
+  protected readonly international = computed(() => (this.store.profile()?.realm ?? 'us') !== 'us');
   protected readonly selected = computed(() => new Set(this.store.profile()?.extras ?? []));
   protected readonly total = computed(() => this.store.kb()?.catalog.length ?? 0);
 
@@ -256,15 +268,17 @@ export class GuidePicker {
     const q = this.q().trim().toLowerCase();
     const rows = this.rows();
     const reg = this.store.registry();
+    const realmOk = (g: CatalogGuide) => !this.international() || this.showUs() || g.realm !== 'us';
     const match = (g: CatalogGuide) =>
-      !q ||
-      [
-        g.name,
-        g.npm,
-        kb.groups[g.group]?.label,
-        g.registry_category,
-        reg?.packages[g.npm]?.description,
-      ].some((s) => s?.toLowerCase().includes(q));
+      realmOk(g) &&
+      (!q ||
+        [
+          g.name,
+          g.npm,
+          kb.groups[g.group]?.label,
+          g.registry_category,
+          reg?.packages[g.npm]?.description,
+        ].some((s) => s?.toLowerCase().includes(q)));
     const group = (id: string) => ({
       id,
       label: kb.groups[id]?.label ?? id,

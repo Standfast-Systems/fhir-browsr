@@ -33,9 +33,11 @@ const HELP = `FHIR Initializr — which FHIR IGs and versions your project needs
 Usage:
   initializr scope [options]       Resolve a scope manifest
   initializr drivers               List drivers and their components
+  initializr realms                List countries and their national foundation IGs
   initializr validate              Check the knowledge base
 
 Scope options:
+  --realm <code>         us (default), a country code from "initializr realms", or intl
   --role <role>          ehr-developer | payer | provider-org | app-developer | hie
   --driver <id[:c1+c2]>  Driver, optionally limited to components (repeatable)
   --as-of <yyyy-mm-dd>   Target date (default ${DEFAULT_AS_OF})
@@ -73,6 +75,7 @@ function main() {
     args: rest,
     allowPositionals: true,
     options: {
+      realm: { type: 'string' },
       role: { type: 'string' },
       driver: { type: 'string', multiple: true },
       'as-of': { type: 'string' },
@@ -93,9 +96,19 @@ function main() {
   }
   const kb = loadKb();
 
+  if (cmd === 'realms') {
+    for (const r of [...kb.realms].sort((a, b) => a.id.localeCompare(b.id)))
+      console.log(
+        `${r.id.padEnd(5)} ${r.name.padEnd(36)} ${r.packages.length ? r.packages.map((p) => `${p.ig} (${p.kind})`).join(', ') : 'no national base: IPA + IPS'}`,
+      );
+    return;
+  }
+
   if (cmd === 'drivers') {
     for (const d of kb.drivers) {
-      console.log(`${d.id}  —  ${d.name}  [${d.kind}; roles: ${d.roles.join(', ')}]`);
+      console.log(
+        `${d.id}  —  ${d.name}  [${d.kind}; roles: ${d.roles.join(', ')}; realms: ${(d.realms ?? ['any']).join(', ')}]`,
+      );
       for (const c of d.components)
         console.log(
           `    ${d.id}:${c.id}  ${c.name}${c.in_force.from ? `  (from ${c.in_force.from})` : ''}${c.default === false ? '  [opt-in]' : ''}`,
@@ -130,6 +143,11 @@ function main() {
     if (!kb.roles.some((r) => r.id === role))
       throw new Error(`Unknown role "${role}". Roles: ${kb.roles.map((r) => r.id).join(', ')}`);
     profile = defaultProfile(kb, role);
+    if (values.realm) {
+      if (!kb.realms.some((r) => r.id === values.realm))
+        throw new Error(`Unknown realm "${values.realm}". Run "initializr realms".`);
+      profile.realm = values.realm;
+    }
     profile.drivers = (values.driver ?? []).map((s) => {
       const [id, comps] = s.split(':');
       if (!kb.drivers.some((d) => d.id === id))

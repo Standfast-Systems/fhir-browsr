@@ -23,6 +23,7 @@ summary: >-
   payers and prior authorization, most from January 1, 2027. The rule requires the base standards in
   45 CFR 170.215 and recommends Da Vinci and CARIN implementation guides.
 roles: [payer, app-developer, provider-org, ehr-developer]
+realms: [us]
 fhir: ["4.0.1"]
 cite:
   source: fr-cms-0057-f

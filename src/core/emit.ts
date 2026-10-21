@@ -22,6 +22,7 @@ const STRENGTH_LABEL = {
 } as const;
 const BASIS_LABEL: Record<string, string> = {
   adopted: 'adopted in regulation',
+  program: 'named in program rules',
   svap: 'SVAP-approved',
   recommended: 'agency-recommended',
   'enforcement-discretion': 'enforcement discretion',
@@ -361,6 +362,7 @@ const report: Emitter = {
       '',
       `> ${m.disclaimer}`,
       '',
+      `- **Where:** ${m.realm.name}${m.realm.fallback && m.realm.id !== 'intl' ? ' (no usable national base: IPA + IPS)' : ''}`,
       `- **Target date:** ${p.asOf}`,
       `- **Role / actors:** ${p.role} / ${p.actors.join(', ')}`,
       `- **Drivers:** ${p.drivers.map((d) => d.id + (d.components?.length ? ` (${d.components.join(', ')})` : '')).join('; ') || 'none'}`,

@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { selectedComponents } from '../core/index.ts';
+import { driverApplies, realmFor, selectedComponents } from '../core/index.ts';
 import type { Actor, Driver, ProjectProfile, Role } from '../core/index.ts';
 import { GuidePicker } from './guide-picker';
 import { InitializrStore } from './store';
@@ -47,11 +47,60 @@ export class ProfilePanel {
     const kb = this.kb();
     const p = this.p();
     if (!kb || !p) return [];
-    // Drivers that cover the chosen role first; the rest stay available.
-    return [...kb.drivers].sort(
-      (a, b) => Number(b.roles.includes(p.role)) - Number(a.roles.includes(p.role)),
-    );
+    // Only the drivers that apply where the project is; those covering the chosen role first.
+    return kb.drivers
+      .filter((d) => driverApplies(d, p.realm))
+      .sort((a, b) => Number(b.roles.includes(p.role)) - Number(a.roles.includes(p.role)));
   });
+
+  /** Countries for the International choice: "no particular country" first, then by name. */
+  protected readonly countries = computed(() => {
+    const kb = this.kb();
+    if (!kb) return [];
+    const others = kb.realms
+      .filter((r) => r.id !== 'us' && r.id !== 'intl')
+      .sort((a, b) => a.name.localeCompare(b.name));
+    const intl = kb.realms.find((r) => r.id === 'intl');
+    return intl ? [intl, ...others] : others;
+  });
+
+  /** What the chosen realm adds, in words. */
+  protected readonly foundation = computed(() => {
+    const kb = this.kb();
+    const reg = this.store.registry();
+    const p = this.p();
+    if (!kb || !p) return '';
+    const realm = realmFor(kb, p.realm);
+    const names = realm.packages.map((x) => reg?.packages[x.ig]?.title ?? x.ig).join(' and ');
+    if (p.realm === 'us') return `FHIR R4 (4.0.1). ${names} is the national foundation.`;
+    if (!realm.fallback) return `FHIR R4 (4.0.1). Adds ${names} as the national foundation.`;
+    const why =
+      p.realm === 'intl'
+        ? 'No country chosen'
+        : `${realm.def.name} has no usable published national base${realm.def.note ? ` (${realm.def.note})` : ''}`;
+    return `FHIR R4 (4.0.1). ${why}, so ${names} are added as the international defaults.`;
+  });
+
+  /** The last country picked, so flipping US → International → US → International keeps it. */
+  private lastCountry = 'intl';
+
+  protected setRealmMode(mode: 'us' | 'intl') {
+    this.setRealm(mode === 'us' ? 'us' : this.lastCountry);
+  }
+
+  protected setRealm(realm: string) {
+    if (realm !== 'us') this.lastCountry = realm;
+    const kb = this.kb();
+    this.store.update((p) => ({
+      ...p,
+      realm,
+      // Regulations from another realm don't apply here; drop them rather than carry dead weight.
+      drivers: p.drivers.filter((s) => {
+        const d = kb?.drivers.find((x) => x.id === s.id);
+        return !d || driverApplies(d, realm);
+      }),
+    }));
+  }
 
   protected readonly extras = computed(() => {
     const kb = this.kb();

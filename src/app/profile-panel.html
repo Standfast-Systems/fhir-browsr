@@ -2,16 +2,31 @@
   @if (kb(); as kb) {
     <section class="step">
       <h2><span class="n">1</span> Where</h2>
-      <mat-button-toggle-group class="realm" value="us" aria-label="Project realm">
+      <mat-button-toggle-group
+        class="realm"
+        [value]="p.realm === 'us' ? 'us' : 'intl'"
+        (change)="setRealmMode($event.value)"
+        aria-label="Where is the project?"
+      >
         <mat-button-toggle value="us">United States</mat-button-toggle>
-        <mat-button-toggle
-          value="intl"
-          disabled
-          matTooltip="International realms (national bases, IPA, IPS) are planned"
-          >International · later</mat-button-toggle
-        >
+        <mat-button-toggle value="intl">International</mat-button-toggle>
       </mat-button-toggle-group>
-      <p class="hint">FHIR R4 (4.0.1). US Core is pulled in by the drivers below.</p>
+      @if (p.realm !== 'us') {
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="country">
+          <mat-label>Country</mat-label>
+          <mat-select [value]="p.realm" (selectionChange)="setRealm($event.value)">
+            @for (r of countries(); track r.id) {
+              <mat-option [value]="r.id">
+                {{ r.name }}
+                @if (r.id !== 'intl' && !r.packages.length) {
+                  <span class="faint"> · IPA + IPS</span>
+                }
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
+      <p class="hint">{{ foundation() }}</p>
     </section>
 
     <section class="step">
@@ -72,6 +87,12 @@
 
     <section class="step">
       <h2><span class="n">4</span> What drives the project</h2>
+      @if (!drivers().length) {
+        <p class="hint">
+          No regulations or programs are curated for this realm yet. The national foundation above
+          is added automatically; pick workflows and capabilities in the next step.
+        </p>
+      }
       <div class="drivers">
         @for (d of drivers(); track d.id) {
           <div class="driver" [class.on]="isOn(d)" [class.offrole]="!d.roles.includes(p.role)">

@@ -182,9 +182,9 @@ testkits:
     title: UDAP Security Test Kit
     url: https://inferno.healthit.gov/test-kits/udap-security/
     repo: https://github.com/inferno-framework/udap-security-test-kit
-    note: Tests HL7 UDAP Security STU 1; the IG's 2.0.0 (STU 2) is not covered.
+    note: v0.12.2 tests UDAP Security STU 1.0.0 only; not 1.1.0 (the version TEFCA names), 2.0.0, or TEFCA's extensions.
     covers:
-      - {ig: hl7.fhir.us.udap-security, versions: ["1.0.0", "1.1.0"], actors: [server, client]}
+      - {ig: hl7.fhir.us.udap-security, versions: ["1.0.0"], actors: [server, client]}
     suites:
       - {id: udap_security, title: "UDAP Security Server", actor: server}
       - {id: udap_security_client, title: "UDAP Security Client", actor: client}

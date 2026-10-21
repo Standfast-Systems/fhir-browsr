@@ -6,7 +6,7 @@
 
 Package tools (SUSHI, Firely Terminal, the FHIR Package Loader) resolve a dependency tree once you know the root IG and version. Nothing tells you which IGs you need in the first place, or which versions a regulation accepts on the date you have to comply. FHIR Initializr does that part, the way [start.spring.io](https://start.spring.io) sets up a Spring project.
 
-Tell it your **role** (EHR developer, payer, provider organization, app developer, HIE), your **actor** (FHIR server, client or both), your **drivers** (ONC (g)(10), CMS-0057-F, HTI-4 prior authorization…) and a **target date**. It returns a scope manifest:
+Tell it **where** the project is (the US, a country, or nowhere in particular), your **role** (EHR developer, payer, provider organization, app developer, HIE), your **actor** (FHIR server, client or both), your **drivers** (ONC (g)(10), CMS-0057-F, HTI-4 prior authorization…) and a **target date**. It returns a scope manifest:
 
 - **IG set:** every guide in scope with its accepted versions on that date, a recommended pin, the requirement strength (required, recommended or optional, never collapsed) and the citation for each.
 - **Warnings:** conflicts between drivers (reported with both citations, never silently resolved), versions that expire soon after your date, multi-version dependencies, FHIR-version mismatches, pins no Inferno suite can test yet, and versions a *proposed* rule would require.
@@ -17,14 +17,17 @@ Tell it your **role** (EHR developer, payer, provider organization, app develope
 
 > Scoping guidance with citations, not a compliance determination.
 
-## What's in the knowledge base (as of 2026-10-20)
+## What's in the knowledge base (as of 2026-10-21)
 
 | Driver | Covers |
 |---|---|
 | **ONC (g)(10)** | 45 CFR 170.315(g)(10) with 170.215 versions and expiry dates, SVAP 2022–2026 (multi-cycle), the EDN2025.06 enforcement discretion through Feb 28, 2026 |
 | **ONC (g)(31)–(33)** | HTI-4 electronic prior authorization (CRD, DTR, PAS, CDS Hooks, Subscriptions Backport), including the FY2027 IPPS rule's no-overlap switch to CRD 2.2.1 / DTR 2.2.0 / PAS 2.2.1 on Oct 1, 2026 |
 | **CMS-0057-F** | Patient Access, Provider Access, Payer-to-Payer, Prior Authorization and Provider Directory APIs; required 170.215 cross-references (still naming the expired US Core 3.1.1 / SMART 1.0.0), the 422.119(c)(4) updated-version flexibility, CMS's recommended IGs, and CMS-0062-P's versions as proposed-only |
+| **TEFCA FHIR** | Facilitated FHIR under QTF v2.1 and the Facilitated FHIR SOP v2.0: US Core 6.1.0 or higher (3.1.1 or higher before March 8, 2026), UDAP/SSRAA 1.1.0 (metadata now, full registration and authorization from Q1 2027), SMART scope syntax, and eCR 2.1.1 for public health pushes |
 | **SMART app + US Core** | A non-regulatory sanity profile: the versions every certified server must still support |
+
+**Where is the project?** Outside the US, Initializr adds the country's national base and core IGs: 21 countries are curated in [kb/realms.yaml](kb/realms.yaml), because the registry's "National Base" tag is unreliable (Germany's entry is the STU3 package, Japan's id doesn't exist on packages.fhir.org, France and Brazil aren't listed). Another 14 countries have nothing usable yet (R5-only, beta, or not on packages.fhir.org), and the tool says which; they, and projects with no particular country, get HL7's International Patient Access (IPA) and International Patient Summary (IPS) instead. US regulations are ignored outside the US, with a warning.
 
 Plus a classification of all **277 US and universal-realm guides** in the HL7 IG registry into foundation, workflow, capability, content and hidden layers ([kb/catalog.yaml](kb/catalog.yaml)), so you can add workflows and content packs by hand.
 
@@ -112,7 +115,7 @@ Proof of done for each driver: generate the HAPI config, boot the server, load t
 
 ## Status and decisions
 
-- **MVP scope:** US realm, FHIR R4. International realms (national bases, IPA, IPS) are next.
+- **Scope:** FHIR R4. US regulatory drivers; national foundations for other countries (other-country guides beyond the national base aren't classified yet).
 - **Language:** TypeScript end to end, since resolution runs in the browser (no backend) and the same core serves the CLI.
 - **Dependency closure** reads each package's own `package.json` (FHIR package dependencies are exact versions), including the version-suffixed wrapper packages HL7 publishes for side-by-side installs (`hl7.fhir.us.core.v610`) and the `alias@npm:package` form.
 - Named for and modeled on [Spring Initializr](https://github.com/spring-io/initializr): a metadata model, version ranges, and emitters as contributors, without its server. Not affiliated with the Spring project or Broadcom.

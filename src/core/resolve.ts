@@ -140,9 +140,15 @@ export function selectedComponents(d: Driver, profile: ProjectProfile): Componen
   return forRole.filter((c) => c.default !== false);
 }
 
+/** Drivers apply only in their realms (ONC and CMS rules mean nothing to a project in Australia). */
+export function driverApplies(d: Driver, realm: string): boolean {
+  return !d.realms || d.realms.includes(realm);
+}
+
 function applyRules(kb: KnowledgeBase, profile: ProjectProfile): Applied[] {
   const out: Applied[] = [];
   for (const d of kb.drivers) {
+    if (!driverApplies(d, profile.realm)) continue;
     const comps = selectedComponents(d, profile);
     if (!comps.length) continue;
     for (const rule of d.rules) {
@@ -262,6 +268,38 @@ export function resolve(
     d.ig.reasons.push(a.reason);
   }
 
+  const realm = realmFor(kb, profile.realm);
+  for (const d of kb.drivers.filter((x) => profile.drivers.some((s) => s.id === x.id))) {
+    if (driverApplies(d, profile.realm)) continue;
+    warnings.push({
+      kind: 'realm-mismatch',
+      severity: 'warn',
+      title: `${d.short} doesn't apply to a project ${realm.def.id === 'intl' ? 'outside the US' : `in ${realm.def.name}`}`,
+      detail: `It applies in: ${(d.realms ?? []).map((r) => realmFor(kb, r).def.name).join(', ')}. Its rules were left out.`,
+      cites: [resolveCitation(kb, d.cite)],
+    });
+  }
+
+  // "Where is the project?": the national foundation, or the international defaults.
+  for (const p of realm.packages) {
+    const name = r4PackageFor(reg, p.ig);
+    const d = draft(name);
+    const label = p.kind === 'base' ? 'National base' : 'National core';
+    d.ig.reasons.push({
+      kind: 'realm',
+      strength: 'recommended',
+      accepts: p.version ? [p.version] : publishedR4(reg.packages[name]),
+      attested: !!p.version,
+      windows: [],
+      status: 'in-force',
+      text: realm.fallback
+        ? `${realm.def.id === 'intl' ? 'No country chosen' : `No usable published national base for ${realm.def.name}${realm.def.note ? ` (${realm.def.note})` : ''}`}; this is an international default.${p.note ? ` ${p.note}` : ''}`
+        : `${label} for ${realm.def.name}.${p.note ? ` ${p.note}` : ''}`,
+      cite: resolveCitation(kb, realm.cite),
+    });
+    if (name !== p.ig) d.ig.pinNote = `Uses ${name}, the R4 edition of ${p.ig}.`;
+  }
+
   for (const extra of profile.extras ?? []) {
     const name = r4PackageFor(reg, extra);
     const d = draft(name);
@@ -351,6 +389,17 @@ export function resolve(
       });
   }
 
+  // Two rules on one IG (a server and a client rule in one component) can raise the same note.
+  const seenWarnings = new Set<string>();
+  const unique = warnings.filter((w) => {
+    const key = `${w.kind}|${w.package ?? ''}|${w.title}`;
+    if (seenWarnings.has(key)) return false;
+    seenWarnings.add(key);
+    return true;
+  });
+  warnings.length = 0;
+  warnings.push(...unique);
+
   const severityRank = { error: 0, warn: 1, info: 2 };
   warnings.sort((a, b) => severityRank[a.severity] - severityRank[b.severity]);
 
@@ -363,6 +412,7 @@ export function resolve(
     generated: opts.now ?? new Date().toISOString(),
     disclaimer: kb.disclaimer,
     profile,
+    realm: { id: realm.def.id, name: realm.def.name, fallback: realm.fallback },
     igs,
     dependencies,
     surface,
@@ -372,6 +422,19 @@ export function resolve(
       (d.notes ?? []).map((note) => ({ driver: d.short, note })),
     ),
   };
+}
+
+/**
+ * The realm a profile names, and the foundation packages it brings. A country without a usable
+ * national base falls back to the "intl" defaults (IPA + IPS).
+ */
+export function realmFor(kb: KnowledgeBase, id: string) {
+  const intl = kb.realms.find((r) => r.id === 'intl');
+  const def = kb.realms.find((r) => r.id === id) ??
+    intl ?? { id, name: id, packages: [], cite: { source: 'ig-registry' } };
+  const fallback = !def.packages.length || def.id === 'intl';
+  const source = def.packages.length ? def : (intl ?? def);
+  return { def, fallback, packages: source.packages, cite: source.cite };
 }
 
 function layerRank(l: ManifestIg['layer']): number {
@@ -388,7 +451,10 @@ function pickVersion(
 ): boolean {
   const name = ig.package;
   const pkg = reg.packages[name];
-  const published = publishedR4(pkg);
+  const published = [
+    ...publishedR4(pkg),
+    ...ig.reasons.filter((r) => r.attested).flatMap((r) => r.accepts),
+  ];
   const reasons = ig.reasons;
   ig.strength = reasons.reduce<Strength>(
     (s, r) => (STRENGTH_RANK[r.strength] > STRENGTH_RANK[s] ? r.strength : s),
@@ -595,7 +661,10 @@ function finalizePin(
 ) {
   const name = ig.package;
   const pkg = reg.packages[name];
-  const published = publishedR4(pkg);
+  const published = [
+    ...publishedR4(pkg),
+    ...ig.reasons.filter((r) => r.attested).flatMap((r) => r.accepts),
+  ];
   const reasons = ig.reasons;
   const label = (r: Reason) =>
     `${r.driverName ?? 'selection'}${r.componentName ? ` — ${r.componentName}` : ''}`;
