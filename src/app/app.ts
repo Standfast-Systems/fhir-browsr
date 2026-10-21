@@ -9,6 +9,7 @@ import {
   sortGuides,
   addedBy,
   type AddedBy,
+  type Region,
   type ScopedGuide,
 } from '../core/scope';
 import type { Dataset, Family, ScopeOptions } from '../core/types';
@@ -121,16 +122,36 @@ export class App {
     ),
   );
 
+  /** With every region selected, the bar shows one chip instead of eight. */
+  protected readonly everyRegion = computed(
+    () => !this.view().family && this.view().regions.length === REGION_KEYS.length,
+  );
+
+  /** The centre's chip keeps its name: "All three · Foundation". */
+  protected chipLabel(r: Region): string {
+    return r.key === 'all' ? `${r.label} · Foundation` : r.label;
+  }
+
+  /** The visually hidden table heading: the filter bar's chips, read out as one line. */
   protected readonly heading = computed(() => {
+    const v = this.view();
     const family = this.activeFamily();
-    if (family) return `${family.label} family`;
-    const sel = this.view().regions;
-    if (!sel.length) return 'No regions selected';
-    if (sel.length === REGION_KEYS.length) return 'Every region';
-    if (sel.length === 1 && sel[0] === 'all') return 'The Foundation';
-    return REGIONS.filter((r) => sel.includes(r.key))
-      .map((r) => r.label)
-      .join(', ');
+    if (!family && !v.regions.length) return 'No regions selected';
+    const parts = [
+      family
+        ? `${family.label} family`
+        : this.everyRegion()
+          ? 'Every region'
+          : REGIONS.filter((r) => v.regions.includes(r.key))
+              .map((r) => this.chipLabel(r))
+              .join(', '),
+    ];
+    const bucket = this.bucketChips() && v.bucket;
+    if (bucket) parts.push(this.data()?.buckets.find((b) => b.id === bucket)?.label ?? '');
+    const added = this.addedChips()?.chips.find((c) => c.id === v.added);
+    if (added) parts.push(`added by ${added.label}`);
+    if (v.query.trim()) parts.push(`matching “${v.query.trim()}”`);
+    return `Showing ${parts.filter(Boolean).join('; ')}`;
   });
 
   protected readonly scopeLine = computed(() => {

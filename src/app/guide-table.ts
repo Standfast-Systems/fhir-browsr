@@ -30,29 +30,6 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
   selector: 'app-guide-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (searchable()) {
-      <div class="bar">
-        <label class="search">
-          <span class="visually-hidden">Search guides</span>
-          <input
-            type="search"
-            placeholder="Search names and descriptions"
-            [value]="query()"
-            (input)="queryChange.emit($any($event.target).value)"
-          />
-        </label>
-        <label class="sort">
-          Sort
-          <select [value]="sort()" (change)="sortChange.emit($any($event.target).value)">
-            <option value="start">Start here first</option>
-            <option value="name">Name</option>
-            <option value="date">Newest release</option>
-            <option value="family">Group by family</option>
-          </select>
-        </label>
-      </div>
-    }
-
     @if (view().total) {
       <table>
         <thead>
@@ -189,13 +166,8 @@ export class GuideTable {
   readonly rows = input.required<ScopedGuide[]>();
   readonly page = input.required<number>();
   readonly sort = input.required<SortKey>();
-  readonly query = input.required<string>();
   readonly pageChange = output<number>();
-  readonly sortChange = output<SortKey>();
-  readonly queryChange = output<string>();
   readonly families = input<ReadonlyMap<string, Family>>(new Map());
-  /** Search and sort only show once there is something to list. */
-  readonly searchable = input(true);
   /** A row's family chip was clicked: show that whole family. */
   readonly familyChange = output<string>();
 

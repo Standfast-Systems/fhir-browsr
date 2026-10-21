@@ -187,25 +187,6 @@ h1 {
   }
 }
 
-.selection {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-  .sel-label {
-    color: var(--mb-muted);
-    margin-right: 2px;
-  }
-  .none {
-    color: var(--mb-faint);
-  }
-  .sel-actions {
-    margin-left: auto;
-    display: flex;
-    gap: 12px;
-  }
-}
-
 .chip {
   display: inline-flex;
   gap: 6px;
@@ -239,20 +220,74 @@ h1 {
   }
 }
 
-.buckets {
+// The filter bar right above the table: Showing chips, topic chips, toggle chips, search and sort.
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.filter-row {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   align-items: center;
-  margin-bottom: 14px;
   .sel-label {
     color: var(--mb-muted);
     margin-right: 2px;
   }
+  .none {
+    color: var(--mb-faint);
+  }
+  .sel-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 12px;
+  }
+  &.search-sort {
+    gap: 12px;
+  }
+}
+
+.search {
+  flex: 1 1 260px;
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--mb-line);
+    background: var(--mb-panel);
+    color: var(--mb-text);
+    font: inherit;
+    &::placeholder {
+      color: var(--mb-faint);
+    }
+    &:focus {
+      border-color: var(--mb-lime-dim);
+      outline: none;
+    }
+  }
+}
+
+.sort {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--mb-muted);
+  select {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--mb-line);
+    background: var(--mb-panel);
+    color: var(--mb-text);
+    font: inherit;
+  }
 }
 
 .region-note {
-  margin: -6px 0 14px;
+  margin: 0 0 14px;
   color: var(--mb-muted);
   max-width: 80ch;
 }
@@ -271,10 +306,6 @@ h1 {
 .results {
   border-top: 1px solid var(--mb-line);
   padding-top: 20px;
-  h2 {
-    font-size: 18px;
-    margin: 0 0 14px;
-  }
 }
 
 .registry {

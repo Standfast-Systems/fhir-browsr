@@ -2,50 +2,6 @@
   display: block;
 }
 
-.bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.search {
-  flex: 1 1 260px;
-  input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 9px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--mb-line);
-    background: var(--mb-panel);
-    color: var(--mb-text);
-    font: inherit;
-    &::placeholder {
-      color: var(--mb-faint);
-    }
-    &:focus {
-      border-color: var(--mb-lime-dim);
-      outline: none;
-    }
-  }
-}
-
-.sort {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  color: var(--mb-muted);
-  select {
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--mb-line);
-    background: var(--mb-panel);
-    color: var(--mb-text);
-    font: inherit;
-  }
-}
-
 table {
   width: 100%;
   border-collapse: collapse;
