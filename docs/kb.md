@@ -48,6 +48,8 @@ rules:
 notes: [...]                # caveats shown with every manifest using this driver
 ```
 
+A regulation binds some of its `roles` (those with `required` rules). Give the others `optional` rules for their side of the exchange, at the versions the bound party is asked to run: CMS-0057-F binds payers, so EHR developers get PDex, Bulk Data, CRD, DTR and PAS as clients. The app tells those users the driver requires nothing of them and offers the bound role. When another driver requires a different version of the same guide, the manifest warns (`optional-outside-required`) that the other side may be on other versions.
+
 ### Version bases
 
 | Basis | Meaning | Counts as accepted? |

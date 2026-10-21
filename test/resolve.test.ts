@@ -131,6 +131,37 @@ describe('CMS-0057-F payer', () => {
   });
 });
 
+describe('CMS-0057-F provider side', () => {
+  it('gives an EHR developer the guides for calling payers, prior authorization included', () => {
+    const m = scope({ role: 'ehr-developer', drivers: [{ id: 'cms-0057-f' }], asOf: '2027-01-01' });
+    for (const p of [
+      'hl7.fhir.us.davinci-crd',
+      'hl7.fhir.us.davinci-dtr',
+      'hl7.fhir.us.davinci-pas',
+      'hl7.fhir.us.davinci-pdex',
+      'hl7.fhir.uv.bulkdata',
+    ]) {
+      assert.equal(ig(m, p)?.strength, 'optional', p);
+      assert.deepEqual(ig(m, p)!.actors, ['client'], p);
+    }
+    assert.ok(!m.igs.some((i) => i.strength === 'required'));
+  });
+  it('warns when ONC certifies the EHR to versions payers are not asked to run', () => {
+    const m = scope({
+      role: 'ehr-developer',
+      drivers: [{ id: 'cms-0057-f' }, { id: 'onc-epa' }],
+      asOf: '2027-01-01',
+    });
+    const crd = ig(m, 'hl7.fhir.us.davinci-crd')!;
+    assert.equal(crd.pin, '2.2.1');
+    const w = m.warnings.find(
+      (x) => x.kind === 'optional-outside-required' && x.package === crd.package,
+    );
+    assert.ok(w, 'expected a warning about payers on other versions');
+    assert.match(w.detail, /2\.1\.0/);
+  });
+});
+
 describe('ONC (g)(31)–(33) prior authorization', () => {
   it('moves from 2.0.1 to the 2.2.x IGs on October 1, 2026 with no overlap', () => {
     const before = scope({

@@ -425,6 +425,7 @@ export type WarningKind =
   | 'narrative-only'
   | 'verify'
   | 'recommended-outside-required'
+  | 'optional-outside-required'
   | 'not-in-snapshot'
   | 'untested'
   | 'newer-available'

@@ -101,6 +101,20 @@
               <span class="kind">{{ d.kind === 'profile' ? 'profile' : d.authority }}</span>
             </mat-checkbox>
             <p class="dsum">{{ d.summary }}</p>
+            @if (isOn(d) && bindsOthers().get(d.id); as binds) {
+              <p class="binds">
+                <mat-icon fontSet="material-symbols-outlined" aria-hidden="true">swap_horiz</mat-icon>
+                <span>
+                  <strong>Requires nothing of your role.</strong> {{ d.short }}'s requirements fall
+                  on {{ labels(binds) }}; you get the optional guides for working with them.
+                  @for (r of binds; track r.id) {
+                    <button type="button" class="see-as" (click)="store.setRole(r.id)">
+                      See it as {{ r.label }}
+                    </button>
+                  }
+                </span>
+              </p>
+            }
             @if (isOn(d)) {
               <div class="comps" role="group" [attr.aria-label]="d.short + ' components'">
                 @for (c of componentsFor(d); track c.id) {

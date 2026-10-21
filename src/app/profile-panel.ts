@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { driverApplies, realmFor, selectedComponents } from '../core/index.ts';
-import type { Driver } from '../core/index.ts';
+import type { Driver, Role } from '../core/index.ts';
 import { GuidePicker } from './guide-picker';
 import { DataStore } from './data-store';
 import { ProfileStore } from './profile-store';
@@ -53,6 +53,29 @@ export class ProfilePanel {
     return kb.drivers
       .filter((d) => driverApplies(d, p.realm))
       .sort((a, b) => Number(b.roles.includes(p.role)) - Number(a.roles.includes(p.role)));
+  });
+
+  /**
+   * Drivers that require nothing of the chosen role, with the roles they do bind. CMS-0057-F binds
+   * payers; an EHR developer only gets the guides for calling payers' APIs, and should know why.
+   */
+  protected readonly bindsOthers = computed(() => {
+    const kb = this.kb();
+    const p = this.p();
+    const out = new Map<string, { id: Role; label: string }[]>();
+    if (!kb || !p) return out;
+    for (const d of kb.drivers) {
+      const binds = (role: Role) =>
+        d.rules.some((r) => r.strength === 'required' && (r.roles ?? d.roles).includes(role));
+      if (binds(p.role)) continue;
+      const others = d.roles.filter(binds);
+      if (others.length)
+        out.set(
+          d.id,
+          others.map((id) => ({ id, label: kb.roles.find((r) => r.id === id)?.label ?? id })),
+        );
+    }
+    return out;
   });
 
   /** Countries for the International choice: "no particular country" first, then by name. */
@@ -115,6 +138,10 @@ export class ProfilePanel {
     this.store.setImplemented(this.implPkg().trim(), this.implVersion().trim());
     this.implPkg.set('');
     this.implVersion.set('');
+  }
+
+  protected labels(roles: { label: string }[]): string {
+    return roles.map((r) => r.label).join(' and ');
   }
 
   protected isOn(d: Driver): boolean {

@@ -1,11 +1,12 @@
 {
   "tool": {
     "name": "FHIR Initializr",
-    "version": "0.1.0"
+    "version": "0.1.0",
+    "stage": "pre-MVP preview, under construction"
   },
-  "kbVersion": "0.1.0",
-  "kbAsOf": "2026-10-20",
-  "snapshotAsOf": "2026-10-20T22:23:28.683Z",
+  "kbVersion": "0.2.0",
+  "kbAsOf": "2026-10-21",
+  "snapshotAsOf": "2026-10-21T16:14:49.235Z",
   "generated": "2026-10-20T00:00:00Z",
   "disclaimer": "Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.",
   "profile": {
@@ -24,6 +25,11 @@
     "implemented": {},
     "extras": [],
     "projectName": "smart-app"
+  },
+  "realm": {
+    "id": "us",
+    "name": "United States",
+    "fallback": false
   },
   "igs": [
     {
@@ -92,6 +98,34 @@
             "url": "https://hl7.org/fhir/us/core/history.html",
             "kind": "ig"
           }
+        },
+        {
+          "kind": "realm",
+          "strength": "recommended",
+          "accepts": [
+            "9.0.0",
+            "8.0.1",
+            "8.0.0",
+            "7.0.0",
+            "6.1.0",
+            "6.0.0",
+            "5.0.1",
+            "5.0.0",
+            "4.0.0",
+            "3.1.1",
+            "3.1.0",
+            "3.0.0"
+          ],
+          "attested": false,
+          "windows": [],
+          "status": "in-force",
+          "text": "National core for United States.",
+          "cite": {
+            "title": "HL7 FHIR US Core Implementation Guide",
+            "publisher": "HL7 International",
+            "url": "https://hl7.org/fhir/us/core/history.html",
+            "kind": "ig"
+          }
         }
       ],
       "links": {
@@ -99,14 +133,14 @@
         "history": "http://hl7.org/fhir/us/core/history.html",
         "capstmts": [
           {
-            "actor": "server",
-            "title": "US Core Server CapabilityStatement",
-            "url": "http://hl7.org/fhir/us/core/STU6.1/CapabilityStatement-us-core-server.html"
-          },
-          {
             "actor": "client",
             "title": "US Core Client CapabilityStatement",
             "url": "http://hl7.org/fhir/us/core/STU6.1/CapabilityStatement-us-core-client.html"
+          },
+          {
+            "actor": "server",
+            "title": "US Core Server CapabilityStatement",
+            "url": "http://hl7.org/fhir/us/core/STU6.1/CapabilityStatement-us-core-server.html"
           }
         ],
         "profiles": "http://hl7.org/fhir/us/core/STU6.1/artifacts.html",

@@ -1,17 +1,20 @@
 # FHIR scope: smart-app
 
 > Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.
+>
+> FHIR Initializr 0.1.0 is a pre-MVP preview, under construction.
 
+- **Where:** United States
 - **Target date:** 2027-01-01
 - **Role / actors:** app-developer / client
 - **Drivers:** smart-app-us-core
-- **KB as of:** 2026-10-20 (v0.1.0) · **Registry snapshot:** 2026-10-20 · **Generated:** 2026-10-20T00:00:00Z
+- **KB as of:** 2026-10-21 (v0.2.0) · **Registry snapshot:** 2026-10-21 · **Generated:** 2026-10-20T00:00:00Z
 
 ## IG set
 
 | IG | Pin | Accepted | Strength | Actors | Why |
 |---|---|---|---|---|---|
-| [US Core](http://hl7.org/fhir/us/core/STU6.1/)<br>`hl7.fhir.us.core` | 6.1.0 | 6.1.0 | Recommended | client | SMART app + US Core: Standalone launch (patient-facing), EHR launch (clinician-facing) |
+| [US Core](http://hl7.org/fhir/us/core/STU6.1/)<br>`hl7.fhir.us.core` | 6.1.0 | 6.1.0 | Recommended | client | SMART app + US Core: Standalone launch (patient-facing), EHR launch (clinician-facing); National core for United States. |
 | [SMART App Launch](http://hl7.org/fhir/smart-app-launch/STU2/)<br>`hl7.fhir.uv.smart-app-launch` | 2.0.0 | 2.0.0 | Recommended | client | SMART app + US Core: Standalone launch (patient-facing), EHR launch (clinician-facing) |
 
 ## Warnings
@@ -29,7 +32,8 @@
   - Source: HL7 FHIR US Core Implementation Guide — https://hl7.org/fhir/us/core/history.html
   - ✗ 3.1.1 — profile choice, … → 2026-01-01 (exclusive): 45 CFR 170.215 — Application Programming Interface Standards (b)(1)(i) (https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(b)(1)(i))
   - ✓ 6.1.0 — profile choice, 2024-02-08 → …: 45 CFR 170.215 — Application Programming Interface Standards (b)(1)(ii) (https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(b)(1)(ii))
-- Links: [IG home](http://hl7.org/fhir/us/core/STU6.1/) · [artifacts](http://hl7.org/fhir/us/core/STU6.1/artifacts.html) · [US Core Server CapabilityStatement (server)](http://hl7.org/fhir/us/core/STU6.1/CapabilityStatement-us-core-server.html) · [US Core Client CapabilityStatement (client)](http://hl7.org/fhir/us/core/STU6.1/CapabilityStatement-us-core-client.html) · [ONC Certification (g)(10) Standardized API Test Kit](https://inferno.healthit.gov/test-kits/onc-certification-g10/) · [US Core Test Kit](https://inferno.healthit.gov/test-kits/us-core/) · [chat: #argonaut](https://chat.fhir.org/#narrow/channel/179175-argonaut)
+- National core for United States.
+- Links: [IG home](http://hl7.org/fhir/us/core/STU6.1/) · [artifacts](http://hl7.org/fhir/us/core/STU6.1/artifacts.html) · [US Core Client CapabilityStatement (client)](http://hl7.org/fhir/us/core/STU6.1/CapabilityStatement-us-core-client.html) · [US Core Server CapabilityStatement (server)](http://hl7.org/fhir/us/core/STU6.1/CapabilityStatement-us-core-server.html) · [ONC Certification (g)(10) Standardized API Test Kit](https://inferno.healthit.gov/test-kits/onc-certification-g10/) · [US Core Test Kit](https://inferno.healthit.gov/test-kits/us-core/) · [chat: #argonaut](https://chat.fhir.org/#narrow/channel/179175-argonaut)
 
 ### SMART App Launch (`hl7.fhir.uv.smart-app-launch`)
 

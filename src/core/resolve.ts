@@ -564,6 +564,27 @@ function pickVersion(
       });
   }
 
+  // Optional rules describe the other side of an exchange (a payer's API, an app's server); say so
+  // when what they run falls outside what the requirement lets you pin.
+  if (requiredNow.length || requiredLater.length) {
+    const apart = reasons.filter(
+      (r) =>
+        r.kind === 'rule' &&
+        r.strength === 'optional' &&
+        r.accepts.length &&
+        !intersect([candidates, r.accepts]).length,
+    );
+    if (apart.length)
+      warnings.push({
+        kind: 'optional-outside-required',
+        severity: 'warn',
+        package: name,
+        title: `${ig.title}: ${apart.map((r) => r.driverName).join(', ')} points to other versions`,
+        detail: `Required: ${candidates.join(', ')}. ${apart.map((r) => `${label(r)} → ${r.accepts.join(', ')}`).join('; ')}. The pin follows the requirement; expect to exchange with systems on the other versions.`,
+        cites: cites([...required, ...apart]),
+      });
+  }
+
   ig.allowed = candidates;
   const implemented = profile.implemented?.[name];
   const publishedPreferred = preferred.filter((v) => published.includes(v));
