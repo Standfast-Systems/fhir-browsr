@@ -28,6 +28,8 @@ export interface VennLayout {
   circles: Circle[];
   regions: RegionShape[];
   partyLabels: PartyLabel[];
+  /** The small "Other" circle off to the lower right: guides no party builds to. */
+  other: Pt & { r: number; label: Pt };
 }
 
 const f = (n: number) => +n.toFixed(2);
@@ -188,5 +190,15 @@ export function vennLayout(r = 120, spacing = 132): VennLayout {
     { party: 'payer', x: C.x, y: C.y + r + 26, anchor: 'middle' },
   ];
 
-  return { circles, regions, partyLabels };
+  // Its label shares the Payer label's baseline, so the two read as one row.
+  const otherR = r / 3;
+  const labelY = C.y + r + 26;
+  const other = {
+    x: C.x + spacing * 1.55,
+    y: labelY - 22 - otherR,
+    r: otherR,
+    label: { x: C.x + spacing * 1.55, y: labelY },
+  };
+
+  return { circles, regions, partyLabels, other };
 }

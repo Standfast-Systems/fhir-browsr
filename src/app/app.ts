@@ -50,7 +50,6 @@ export class App {
     regionsWith('patient').reduce((n, k) => n + this.counts()[k], 0),
   );
   protected readonly regions = REGIONS;
-  protected readonly outside = REGIONS.find((r) => r.key === 'none')!;
 
   protected readonly families = computed(
     () => new Map<string, Family>((this.data()?.families ?? []).map((f) => [f.id, f])),

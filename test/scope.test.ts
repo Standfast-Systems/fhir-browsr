@@ -166,6 +166,13 @@ test('the default view is US, starting on the centre', () => {
   assert.deepEqual(DEFAULT_VIEW.scope, DEFAULT_SCOPE);
 });
 
+test('the Other circle stands apart from the three party circles', () => {
+  const { circles, other } = vennLayout();
+  for (const c of circles) {
+    assert.ok(Math.hypot(c.x - other.x, c.y - other.y) > c.r + other.r + 20, c.party);
+  }
+});
+
 test('every Venn label sits inside its own region', () => {
   const { circles, regions } = vennLayout();
   const want: Record<string, string[]> = {

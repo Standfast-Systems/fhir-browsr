@@ -35,18 +35,6 @@
         (toggle)="store.toggleRegion($event)"
         (party)="store.selectParty($event)"
       />
-      <div class="outside">
-        <button
-          type="button"
-          class="chip c-none"
-          [class.on]="selected().has('none')"
-          [attr.aria-pressed]="selected().has('none')"
-          (click)="store.toggleRegion('none')"
-        >
-          {{ outside.label }} <b>{{ counts().none }}</b>
-          <span class="hint">sponsors, manufacturers, FDA</span>
-        </button>
-      </div>
     </div>
 
     <div class="intro">
@@ -183,12 +171,8 @@
       </app-guide-table>
     }
     <p class="registry">
-      <a
-        href="https://fhir.org/guides/registry/"
-        target="_blank"
-        rel="noopener"
-        title="Browse the official FHIR Implementation Guide registry"
-        >Can't find what you're looking for? ↗</a
+      <a href="https://fhir.org/guides/registry/" target="_blank" rel="noopener"
+        >Can't find what you're looking for? Browse every guide in the official FHIR registry ↗</a
       >
     </p>
   </section>

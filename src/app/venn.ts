@@ -10,13 +10,13 @@ const PARTY_TEXT: Record<Party, { name: string; hint: string }> = {
 };
 
 // Each region is painted in its own colour (see the --mb-r-* tokens in styles.scss): the three
-// primaries, the colours they mix to in the overlaps, and dark gray in the centre. Unselected
+// primaries, the colours they mix to in the overlaps, gray in the centre and in the Other circle. Unselected
 // regions are a dim wash of that colour; selected ones light up and get a white outline.
 @Component({
   selector: 'app-venn',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <svg viewBox="-252 -208 504 458" class="venn" role="group" aria-label="Guides by party">
+    <svg viewBox="-252 -208 568 458" class="venn" role="group" aria-label="Guides by party">
       @for (r of layout.regions; track r.key) {
         <path
           [attr.class]="'region c-' + r.key + (selected().has(r.key) ? ' on' : '')"
@@ -43,12 +43,7 @@ const PARTY_TEXT: Record<Party, { name: string; hint: string }> = {
       }
       @for (r of layout.regions; track r.key) {
         <text
-          [attr.class]="
-            'count c-' +
-            r.key +
-            (selected().has(r.key) ? ' on' : '') +
-            (counts()[r.key] ? '' : ' zero')
-          "
+          [attr.class]="'count c-' + r.key + (selected().has(r.key) ? ' on' : '')"
           [attr.x]="r.label.x"
           [attr.y]="r.label.y"
           dy="0.35em"
@@ -78,6 +73,58 @@ const PARTY_TEXT: Record<Party, { name: string; hint: string }> = {
           </text>
         </g>
       }
+      <!-- Other: guides no party builds to, in a small circle of its own. -->
+      <circle
+        [attr.class]="'region c-none' + (selected().has('none') ? ' on' : '')"
+        [attr.cx]="layout.other.x"
+        [attr.cy]="layout.other.y"
+        [attr.r]="layout.other.r"
+        tabindex="0"
+        role="button"
+        [attr.aria-pressed]="selected().has('none')"
+        [attr.aria-label]="ariaLabel('none')"
+        (click)="toggle.emit('none')"
+        (keydown.enter)="toggle.emit('none')"
+        (keydown.space)="$event.preventDefault(); toggle.emit('none')"
+      >
+        <title>{{ ariaLabel('none') }}</title>
+      </circle>
+      <circle
+        class="ring other"
+        [attr.cx]="layout.other.x"
+        [attr.cy]="layout.other.y"
+        [attr.r]="layout.other.r"
+      />
+      @if (selected().has('none')) {
+        <circle
+          class="outline"
+          [attr.cx]="layout.other.x"
+          [attr.cy]="layout.other.y"
+          [attr.r]="layout.other.r"
+        />
+      }
+      <text
+        [attr.class]="'count c-none' + (selected().has('none') ? ' on' : '')"
+        [attr.x]="layout.other.x"
+        [attr.y]="layout.other.y"
+        dy="0.35em"
+      >
+        {{ counts().none }}
+      </text>
+      <!-- The circle is the focusable control; its label is just a bigger click target. -->
+      <g class="party other" aria-hidden="true" (click)="toggle.emit('none')">
+        <text [attr.x]="layout.other.label.x" [attr.y]="layout.other.label.y" text-anchor="middle">
+          <tspan class="name">Other</tspan>
+        </text>
+        <text
+          class="hint"
+          [attr.x]="layout.other.label.x"
+          [attr.y]="layout.other.label.y + 17"
+          text-anchor="middle"
+        >
+          trial sponsors, drug makers, FDA
+        </text>
+      </g>
     </svg>
   `,
   styles: `
@@ -125,6 +172,9 @@ const PARTY_TEXT: Record<Party, { name: string; hint: string }> = {
       &.payer {
         stroke: var(--mb-payer);
       }
+      &.other {
+        stroke: var(--mb-r-none);
+      }
     }
     .outline {
       fill: none;
@@ -137,20 +187,11 @@ const PARTY_TEXT: Record<Party, { name: string; hint: string }> = {
       font-size: 26px;
       font-weight: 700;
       text-anchor: middle;
-      fill: color-mix(in srgb, var(--c) 30%, #fff);
       pointer-events: none;
-      &.zero {
-        fill: var(--mb-faint);
-        font-weight: 500;
-      }
+      // One rule everywhere: light numbers on the dim, unselected wash; dark numbers on the
+      // lit, selected fill.
+      fill: color-mix(in srgb, var(--c) 30%, #fff);
       &.on {
-        fill: #fff;
-      }
-      // Yellow, orange, green and the light-gray centre take dark numbers when selected.
-      &.on.c-py,
-      &.on.c-pr-py,
-      &.on.c-pt-py,
-      &.on.c-all {
         fill: #111;
       }
     }
@@ -172,6 +213,9 @@ const PARTY_TEXT: Record<Party, { name: string; hint: string }> = {
       }
       &.payer .name {
         fill: var(--mb-payer);
+      }
+      &.other .name {
+        fill: var(--mb-r-none);
       }
       .total {
         font-size: 14px;

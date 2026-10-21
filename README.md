@@ -40,7 +40,7 @@ To refresh the snapshot, refresh Initializr's (`npm run snapshot` there), then r
 ```bash
 npm install
 npm start          # builds the data, serves at http://localhost:4200
-npm run test:core  # scope rules, URL state, diagram geometry
+npm run test:core  # scope rules, sorting, diagram geometry
 npm run typecheck
 ```
 
