@@ -211,3 +211,68 @@ sources:
     date: "2026-09-14"
     checked: "2026-10-20"
     kind: guidance
+
+  # --- Realms -----------------------------------------------------------------------------------
+  ig-registry:
+    title: "HL7 FHIR Implementation Guide Registry (fhir-ig-list.json)"
+    publisher: HL7 International
+    url: https://github.com/FHIR/ig-registry/blob/master/fhir-ig-list.json
+    checked: "2026-10-21"
+    kind: approved-list
+
+  # --- TEFCA (The Sequoia Project, Recognized Coordinating Entity) ---------------------------------
+  rce-qtf-2-1:
+    title: "TEFCA QHIN Technical Framework (QTF) v2.1"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2025/12/QTF-2.1-Draft-12.04.25-clean1.pdf
+    date: "2025-12-04"
+    checked: "2026-10-21"
+    kind: program
+  rce-sop-ffhir-2:
+    title: "TEFCA SOP: Facilitated FHIR Implementation v2.0"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2026/02/SOP-Facilitated-FHIR-Implementation-2.0-Draft-508.pdf
+    date: "2026-03-08"
+    checked: "2026-10-21"
+    kind: program
+  rce-sop-ffhir-1:
+    title: "TEFCA SOP: Facilitated FHIR Implementation v1.0 (superseded)"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2024/07/SOP-Facilitated-FHIR-Implementation_508.pdf
+    date: "2024-07-01"
+    checked: "2026-10-21"
+    kind: program
+  rce-sop-public-health:
+    title: "TEFCA SOP: Public Health Exchange Purpose Implementation v1.1"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2025/04/XP-Implementation-SOP-Public-Health-v1.1_April-2025_508.pdf
+    date: "2025-04-25"
+    checked: "2026-10-21"
+    kind: program
+  rce-sop-ias:
+    title: "TEFCA SOP: Individual Access Services Exchange Purpose Implementation v3.0"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2026/07/SOP-IAS-XP-v3_June2026_Clean_-5081.pdf
+    date: "2026-08-03"
+    checked: "2026-10-21"
+    kind: program
+  rce-directory-ig:
+    title: "RCE Directory Service Implementation Guide 1.15.0 (sequoia.fhir.us.rce)"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/RCEIG/output/index.html
+    date: "2026-06-07"
+    checked: "2026-10-21"
+    kind: program
+  rce-fhir-roadmap:
+    title: "FHIR Roadmap for TEFCA Exchange, Version 2"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2023/12/FHIR-Roadmap-for-TEFCA-Exchange.pdf
+    date: "2023-12-01"
+    checked: "2026-10-21"
+    kind: guidance
+  national-igs:
+    title: "National FHIR base and core implementation guides"
+    publisher: HL7 affiliates and national health authorities
+    url: https://github.com/FHIR/ig-registry/blob/master/fhir-ig-list.json
+    checked: "2026-10-21"
+    kind: ig

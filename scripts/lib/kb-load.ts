@@ -7,6 +7,7 @@ import type {
   CatalogGroup,
   CatalogGuide,
   Driver,
+  RealmDef,
   IgExtra,
   KnowledgeBase,
   RoleDef,
@@ -37,6 +38,7 @@ export function loadKb(dir = KB_DIR): KnowledgeBase {
     join(dir, 'catalog.yaml'),
   );
   const testkits = yaml<{ testkits: TestKit[] }>(join(dir, 'testkits.yaml')).testkits ?? [];
+  const realms = yaml<{ realms: RealmDef[] }>(join(dir, 'realms.yaml')).realms ?? [];
   const igFile = yaml<{ igs: IgExtra[]; chat_defaults?: KnowledgeBase['chatDefaults'] }>(
     join(dir, 'igs.yaml'),
   );
@@ -53,6 +55,7 @@ export function loadKb(dir = KB_DIR): KnowledgeBase {
     roles: meta.roles,
     sources: Object.fromEntries(Object.entries(sources).map(([id, s]) => [id, { id, ...s }])),
     drivers,
+    realms,
     testkits,
     igs: Object.fromEntries(igList.map((i) => [i.ig, i])),
     chatDefaults: igFile.chat_defaults ?? [],

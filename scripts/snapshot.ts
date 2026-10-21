@@ -129,6 +129,9 @@ async function main() {
     ...kb.drivers.flatMap((d) => d.rules.map((r) => r.ig)),
     ...Object.keys(kb.igs),
   ]);
+  // National foundations, and their R4 siblings in case a base is published R5-first.
+  const realmIgs = kb.realms.flatMap((r) => r.packages.map((p) => p.ig));
+  for (const ig of realmIgs) names.add(ig).add(`${ig}.r4`);
   // Universal-realm guides that only publish R4B/R5 often ship an R4 sibling package (".r4").
   for (const g of kb.catalog) if (!g.fhir.some(isR4)) names.add(`${g.npm}.r4`);
   await pool([...names], 8, registerPackage);
@@ -147,6 +150,14 @@ async function main() {
   for (const g of kb.catalog) {
     const pick = latestR4(packages[g.npm]) ?? latestR4(packages[`${g.npm}.r4`]);
     if (pick) roots.add(pick);
+  }
+  // A realm's foundation is pinned to its newest R4 release, so read that one deeply.
+  for (const ig of realmIgs) {
+    const pick = latestR4(packages[ig]) ?? latestR4(packages[`${ig}.r4`]);
+    if (pick) {
+      deep.add(pick);
+      roots.add(pick);
+    }
   }
 
   // 3. Dependency closure, reading each package's own manifest.

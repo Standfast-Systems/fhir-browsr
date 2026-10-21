@@ -5,7 +5,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import type { ManifestIg, ManifestWarning, ResolvedCitation } from '../core/index.ts';
 import { FilesView } from './files-view';
 import { IgCard } from './ig-card';
-import { InitializrStore } from './store';
+import { DataStore } from './data-store';
+import { ProfileStore } from './profile-store';
 import { SurfaceView } from './surface-view';
 
 @Component({
@@ -16,7 +17,8 @@ import { SurfaceView } from './surface-view';
   styleUrl: './results.scss',
 })
 export class Results {
-  protected readonly store = inject(InitializrStore);
+  protected readonly store = inject(ProfileStore);
+  protected readonly data = inject(DataStore);
   protected readonly m = this.store.manifest;
   protected readonly tab = signal(0);
 
@@ -45,10 +47,20 @@ export class Results {
         igs: by((i) => ruled(i) && i.strength === 'optional'),
       },
       {
+        id: 'realm',
+        title: `Foundation for ${m.realm.id === 'intl' ? 'international projects' : m.realm.name}`,
+        hint: m.realm.fallback
+          ? m.realm.id === 'intl'
+            ? 'No country chosen, so the international defaults apply.'
+            : `${m.realm.name} has no usable published national base, so the international defaults apply.`
+          : 'The national foundation every project here starts from.',
+        igs: by((i) => !ruled(i) && i.reasons.some((r) => r.kind === 'realm')),
+      },
+      {
         id: 'selected',
         title: 'Added by you',
         hint: 'Guides you picked or already implement.',
-        igs: by((i) => !ruled(i)),
+        igs: by((i) => !ruled(i) && !i.reasons.some((r) => r.kind === 'realm')),
       },
     ].filter((g) => g.igs.length);
   });
@@ -78,7 +90,7 @@ export class Results {
 
   protected readonly sources = computed(() => {
     const m = this.m();
-    const kb = this.store.kb();
+    const kb = this.data.kb();
     if (!m || !kb) return [];
     const seen = new Map<string, ResolvedCitation>();
     const add = (c?: ResolvedCitation) => {

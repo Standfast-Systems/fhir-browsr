@@ -8,10 +8,11 @@ The knowledge base in [kb/](../kb/) is the part of Initializr nobody else has. I
 |---|---|
 | `meta.yaml` | KB version, **as-of date**, disclaimer, roles and their default actors |
 | `sources.yaml` | Every source a rule can cite: title, publisher, URL, publication date, the date a curator last **checked** it, and its kind |
-| `drivers/*.yaml` | One file per driver (regulation, program or profile) |
+| `drivers/*.yaml` | One file per driver (regulation, program or profile), each scoped to the realms where it applies |
+| `realms.yaml` | "Where is the project?": each country's national foundation IGs, plus the international defaults |
 | `testkits.yaml` | Inferno kits: which IG versions each tests, per actor, and suite ids |
 | `igs.yaml` | Short names and chat.fhir.org streams |
-| `catalog.yaml` | The 277-guide classification into layers and groups |
+| `catalog.yaml` | The 277-guide classification into layers and groups, synced from the `ig-map.yaml` that FHIR Matchbook also reads |
 
 ## A driver
 
@@ -47,6 +48,8 @@ rules:
 notes: [...]                # caveats shown with every manifest using this driver
 ```
 
+A regulation binds some of its `roles` (those with `required` rules). Give the others `optional` rules for their side of the exchange, at the versions the bound party is asked to run: CMS-0057-F binds payers, so EHR developers get PDex, Bulk Data, CRD, DTR and PAS as clients. The app tells those users the driver requires nothing of them and offers the bound role. When another driver requires a different version of the same guide, the manifest warns (`optional-outside-required`) that the other side may be on other versions.
+
 ### Version bases
 
 | Basis | Meaning | Counts as accepted? |
@@ -58,6 +61,24 @@ notes: [...]                # caveats shown with every manifest using this drive
 | `recommended` | Agency guidance, not regulation | yes, for a `recommended` rule |
 | `profile` | A non-regulatory profile's choice | yes |
 | `proposed` | In a proposed rule only | **no**: shown and warned about, never accepted |
+
+## A realm
+
+```yaml
+- id: au                    # ISO 3166-1 alpha-2, lowercase, as in the IG registry
+  name: Australia
+  packages:                 # base before core; empty means "use the intl defaults"
+    - ig: hl7.fhir.au.base
+      kind: base            # extensions, identifiers, naming systems; few mandatory constraints
+    - ig: hl7.fhir.au.core
+      kind: core            # must-support constraints, usually with CapabilityStatements
+  note: shown when the realm has no usable published base
+  cite: {source: ..., url: ...}
+```
+
+The realm with id `intl` holds the international defaults (IPA + IPS). A country whose only national guides are drafts, ballots or R5-only gets an entry with no packages and a `note` saying what exists, so the tool can explain why it fell back. Every driver lists its `realms`; a driver selected for a project elsewhere is ignored with a warning.
+
+The IG registry's "National Base" category is not a reliable signal (some countries tag every guide with it), so each country is judged by hand: what the HL7 affiliate or national health authority publishes as the foundation, at a published R4 version on packages.fhir.org.
 
 ## Rules of thumb
 

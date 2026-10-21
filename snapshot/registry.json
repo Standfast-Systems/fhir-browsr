@@ -1,6 +1,234 @@
 {
- "generated": "2026-10-20T22:23:28.683Z",
+ "generated": "2026-10-21T16:14:49.235Z",
  "packages": {
+  "ans.fr.terminologies": {
+   "name": "ans.fr.terminologies",
+   "canonical": "https://interop.esante.gouv.fr/terminologies",
+   "versions": [
+    {
+     "version": "1.14.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-09-28",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.14.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.13.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-08-27",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.13.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.12.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-07-29",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.12.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.11.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-07-07",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.11.1",
+     "prerelease": false
+    },
+    {
+     "version": "1.11.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-07-03",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.11.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.10.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-05-29",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.10.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.9.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-05-29",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.9.3",
+     "prerelease": false
+    },
+    {
+     "version": "1.9.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-05-12",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.9.2",
+     "prerelease": false
+    },
+    {
+     "version": "1.9.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-05-06",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.9.1",
+     "prerelease": false
+    },
+    {
+     "version": "1.9.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-05-05",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.9.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.8.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-03-27",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.8.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.7.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-02-24",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.7.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.6.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-02-03",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.6.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.5.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-12-19",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.5.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.4.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-11-03",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.4.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.3.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-10-02",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.3.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-07-30",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.2.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-07-02",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-06-08",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/1.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "0.1.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-04-02",
+     "status": "release",
+     "sequence": "release",
+     "path": "https://interop.esante.gouv.fr/terminologies/0.1.0-ballot",
+     "prerelease": true
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
   "argonaut.us.clinicalnotes": {
    "name": "argonaut.us.clinicalnotes",
    "title": "Argonaut Clinical Notes Implementation Guide",
@@ -41,6 +269,434 @@
    "packageList": false,
    "inRegistry": false
   },
+  "bd.fhir.core": {
+   "name": "bd.fhir.core",
+   "title": "Bangladesh FHIR Implementation Guide - Core Profiles",
+   "description": "National base profiles, CodeSystems, and ValueSets for Bangladesh, developed and maintained by the Directorate General of Health Services (DGHS), Ministry of Health and Family Welfare.",
+   "canonical": "https://fhir.dghs.gov.bd/core",
+   "history": "https://fhir.dghs.gov.bd/core/history.html",
+   "ciBuild": "https://fhir.dghs.gov.bd/core",
+   "versions": [
+    {
+     "version": "0.5.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-10-15",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.5.0/",
+     "prerelease": false
+    },
+    {
+     "version": "0.4.8",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-10-12",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.4.8/",
+     "prerelease": false
+    },
+    {
+     "version": "0.4.7",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-10-12",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.4.7/",
+     "prerelease": false
+    },
+    {
+     "version": "0.4.6",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-04-27",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.4.6/",
+     "prerelease": false
+    },
+    {
+     "version": "0.4.5",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-04-10",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.4.5/",
+     "prerelease": false
+    },
+    {
+     "version": "0.4.4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-04-06",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.4.4/",
+     "prerelease": false
+    },
+    {
+     "version": "0.4.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-04-06",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.4.3/",
+     "prerelease": false
+    },
+    {
+     "version": "0.4.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-04-06",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.4.2/",
+     "prerelease": false
+    },
+    {
+     "version": "0.4.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-04-06",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.4.1/",
+     "prerelease": false
+    },
+    {
+     "version": "0.4.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-04-06",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.4.0/",
+     "prerelease": false
+    },
+    {
+     "version": "0.3.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-03-08",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.3.0/",
+     "prerelease": false
+    },
+    {
+     "version": "0.2.5",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-10-06",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.2.5/",
+     "prerelease": false
+    },
+    {
+     "version": "0.2.4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-10-06",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.2.4/",
+     "prerelease": false
+    },
+    {
+     "version": "0.2.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-10-06",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.2.3/",
+     "prerelease": false
+    },
+    {
+     "version": "0.2.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-10-06",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.2.2/",
+     "prerelease": false
+    },
+    {
+     "version": "0.2.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-10-06",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.2.1/",
+     "prerelease": false
+    },
+    {
+     "version": "0.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-10-02",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://fhir.dghs.gov.bd/core/0.2.0/",
+     "prerelease": false
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "ch.fhir.ig.ch-core": {
+   "name": "ch.fhir.ig.ch-core",
+   "title": "Swiss Core Implementation Guide",
+   "description": "Base swiss national implementation guide",
+   "canonical": "http://fhir.ch/ig/ch-core",
+   "history": "http://fhir.ch/ig/ch-core/history.html",
+   "ciBuild": "http://build.fhir.org/ig/hl7ch/ch-core",
+   "versions": [
+    {
+     "version": "7.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-06-10",
+     "status": "ballot",
+     "sequence": "STU 7",
+     "path": "http://fhir.ch/ig/ch-core/7.0.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "6.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-12-16",
+     "status": "trial-use",
+     "sequence": "STU 6",
+     "path": "http://fhir.ch/ig/ch-core/6.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "6.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-05-22",
+     "status": "ballot",
+     "sequence": "STU 6",
+     "path": "http://fhir.ch/ig/ch-core/6.0.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "5.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-12-17",
+     "status": "trial-use",
+     "sequence": "STU 5",
+     "path": "http://fhir.ch/ig/ch-core/5.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "5.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-05-16",
+     "status": "ballot",
+     "sequence": "STU 5",
+     "path": "http://fhir.ch/ig/ch-core/5.0.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "4.0.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-12-28",
+     "status": "trial-use",
+     "sequence": "STU 4",
+     "path": "http://fhir.ch/ig/ch-core/4.0.1",
+     "prerelease": false
+    },
+    {
+     "version": "4.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "4.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-06-27",
+     "status": "ballot",
+     "sequence": "STU 4",
+     "path": "http://fhir.ch/ig/ch-core/4.0.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "3.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2022-12-21",
+     "status": "trial-use",
+     "sequence": "STU 3",
+     "path": "http://fhir.ch/ig/ch-core/3.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2022-07-06",
+     "status": "trial-use",
+     "sequence": "STU 3",
+     "path": "http://fhir.ch/ig/ch-core/2.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2021-04-24",
+     "status": "trial-use",
+     "sequence": "STU 2",
+     "path": "http://fhir.ch/ig/ch-core/2.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2021-02-12",
+     "status": "trial-use",
+     "sequence": "STU 2",
+     "path": "http://fhir.ch/ig/ch-core/1.2.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2020-04-21",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "http://fhir.ch/ig/ch-core/1.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "0.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2020-02-14",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "http://fhir.ch/ig/ch-core/0.1.0",
+     "prerelease": false
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "ch.fhir.ig.ch-term": {
+   "name": "ch.fhir.ig.ch-term",
+   "title": "CH Term (R4)",
+   "description": "FHIR implementation guide containing terminology that is used in Switzerland for the core profiles, various exchange formats and also in the context of the Swiss electronic patient record (EPR).",
+   "canonical": "http://fhir.ch/ig/ch-term",
+   "history": "http://fhir.ch/ig/ch-term/history.html",
+   "ciBuild": "http://build.fhir.org/ig/hl7ch/ch-term",
+   "versions": [
+    {
+     "version": "3.4.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-06-10",
+     "status": "trial-use",
+     "sequence": "STU",
+     "path": "http://fhir.ch/ig/ch-term/3.4.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.3.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-12-15",
+     "status": "trial-use",
+     "sequence": "STU",
+     "path": "http://fhir.ch/ig/ch-term/3.3.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-05-21",
+     "status": "trial-use",
+     "sequence": "STU",
+     "path": "http://fhir.ch/ig/ch-term/3.2.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-12-17",
+     "status": "trial-use",
+     "sequence": "STU",
+     "path": "http://fhir.ch/ig/ch-term/3.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-05-16",
+     "status": "trial-use",
+     "sequence": "STU",
+     "path": "http://fhir.ch/ig/ch-term/3.0.0",
+     "prerelease": false
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
   "cori.fhir.ig.wrig": {
    "name": "cori.fhir.ig.wrig",
    "title": "US HR1 Medicaid Work Requirements IG (proposed, not supported by CMS)",
@@ -59,6 +715,587 @@
    ],
    "packageList": false,
    "inRegistry": false
+  },
+  "de.basisprofil.r4": {
+   "name": "de.basisprofil.r4",
+   "versions": [
+    {
+     "version": "1.6.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.6.0-ballot2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.6.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.5.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.5.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.5.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.5.1-beta2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.1-beta1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.5.0-rc2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-rc1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-ballot3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-ballot2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-alpha9",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-alpha8",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-alpha7",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-alpha6",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-alpha5",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-alpha4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-alpha3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-alpha2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-alpha10",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.5.0-alpha1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.4.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.4.0-alpha3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.4.0-alpha2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.4.0-alpha1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.3.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.3.2-alpha7",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.3.2-alpha6",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.3.2-alpha5",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.3.2-alpha4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.3.2-alpha3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.3.2-alpha2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.3.2-alpha1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.3.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.3.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.3.0-alpha2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.3.0-alpha1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.2.0-alpha4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.2.0-alpha3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.2.0-alpha2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.2.0-alpha1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0-rc5",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-rc4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-rc3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-rc2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-rc1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-alpha9",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-alpha8",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-alpha7",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-alpha6",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-alpha5",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-alpha4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-alpha3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-alpha2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-alpha10",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-alpha1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.9.13",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.13-alpha",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.9.12",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.12-alpha1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.9.11",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.10",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.9",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.8",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.7",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.6",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.5",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.4-alpha2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.9.4-alpha1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.9.3-alpha2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.9.3-alpha-1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.9.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.1-alpha2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.9.1-alpha1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.9.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    }
+   ],
+   "packageList": false,
+   "inRegistry": true
   },
   "fhir.argonaut.clinicalnotes": {
    "name": "fhir.argonaut.clinicalnotes",
@@ -498,6 +1735,173 @@
    "packageList": true,
    "inRegistry": true
   },
+  "fhir.org.nz.ig.base": {
+   "name": "fhir.org.nz.ig.base",
+   "title": "NZ Base",
+   "description": "Base New Zealand national implementation guide",
+   "canonical": "http://fhir.org.nz/ig/base",
+   "history": "https://fhir.org.nz/ig/base/package-list.json",
+   "ciBuild": "http://build.fhir.org/ig/HL7NZ/nzbase",
+   "versions": [
+    {
+     "version": "3.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-07-24",
+     "status": "release",
+     "sequence": "Releases",
+     "path": "http://fhir.org.nz/ig/base/3.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.0.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-08-14",
+     "status": "release",
+     "sequence": "Releases",
+     "path": "http://fhir.org.nz/ig/base/3.0.1",
+     "prerelease": false
+    },
+    {
+     "version": "3.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "fhir.r4.ukcore.stu2": {
+   "name": "fhir.r4.ukcore.stu2",
+   "versions": [
+    {
+     "version": "2.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.1-pre-release",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0-snapshot-test-4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0-snapshot-test-3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0-snapshot-test-2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0-snapshot-test-1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0-snapshot-test",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0-pre-release",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.1.2-ballot-2-pre-release",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.1-ballot-2-pre-release",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.0-ballot-2-pre-release",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    }
+   ],
+   "packageList": false,
+   "inRegistry": true
+  },
   "flc.fhir.base": {
    "name": "flc.fhir.base",
    "title": "FLC Implementation Guide",
@@ -608,6 +2012,25 @@
    ],
    "packageList": false,
    "inRegistry": false
+  },
+  "hl7.at.fhir.core.r4": {
+   "name": "hl7.at.fhir.core.r4",
+   "title": "HL7® Austria FHIR® Core Implementation Guide",
+   "description": "A FHIR® Implementation Guide for the HL7® Austria FHIR® Core Profiles.",
+   "canonical": "http://hl7.at/fhir/HL7ATCoreProfiles/4.0.1",
+   "history": "http://hl7.at/fhir/HL7ATCoreProfiles/4.0.1/history.html",
+   "ciBuild": "http://build.fhir.org/ig/HL7Austria/HL7-AT-FHIR-Core-R4",
+   "versions": [
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    }
+   ],
+   "packageList": false,
+   "inRegistry": true
   },
   "hl7.cda.us.ccda": {
    "name": "hl7.cda.us.ccda",
@@ -897,6 +2320,1966 @@
     }
    ],
    "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.au.base": {
+   "name": "hl7.fhir.au.base",
+   "title": "AU Base",
+   "description": "AU Base implementation guide provides support for the use of FHIR®© in an Australian context.",
+   "canonical": "http://hl7.org.au/fhir",
+   "history": "http://hl7.org.au/fhir/history.html",
+   "ciBuild": "http://build.fhir.org/ig/hl7au/au-fhir-base",
+   "versions": [
+    {
+     "version": "7.0.0-ballot1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-07-27",
+     "status": "ballot",
+     "sequence": "R7",
+     "path": "http://hl7.org.au/fhir/7.0.0-ballot1",
+     "prerelease": true
+    },
+    {
+     "version": "6.1.1-draft",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-07-03",
+     "status": "draft",
+     "sequence": "R7",
+     "path": "http://hl7.org.au/fhir/6.1.1-draft",
+     "prerelease": true
+    },
+    {
+     "version": "6.1.0-draft1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "6.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-01-15",
+     "status": "trial-use",
+     "sequence": "R6",
+     "path": "http://hl7.org.au/fhir/6.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "6.0.0-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-11-26",
+     "status": "preview",
+     "sequence": "R6",
+     "path": "http://hl7.org.au/fhir/6.0.0-preview",
+     "prerelease": true
+    },
+    {
+     "version": "6.0.0-draft",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-06-15",
+     "status": "draft",
+     "sequence": "R6",
+     "path": "http://hl7.org.au/fhir/6.0.0-draft",
+     "prerelease": true
+    },
+    {
+     "version": "6.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-07-30",
+     "status": "ballot",
+     "sequence": "R6",
+     "path": "http://hl7.org.au/fhir/6.0.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "5.1.0-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-03-05",
+     "status": "preview",
+     "sequence": "R6",
+     "path": "http://hl7.org.au/fhir/5.1.0-preview",
+     "prerelease": true
+    },
+    {
+     "version": "5.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-01-16",
+     "status": "trial-use",
+     "sequence": "R5",
+     "path": "http://hl7.org.au/fhir/5.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "4.2.2-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-12-01",
+     "status": "preview",
+     "sequence": "R5",
+     "path": "http://hl7.org.au/fhir/4.2.2-preview",
+     "prerelease": true
+    },
+    {
+     "version": "4.2.2-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-08-04",
+     "status": "ballot",
+     "sequence": "R5",
+     "path": "http://hl7.org.au/fhir/4.2.2-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "4.2.1-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-06-20",
+     "status": "preview",
+     "sequence": "R5",
+     "path": "http://hl7.org.au/fhir/4.2.1-preview",
+     "prerelease": true
+    },
+    {
+     "version": "4.2.0-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-03-09",
+     "status": "preview",
+     "sequence": "R5",
+     "path": "http://hl7.org.au/fhir/4.2.0-preview",
+     "prerelease": true
+    },
+    {
+     "version": "4.1.2-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-11-15",
+     "status": "preview",
+     "sequence": "R5",
+     "path": "http://hl7.org.au/fhir/4.1.2-preview",
+     "prerelease": true
+    },
+    {
+     "version": "4.1.1-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-08-22",
+     "status": "preview",
+     "sequence": "R5",
+     "path": "http://hl7.org.au/fhir/4.1.1-preview",
+     "prerelease": true
+    },
+    {
+     "version": "4.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-02-22",
+     "status": "trial-use",
+     "sequence": "R4",
+     "path": "http://hl7.org.au/fhir/4.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "4.1.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2022-11-10",
+     "status": "ballot",
+     "sequence": "R4",
+     "path": "http://hl7.org.au/fhir/4.1.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "4.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2022-05-30",
+     "status": "trial-use",
+     "sequence": "R3",
+     "path": "http://hl7.org.au/fhir/4.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.2.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2021-08-19",
+     "status": "ballot",
+     "sequence": "R3",
+     "path": "http://hl7.org.au/fhir/2021Aug",
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2019-07-31",
+     "status": "preview",
+     "sequence": "R3",
+     "path": "http://hl7.org.au/fhir/2019Aug",
+     "prerelease": true
+    },
+    {
+     "version": "1.1.1",
+     "fhir": [
+      "3.0.2"
+     ],
+     "date": "2020-01-21",
+     "status": "preview",
+     "sequence": "R2",
+     "path": "http://hl7.org.au/fhir/aubase1.1",
+     "prerelease": true
+    },
+    {
+     "version": "1.0.2",
+     "fhir": [
+      "3.0.1"
+     ],
+     "date": "2019-05-06",
+     "status": "trial-use",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/aubase1",
+     "prerelease": false
+    },
+    {
+     "version": "1.0.1",
+     "fhir": [
+      "3.0.2"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "3.0.1"
+     ],
+     "date": "2018-10-15",
+     "status": "ballot",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/2018Oct",
+     "prerelease": true
+    },
+    {
+     "version": "0.9.3",
+     "fhir": [
+      "3.0.1"
+     ],
+     "date": "2018-09-12",
+     "status": "draft",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/2018Sep",
+     "prerelease": true
+    },
+    {
+     "version": "0.5.0",
+     "fhir": [
+      "3.0.1"
+     ],
+     "date": "2018-03-07",
+     "status": "draft",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/2018Mar",
+     "prerelease": true
+    },
+    {
+     "version": "0.4.0",
+     "fhir": [
+      "3.0.1"
+     ],
+     "date": "2017-11-23",
+     "status": "draft",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/2017Dec",
+     "prerelease": true
+    },
+    {
+     "version": "0.3.0",
+     "fhir": [
+      "3.0.1"
+     ],
+     "date": "2017-09-20",
+     "status": "draft",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/2017Sep",
+     "prerelease": true
+    },
+    {
+     "version": "0.2.0",
+     "fhir": [
+      "3.0.1"
+     ],
+     "date": "2017-07-25",
+     "status": "draft",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/2017Jul",
+     "prerelease": true
+    },
+    {
+     "version": "0.1.0",
+     "fhir": [
+      "3.0.1"
+     ],
+     "date": "2017-05-04",
+     "status": "draft",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/2017Apr",
+     "prerelease": true
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.au.core": {
+   "name": "hl7.fhir.au.core",
+   "title": "AU Core",
+   "description": "AU Core implementation guide provides support for the use of FHIR®© in an Australian context, and sets the minimum expectations on FHIR resources to support conformance and implementation in systems.",
+   "canonical": "http://hl7.org.au/fhir/core",
+   "history": "http://hl7.org.au/fhir/core/history.html",
+   "ciBuild": "http://build.fhir.org/ig/hl7au/au-fhir-core",
+   "versions": [
+    {
+     "version": "3.0.0-ballot1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-07-29",
+     "status": "ballot",
+     "sequence": "R3",
+     "path": "http://hl7.org.au/fhir/core/3.0.0-ballot1",
+     "prerelease": true
+    },
+    {
+     "version": "2.1.0-draft",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-07-04",
+     "status": "draft",
+     "sequence": "R3",
+     "path": "http://hl7.org.au/fhir/core/2.1.0-draft",
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-01-28",
+     "status": "trial-use",
+     "sequence": "R2",
+     "path": "http://hl7.org.au/fhir/core/2.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-11-27",
+     "status": "preview",
+     "sequence": "R2",
+     "path": "http://hl7.org.au/fhir/core/2.0.0-preview",
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0-draft",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-06-16",
+     "status": "draft",
+     "sequence": "R2",
+     "path": "http://hl7.org.au/fhir/core/2.0.0-draft",
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-07-31",
+     "status": "ballot",
+     "sequence": "R2",
+     "path": "http://hl7.org.au/fhir/core/2.0.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "1.1.0-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-03-06",
+     "status": "preview",
+     "sequence": "R2",
+     "path": "http://hl7.org.au/fhir/core/1.1.0-preview",
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-01-29",
+     "status": "trial-use",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/core/1.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-12-02",
+     "status": "preview",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/core/1.0.0-preview",
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-08-05",
+     "status": "ballot",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/core/1.0.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "0.4.1-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-07-18",
+     "status": "preview",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/core/0.4.1-preview",
+     "prerelease": true
+    },
+    {
+     "version": "0.3.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-03-10",
+     "status": "ballot",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/core/0.3.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "0.2.2-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-11-15",
+     "status": "preview",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/core/0.2.2-preview",
+     "prerelease": true
+    },
+    {
+     "version": "0.2.1-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-08-22",
+     "status": "draft",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/core/0.2.1-preview",
+     "prerelease": true
+    },
+    {
+     "version": "0.2.0-preview",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-06-19",
+     "status": "draft",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/core/0.2.0-preview",
+     "prerelease": true
+    },
+    {
+     "version": "0.1.0-draft",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-03-01",
+     "status": "draft",
+     "sequence": "R1",
+     "path": "http://hl7.org.au/fhir/core/0.1.0-draft",
+     "prerelease": true
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.be.core": {
+   "name": "hl7.fhir.be.core",
+   "title": "HL7 Belgium FHIR Implementation Guide - Core profiles",
+   "description": "HL7 Belgium FHIR Implementation Guide - Core profiles",
+   "canonical": "https://www.ehealth.fgov.be/standards/fhir/core",
+   "history": "https://www.ehealth.fgov.be/standards/fhir/core/history.html",
+   "ciBuild": "http://build.fhir.org/ig/hl7-be/core",
+   "versions": [
+    {
+     "version": "2.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.1.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.1.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    }
+   ],
+   "packageList": false,
+   "inRegistry": true
+  },
+  "hl7.fhir.ca.baseline": {
+   "name": "hl7.fhir.ca.baseline",
+   "title": "Canadian Baseline",
+   "description": "Base Canadian national implementation guide",
+   "canonical": "http://hl7.org/fhir/ca/baseline",
+   "history": "https://simplifier.net/canadianfhirbaselineprofilesca-core",
+   "ciBuild": "https://build.fhir.org/ig/HL7-Canada/ca-baseline",
+   "versions": [
+    {
+     "version": "1.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.2.0-pre",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.8",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.1.7",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.1.6",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.1.6-pre",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.5-pre",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.1.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.1.3-pre",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.1.2-pre",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.1.0-pre",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.0.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0-pre6",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-pre5",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-pre4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-pre3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-pre2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    }
+   ],
+   "packageList": false,
+   "inRegistry": true
+  },
+  "hl7.fhir.cl.clcore": {
+   "name": "hl7.fhir.cl.clcore",
+   "canonical": "https://hl7chile.cl/fhir/ig/clcore",
+   "versions": [
+    {
+     "version": "1.9.4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-10-02",
+     "status": "draft",
+     "sequence": "STU4",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.9.4",
+     "prerelease": true
+    },
+    {
+     "version": "1.9.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-06-02",
+     "status": "draft",
+     "sequence": "STU3",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.9.3",
+     "prerelease": true
+    },
+    {
+     "version": "1.9.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-12-11",
+     "status": "draft",
+     "sequence": "STU2",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.9.2",
+     "prerelease": true
+    },
+    {
+     "version": "1.9.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-09-26",
+     "status": "draft",
+     "sequence": "STU2",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.9.1",
+     "prerelease": true
+    },
+    {
+     "version": "1.8.10",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-03-19",
+     "status": "draft",
+     "sequence": "STU2",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.8.10",
+     "prerelease": true
+    },
+    {
+     "version": "1.8.9",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-03-19",
+     "status": "draft",
+     "sequence": "STU2",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.8.6",
+     "prerelease": true
+    },
+    {
+     "version": "1.8.6",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-03-04",
+     "status": "draft",
+     "sequence": "STU2",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.8.6",
+     "prerelease": true
+    },
+    {
+     "version": "1.8.5",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-11-02",
+     "status": "draft",
+     "sequence": "STU2",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.8.5",
+     "prerelease": true
+    },
+    {
+     "version": "1.8.4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-09-01",
+     "status": "draft",
+     "sequence": "STU2",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.8.4",
+     "prerelease": true
+    },
+    {
+     "version": "1.8.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.8.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-09-01",
+     "status": "draft",
+     "sequence": "STU2",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.8.2",
+     "prerelease": true
+    },
+    {
+     "version": "1.8.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-06-27",
+     "status": "draft",
+     "sequence": "STU2",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.8.1",
+     "prerelease": true
+    },
+    {
+     "version": "1.8.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-06-23",
+     "status": "draft",
+     "sequence": "STU2",
+     "path": "https://hl7chile.cl/fhir/ig/clcore/1.8.0",
+     "prerelease": true
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.cl.minsal.eis": {
+   "name": "hl7.fhir.cl.minsal.eis",
+   "title": "Guía de Estandares de Informacionde Salud",
+   "description": "Esta Guía de Estandares de Informacionde Salud desarrolla el Decreto Excento 231 del DEIS que reemplaza la norma técnica 820, y tiene como finalidad determinar compatibilidad de esta con el estándar FHI",
+   "canonical": "https://interoperabilidad.minsal.cl/fhir/ig/eis",
+   "history": "https://interoperabilidad.minsal.cl/fhir/ig/eis/history.html",
+   "ciBuild": "https://build.fhir.org/ig/Minsal-CL/eis",
+   "versions": [
+    {
+     "version": "0.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-08-05",
+     "status": "trial-use",
+     "sequence": "STU1",
+     "path": "https://interoperabilidad.minsal.cl/fhir/ig/eis/0.2.0",
+     "prerelease": false
+    },
+    {
+     "version": "0.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-11-29",
+     "status": "draft",
+     "sequence": "STU1",
+     "path": "https://interoperabilidad.minsal.cl/fhir/ig/eis/0.1.0",
+     "prerelease": true
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.cz.core": {
+   "name": "hl7.fhir.cz.core",
+   "title": "Czech National FHIR R4 Core and Base Implementation Guide STU 1",
+   "description": "This implementation guide specifies Base and core profiles used by Czech Republic national interoperability project.",
+   "canonical": "https://hl7.cz/fhir/core",
+   "history": "https://hl7.cz/fhir/core/history.html",
+   "ciBuild": "http://build.fhir.org/ig/HL7-cz/cz-core",
+   "versions": [
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-07-29",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://hl7.cz/fhir/core/1.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "0.3.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-03-06",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://hl7.cz/fhir/core/0.3.0",
+     "prerelease": false
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.cz.terminology": {
+   "name": "hl7.fhir.cz.terminology",
+   "title": "HL7 Czech FHIR Terminology",
+   "description": "HL7 and NCEZ FHIR Terminology for the Czech Republic.",
+   "canonical": "https://hl7.cz/terminology",
+   "history": "https://hl7.cz/terminology/history.html",
+   "ciBuild": "http://build.fhir.org/ig/HL7-cz/terminology",
+   "versions": [
+    {
+     "version": "0.3.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-07-27",
+     "status": "release",
+     "sequence": "Release 1",
+     "path": "https://hl7.cz/terminology/0.3.0",
+     "prerelease": false
+    },
+    {
+     "version": "0.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-02-02",
+     "status": "release",
+     "sequence": "Release 1",
+     "path": "https://hl7.cz/terminology/0.2.0",
+     "prerelease": false
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.dk.core": {
+   "name": "hl7.fhir.dk.core",
+   "title": "Danish Core Implementation Guide",
+   "description": "Base danish national implementation guide",
+   "canonical": "http://hl7.dk/fhir/core",
+   "history": "http://hl7.dk/fhir/core/history.html",
+   "ciBuild": "http://build.fhir.org/ig/hl7dk/dk-core",
+   "versions": [
+    {
+     "version": "3.7.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-05-30",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/3.7.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.6.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-03-11",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/3.6.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.5.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-12-19",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/3.5.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.4.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-02-01",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/3.4.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.3.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-12-11",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/3.3.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-05-06",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/3.2.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-01-08",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/3.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-12-01",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/3.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-05-05",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/2.2.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2022-11-08",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/2.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2022-09-14",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/2.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2021-12-18",
+     "status": "release",
+     "sequence": "Release",
+     "path": "http://hl7.dk/fhir/core/1.1.0",
+     "prerelease": false
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.eu.base": {
+   "name": "hl7.fhir.eu.base",
+   "title": "HL7 Europe Base and Core (R4)",
+   "description": "This guide lists the base and core profiles - FHIR R4 - specified for the European REALM.",
+   "canonical": "http://hl7.eu/fhir/base",
+   "history": "http://hl7.eu/fhir/base/history.html",
+   "ciBuild": "http://build.fhir.org/ig/hl7-eu/base",
+   "versions": [
+    {
+     "version": "2.0.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-09-13",
+     "status": "trial-use",
+     "sequence": "STU 2",
+     "path": "http://hl7.eu/fhir/base/2.0.1",
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-04-27",
+     "status": "trial-use",
+     "sequence": "STU 2",
+     "path": "http://hl7.eu/fhir/base/2.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": " 2025-12-19",
+     "status": "ballot",
+     "sequence": "STU 2",
+     "path": "http://hl7.eu/fhir/base/2.0.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "0.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-10-26",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "http://hl7.eu/fhir/base/0.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "0.1.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-05-05",
+     "status": "ballot",
+     "sequence": "STU 1",
+     "path": "http://hl7.eu/fhir/base/0.1.0-ballot",
+     "prerelease": true
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.eu.extensions.r4": {
+   "name": "hl7.fhir.eu.extensions.r4",
+   "canonical": "http://hl7.eu/fhir/extensions",
+   "versions": [
+    {
+     "version": "1.3.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-09-12",
+     "status": "trial-use",
+     "sequence": "Release",
+     "path": "http://hl7.eu/fhir/extensions/1.3.1",
+     "prerelease": false
+    },
+    {
+     "version": "1.3.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-03-27",
+     "status": "trial-use",
+     "sequence": "Release",
+     "path": "http://hl7.eu/fhir/extensions/1.3.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-12-19",
+     "status": "trial-use",
+     "sequence": "Release",
+     "path": "http://hl7.eu/fhir/extensions/1.2.0",
+     "prerelease": false
+    },
+    {
+     "version": "0.1.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-10-26",
+     "status": "trial-use",
+     "sequence": "Release",
+     "path": "http://hl7.eu/fhir/extensions/0.1.1",
+     "prerelease": false
+    },
+    {
+     "version": "0.1.1-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-04-30",
+     "status": "ballot",
+     "sequence": "Release",
+     "path": "http://hl7.eu/fhir/extensions/0.1.1-ballot",
+     "prerelease": true
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.eu.laboratory": {
+   "name": "hl7.fhir.eu.laboratory",
+   "title": "HL7 Europe Laboratory Report",
+   "description": "This guide defines a set of common rules to be applied to HL7 FHIR to represent a Laboratory Report in the European Context, coherently with the European eHN Guidelines",
+   "canonical": "http://hl7.eu/fhir/laboratory",
+   "history": "http://hl7.eu/fhir/laboratory/history.html",
+   "ciBuild": "http://build.fhir.org/ig/hl7-eu/laboratory",
+   "versions": [
+    {
+     "version": "2.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-10-16",
+     "status": "trial-use",
+     "sequence": "STU 2",
+     "path": "http://hl7.eu/fhir/laboratory/2.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-05-05",
+     "status": "trial-use",
+     "sequence": "STU 2",
+     "path": "http://hl7.eu/fhir/laboratory/2.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "0.1.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-03-25",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "http://hl7.eu/fhir/laboratory/0.1.1",
+     "prerelease": false
+    },
+    {
+     "version": "0.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-02-26",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "http://hl7.eu/fhir/laboratory/0.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "0.1.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-10-22",
+     "status": "ballot",
+     "sequence": "STU 1",
+     "path": "http://hl7.eu/fhir/laboratory/0.1.0-ballot",
+     "prerelease": true
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.eu.mpd": {
+   "name": "hl7.fhir.eu.mpd",
+   "title": "HL7 Europe Medication Prescription and Dispense",
+   "description": "This guide describes how to represent in HL7 FHIR Prescription and Dispense in the European context. (FHIR R4)",
+   "canonical": "http://hl7.eu/fhir/mpd",
+   "history": "http://hl7.eu/fhir/mpd/history.html",
+   "ciBuild": "http://build.fhir.org/ig/hl7-eu/mpd",
+   "versions": [
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-05-11",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "http://hl7.eu/fhir/mpd/1.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "0.1.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-06-04",
+     "status": "ballot",
+     "sequence": "STU 1",
+     "path": "http://hl7.eu/fhir/mpd/0.1.0-ballot",
+     "prerelease": true
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.fi.base": {
+   "name": "hl7.fhir.fi.base",
+   "title": "Finnish Base Profiles",
+   "description": "A core set of FHIR resources profiled for use in Finland, published and maintained by HL7 Finland",
+   "canonical": "https://hl7.fi/fhir/finnish-base-profiles",
+   "history": "https://hl7.fi/fhir/finnish-base-profiles/history.html",
+   "ciBuild": "https://fhir.fi/finnish-base-profiles",
+   "versions": [
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-10-05",
+     "status": "trial-use",
+     "sequence": "STU 2",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/2.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0-rc2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-05-11",
+     "status": "ballot",
+     "sequence": "STU 2",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/2.0.0-rc2",
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0-rc1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-02-06",
+     "status": "ballot",
+     "sequence": "STU 2",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/2.0.0-rc1",
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-11-10",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/1.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0-rc24",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-11-07",
+     "status": "qa-preview",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/1.0.0-rc24",
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-rc23",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-11-06",
+     "status": "qa-preview",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/1.0-rc23",
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-rc22",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-10-25",
+     "status": "qa-preview",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/1.0-rc22",
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-rc21",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-10-23",
+     "status": "qa-preview",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/1.0-rc21",
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-rc20",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-09-04",
+     "status": "qa-preview",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/1.0-rc20",
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-rc19",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-08-17",
+     "status": "qa-preview",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/1.0-rc19",
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-rc18",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-07-13",
+     "status": "qa-preview",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/1.0-rc18",
+     "prerelease": true
+    },
+    {
+     "version": "1.0.0-rc17",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-07-05",
+     "status": "draft",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-base-profiles/1.0.0-rc17",
+     "prerelease": true
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.fi.scheduling": {
+   "name": "hl7.fhir.fi.scheduling",
+   "title": "Finnish Scheduling",
+   "description": "Finnish HL7 FHIR implementation guide for scheduling, published and maintained by HL7 Finland",
+   "canonical": "https://hl7.fi/fhir/finnish-scheduling",
+   "history": "https://hl7.fi/fhir/finnish-scheduling/history.html",
+   "ciBuild": "https://fhir.fi/finnish-scheduling",
+   "versions": [
+    {
+     "version": "2.0.0-rc3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-08-27",
+     "status": "ballot",
+     "sequence": "STU 2",
+     "path": "https://hl7.fi/fhir/finnish-scheduling/2.0.0-rc3",
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0-rc2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-05-09",
+     "status": "ballot",
+     "sequence": "STU 2",
+     "path": "https://hl7.fi/fhir/finnish-scheduling/2.0.0-rc2",
+     "prerelease": true
+    },
+    {
+     "version": "2.0.0-rc1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-02-09",
+     "status": "ballot",
+     "sequence": "STU 2",
+     "path": "https://hl7.fi/fhir/finnish-scheduling/2.0.0-rc1",
+     "prerelease": true
+    },
+    {
+     "version": "0.3.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-10-22",
+     "status": "draft",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-scheduling/0.3.1",
+     "prerelease": true
+    },
+    {
+     "version": "0.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-08-12",
+     "status": "draft",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-scheduling/0.2.0",
+     "prerelease": true
+    },
+    {
+     "version": "0.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-10-05",
+     "status": "draft",
+     "sequence": "STU 1",
+     "path": "https://hl7.fi/fhir/finnish-scheduling/0.1.0",
+     "prerelease": true
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.fr.core": {
+   "name": "hl7.fhir.fr.core",
+   "canonical": "https://hl7.fr/ig/fhir/core",
+   "versions": [
+    {
+     "version": "2.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-03-25",
+     "status": "trial-use",
+     "sequence": "final-text",
+     "path": "https://hl7.fr/ig/fhir/core/2.2.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.2.0-ballot-2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-01-29",
+     "status": "ballot",
+     "sequence": "final-text",
+     "path": "https://hl7.fr/ig/fhir/core/2.2.0-ballot-2",
+     "prerelease": true
+    },
+    {
+     "version": "2.2.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2025-11-17",
+     "status": "ballot",
+     "sequence": "final-text",
+     "path": "https://hl7.fr/ig/fhir/core/2.2.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "2.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-09-04",
+     "status": "release",
+     "sequence": "trial-use",
+     "path": "https://hl7.fr/ig/fhir/core/2.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.1.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-07-17",
+     "status": "ballot",
+     "sequence": "trial-use",
+     "path": "https://hl7.fr/ig/fhir/core/2.1.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "2.0.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-04-16",
+     "status": "release",
+     "sequence": "trial-use",
+     "path": "https://hl7.fr/ig/fhir/core/2.0.1",
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-03-25",
+     "status": "release",
+     "sequence": "trial-use",
+     "path": "https://hl7.fr/ig/fhir/core/2.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-02-20",
+     "status": "release",
+     "sequence": "trial-use",
+     "path": "https://hl7.fr/ig/fhir/core/2.0.0-ballot",
+     "prerelease": true
+    },
+    {
+     "version": "1.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2022-11-21",
+     "status": "release",
+     "sequence": "trial-use",
+     "path": "https://simplifier.net/packages/hl7.fhir.fr.core/1.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2022-10-26",
+     "status": "release",
+     "sequence": "trial-use",
+     "path": "https://simplifier.net/packages/hl7.fhir.fr.core/1.0.0",
+     "prerelease": false
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.kr.core": {
+   "name": "hl7.fhir.kr.core",
+   "title": "KR Core Implementation Guide",
+   "description": "Base Korean national implementation guide",
+   "canonical": "http://www.hl7korea.or.kr/fhir/krcore",
+   "history": "http://www.hl7korea.or.kr/fhir/krcore/history.html",
+   "ciBuild": "https://build.fhir.org/ig/hl7korea/krcore",
+   "versions": [
+    {
+     "version": "1.0.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-12-04",
+     "status": "release",
+     "sequence": "STU 1",
+     "path": "http://www.hl7korea.or.kr/fhir/krcore/STU1.0.2",
+     "prerelease": false
+    },
+    {
+     "version": "1.0.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "​2023-06-30",
+     "status": "release",
+     "sequence": "STU 1",
+     "path": "http://www.hl7korea.or.kr/fhir/krcore/STU1.0.1",
+     "prerelease": false
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.no.basis": {
+   "name": "hl7.fhir.no.basis",
+   "title": "HL7 Norway no-basis",
+   "description": "HL7 FHIR Base profiles for Norway",
+   "canonical": "http://hl7.no/fhir",
+   "versions": [
+    {
+     "version": "2.2.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.2.0-alpha",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.1.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.1.2-delta",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.1.2-ceta",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.1.2-beta",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.1.2-alpha",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.1.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.17-alpha",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.0.16-beta",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.0.16-alpha",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "2.0.15",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.14",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.13",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.12",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.11",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.10",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.9",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.8",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.7",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.6",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.5",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    }
+   ],
+   "packageList": false,
    "inRegistry": true
   },
   "hl7.fhir.r4.core": {
@@ -1978,6 +5361,69 @@
       "4.0.1"
      ],
      "prerelease": false
+    }
+   ],
+   "packageList": false,
+   "inRegistry": true
+  },
+  "hl7.fhir.us.core.r4": {
+   "name": "hl7.fhir.us.core.r4",
+   "versions": [
+    {
+     "version": "8.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "8.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "7.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "7.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "6.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "6.1.0-snapshot1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "6.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "6.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
     }
    ],
    "packageList": false,
@@ -8554,6 +12000,27 @@
    "packageList": true,
    "inRegistry": true
   },
+  "hl7.fhir.uv.ipa.r4": {
+   "name": "hl7.fhir.uv.ipa.r4",
+   "versions": [
+    {
+     "version": "1.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    }
+   ],
+   "packageList": false,
+   "inRegistry": true
+  },
   "hl7.fhir.uv.ips": {
    "name": "hl7.fhir.uv.ips",
    "title": "International Patient Summary",
@@ -8652,6 +12119,34 @@
     }
    ],
    "packageList": true,
+   "inRegistry": true
+  },
+  "hl7.fhir.uv.ips.r4": {
+   "name": "hl7.fhir.uv.ips.r4",
+   "versions": [
+    {
+     "version": "2.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "2.0.0-ballot",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    }
+   ],
+   "packageList": false,
    "inRegistry": true
   },
   "hl7.fhir.uv.lab-report": {
@@ -11621,6 +15116,32 @@
    "packageList": false,
    "inRegistry": false
   },
+  "hl7se.fhir.base": {
+   "name": "hl7se.fhir.base",
+   "title": "HL7 Sweden base profiles",
+   "description": "Implementation Guide for Swedish Base Profiles",
+   "canonical": "http://hl7.se/fhir/ig/base",
+   "history": "http://hl7.se/fhir/ig/base/history.html",
+   "ciBuild": "http://build.fhir.org/ig/HL7Sweden/basprofiler-r4",
+   "versions": [
+    {
+     "version": "1.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    }
+   ],
+   "packageList": false,
+   "inRegistry": true
+  },
   "ihe.formatcode.fhir": {
    "name": "ihe.formatcode.fhir",
    "title": "IHE FormatCode vocabulary",
@@ -13075,12 +16596,17 @@
   },
   "ihe.pharm.mpd.r4": {
    "name": "ihe.pharm.mpd.r4",
+   "canonical": "https://profiles.ihe.net/PHARM/MPD",
    "versions": [
     {
      "version": "1.0.0-comment-2",
      "fhir": [
       "4.0.1"
      ],
+     "date": "2025-05-27",
+     "status": "trial-use",
+     "sequence": "Publication",
+     "path": "https://profiles.ihe.net/PHARM/MPD/1.0.0-comment-2",
      "prerelease": true
     },
     {
@@ -13088,10 +16614,14 @@
      "fhir": [
       "4.0.1"
      ],
+     "date": "2025-05-09",
+     "status": "trial-use",
+     "sequence": "Publication",
+     "path": "https://profiles.ihe.net/PHARM/MPD/1.0.0-comment",
      "prerelease": true
     }
    ],
-   "packageList": false,
+   "packageList": true,
    "inRegistry": true
   },
   "ihe.pharm.ubp": {
@@ -13369,6 +16899,541 @@
    ],
    "packageList": false,
    "inRegistry": false
+  },
+  "il.core.fhir.r4": {
+   "name": "il.core.fhir.r4",
+   "versions": [
+    {
+     "version": "0.22.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.21.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.20.4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.20.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.20.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.20.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.20.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.19.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.19.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.18.4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.18.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.18.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.18.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.18.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.17.5",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.17.4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.17.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.17.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.17.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.17.1-params",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.17.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.16.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.16.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.16.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.15.4",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.15.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.15.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.15.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.15.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.14.3",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.14.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.14.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.14.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.13.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.13.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.13.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.12.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.12.0-snapshots",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.11.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.11.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.10.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.10.1-snapshots",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "0.10.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.9.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.8.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.8.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.7.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.6.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.5.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.4.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.3.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.1.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    }
+   ],
+   "packageList": false,
+   "inRegistry": true
+  },
+  "jp-core.r4": {
+   "name": "jp-core.r4",
+   "canonical": "http://jpfhir.jp/fhir/core",
+   "versions": [
+    {
+     "version": "1.1.1-rc",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.1-draft1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    },
+    {
+     "version": "1.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "1.1.0-rc1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": true
+    }
+   ],
+   "packageList": false,
+   "inRegistry": true
+  },
+  "ndhm.in": {
+   "name": "ndhm.in",
+   "title": "FHIR Implementation Guide for ABDM",
+   "description": "FHIR Implementation Guide for Ayushman Bharat Digital Mission",
+   "canonical": "https://nrces.in/ndhm/fhir/r4",
+   "history": "https://nrces.in/ndhm/fhir/r4/history.html",
+   "ciBuild": "https://nrces.in/ndhm/fhir/r4",
+   "versions": [
+    {
+     "version": "6.5.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "6.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2024-01-24",
+     "status": "release",
+     "sequence": "Releases",
+     "path": "https://nrces.in/ndhm/fhir/r4/6.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "5.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-12-22",
+     "status": "release",
+     "sequence": "Releases",
+     "path": "https://nrces.in/ndhm/fhir/r4/5.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "4.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-11-06",
+     "status": "release",
+     "sequence": "Releases",
+     "path": "https://nrces.in/ndhm/fhir/r4/4.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-08-10",
+     "status": "release",
+     "sequence": "Releases",
+     "path": "https://nrces.in/ndhm/fhir/r4/3.1.0",
+     "prerelease": false
+    },
+    {
+     "version": "3.0.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-07-05",
+     "status": "release",
+     "sequence": "Releases",
+     "path": "https://nrces.in/ndhm/fhir/r4/3.0.1",
+     "prerelease": false
+    },
+    {
+     "version": "3.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-04-20",
+     "status": "release",
+     "sequence": "Releases",
+     "path": "https://nrces.in/ndhm/fhir/r4/3.0.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.5.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2023-03-15",
+     "status": "release",
+     "sequence": "Releases",
+     "path": "https://nrces.in/ndhm/fhir/r4/2.5.0",
+     "prerelease": false
+    },
+    {
+     "version": "2.0.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2021-09-03",
+     "status": "release",
+     "sequence": "Releases",
+     "path": "https://nrces.in/ndhm/fhir/r4/2.0.1",
+     "prerelease": false
+    }
+   ],
+   "packageList": true,
+   "inRegistry": true
   },
   "openehr.base": {
    "name": "openehr.base",
@@ -14158,6 +18223,81 @@
    "packageList": true,
    "inRegistry": true
   },
+  "tw.gov.mohw.twcore": {
+   "name": "tw.gov.mohw.twcore",
+   "title": "TW Core",
+   "description": "Taiwan Core Implementation Guide",
+   "canonical": "https://twcore.mohw.gov.tw/ig/twcore",
+   "history": "https://twcore.mohw.gov.tw/ig/twcore/history.html",
+   "ciBuild": "https://build.fhir.org/ig/TU9IVy1UV0NvcmVJRw/VFcgQ29yZSBJRyBJVFJJ",
+   "versions": [
+    {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.3.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.3.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.3.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.2.2",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.2.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.2.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.1.1",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    },
+    {
+     "version": "0.1.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "prerelease": false
+    }
+   ],
+   "packageList": false,
+   "inRegistry": true
+  },
   "us.cdc.phinvads": {
    "name": "us.cdc.phinvads",
    "canonical": "http://fhir.org/packages/us.cdc.phinvads",
@@ -14496,6 +18636,163 @@
   }
  },
  "manifests": {
+  "ans.fr.terminologies@1.7.0": {
+   "name": "ans.fr.terminologies",
+   "version": "1.7.0",
+   "canonical": "https://interop.esante.gouv.fr/terminologies",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.ips",
+     "name": "hl7.fhir.uv.ips",
+     "version": "1.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    }
+   ]
+  },
+  "bd.fhir.core@0.5.0": {
+   "name": "bd.fhir.core",
+   "version": "0.5.0",
+   "canonical": "https://fhir.dghs.gov.bd/core",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.4.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.3.0",
+     "alias": false
+    },
+    {
+     "key": "fhir.cqf.common",
+     "name": "fhir.cqf.common",
+     "version": "4.0.1",
+     "alias": false
+    }
+   ]
+  },
+  "ch.fhir.ig.ch-core@6.0.0": {
+   "name": "ch.fhir.ig.ch-core",
+   "version": "6.0.0",
+   "canonical": "http://fhir.ch/ig/ch-core",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "ch.fhir.ig.ch-term",
+     "name": "ch.fhir.ig.ch-term",
+     "version": "3.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.3.0-ballot-tc1",
+     "alias": false
+    }
+   ]
+  },
+  "ch.fhir.ig.ch-term@3.3.0": {
+   "name": "ch.fhir.ig.ch-term",
+   "version": "3.3.0",
+   "canonical": "http://fhir.ch/ig/ch-term",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    },
+    {
+     "key": "ihe.formatcode.fhir",
+     "name": "ihe.formatcode.fhir",
+     "version": "1.4.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.0.1",
+     "alias": false
+    }
+   ]
+  },
+  "de.basisprofil.r4@1.6.0": {
+   "name": "de.basisprofil.r4",
+   "version": "1.6.0",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    }
+   ]
+  },
   "fhir.astp.bhp@0.1.0": {
    "name": "fhir.astp.bhp",
    "version": "0.1.0",
@@ -14812,6 +19109,49 @@
     }
    ]
   },
+  "fhir.org.nz.ig.base@3.1.0": {
+   "name": "fhir.org.nz.ig.base",
+   "version": "3.1.0",
+   "canonical": "http://fhir.org.nz/ig/base",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.2.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.3.0",
+     "alias": false
+    }
+   ]
+  },
+  "fhir.r4.ukcore.stu2@2.1.0": {
+   "name": "fhir.r4.ukcore.stu2",
+   "version": "2.1.0",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    }
+   ]
+  },
   "gov.cdc.nhsn.dqm@1.0.0": {
    "name": "gov.cdc.nhsn.dqm",
    "version": "1.0.0",
@@ -14942,6 +19282,715 @@
      "key": "hl7.fhir.uv.xver-r5.r4",
      "name": "hl7.fhir.uv.xver-r5.r4",
      "version": "0.1.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.at.fhir.core.r4@2.0.0": {
+   "name": "hl7.at.fhir.core.r4",
+   "version": "2.0.0",
+   "canonical": "http://hl7.at/fhir/HL7ATCoreProfiles/4.0.1",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "6.2.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.1.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.au.base@6.0.0": {
+   "name": "hl7.fhir.au.base",
+   "version": "6.0.0",
+   "canonical": "http://hl7.org.au/fhir",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.au.core@2.0.0": {
+   "name": "hl7.fhir.au.core",
+   "version": "2.0.0",
+   "canonical": "http://hl7.org.au/fhir/core",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.au.base",
+     "name": "hl7.fhir.au.base",
+     "version": "6.0.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.smart-app-launch",
+     "name": "hl7.fhir.uv.smart-app-launch",
+     "version": "2.2.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.ipa",
+     "name": "hl7.fhir.uv.ipa",
+     "version": "1.1.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.be.core@2.2.0": {
+   "name": "hl7.fhir.be.core",
+   "version": "2.2.0",
+   "canonical": "https://www.ehealth.fgov.be/standards/fhir/core",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.3.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.ca.baseline@1.2.0": {
+   "name": "hl7.fhir.ca.baseline",
+   "version": "1.2.0",
+   "canonical": "http://hl7.org/fhir/ca/baseline/ImplementationGuide/hl7.fhir.ca.baseline",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.cl.clcore@1.9.4": {
+   "name": "hl7.fhir.cl.clcore",
+   "version": "1.9.4",
+   "canonical": "https://hl7chile.cl/fhir/ig/clcore",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "6.5.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.cl.minsal.eis",
+     "name": "hl7.fhir.cl.minsal.eis",
+     "version": "0.1.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.cl.minsal.eis@0.1.0": {
+   "name": "hl7.fhir.cl.minsal.eis",
+   "version": "0.1.0",
+   "canonical": "https://interoperabilidad.minsal.cl/fhir/ig/eis",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "6.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.1.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.cz.core@1.0.0": {
+   "name": "hl7.fhir.cz.core",
+   "version": "1.0.0",
+   "canonical": "https://hl7.cz/fhir/core",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.eu.base",
+     "name": "hl7.fhir.eu.base",
+     "version": "2.0.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.eu.extensions.r4",
+     "name": "hl7.fhir.eu.extensions.r4",
+     "version": "1.3.0",
+     "alias": false
+    },
+    {
+     "key": "ihe.pharm.mpd.r4",
+     "name": "ihe.pharm.mpd.r4",
+     "version": "1.0.0-comment-2",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.cz.terminology",
+     "name": "hl7.fhir.cz.terminology",
+     "version": "0.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.eu.mpd",
+     "name": "hl7.fhir.eu.mpd",
+     "version": "1.0.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.xver-r5.r4",
+     "name": "hl7.fhir.uv.xver-r5.r4",
+     "version": "0.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.eu.laboratory",
+     "name": "hl7.fhir.eu.laboratory",
+     "version": "2.0.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.cz.terminology@0.3.0": {
+   "name": "hl7.fhir.cz.terminology",
+   "version": "0.3.0",
+   "canonical": "https://hl7.cz/terminology",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.3.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.dk.core@3.7.0": {
+   "name": "hl7.fhir.dk.core",
+   "version": "3.7.0",
+   "canonical": "http://hl7.dk/fhir/core",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.xver-r5.r4",
+     "name": "hl7.fhir.uv.xver-r5.r4",
+     "version": "0.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.phd",
+     "name": "hl7.fhir.uv.phd",
+     "version": "2.0.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.ipa",
+     "name": "hl7.fhir.uv.ipa",
+     "version": "1.1.0",
+     "alias": false
+    },
+    {
+     "key": "ihe.iti.mhd",
+     "name": "ihe.iti.mhd",
+     "version": "4.2.3",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.eu.base@2.0.0": {
+   "name": "hl7.fhir.eu.base",
+   "version": "2.0.0",
+   "canonical": "http://hl7.eu/fhir/base",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.xver-r5.r4",
+     "name": "hl7.fhir.uv.xver-r5.r4",
+     "version": "0.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.eu.extensions.r4",
+     "name": "hl7.fhir.eu.extensions.r4",
+     "version": "1.3.0",
+     "alias": false
+    },
+    {
+     "key": "ihe.pharm.mpd.r4",
+     "name": "ihe.pharm.mpd.r4",
+     "version": "1.0.0-comment-2",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.eu.extensions.r4@1.3.0": {
+   "name": "hl7.fhir.eu.extensions.r4",
+   "version": "1.3.0",
+   "canonical": "http://hl7.eu/fhir/extensions",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.eu.laboratory@2.0.0": {
+   "name": "hl7.fhir.eu.laboratory",
+   "version": "2.0.0",
+   "canonical": "http://hl7.eu/fhir/laboratory",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.xver-r5.r4",
+     "name": "hl7.fhir.uv.xver-r5.r4",
+     "version": "0.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.eu.extensions.r4",
+     "name": "hl7.fhir.eu.extensions.r4",
+     "version": "1.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.eu.base",
+     "name": "hl7.fhir.eu.base",
+     "version": "2.0.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.eu.mpd@1.0.0": {
+   "name": "hl7.fhir.eu.mpd",
+   "version": "1.0.0",
+   "canonical": "http://hl7.eu/fhir/mpd",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.eu.base",
+     "name": "hl7.fhir.eu.base",
+     "version": "2.0.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.xver-r5.r4",
+     "name": "hl7.fhir.uv.xver-r5.r4",
+     "version": "0.1.0",
+     "alias": false
+    },
+    {
+     "key": "ihe.pharm.mpd.r4",
+     "name": "ihe.pharm.mpd.r4",
+     "version": "1.0.0-comment-2",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.fi.base@1.0.0": {
+   "name": "hl7.fhir.fi.base",
+   "version": "1.0.0",
+   "canonical": "https://hl7.fi/fhir/finnish-base-profiles",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "5.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "1.0.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.ipa",
+     "name": "hl7.fhir.uv.ipa",
+     "version": "1.0.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.fi.base@2.0.0": {
+   "name": "hl7.fhir.fi.base",
+   "version": "2.0.0",
+   "canonical": "https://hl7.fi/fhir/finnish-base-profiles",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "6.5.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.3.0-ballot-tc1",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.fi.scheduling",
+     "name": "hl7.fhir.fi.scheduling",
+     "version": "0.3.1",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.fi.scheduling@0.3.1": {
+   "name": "hl7.fhir.fi.scheduling",
+   "version": "0.3.1",
+   "canonical": "https://hl7.fi/fhir/finnish-scheduling",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "6.0.2",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.fi.base",
+     "name": "hl7.fhir.fi.base",
+     "version": "1.0.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.fr.core@2.2.0": {
+   "name": "hl7.fhir.fr.core",
+   "version": "2.2.0",
+   "canonical": "https://hl7.fr/ig/fhir/core",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    },
+    {
+     "key": "ans.fr.terminologies",
+     "name": "ans.fr.terminologies",
+     "version": "1.7.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.kr.core@1.0.2": {
+   "name": "hl7.fhir.kr.core",
+   "version": "1.0.2",
+   "canonical": "http://www.hl7korea.or.kr/fhir/krcore",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "5.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "1.0.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.no.basis@2.2.2": {
+   "name": "hl7.fhir.no.basis",
+   "version": "2.2.2",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
      "alias": false
     }
    ]
@@ -18243,6 +23292,70 @@
     }
    ]
   },
+  "hl7.fhir.us.ecr@2.1.1": {
+   "name": "hl7.fhir.us.ecr",
+   "version": "2.1.1",
+   "canonical": "http://hl7.org/fhir/us/ecr",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "5.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "1.0.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.us.core",
+     "name": "hl7.fhir.us.core",
+     "version": "4.0.0",
+     "alias": false
+    },
+    {
+     "key": "us.nlm.vsac",
+     "name": "us.nlm.vsac",
+     "version": "0.17.0",
+     "alias": false
+    },
+    {
+     "key": "us.cdc.phinvads",
+     "name": "us.cdc.phinvads",
+     "version": "0.12.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.us.vr-common-library",
+     "name": "hl7.fhir.us.vr-common-library",
+     "version": "1.0.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.us.odh",
+     "name": "hl7.fhir.us.odh",
+     "version": "1.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.bulkdata",
+     "name": "hl7.fhir.uv.bulkdata",
+     "version": "1.1.0",
+     "alias": false
+    }
+   ]
+  },
   "hl7.fhir.us.ecr@2.1.2": {
    "name": "hl7.fhir.us.ecr",
    "version": "2.1.2",
@@ -20747,6 +25860,40 @@
      "key": "hl7.terminology.r4",
      "name": "hl7.terminology.r4",
      "version": "4.0.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.us.core",
+     "name": "hl7.fhir.us.core",
+     "version": "3.1.1",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.us.udap-security@1.1.0": {
+   "name": "hl7.fhir.us.udap-security",
+   "version": "1.1.0",
+   "canonical": "http://hl7.org/fhir/us/udap-security",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "6.0.2",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.1.0",
      "alias": false
     },
     {
@@ -23369,6 +28516,34 @@
     }
    ]
   },
+  "hl7se.fhir.base@1.1.0": {
+   "name": "hl7se.fhir.base",
+   "version": "1.1.0",
+   "canonical": "http://hl7.se/fhir/ig/base",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "6.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    }
+   ]
+  },
   "ihe.formatcode.fhir@1.1.0": {
    "name": "ihe.formatcode.fhir",
    "version": "1.1.0",
@@ -24637,6 +29812,34 @@
     }
    ]
   },
+  "ihe.pharm.mpd.r4@1.0.0-comment-2": {
+   "name": "ihe.pharm.mpd.r4",
+   "version": "1.0.0-comment-2",
+   "canonical": "https://profiles.ihe.net/PHARM/MPD",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "6.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    }
+   ]
+  },
   "ihe.qrph.ccg@1.0.0": {
    "name": "ihe.qrph.ccg",
    "version": "1.0.0",
@@ -24793,6 +29996,71 @@
      "key": "ihe.formatcode.fhir",
      "name": "ihe.formatcode.fhir",
      "version": "1.5.0",
+     "alias": false
+    }
+   ]
+  },
+  "il.core.fhir.r4@0.22.0": {
+   "name": "il.core.fhir.r4",
+   "version": "0.22.0",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.3.0-ballot-tc1",
+     "alias": false
+    }
+   ]
+  },
+  "jp-core.r4@1.1.0": {
+   "name": "jp-core.r4",
+   "version": "1.1.0",
+   "canonical": "http://jpfhir.jp/fhir/core",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    }
+   ]
+  },
+  "ndhm.in@6.5.0": {
+   "name": "ndhm.in",
+   "version": "6.5.0",
+   "canonical": "https://nrces.in/ndhm/fhir/r4",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "6.0.2",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.1.0",
      "alias": false
     }
    ]
@@ -25597,6 +30865,46 @@
     }
    ]
   },
+  "tw.gov.mohw.twcore@1.0.0": {
+   "name": "tw.gov.mohw.twcore",
+   "version": "1.0.0",
+   "canonical": "https://twcore.mohw.gov.tw/ig/twcore",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.0.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.2.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.ips",
+     "name": "hl7.fhir.uv.ips",
+     "version": "1.1.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.sdc",
+     "name": "hl7.fhir.uv.sdc",
+     "version": "3.0.0",
+     "alias": false
+    }
+   ]
+  },
   "us.cdc.phinvads@0.10.0": {
    "name": "us.cdc.phinvads",
    "version": "0.10.0",
@@ -25650,6 +30958,22 @@
   "us.nlm.vsac@0.15.0": {
    "name": "us.nlm.vsac",
    "version": "0.15.0",
+   "canonical": "http://fhir.org/packages/us.nlm.vsac",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    }
+   ]
+  },
+  "us.nlm.vsac@0.17.0": {
+   "name": "us.nlm.vsac",
+   "version": "0.17.0",
    "canonical": "http://fhir.org/packages/us.nlm.vsac",
    "fhirVersions": [
     "4.0.1"

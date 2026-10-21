@@ -23,6 +23,7 @@ summary: >-
   payers and prior authorization, most from January 1, 2027. The rule requires the base standards in
   45 CFR 170.215 and recommends Da Vinci and CARIN implementation guides.
 roles: [payer, app-developer, provider-org, ehr-developer]
+realms: [us]
 fhir: ["4.0.1"]
 cite:
   source: fr-cms-0057-f
@@ -551,6 +552,95 @@ rules:
         basis: recommended
         from: "2026-04-14"
         cite: {source: cms-recommended-igs, pin: "Provider Access"}
+
+  # Provider side of the Prior Authorization API. Versions are the ones CMS recommends to payers,
+  # because that is what the API you call will run; ONC certifies the EHR side to newer versions
+  # (driver onc-epa), and CMS-0062-P would move payers to those.
+
+  - id: cms-provider-crd-client
+    ig: hl7.fhir.us.davinci-crd
+    actor: client
+    strength: optional
+    roles: [provider-org, ehr-developer]
+    components: [prior-auth]
+    capstmts:
+      - http://hl7.org/fhir/us/davinci-crd/CapabilityStatement/crd-client6.1
+      - http://hl7.org/fhir/us/davinci-crd/CapabilityStatement/crd-client
+    note: >-
+      Payers' Prior Authorization APIs are recommended to follow CRD, which the EHR calls as a CDS Hooks
+      client while ordering. To certify the EHR side, add the ONC (g)(31)–(33) driver.
+    cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+    versions:
+      - version: "2.0.1"
+        basis: recommended
+        from: "2024-02-08"
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.2.1"
+        basis: proposed
+        from: "2027-10-01"
+        note: CMS-0062-P would require payers to use the 170.215(j)(1) version, now CRD 2.2.1.
+        cite: {source: fr-cms-0062-p}
+
+  - id: cms-provider-dtr-client
+    ig: hl7.fhir.us.davinci-dtr
+    actor: client
+    strength: optional
+    roles: [provider-org, ehr-developer]
+    components: [prior-auth]
+    capstmts:
+      - http://hl7.org/fhir/us/davinci-dtr/CapabilityStatement/full-dtr-ehr-700
+      - http://hl7.org/fhir/us/davinci-dtr/CapabilityStatement/full-dtr-ehr
+    note: >-
+      Payers' Prior Authorization APIs are recommended to serve DTR questionnaires, which the EHR
+      completes from the chart. To certify the EHR side, add the ONC (g)(31)–(33) driver.
+    cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+    versions:
+      - version: "2.0.1"
+        basis: recommended
+        from: "2024-02-08"
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.2.0"
+        basis: proposed
+        from: "2027-10-01"
+        note: CMS-0062-P would require payers to use the 170.215(j)(2) version, now DTR 2.2.0.
+        cite: {source: fr-cms-0062-p}
+
+  - id: cms-provider-pas-client
+    ig: hl7.fhir.us.davinci-pas
+    actor: client
+    strength: optional
+    roles: [provider-org, ehr-developer]
+    components: [prior-auth]
+    capstmts:
+      - http://hl7.org/fhir/us/davinci-pas/CapabilityStatement/EHRCapabilities
+    note: >-
+      Payers' Prior Authorization APIs are recommended to accept PAS submissions from the EHR. This rule
+      also added the Promoting Interoperability "Electronic Prior Authorization" measure for hospitals,
+      CAHs and MIPS clinicians who request prior authorization through these APIs. To certify the EHR
+      side, add the ONC (g)(31)–(33) driver.
+    cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+    versions:
+      - version: "2.0.1"
+        basis: recommended
+        from: "2024-02-08"
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.1.0"
+        basis: recommended
+        from: "2026-04-14"
+        cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
+      - version: "2.2.1"
+        basis: proposed
+        from: "2027-10-01"
+        note: CMS-0062-P would require payers to use the 170.215(j)(3) version, now PAS 2.2.1.
+        cite: {source: fr-cms-0062-p}
 
 notes:
   - >-

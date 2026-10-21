@@ -1,4 +1,4 @@
-# FHIR Initializr - IG classification, draft v0.1 (2026-10-20)
+# FHIR Initializr - IG classification (synced from the shared ig-map.yaml, which FHIR Matchbook also reads).
 # Source: FHIR/ig-registry fhir-ig-list.json, US + universal realm (277 guides).
 # Other countries: auto-add the national base for the chosen country; not classified yet.
 
@@ -46,150 +46,175 @@ groups:
   x-not-fhir: {layer: hidden, label: "Not FHIR (CDA, EHR-S functional models)"}
   x-tooling: {layer: hidden, label: "Authoring/tooling, not for implementers"}
   x-unofficial: {layer: hidden, label: "Vendor or unsupported proposals"}
+  x-withdrawn: {layer: hidden, label: "Withdrawn before publication"}
 
 guides:
   - npm: hl7.fhir.us.core
     name: "US Core"
     realm: us
     group: foundation
+    parties: [Patient, Provider, Payer]
     registry_category: "National Base"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.ipa
     name: "International Patient Access"
     realm: uv
     group: foundation
+    parties: [Patient, Provider]
     registry_category: "EHR Access"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.ips
     name: "International Patient Summary"
     realm: uv
     group: foundation
+    parties: [Patient, Provider]
     registry_category: "Patient Summary"
     fhir: [4.0.1]
   - npm: fhir.cqf.common
     name: "Clinical Quality Framework Common FHIR Assets"
     realm: us
     group: library
+    parties: [Provider]
     registry_category: "Quality / CDS"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.cql
     name: "Common CQL Assets for FHIR (US-Based)"
     realm: us
     group: library
+    parties: [Provider]
     registry_category: "Quality/CDS"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-hrex
     name: "Da Vinci Health Record Exchange"
     realm: us
     group: library
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.ph-library
     name: "US Public Health Profiles Library"
     realm: us
     group: library
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.vr-common-library
     name: "Vital Records Common Profile Library"
     realm: us
     group: library
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.crmi
     name: "Canonical Resource Management Infrastructure Implementation Guide"
     realm: uv
     group: library
+    parties: [Provider]
     registry_category: "Infrastructure"
     fhir: [4.0.1]
   - npm: hl7.cql
     name: "Clinical Quality Language Specification"
     realm: uv
     group: library
+    parties: [Provider]
     registry_category: "Infrastructure"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.extensions
     name: "FHIR Core Extensions Registry"
     realm: uv
     group: library
+    parties: [Patient, Provider, Payer]
     registry_category: "Extensions"
     fhir: [5.0.0]
   - npm: hl7.fhirpath
     name: "FHIRPath Specification"
     realm: uv
     group: library
+    parties: [Patient, Provider, Payer]
     registry_category: "Infrastructure"
     fhir: [4.0.1]
   - npm: hl7.xprod.uv.gender-harmony
     name: "HL7 Cross Paradigm IG: Gender Harmony - Sex and Gender Representation"
     realm: uv
     group: library
+    parties: [Patient, Provider, Payer]
     registry_category: "Administration"
     fhir: [5.0.0]
   - npm: hl7.terminology
     name: "HL7 Terminology"
     realm: uv
     group: library
+    parties: [Patient, Provider, Payer]
     registry_category: "Terminology"
     fhir: [5.0.0]
   - npm: hl7.fhir.uv.tools
     name: "HL7 Tools Extension IG"
     realm: uv
     group: library
+    parties: [Patient, Provider, Payer]
     registry_category: "Infrastructure"
     fhir: [5.0.0]
   - npm: ihe.formatcode.fhir
     name: "IHE FormatCode vocabulary"
     realm: uv
     group: library
+    parties: [Provider]
     registry_category: "EHR Access"
     fhir: [4.0.1]
   - npm: smart.who.int.base
     name: "SMART Base"
     realm: uv
     group: library
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.base-clinical
     name: "SMART Base Clinical"
     realm: uv
     group: library
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: hl7.xprod.uv.termfundamentals
     name: "Terminology Fundamentals"
     realm: uv
     group: library
+    parties: [Patient, Provider, Payer]
     registry_category: "Terminology"
     fhir: [5.0.0]
   - npm: hl7.fhir.uv.cql
     name: "Using CQL with FHIR Implementation Guide"
     realm: uv
     group: library
+    parties: [Provider]
     registry_category: "Infrastructure"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.carin-bb
     name: "CARIN Blue Button Implementation Guide"
     realm: us
     group: wf-patient-access
+    parties: [Patient, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.insurance-card
     name: "CARIN Digital Insurance Card"
     realm: us
     group: wf-patient-access
+    parties: [Patient, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.carin-rtpbc
     name: "CARIN Real-time Pharmacy Benefit Check"
     realm: us
     group: wf-patient-access
+    parties: [Patient, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-drug-formulary
     name: "US Drug Formulary"
     realm: us
     group: wf-patient-access
+    parties: [Patient, Payer]
     registry_category: "Medications / Immunizations"
     fhir: [4.0.1]
     verify: "registry also lists hl7.fhir.us.Davinci-drug-formulary (case duplicate)"
@@ -197,240 +222,280 @@ guides:
     name: "Application Data Exchange Assessment Framework and Functional Requirements for Mobile Health"
     realm: uv
     group: wf-patient-access
+    parties: [Patient, Provider]
     registry_category: "Personal Healthcare"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.patient-corrections
     name: "Patient Request for Corrections Implementation Guide"
     realm: uv
     group: wf-patient-access
+    parties: [Patient, Provider]
     registry_category: "Personal Healthcare"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.phr
     name: "Standard Personal Health Record"
     realm: uv
     group: wf-patient-access
+    parties: [Patient, Provider]
     registry_category: "Personal Healthcare"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-crd
     name: "Coverage Requirements Determination (Da Vinci)"
     realm: us
     group: wf-prior-auth
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-pas
     name: "Da Vinci Prior Authorization Support (PAS) FHIR IG"
     realm: us
     group: wf-prior-auth
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-dtr
     name: "Documentation Templates and Rules"
     realm: us
     group: wf-prior-auth
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-cdex
     name: "Da Vinci CDex"
     realm: us
     group: wf-payer-exchange
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-pcde
     name: "Da Vinci Payer Coverage Decision Exchange (PCDE) FHIR IG"
     realm: us
     group: wf-payer-exchange
+    parties: [Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-pdex
     name: "Da Vinci PDex"
     realm: us
     group: wf-payer-exchange
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-pct
     name: "Da Vinci Patient Cost Transparency Implementation Guide"
     realm: us
     group: wf-payments-value
+    parties: [Patient, Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-ra
     name: "Da Vinci Risk Adjustment FHIR Implementation Guide"
     realm: us
     group: wf-payments-value
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-vbpr
     name: "Da Vinci Value-Based Performance Reporting Implementation Guide"
     realm: us
     group: wf-payments-value
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-pr
     name: "DaVinci Postable Remittance FHIR Implementation Guide"
     realm: us
     group: wf-payments-value
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-atr
     name: "Risk Based Contracts Member Attribution List FHIR IG"
     realm: us
     group: wf-payments-value
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: ihe.iti.fais
     name: "IHE ITI Finance and Insurance Services"
     realm: uv
     group: wf-payments-value
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-alerts
     name: "Da Vinci Unsolicited Notifications (Alerts)"
     realm: us
     group: wf-care-coord
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.eltss
     name: "electronic Long-Term Services and Supports Implementation Guide"
     realm: us
     group: wf-care-coord
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.0, 4.0.1]
   - npm: hl7.fhir.us.mcc
     name: "MCC eCare Plan Implementation Guide"
     realm: us
     group: wf-care-coord
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.pacio-adi
     name: "PACIO Advance Directive Information Implementation Guide"
     realm: us
     group: wf-care-coord
+    parties: [Provider]
     registry_category: "Clinical Documents"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.pacio-toc
     name: "PACIO Transitions of Care Implementation Guide"
     realm: us
     group: wf-care-coord
+    parties: [Provider]
     registry_category: "Clinical Documents"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.phcp
     name: "Pharmacist Care Plan FHIR IG"
     realm: us
     group: wf-care-coord
+    parties: [Provider]
     registry_category: "Medications / Immunizations"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.sdoh-clinicalcare
     name: "SDOH Clinical Care for Multiple Domains"
     realm: us
     group: wf-care-coord
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.pcs
     name: "US Patient Care Summary (US-PCS) Implementation Guide"
     realm: us
     group: wf-care-coord
+    parties: [Provider]
     registry_category: "Patient Summary"
     fhir: [4.0.1]
   - npm: ihe.pcc.dcp
     name: "IHE Dynamic Care Planning (DCP)"
     realm: uv
     group: wf-care-coord
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: ihe.pcc.dctm
     name: "IHE Dynamic Care Team Management (DCTM)"
     realm: uv
     group: wf-care-coord
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: ihe.pcc.pcs
     name: "IHE Paramedicine Care Summary (PCS)"
     realm: uv
     group: wf-care-coord
+    parties: [Provider]
     registry_category: "Communications"
     fhir: [3.0.1]
   - npm: ihe.pcc.recon
     name: "IHE Reconciliation of Clinical Content and Care Providers (RECON)"
     realm: uv
     group: wf-care-coord
+    parties: [Provider]
     registry_category: "Administration"
     fhir: [3.0.1]
   - npm: hl7.fhir.us.bser
     name: "Bidirectional Services eReferrals (BSeR) FHIR IG"
     realm: us
     group: wf-orders
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.dental-data-exchange
     name: "Dental Data Exchange"
     realm: us
     group: wf-orders
+    parties: [Provider]
     registry_category: "Clinical Observations"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.dme-orders
     name: "Post Acute Orders FHIR IG"
     realm: us
     group: wf-orders
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.specialty-rx
     name: "Specialty Medication Enrollment"
     realm: us
     group: wf-orders
+    parties: [Provider]
     registry_category: "EHR Access"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.medication-rems
     name: "US Medication REMS"
     realm: us
     group: wf-orders
+    parties: [Provider]
     registry_category: "Medications / Immunizations"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.cow
     name: "Clinical Order Workflows"
     realm: uv
     group: wf-orders
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: ihe.pcc.ript
     name: "IHE Routine Interfacility Patient Transport (RIPT)"
     realm: uv
     group: wf-orders
+    parties: [Provider]
     registry_category: "Communications"
     fhir: [3.0.1]
   - npm: hl7.fhir.uv.order-catalog
     name: "Order Catalog Implementation Guide"
     realm: uv
     group: wf-orders
+    parties: [Provider]
     registry_category: "Administration"
     fhir: [5.0.0]
   - npm: hl7.fhir.us.ph-bulk-data
     name: "Bulk Retrieval of Public Health Data"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Public Health"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.ecr
     name: "Electronic Case Reporting"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.hai-ltcf
     name: "Healthcare Associated Infection Reports (HAI) Long Term Care Facilities (LTCF)"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: fhir.hrsa.uds-plus
     name: "HRSA Uniform Data System (UDS) Patient Level Submission (PLS) (UDS+ or uds-plus) FHIR IG"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Surveillience / Reporting"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.covid19library
     name: "Logica COVID-19 FHIR Profile Library IG"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
     verify: "pandemic-era; likely dormant"
@@ -438,24 +503,28 @@ guides:
     name: "Making EHR Data MOre available for Research and Public Health (MedMorph)"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.central-cancer-registry-reporting
     name: "Making EHR Data MOre available for Research and Public Health (MedMorph) Central Cancer Registry Reporting Content IG"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Public Health and Research"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.health-care-surveys-reporting
     name: "Making EHR Data MOre available for Research and Public Health (MedMorph) Healthcare Surveys Reporting Content IG"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Public Health and Research"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.fhir-medmorph
     name: "Making Ehr Data MOre Available to Research and Public Health (MedMorph)"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
     verify: "possible duplicate of hl7.fhir.us.medmorph"
@@ -463,114 +532,133 @@ guides:
     name: "National Healthcare Safety Network (NHSN) Digital Quality Measure (dQM) Reporting Implementation Guide"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: gov.cdc.nhsn.dqm
     name: "NHSN Digital Quality Measures (dQM) Content Package Implementation Guide"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Public Health"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.nhsn-ade
     name: "NHSN Reporting of Adverse Drug Events - Hypoglycemia"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.nhsn-med-admin
     name: "NHSN Reporting: Inpatient Medication Administration"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Surveillience / Reporting"
     fhir: [4.0.1]
   - npm: gov.cdc.nhsn.safr
     name: "NHSN Situational Awareness Framework for Reporting (NHSN SAFR) Implementation Guide"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Public Health"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.ph-query
     name: "Query & Response for Public Health"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Public Health"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.resp-net
     name: "Respiratory Virus Hospitalization Surveillance Network (RESP-NET) Content Implementation Guide"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.cancer-reporting
     name: "Sharing eCC Data from Pathology Labs to EHR"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Diagnostics"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.hai
     name: "US HAI"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [3.0.1, 4.0.0, 4.0.1]
   - npm: hl7.fhir.us.pdmp
     name: "US Prescription Drug Monitoring Program (PDMP)"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Medications / Immunizations"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.safr
     name: "US Situational Awareness Framework for Reporting (US SAFR) Implementation Guide"
     realm: us
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Public Health"
     fhir: [4.0.1]
   - npm: ihe.qrph.madx
     name: "IHE Mobile Aggregate Data Exchange (mADX)"
     realm: uv
     group: wf-public-health
+    parties: [Provider]
     registry_category: "EHR Access"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.saner
     name: "Situational Awareness for Novel Epidemic Response"
     realm: uv
     group: wf-public-health
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.mdi
     name: "Medicolegal Death Investigation (MDI)"
     realm: us
     group: wf-vital-records
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.bfdr
     name: "Vital Records Birth and Fetal Death Reporting"
     realm: us
     group: wf-vital-records
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.vrdr
     name: "Vital Records Mortality and Morbidity Reporting FHIR IG"
     realm: us
     group: wf-vital-records
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: ihe.pcc.bfde
     name: "IHE Birth and Fetal Death Reporting - Enhanced (BFDE)"
     realm: uv
     group: wf-vital-records
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [3.0.1]
   - npm: ihe.qrph.vrdr
     name: "IHE Vital Records Death Reporting (VRDR)"
     realm: uv
     group: wf-vital-records
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [3.0.1]
   - npm: hl7.fhir.us.davinci-deqm
     name: "Data Exchange for Quality Measures (Da Vinci)"
     realm: us
     group: wf-quality
+    parties: [Provider, Payer]
     registry_category: "Financial"
     fhir: [3.0.1, 4.0.1]
     verify: "US-realm predecessor of hl7.fhir.uv.deqm? verify"
@@ -578,12 +666,14 @@ guides:
     name: "QICore"
     realm: us
     group: wf-quality
+    parties: [Provider]
     registry_category: "Quality / CDS"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.cqfmeasures
     name: "Quality Measure Implementation Guide"
     realm: us
     group: wf-quality
+    parties: [Provider]
     registry_category: "Quality / CDS"
     fhir: [3.0.2, 4.0.1]
     verify: "US-realm predecessor of hl7.fhir.uv.cqm? verify"
@@ -591,6 +681,7 @@ guides:
     name: "US Quality Core"
     realm: us
     group: wf-quality
+    parties: [Provider]
     registry_category: "Quality / CDS"
     fhir: [4.0.1]
     verify: "possible duplicate of hl7.fhir.us.quality-core"
@@ -598,60 +689,70 @@ guides:
     name: "US Quality Core Implementation Guide"
     realm: us
     group: wf-quality
+    parties: [Provider]
     registry_category: "Quality / CDS"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.deqm
     name: "Data Exchange for Quality Measures"
     realm: uv
     group: wf-quality
+    parties: [Provider, Payer]
     registry_category: "Quality / CDS"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.ichom-breast-cancer
     name: "ICHOM breast cancer patient-centered outcome measure set FHIR IG"
     realm: uv
     group: wf-quality
+    parties: [Provider]
     registry_category: "Quality / CDS"
     fhir: [4.0.1]
   - npm: ihe.qrph.qore
     name: "IHE Quality Outcome Reporting for EMS (QORE)"
     realm: uv
     group: wf-quality
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [3.0.1]
   - npm: hl7.fhir.uv.cqm
     name: "Quality Measure Implementation Guide"
     realm: uv
     group: wf-quality
+    parties: [Provider]
     registry_category: "Quality / CDS"
     fhir: [4.0.1]
   - npm: fhir.cdc.opioid-cds
     name: "CDC Guideline for Prescribing Opioids"
     realm: us
     group: wf-cds
+    parties: [Provider]
     registry_category: "Quality/CDS"
     fhir: [4.0.1]
   - npm: fhir.cdc.opioid-mme-r4
     name: "CDC Opioid MME Calculator"
     realm: us
     group: wf-cds
+    parties: [Provider]
     registry_category: "Quality / CDS"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.cdc-opioid-cpg
     name: "Data Exchange Profiles for 2022 CDC Clinical Practice Guideline for Prescribing Opioids"
     realm: us
     group: wf-cds
+    parties: [Provider]
     registry_category: "Quality/CDS"
     fhir: [4.0.1]
   - npm: heartland.fhir.us.protocol
     name: "HEARTLAND Protocol FHIR Implementation Guide"
     realm: us
     group: wf-cds
+    parties: [Provider]
     registry_category: "Quality / CDS"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.immds
     name: "Immunization Decision Support Forecast FHIR IG"
     realm: us
     group: wf-cds
+    parties: [Provider]
     registry_category: "Medications / Immunizations"
     fhir: [4.0.1]
     verify: "also listed as hl7.fhir.uv.immds; verify which is current"
@@ -659,114 +760,133 @@ guides:
     name: "CDS Hooks Hook Library"
     realm: uv
     group: wf-cds
+    parties: [Provider]
     registry_category: "Clinical Decision Support"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.cds-hooks
     name: "CDS Hooks Specification"
     realm: uv
     group: wf-cds
+    parties: [Provider]
     registry_category: "Clinical Decision Support"
     fhir: [4.0.1]
   - npm: ihe.qrph.ccg
     name: "Computable Care Guidelines (CCG)"
     realm: uv
     group: wf-cds
+    parties: [Provider]
     registry_category: "Computable Care Guidelines"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.ebm
     name: "Evidence Based Medicine on FHIR Implementation Guide"
     realm: uv
     group: wf-cds
+    parties: [Provider]
     registry_category: "Evidence Base Medicine"
     fhir: [6.0.0]
   - npm: hl7.fhir.uv.cpg
     name: "FHIR Clinical Guidelines"
     realm: uv
     group: wf-cds
+    parties: [Provider]
     registry_category: "Quality / CDS"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.immds
     name: "Immunization Decision Support Forecast FHIR IG"
     realm: uv
     group: wf-cds
+    parties: [Provider]
     registry_category: "Medications / Immunizations"
     fhir: [4.0.0]
   - npm: hl7.fhir.uv.pddi
     name: "Potential Drug/Drug Interaction"
     realm: uv
     group: wf-cds
+    parties: [Provider]
     registry_category: "Medications / Immunizations"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.cdmh
     name: "Common Data Models Harmonization FHIR IG"
     realm: us
     group: wf-research
+    parties: [Provider]
     registry_category: "Research"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.medmorph-research-dex
     name: "Making EHR Data MOre available for Research and Public Health (MedMorph) Research Content IG"
     realm: us
     group: wf-research
+    parties: [Provider]
     registry_category: "Public Health and Research"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.mihr
     name: "Maternal and Infant Health Research"
     realm: us
     group: wf-research
+    parties: [Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.registry-protocols
     name: "Protocols for Clinical Registry Extraction and Data Submission (CREDS) IG"
     realm: us
     group: wf-research
+    parties: [Provider]
     registry_category: "Clinical Registries"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.sirb
     name: "Single Institutional Review Board (sIRB) Implementation Guide"
     realm: us
     group: wf-research
+    parties: [Provider]
     registry_category: "Research"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.womens-health-registries
     name: "Womens Health Technology Coordinated Registry Network FHIR IG"
     realm: us
     group: wf-research
+    parties: [Provider]
     registry_category: "Clinical Registries"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.ae-research-ig
     name: "Adverse Event Clinical Research"
     realm: uv
     group: wf-research
+    parties: []
     registry_category: "Research"
     fhir: [5.0.0]
   - npm: hl7.fhir.uv.ae-research-backport-ig
     name: "Adverse Event Clinical Research R4 Backport"
     realm: uv
     group: wf-research
+    parties: []
     registry_category: "Research"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.vulcan-schedule
     name: "Clinical Study Schedule of Activities"
     realm: uv
     group: wf-research
+    parties: []
     registry_category: "Research"
     fhir: [6.0.0]
   - npm: hl7.fhir.uv.fhir-for-fair
     name: "FHIR for FAIR - FHIR Implementation Guide"
     realm: uv
     group: wf-research
+    parties: []
     registry_category: "Research"
     fhir: [4.3.0]
   - npm: hl7.fhir.uv.pharmaceutical-research-protocol
     name: "Pharmaceutical Clinical Trial Protocols"
     realm: uv
     group: wf-research
+    parties: []
     registry_category: "Research"
     fhir: [6.0.0]
   - npm: hl7.fhir.uv.clinical-study-protocol
     name: "Pharmaceutical Clinical Trial Protocols"
     realm: uv
     group: wf-research
+    parties: []
     registry_category: "Research"
     fhir: [6.0.0]
     verify: "same title as hl7.fhir.uv.pharmaceutical-research-protocol"
@@ -774,330 +894,385 @@ guides:
     name: "Phenomics Exchange for Research and Diagnostics"
     realm: uv
     group: wf-research
+    parties: [Provider]
     registry_category: "Clinical Observations"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.vulcan-rwd
     name: "Retrieval of Real World Data for Clinical Research"
     realm: uv
     group: wf-research
+    parties: [Provider]
     registry_category: "Research"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.davinci-pdex-plan-net
     name: "Davinci pdex Plan Net"
     realm: us
     group: wf-directories
+    parties: [Patient, Payer]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.hsds
     name: "FHIR IG Human Services Directory"
     realm: us
     group: wf-directories
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.ndh
     name: "National Directory of Healthcare Providers and Services (NDH) Implementation Guide"
     realm: us
     group: wf-directories
+    parties: [Provider, Payer]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.directory-attestation
     name: "National Healthcare Directory Attestation"
     realm: us
     group: wf-directories
+    parties: [Provider, Payer]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.directory-exchange
     name: "National Healthcare Directory Exchange"
     realm: us
     group: wf-directories
+    parties: [Provider, Payer]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.directory-query
     name: "National Healthcare Query"
     realm: us
     group: wf-directories
+    parties: [Provider, Payer]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: ihe.iti.scheduling
     name: "IHE ITI Scheduling"
     realm: uv
     group: wf-directories
+    parties: [Patient, Provider]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: ihe.iti.mcsd
     name: "IHE Mobile Care Services Discovery (mCSD)"
     realm: uv
     group: wf-directories
+    parties: [Provider]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.smart-scheduling-links
     name: "SMART Scheduling Links"
     realm: uv
     group: wf-directories
+    parties: [Patient, Provider]
     registry_category: "administration"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.vhdir
     name: "Validated Healthcare Directory"
     realm: uv
     group: wf-directories
+    parties: [Provider]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.pq-cmc-fda
     name: "Pharmaceutical Quality - Chemistry, Manufacturing and Controls (PQ-CMC) Submissions to FDA"
     realm: us
     group: wf-regulatory
+    parties: []
     registry_category: "Pharmaceutical"
     fhir: [5.0.0]
   - npm: hl7.fhir.us.icsr-ae-reporting
     name: "Profiles for ICSR Transfusion and Vaccination Adverse Event Detection and Reporting"
     realm: us
     group: wf-regulatory
+    parties: []
     registry_category: "Pharmaceutical"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.emedicinal-product-info
     name: "Electronic Medicinal Product Information (ePI) FHIR Implementation Guide"
     realm: uv
     group: wf-regulatory
+    parties: []
     registry_category: "Pharmaceutical Mgmt"
     fhir: [5.0.0]
   - npm: hl7.fhir.uv.pharm-quality
     name: "Pharmaceutical Quality (Industry)"
     realm: uv
     group: wf-regulatory
+    parties: []
     registry_category: "Pharmaceutical"
     fhir: [5.0.0]
   - npm: ihe.iti.dsubm
     name: "Document Subscription for Mobile (DSUBm)"
     realm: uv
     group: wf-doc-sharing
+    parties: [Provider]
     registry_category: "Clinical Documents"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.fhir-clinical-document
     name: "FHIR Clinical Documents"
     realm: uv
     group: wf-doc-sharing
+    parties: [Provider]
     registry_category: "Clinical Documents"
     fhir: [4.0.1]
   - npm: ihe.iti.mhd
     name: "IHE Mobile Access to Health Documents (MHD)"
     realm: uv
     group: wf-doc-sharing
+    parties: [Provider]
     registry_category: "EHR Access"
     fhir: [4.0.1]
   - npm: ihe.iti.mxde
     name: "IHE Mobile Cross-Enterprise Document Data Element Extraction (mXDE)"
     realm: uv
     group: wf-doc-sharing
+    parties: [Provider]
     registry_category: "Clinical Documents"
     fhir: [4.0.1]
   - npm: ihe.iti.mhds
     name: "IHE Mobile Health Document Sharing (MHDS)"
     realm: uv
     group: wf-doc-sharing
+    parties: [Provider]
     registry_category: "Clinical Documents"
     fhir: [4.0.1]
   - npm: ihe.iti.npfs
     name: "IHE Non-Patient File Sharing (NPFS)"
     realm: uv
     group: wf-doc-sharing
+    parties: [Provider]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: ihe.pcc.qedm
     name: "IHE Query for Existing Data for Mobile (QEDm)"
     realm: uv
     group: wf-doc-sharing
+    parties: [Provider]
     registry_category: "EHR Access"
     fhir: [4.0.1]
   - npm: ihe.iti.sips
     name: "Sharing of IPS (sIPS)"
     realm: uv
     group: wf-doc-sharing
+    parties: [Provider]
     registry_category: "Clinical Documents"
     fhir: [4.0.1]
   - npm: smart.who.int.ra
     name: "Reference Architecture"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.dak-bds
     name: "SMART DAK BDS"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.dak-ccc
     name: "SMART DAK CCC"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.dak-immz
     name: "SMART DAK IMMZ"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.dak-pnc
     name: "SMART DAK PNC"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.dak-smbp
     name: "SMART DAK SMBP"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.dak-srv
     name: "SMART DAK SRV"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.dak-tb
     name: "SMART DAK TB"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.immunizations
     name: "SMART Immunizations"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.pcmt
     name: "SMART PCMT"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.pcmt-vaxprequal
     name: "SMART Product Dataset for Prequalified Vaccines"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.anc
     name: "WHO SMART Guidelines - ANC"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.hiv
     name: "WHO SMART Guidelines - HIV"
     realm: uv
     group: wf-who-smart
+    parties: [Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: ihe.pcc.fiio
     name: "FHIR International Patient Summary (FIPS)"
     realm: uv
     group: wf-portable
+    parties: [Patient, Provider]
     registry_category: "Content Profile"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.smart-health-cards-and-links
     name: "SMART Health Cards and Links FHIR IG"
     realm: uv
     group: wf-portable
+    parties: [Patient, Provider]
     registry_category: "Communications"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.shc-vaccination
     name: "SMART Health Cards Vaccination and Testing, Release 1 | STU 1"
     realm: uv
     group: wf-portable
+    parties: [Patient, Provider]
     registry_category: "Medication / Immunization"
     fhir: [4.0.1]
   - npm: smart.who.int.icvp
     name: "SMART ICVP"
     realm: uv
     group: wf-portable
+    parties: [Patient, Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.ph4h
     name: "SMART PH4H"
     realm: uv
     group: wf-portable
+    parties: [Patient, Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.trust
     name: "SMART Trust"
     realm: uv
     group: wf-portable
+    parties: [Patient, Provider]
     registry_category: "Privacy / Security"
     fhir: [5.0.0]
   - npm: smart.who.int.trust-phw
     name: "SMART TRUST PHW"
     realm: uv
     group: wf-portable
+    parties: [Patient, Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.ts
     name: "SMART TS"
     realm: uv
     group: wf-portable
+    parties: [Patient, Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: smart.who.int.ips-pilgrimage
     name: "SMART Verifiable IPS for Pilgrimage"
     realm: uv
     group: wf-portable
+    parties: [Patient, Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: ihe.iti.vhl
     name: "Verifiable Health Links"
     realm: uv
     group: wf-portable
+    parties: [Patient, Provider]
     registry_category: "ITI"
     fhir: [4.0.1]
   - npm: who.ddcc
     name: "WHO Digital Documentation of COVID-19 Certificates (DDCC)"
     realm: uv
     group: wf-portable
+    parties: [Patient, Provider]
     registry_category: "SMART (WHO)"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.exchange-routing
     name: "Hybrid / Intermediary Exchange"
     realm: us
     group: cap-app
+    parties: [Provider, Payer]
     registry_category: "EHR Access"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.application-feature
     name: "FHIR Application Feature Framework Implementation Guide"
     realm: uv
     group: cap-app
+    parties: [Patient, Provider, Payer]
     registry_category: "Infrastructure"
     fhir: [5.0.0]
   - npm: hl7.fhir.uv.fhircast
     name: "FHIRcast"
     realm: uv
     group: cap-app
+    parties: [Provider]
     registry_category: "Imaging"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.smart-app-launch
     name: "Smart App Launch Implementation Guide"
     realm: uv
     group: cap-app
+    parties: [Patient, Provider, Payer]
     registry_category: "EHR Access"
     fhir: [3.0.1, 4.0.1]
   - npm: hl7.fhir.uv.smart-web-messaging
     name: "SMART Web Messaging Implementation Guide: STU1"
     realm: uv
     group: cap-app
+    parties: [Provider]
     registry_category: "EHR Access"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.udap-security
     name: "Security for Scalable Registration, Authentication, and Authorization"
     realm: us
     group: cap-security
+    parties: [Patient, Provider, Payer]
     registry_category: "Privacy / Security"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.fast-security
     name: "Security for Scalable Registration, Authentication, and Authorization"
     realm: uv
     group: cap-security
+    parties: [Patient, Provider, Payer]
     registry_category: "Security"
     fhir: [4.0.1]
     verify: "same title as hl7.fhir.us.udap-security; verify which is current"
@@ -1105,114 +1280,133 @@ guides:
     name: "Interoperable Digital Identity and Patient Matching"
     realm: us
     group: cap-identity
+    parties: [Patient, Provider, Payer]
     registry_category: "Privacy / Security"
     fhir: [4.0.1]
   - npm: ihe.iti.pdqm
     name: "IHE Patient Demographics Query for Mobile (PDQm)"
     realm: uv
     group: cap-identity
+    parties: [Provider]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: ihe.iti.pixm
     name: "IHE Patient Identifier Cross-referencing for Mobile (PIXm)"
     realm: uv
     group: cap-identity
+    parties: [Provider]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: ihe.iti.pmir
     name: "IHE Patient Master Identity Registry (PMIR)"
     realm: uv
     group: cap-identity
+    parties: [Provider]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.darts
     name: "De-identification, Anonymization and Redaction Toolkit Services (DARTS) FHIR IG"
     realm: us
     group: cap-privacy
+    parties: [Provider]
     registry_category: "Privacy / Security"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.dapl
     name: "De-identified, Anonymized FHIR Profiles Library (DAPL) IG"
     realm: us
     group: cap-privacy
+    parties: [Provider]
     registry_category: "Privacy / Security"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.consent-management
     name: "Scalable Consent Management"
     realm: us
     group: cap-privacy
+    parties: [Patient, Provider, Payer]
     registry_category: "Privacy / Security"
     fhir: [4.0.1]
   - npm: ihe.iti.deid
     name: "De-Identification Handbook"
     realm: uv
     group: cap-privacy
+    parties: [Provider]
     registry_category: "De-Identification"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.security-label-ds4p
     name: "FHIR Data Segmentation for Privacy"
     realm: uv
     group: cap-privacy
+    parties: [Patient, Provider, Payer]
     registry_category: "Privacy / Security"
     fhir: [4.0.1]
   - npm: ihe.iti.pcf
     name: "Privacy Consent on FHIR (PCF)"
     realm: uv
     group: cap-privacy
+    parties: [Provider]
     registry_category: "Privacy / Security"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.aitransparency
     name: "AI Transparency on FHIR"
     realm: uv
     group: cap-audit
+    parties: [Patient, Provider, Payer]
     registry_category: "AI"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.ehrs-rle
     name: "EHRS Functional Model - Record Lifecycle Events Implementation Guide"
     realm: uv
     group: cap-audit
+    parties: [Provider]
     registry_category: "Mappings to Other Standards"
     fhir: [5.0.0]
   - npm: ihe.iti.balp
     name: "IHE Basic Audit Log Patterns (BALP)"
     realm: uv
     group: cap-audit
+    parties: [Provider]
     registry_category: "Privacy / Security"
     fhir: [4.0.1]
   - npm: ihe.iti.atna
     name: "IHE FHIR AuditEvent query and feed to ATNA"
     realm: uv
     group: cap-audit
+    parties: [Provider]
     registry_category: "Privacy / Security"
     fhir: [4.0.1]
   - npm: ihe.rad.sole
     name: "IHE Standardized Operational Log of Events (SOLE)"
     realm: uv
     group: cap-audit
+    parties: [Provider]
     registry_category: "Administration"
     fhir: [3.0.1]
   - npm: ihe.iti.macm
     name: "IHE Mobile Alert Communication Management(mACM)"
     realm: uv
     group: cap-notify
+    parties: [Provider]
     registry_category: "Communications"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.subscriptions-backport
     name: "Subscriptions R5 Backport"
     realm: uv
     group: cap-notify
+    parties: [Patient, Provider, Payer]
     registry_category: "EHR Access"
     fhir: [4.3.0]
   - npm: hl7.fhir.uv.bulkdata
     name: "FHIR Bulk Data Access (Flat FHIR)"
     realm: uv
     group: cap-bulk
+    parties: [Provider, Payer]
     registry_category: "EHR Access"
     fhir: [4.0.1]
   - npm: org.sql-on-fhir.ig
     name: "SQL on FHIR"
     realm: uv
     group: cap-bulk
+    parties: [Provider, Payer]
     registry_category: "Infrastructure"
     fhir: [5.0.0]
     verify: "possible predecessor of hl7.fhir.uv.sql-on-fhir"
@@ -1220,48 +1414,56 @@ guides:
     name: "SQL on FHIR"
     realm: uv
     group: cap-bulk
+    parties: [Provider, Payer]
     registry_category: "Infrastructure"
     fhir: [6.0.0]
   - npm: ihe.iti.acdc
     name: "IHE Assessment Curation and Data Collection (ACDC)"
     realm: uv
     group: cap-forms
+    parties: [Provider]
     registry_category: "EHR Access"
     fhir: [4.0.1]
   - npm: ihe.qrph.mrfd
     name: "IHE Mobile Retrieve Form for Data Capture (mRFD)"
     realm: uv
     group: cap-forms
+    parties: [Provider]
     registry_category: "Forms Management"
     fhir: [3.0.1]
   - npm: hl7.fhir.uv.sdc
     name: "SDC (Structured Data Capture)"
     realm: uv
     group: cap-forms
+    parties: [Patient, Provider, Payer]
     registry_category: "Forms Management"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.tx-ecosystem
     name: "HL7 Terminology Ecosystem IG"
     realm: uv
     group: cap-terminology
+    parties: [Patient, Provider, Payer]
     registry_category: "Infrastructure"
     fhir: [5.0.0]
   - npm: ihe.iti.svcm
     name: "Sharing Valuesets, Codes, and Maps (SVCM)"
     realm: uv
     group: cap-terminology
+    parties: [Patient, Provider, Payer]
     registry_category: "Terminology"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.termchangeset
     name: "Terminology Change Set Exchange"
     realm: uv
     group: cap-terminology
+    parties: [Patient, Provider, Payer]
     registry_category: "Terminology"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.ccda
     name: "CCDA on FHIR"
     realm: us
     group: cap-bridge
+    parties: [Provider]
     registry_category: "Clinical Documents"
     fhir: [4.0.1]
     verify: "FHIR profiles mirroring C-CDA documents"
@@ -1269,288 +1471,329 @@ guides:
     name: "Base openEHR specification"
     realm: uv
     group: cap-bridge
+    parties: [Provider]
     registry_category: "Infrastructure"
     fhir: [5.0.0]
   - npm: hl7.fhir.uv.cdisc-mapping
     name: "CDISC Mapping FHIR IG"
     realm: uv
     group: cap-bridge
+    parties: []
     registry_category: "Research"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.dicom-sr
     name: "DICOM® SR to FHIR Resource Mapping IG"
     realm: uv
     group: cap-bridge
+    parties: [Provider]
     registry_category: "Imaging"
     fhir: [5.0.0]
   - npm: hl7.fhir.uv.v2mappings
     name: "HL7 Version 2 to FHIR"
     realm: uv
     group: cap-bridge
+    parties: [Provider]
     registry_category: "Mappings to Other Standards"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.omop
     name: "Vulcan FHIR to OMOP FHIR Implementation Guide"
     realm: uv
     group: cap-bridge
+    parties: [Provider]
     registry_category: "research"
     fhir: [5.0.0]
   - npm: hl7.fhir.us.breast-radiology
     name: "Breast Radiology Report (BRR)"
     realm: us
     group: ct-oncology
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.codex-radiation-therapy
     name: "CodeX™ Radiation Therapy"
     realm: us
     group: ct-oncology
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.mcode
     name: "Minimal Common Oncology Data Elements (mCODE)"
     realm: us
     group: ct-oncology
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.ihe-sdc-ecc
     name: "IHE SDC/eCC on FHIR"
     realm: uv
     group: ct-oncology
+    parties: [Provider]
     registry_category: "Diagnostics"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.cardx-cied
     name: "CardX - Cardiac Implantable Electronic Devices"
     realm: uv
     group: ct-cardiology
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [5.0.0]
   - npm: hl7.fhir.uv.cardx-htn-mng
     name: "CardX Hypertension Management IG"
     realm: uv
     group: ct-cardiology
+    parties: [Provider]
     registry_category: "Diagnostics"
     fhir: [4.0.1]
   - npm: fhir.astp.bhp
     name: "US Behavioral Health Profiles"
     realm: us
     group: ct-behavioral
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.pacio-cs
     name: "PACIO Cognitive Status Implementation Guide"
     realm: us
     group: ct-post-acute
+    parties: [Provider]
     registry_category: "Patient Summary"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.pacio-fs
     name: "PACIO Functional Status Implementation Guide"
     realm: us
     group: ct-post-acute
+    parties: [Provider]
     registry_category: "Patient Summary"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.pacio-pfe
     name: "PACIO Personal Functioning and Engagement Implementation Guide"
     realm: us
     group: ct-post-acute
+    parties: [Provider]
     registry_category: "Patient Summary"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.pacio-rt
     name: "PACIO Re-Assessment Timepoints Implementation Guide"
     realm: us
     group: ct-post-acute
+    parties: [Provider]
     registry_category: "Clinical Documents"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.pco
     name: "Person-Centered Outcomes (PCO) Implementation Guide"
     realm: us
     group: ct-post-acute
+    parties: [Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: ihe.pcc.maps.us
     name: "Mobile Antepartum Summary US Realm"
     realm: us
     group: ct-maternal
+    parties: [Provider]
     registry_category: "Clinical Observations"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.ibcm
     name: "International Birth And Child Model Implementation Guide"
     realm: uv
     group: ct-maternal
+    parties: [Provider]
     registry_category: "Clinical Observations"
     fhir: [5.0.0]
   - npm: ihe.pcc.maps
     name: "Mobile Antepartum Summary"
     realm: uv
     group: ct-maternal
+    parties: [Provider]
     registry_category: "Clinical Observations"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.home-lab-report
     name: "At-Home In-Vitro Test Report"
     realm: us
     group: ct-lab-genomics
+    parties: [Provider]
     registry_category: "Clinical Documents"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.cdisc-lab
     name: "CDISC Lab Semantics in FHIR"
     realm: uv
     group: ct-lab-genomics
+    parties: [Provider]
     registry_category: "Diagnostics"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.genomics-reporting
     name: "Genomics Reporting"
     realm: uv
     group: ct-lab-genomics
+    parties: [Provider]
     registry_category: "Diagnostics"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.lab-report
     name: "HL7 Laboratory Report"
     realm: uv
     group: ct-lab-genomics
+    parties: [Provider]
     registry_category: "Diagnostics"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.livd
     name: "Loinc/IVD Test mapping"
     realm: uv
     group: ct-lab-genomics
+    parties: [Provider]
     registry_category: "Diagnostics"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.eyecare
     name: "HL7 FHIR® Implementation Guide: Ophthalmology Retinal, Release 1"
     realm: uv
     group: ct-imaging
+    parties: [Provider]
     registry_category: "Diagnostics"
     fhir: [4.0.1]
   - npm: ihe.rad.imr
     name: "IHE Interactive Multimedia Report (IMR)"
     realm: uv
     group: ct-imaging
+    parties: [Provider]
     registry_category: "Imaging"
     fhir: [4.0.1]
   - npm: ihe.rad.ira
     name: "Integrated Reporting Applications"
     realm: uv
     group: ct-imaging
+    parties: [Provider]
     registry_category: "Imaging"
     fhir: [5.0.0]
   - npm: ihe.rad.mado
     name: "Manifest-based Access to DICOM Objects (MADO)"
     realm: uv
     group: ct-imaging
+    parties: [Provider]
     registry_category: "Imaging"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.radiation-dose-summary
     name: "Radiation Dose Summary for Diagnostic Procedures on FHIR"
     realm: uv
     group: ct-imaging
+    parties: [Provider]
     registry_category: "Diagnostics"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.smp
     name: "US Standardized Medication Profile (SMP)"
     realm: us
     group: ct-meds
+    parties: [Provider]
     registry_category: "Medications"
     fhir: [4.0.1]
   - npm: ihe.pharm.mma
     name: "IHE Mobile Medication Administration (MMA)"
     realm: uv
     group: ct-meds
+    parties: [Provider]
     registry_category: "Medications / Immunizations"
     fhir: [3.0.1]
   - npm: ihe.pharm.meow
     name: "IHE Pharmacy Medication Overview"
     realm: uv
     group: ct-meds
+    parties: [Provider]
     registry_category: "Medication"
     fhir: [4.0.1]
   - npm: ihe.pharm.ubp
     name: "IHE Uniform Barcode Processing (UBP)"
     realm: uv
     group: ct-meds
+    parties: [Provider]
     registry_category: "Medications / Immunizations"
     fhir: [3.0.1]
   - npm: ihe.pharm.mpd
     name: "Medication Prescription and Dispense (MPD)"
     realm: uv
     group: ct-meds
+    parties: [Provider]
     registry_category: "Medication"
     fhir: [5.0.0]
   - npm: hl7.fhir.uv.cgm
     name: "Continuous Glucose Monitoring"
     realm: uv
     group: ct-devices
+    parties: [Patient, Provider]
     registry_category: "Diagnostics"
     fhir: [4.0.1]
   - npm: ihe.pcc.rpm
     name: "IHE Remote Patient Monitoring (RPM)"
     realm: uv
     group: ct-devices
+    parties: [Patient, Provider]
     registry_category: "Personal Healthcare"
     fhir: [3.0.1]
   - npm: hl7.fhir.uv.phd
     name: "Personal Health Device FHIR IG"
     realm: uv
     group: ct-devices
+    parties: [Patient, Provider]
     registry_category: "Personal Healthcare"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.pocd
     name: "Point of Care Devices"
     realm: uv
     group: ct-devices
+    parties: [Provider]
     registry_category: "Diagnostics"
     fhir: [4.0.1]
   - npm: ihe.pcc.pmdt
     name: "Point-of-Care Medical Device Tracking (PMDT)"
     realm: uv
     group: ct-devices
+    parties: [Provider]
     registry_category: "Administration"
     fhir: [3.0.1]
   - npm: hl7.fhir.uv.rtls
     name: "Real Time Location Services Implementation Guide"
     realm: uv
     group: ct-devices
+    parties: [Provider]
     registry_category: "Administration"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.military-service
     name: "HL7 FHIR Implementation Guide for Military Service History and Status"
     realm: us
     group: ct-history
+    parties: [Provider]
     registry_category: "Clinical Observations"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.odh
     name: "Occupational Data for Health"
     realm: us
     group: ct-history
+    parties: [Provider]
     registry_category: "Clinical Observations"
     fhir: [4.0.1]
   - npm: ihe.pcc.odh
     name: "IHE FHIR Profile: Occupational Data for Health (ODH) - International"
     realm: uv
     group: ct-history
+    parties: [Provider]
     registry_category: "Clinical Observations"
-    fhir: [4.0.1]
-  - npm: hl7.fhir.us.patient-reported-outcomes
-    name: "Patient Reported Outcomes (PRO) FHIR IG"
-    realm: us
-    group: ct-observations
-    registry_category: "Personal Healthcare"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.physical-activity
     name: "U.S. Physical Activity IG"
     realm: us
     group: ct-observations
+    parties: [Patient, Provider]
     registry_category: "Care Management"
     fhir: [4.0.1]
   - npm: hl7.fhir.us.vitals
     name: "Vital Signs FHIR IG"
     realm: us
     group: ct-observations
+    parties: [Provider]
     registry_category: "Clinical Observations"
     fhir: [4.0.1]
   - npm: hl7.fhir.uv.symptoms
     name: "Symptoms Data Standards"
     realm: uv
     group: ct-observations
+    parties: [Provider]
     registry_category: "Clinical"
     fhir: [4.0.1]
   - npm: argonaut.us.clinicalnotes
@@ -1721,3 +1964,10 @@ guides:
     group: x-unofficial
     registry_category: "Infrastructure"
     fhir: [4.0.1]
+  - npm: hl7.fhir.us.patient-reported-outcomes
+    name: "Patient Reported Outcomes (PRO) FHIR IG"
+    realm: us
+    group: x-withdrawn
+    registry_category: "Personal Healthcare"
+    fhir: [4.0.1]
+    verify: "IG home page says withdrawn before initial publication (checked 2026-10-20); registry still lists it"

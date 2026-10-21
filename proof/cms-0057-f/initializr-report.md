@@ -1,17 +1,20 @@
 # FHIR scope: cms-payer
 
 > Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.
+>
+> FHIR Initializr 0.1.0 is a pre-MVP preview, under construction.
 
+- **Where:** United States
 - **Target date:** 2027-01-01
 - **Role / actors:** payer / server, client
 - **Drivers:** cms-0057-f
-- **KB as of:** 2026-10-20 (v0.1.0) · **Registry snapshot:** 2026-10-20 · **Generated:** 2026-10-20T00:00:00Z
+- **KB as of:** 2026-10-21 (v0.2.0) · **Registry snapshot:** 2026-10-21 · **Generated:** 2026-10-20T00:00:00Z
 
 ## IG set
 
 | IG | Pin | Accepted | Strength | Actors | Why |
 |---|---|---|---|---|---|
-| [US Core](http://hl7.org/fhir/us/core/STU7/)<br>`hl7.fhir.us.core` | 7.0.0 | 9.0.0, 8.0.1, 8.0.0, 7.0.0, 6.1.0, 3.1.1 | Required | server, client | CMS-0057-F: Patient Access API, Provider Access API, Payer-to-Payer API, Prior Authorization API, Provider Directory API; CMS-0057-F: Payer-to-Payer API<br>_Aligned with Da Vinci PDex, PDex US Drug Formulary, PDex Plan-Net, Da Vinci CRD, Da Vinci DTR, Da Vinci PAS, which depend on 7.0.0. Newest accepted: 9.0.0._ |
+| [US Core](http://hl7.org/fhir/us/core/STU7/)<br>`hl7.fhir.us.core` | 7.0.0 | 9.0.0, 8.0.1, 8.0.0, 7.0.0, 6.1.0, 3.1.1 | Required | server, client | CMS-0057-F: Patient Access API, Provider Access API, Payer-to-Payer API, Prior Authorization API, Provider Directory API; CMS-0057-F: Payer-to-Payer API; National core for United States.<br>_Aligned with Da Vinci PDex, PDex US Drug Formulary, PDex Plan-Net, Da Vinci CRD, Da Vinci DTR, Da Vinci PAS, which depend on 7.0.0. Newest accepted: 9.0.0._ |
 | [Bulk Data](http://hl7.org/fhir/uv/bulkdata/STU2/)<br>`hl7.fhir.uv.bulkdata` | 2.0.0 | 2.0.0, 1.0.1, 1.0.0 | Required | server, client | CMS-0057-F: Provider Access API, Payer-to-Payer API; CMS-0057-F: Payer-to-Payer API |
 | [SMART App Launch](http://hl7.org/fhir/smart-app-launch/STU2/)<br>`hl7.fhir.uv.smart-app-launch` | 2.0.0 | 2.2.0, 2.0.0, 1.0.0 | Required | server | CMS-0057-F: Patient Access API, Provider Access API, Prior Authorization API; CMS-0057-F: Payer-to-Payer API<br>_Follows the recommendation (CMS-0057-F — Payer-to-Payer API); 2.2.0 is also accepted._ |
 | [CARIN Blue Button](http://hl7.org/fhir/us/carin-bb/STU2.1/)<br>`hl7.fhir.us.carin-bb` | 2.1.0 | 2.1.0, 2.0.0 | Recommended | server | CMS-0057-F: Patient Access API, Provider Access API, Payer-to-Payer API |
@@ -77,6 +80,7 @@
   - ✓ 8.0.0 — permitted updated version, 2025-08-29 → …: 42 CFR 422.119 — Access to and exchange of health data and plan information (MA Patient Access API) (c)(4) (https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119)
   - ✓ 8.0.1 — permitted updated version, 2026-08-13 → …: 42 CFR 422.119 — Access to and exchange of health data and plan information (MA Patient Access API) (c)(4) (https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119)
   - ✓ 9.0.0 — permitted updated version, 2026-08-29 → …: 42 CFR 422.119 — Access to and exchange of health data and plan information (MA Patient Access API) (c)(4) (https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119)
+- National core for United States.
 - Links: [IG home](http://hl7.org/fhir/us/core/STU7/) · [artifacts](http://hl7.org/fhir/us/core/STU7/artifacts.html) · [US Core Server CapabilityStatement (server)](http://hl7.org/fhir/us/core/STU7/CapabilityStatement-us-core-server.html) · [US Core Client CapabilityStatement (client)](http://hl7.org/fhir/us/core/STU7/CapabilityStatement-us-core-client.html) · [ONC Certification (g)(10) Standardized API Test Kit](https://inferno.healthit.gov/test-kits/onc-certification-g10/) · [US Core Test Kit](https://inferno.healthit.gov/test-kits/us-core/) · [chat: #argonaut](https://chat.fhir.org/#narrow/channel/179175-argonaut)
 
 ### Bulk Data (`hl7.fhir.uv.bulkdata`)

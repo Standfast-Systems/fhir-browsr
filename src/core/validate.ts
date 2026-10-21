@@ -6,6 +6,7 @@ const ISO = /^\d{4}-\d{2}-\d{2}$/;
 const STRENGTHS = ['required', 'recommended', 'optional'];
 const BASES = [
   'adopted',
+  'program',
   'svap',
   'recommended',
   'enforcement-discretion',
@@ -86,6 +87,35 @@ export function validateKb(kb: KnowledgeBase, reg?: RegistrySnapshot): Finding[]
       }
     }
   }
+  const realmIds = new Set<string>();
+  for (const r of kb.realms) {
+    const rw = `realm ${r.id}`;
+    if (realmIds.has(r.id)) err(rw, 'duplicate realm id');
+    realmIds.add(r.id);
+    if (r.id !== 'intl' && !/^[a-z]{2}$/.test(r.id))
+      err(rw, 'id must be a lowercase ISO 3166 code or "intl"');
+    cite(rw, r.cite);
+    for (const p of r.packages) {
+      if (p.kind !== 'base' && p.kind !== 'core') err(rw, `bad package kind "${p.kind}"`);
+      if (reg) {
+        const pkg = reg.packages[p.ig] ?? reg.packages[`${p.ig}.r4`];
+        if (!pkg?.inRegistry) err(rw, `${p.ig} is not on packages.fhir.org in the snapshot`);
+        else if (p.version && !pkg.versions.some((v) => v.version === p.version))
+          err(rw, `${p.ig}@${p.version} is not published`);
+        else if (
+          !p.version &&
+          !pkg.versions.some((v) => !v.prerelease && v.fhir.some((f) => f.startsWith('4.0')))
+        )
+          warn(rw, `${p.ig} has no published R4 release in the snapshot`);
+      }
+    }
+  }
+  for (const id of ['us', 'intl'])
+    if (!realmIds.has(id)) err('realms', `missing required realm "${id}"`);
+  for (const d of kb.drivers)
+    for (const r of d.realms ?? [])
+      if (!realmIds.has(r)) err(`driver ${d.id}`, `unknown realm "${r}"`);
+
   for (const k of kb.testkits) {
     if (!k.url.startsWith('https://')) err(`testkit ${k.id}`, 'url must be https');
     for (const c of k.covers)

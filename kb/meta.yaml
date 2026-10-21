@@ -1,7 +1,7 @@
 # FHIR Initializr knowledge base: metadata.
 # Bump kb_as_of whenever a curator re-checks the sources (quarterly at minimum).
-kb_version: 0.1.0
-kb_as_of: "2026-10-20"
+kb_version: 0.2.0
+kb_as_of: "2026-10-21"
 disclaimer: >-
   Scoping guidance with citations, not a compliance determination. Check every requirement
   against the cited source and your own counsel before relying on it.

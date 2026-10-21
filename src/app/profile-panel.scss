@@ -152,6 +152,36 @@ h2 {
     font-size: 12.5px;
     color: var(--fi-muted);
   }
+  .binds {
+    display: flex;
+    gap: 6px;
+    margin: 8px 0 0 40px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: var(--fi-panel-2);
+    font-size: 12.5px;
+    color: var(--fi-muted);
+    mat-icon {
+      flex: none;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: var(--fi-lime);
+    }
+    strong {
+      color: var(--fi-text);
+    }
+  }
+  .see-as {
+    margin-left: 4px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--fi-lime);
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+  }
   .comps {
     display: flex;
     flex-wrap: wrap;
@@ -181,4 +211,9 @@ h2 {
 
 .name {
   width: 100%;
+}
+
+.country {
+  width: 100%;
+  margin-top: 10px;
 }

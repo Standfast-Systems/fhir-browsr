@@ -18,6 +18,7 @@ summary: >-
   via SMART App Launch and OpenID Connect) and population access (Bulk Data with SMART Backend
   Services). Versions come from 45 CFR 170.215; newer versions are allowed once approved through SVAP.
 roles: [ehr-developer, hie]
+realms: [us]
 fhir: ["4.0.1"]
 cite:
   source: ecfr-170-315

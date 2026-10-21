@@ -9,6 +9,7 @@ interface Row {
 
 const BASIS_LABEL: Record<string, string> = {
   adopted: 'adopted in regulation',
+  program: 'named in program rules',
   svap: 'SVAP-approved',
   recommended: 'agency-recommended',
   'enforcement-discretion': 'enforcement discretion',
@@ -93,6 +94,9 @@ const BASIS_LABEL: Record<string, string> = {
     }
     .bar.adopted {
       fill: var(--fi-basis-adopted);
+    }
+    .bar.program {
+      fill: var(--fi-basis-program);
     }
     .bar.svap {
       fill: var(--fi-basis-svap);

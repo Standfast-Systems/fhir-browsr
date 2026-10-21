@@ -7,11 +7,11 @@ import { join } from 'node:path';
 import { describe, it } from 'node:test';
 import {
   EMITTERS,
+  TOOL,
   compareVersions,
   deepKeysFor,
-  decodeProfile,
   defaultProfile,
-  encodeProfile,
+  publishedR4,
   resolve,
   validateKb,
 } from '../src/core/index.ts';
@@ -131,6 +131,37 @@ describe('CMS-0057-F payer', () => {
   });
 });
 
+describe('CMS-0057-F provider side', () => {
+  it('gives an EHR developer the guides for calling payers, prior authorization included', () => {
+    const m = scope({ role: 'ehr-developer', drivers: [{ id: 'cms-0057-f' }], asOf: '2027-01-01' });
+    for (const p of [
+      'hl7.fhir.us.davinci-crd',
+      'hl7.fhir.us.davinci-dtr',
+      'hl7.fhir.us.davinci-pas',
+      'hl7.fhir.us.davinci-pdex',
+      'hl7.fhir.uv.bulkdata',
+    ]) {
+      assert.equal(ig(m, p)?.strength, 'optional', p);
+      assert.deepEqual(ig(m, p)!.actors, ['client'], p);
+    }
+    assert.ok(!m.igs.some((i) => i.strength === 'required'));
+  });
+  it('warns when ONC certifies the EHR to versions payers are not asked to run', () => {
+    const m = scope({
+      role: 'ehr-developer',
+      drivers: [{ id: 'cms-0057-f' }, { id: 'onc-epa' }],
+      asOf: '2027-01-01',
+    });
+    const crd = ig(m, 'hl7.fhir.us.davinci-crd')!;
+    assert.equal(crd.pin, '2.2.1');
+    const w = m.warnings.find(
+      (x) => x.kind === 'optional-outside-required' && x.package === crd.package,
+    );
+    assert.ok(w, 'expected a warning about payers on other versions');
+    assert.match(w.detail, /2\.1\.0/);
+  });
+});
+
 describe('ONC (g)(31)–(33) prior authorization', () => {
   it('moves from 2.0.1 to the 2.2.x IGs on October 1, 2026 with no overlap', () => {
     const before = scope({
@@ -155,6 +186,122 @@ describe('ONC (g)(31)–(33) prior authorization', () => {
     const server = m.surface.find((s) => s.actor === 'server')!;
     assert.ok(server.sources.some((x) => x.title.startsWith('CRD Client')));
     assert.ok(server.resources.some((r) => r.type === 'Coverage'));
+  });
+});
+
+describe('TEFCA Facilitated FHIR', () => {
+  const tefca = (asOf: string, extra: Partial<ProjectProfile> = {}) =>
+    scope({ role: 'hie', drivers: [{ id: 'tefca' }], asOf, ...extra });
+
+  it('raises the US Core floor from 3.1.1 to 6.1.0 when SOP v2.0 takes effect', () => {
+    assert.ok(ig(tefca('2026-01-15'), 'hl7.fhir.us.core')!.allowed.includes('3.1.1'));
+    const after = ig(tefca('2026-03-08'), 'hl7.fhir.us.core')!.allowed;
+    assert.ok(!after.includes('3.1.1') && !after.includes('5.0.1'));
+    assert.ok(after.includes('6.1.0') && after.includes('9.0.0'));
+  });
+  it('pins UDAP Security to exactly 1.1.0 and says 2.0.0 is not accepted', () => {
+    const m = tefca('2027-03-01');
+    const udap = ig(m, 'hl7.fhir.us.udap-security')!;
+    assert.deepEqual(udap.allowed, ['1.1.0']);
+    assert.equal(udap.pin, '1.1.0');
+    assert.ok(kinds(m, 'hl7.fhir.us.udap-security').includes('newer-available'));
+  });
+  it('shows SSRAA as upcoming before Q1 2027, once', () => {
+    const m = tefca('2026-11-01');
+    const upcoming = m.warnings.filter(
+      (w) => w.kind === 'upcoming' && w.package === 'hl7.fhir.us.udap-security',
+    );
+    assert.equal(upcoming.length, 1);
+  });
+  it('adds eCR only when the public health component is chosen', () => {
+    assert.ok(!ig(tefca('2027-03-01'), 'hl7.fhir.us.ecr'));
+    const withEcr = scope({
+      role: 'provider-org',
+      actors: ['server', 'client'],
+      drivers: [{ id: 'tefca', components: ['responding', 'initiating', 'public-health-ecr'] }],
+      asOf: '2027-03-01',
+    });
+    assert.equal(ig(withEcr, 'hl7.fhir.us.ecr')!.pin, '2.1.1');
+  });
+});
+
+describe('realms', () => {
+  const realmIgs = (m: Manifest) =>
+    m.igs.filter((i) => i.reasons.some((r) => r.kind === 'realm')).map((i) => i.package);
+
+  it('adds US Core as the national core for a US project, even with no drivers', () => {
+    const m = scope({ role: 'app-developer', asOf: '2027-01-01' });
+    assert.deepEqual(realmIgs(m), ['hl7.fhir.us.core']);
+    assert.equal(m.realm.id, 'us');
+  });
+  it('adds IPA and IPS when no country is chosen', () => {
+    const m = scope({ role: 'app-developer', realm: 'intl', asOf: '2027-01-01' });
+    assert.deepEqual(realmIgs(m).sort(), ['hl7.fhir.uv.ipa', 'hl7.fhir.uv.ips']);
+    assert.ok(m.realm.fallback);
+    for (const ig of m.igs) assert.ok(ig.pin, `${ig.package} pinned`);
+  });
+  it('leaves out US regulations for a project outside the US, and says so', () => {
+    const m = scope({
+      role: 'ehr-developer',
+      realm: 'intl',
+      drivers: [{ id: 'onc-g10' }],
+      asOf: '2027-01-01',
+    });
+    assert.ok(!m.igs.some((i) => i.package === 'hl7.fhir.us.core'));
+    assert.ok(m.warnings.some((w) => w.kind === 'realm-mismatch'));
+  });
+  it('keeps a US rule and the US foundation on one IG without changing the rule-driven pin', () => {
+    const m = scope({ role: 'ehr-developer', drivers: [{ id: 'onc-g10' }], asOf: '2027-01-01' });
+    const core = ig(m, 'hl7.fhir.us.core')!;
+    assert.ok(
+      core.reasons.some((r) => r.kind === 'realm') && core.reasons.some((r) => r.kind === 'rule'),
+    );
+    assert.equal(core.pin, '9.0.0');
+    assert.equal(core.strength, 'required');
+  });
+  it('adds AU Base and AU Core for Australia', () => {
+    const m = scope({ role: 'ehr-developer', realm: 'au', asOf: '2027-01-01' });
+    assert.deepEqual(realmIgs(m).sort(), ['hl7.fhir.au.base', 'hl7.fhir.au.core']);
+    assert.ok(!m.realm.fallback);
+  });
+  it('honours explicit pins where the newest published version is not the current release', () => {
+    assert.equal(
+      ig(scope({ role: 'ehr-developer', realm: 'cl', asOf: '2027-01-01' }), 'hl7.fhir.cl.clcore')!
+        .pin,
+      '1.9.3',
+    );
+    assert.equal(
+      ig(scope({ role: 'ehr-developer', realm: 'gb', asOf: '2027-01-01' }), 'fhir.r4.ukcore.stu2')!
+        .pin,
+      '2.0.2',
+    );
+  });
+  it('uses the R4 German base, not the STU3 package the registry lists', () => {
+    const m = scope({ role: 'ehr-developer', realm: 'de', asOf: '2027-01-01' });
+    assert.deepEqual(realmIgs(m), ['de.basisprofil.r4']);
+  });
+  it('falls back to IPA and IPS for a country with no usable national base, and says why', () => {
+    const m = scope({ role: 'ehr-developer', realm: 'br', asOf: '2027-01-01' });
+    assert.deepEqual(realmIgs(m).sort(), ['hl7.fhir.uv.ipa', 'hl7.fhir.uv.ips']);
+    assert.ok(m.realm.fallback);
+    const why = ig(m, 'hl7.fhir.uv.ipa')!.reasons.find((r) => r.kind === 'realm')!.text;
+    assert.match(why, /Brazil \(Core do Brasil/);
+  });
+  it('every realm in the KB resolves to pinned, published R4 foundation IGs', () => {
+    for (const r of kb.realms) {
+      const m = scope({ role: 'ehr-developer', realm: r.id, asOf: '2027-01-01' });
+      const found = realmIgs(m);
+      assert.ok(found.length > 0, `${r.id}: no foundation IGs`);
+      for (const name of found) {
+        const pin = ig(m, name)!.pin;
+        assert.ok(pin, `${r.id}: ${name} has no pin`);
+        const pinned = r.packages.find((x) => x.ig === name)?.version;
+        assert.ok(
+          pin === pinned || publishedR4(reg.packages[name]).includes(pin!),
+          `${r.id}: ${name}@${pin} is not a published R4 release`,
+        );
+      }
+    }
   });
 });
 
@@ -184,16 +331,11 @@ describe('conflicts', () => {
 });
 
 describe('profiles and emitters', () => {
-  it('round-trips a profile through the share-link query', () => {
-    const p: ProjectProfile = {
-      ...defaultProfile(kb, 'payer'),
-      drivers: [{ id: 'cms-0057-f', components: ['prior-auth', 'patient-access'] }],
-      asOf: '2027-10-01',
-      extras: ['hl7.fhir.uv.sdc'],
-      implemented: { 'hl7.fhir.us.core': '6.1.0' },
-      projectName: 'acme',
-    };
-    assert.deepEqual(decodeProfile(kb, encodeProfile(p)), p);
+  it("starts a new profile in the US with the role's usual actors", () => {
+    const p = defaultProfile(kb, 'payer');
+    assert.equal(p.realm, 'us');
+    assert.deepEqual(p.actors, ['server', 'client']);
+    assert.deepEqual(p.drivers, []);
   });
   it('emits every file, and package.json pins what the manifest pins', () => {
     const m = scope({ role: 'payer', drivers: [{ id: 'cms-0057-f' }], asOf: '2027-01-01' });
@@ -213,6 +355,12 @@ describe('profiles and emitters', () => {
     assert.doesNotMatch(hapi, /name: hl7\.fhir\.us\.core\.v\d+/);
     const terminology = hapi.match(/name: hl7\.terminology\.r4\n/g) ?? [];
     assert.equal(terminology.length, 1);
+  });
+  it('stamps the same version the package declares', () => {
+    const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
+    assert.equal(TOOL.version, pkg.version);
+    const m = scope({ role: 'payer', asOf: '2027-01-01' });
+    assert.equal(m.tool.version, pkg.version);
   });
   it('orders versions with pre-releases below their release', () => {
     assert.ok(compareVersions('9.0.0', '9.0.0-ballot') > 0);

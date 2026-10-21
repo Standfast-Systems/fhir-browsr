@@ -16,6 +16,7 @@ summary: >-
   request (PAS client). There is no deadline to certify; demand comes from CMS's Promoting
   Interoperability "Electronic Prior Authorization" measure.
 roles: [ehr-developer, provider-org]
+realms: [us]
 fhir: ["4.0.1"]
 cite:
   source: ecfr-170-315

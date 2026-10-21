@@ -1,17 +1,20 @@
 # FHIR scope: g10-ehr
 
 > Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.
+>
+> FHIR Initializr 0.1.0 is a pre-MVP preview, under construction.
 
+- **Where:** United States
 - **Target date:** 2027-01-01
 - **Role / actors:** ehr-developer / server, client
 - **Drivers:** onc-g10
-- **KB as of:** 2026-10-20 (v0.1.0) · **Registry snapshot:** 2026-10-20 · **Generated:** 2026-10-20T00:00:00Z
+- **KB as of:** 2026-10-21 (v0.2.0) · **Registry snapshot:** 2026-10-21 · **Generated:** 2026-10-20T00:00:00Z
 
 ## IG set
 
 | IG | Pin | Accepted | Strength | Actors | Why |
 |---|---|---|---|---|---|
-| [US Core](http://hl7.org/fhir/us/core/STU9/)<br>`hl7.fhir.us.core` | 9.0.0 | 9.0.0, 8.0.1, 8.0.0, 7.0.0, 6.1.0 | Required | server | ONC (g)(10): Single-patient API (patients and clinicians), Multiple-patient API (Bulk Data) |
+| [US Core](http://hl7.org/fhir/us/core/STU9/)<br>`hl7.fhir.us.core` | 9.0.0 | 9.0.0, 8.0.1, 8.0.0, 7.0.0, 6.1.0 | Required | server | ONC (g)(10): Single-patient API (patients and clinicians), Multiple-patient API (Bulk Data); National core for United States. |
 | [Bulk Data](http://hl7.org/fhir/uv/bulkdata/STU2/)<br>`hl7.fhir.uv.bulkdata` | 2.0.0 | 2.0.0, 1.0.1, 1.0.0 | Required | server | ONC (g)(10): Multiple-patient API (Bulk Data) |
 | [SMART App Launch](http://hl7.org/fhir/smart-app-launch/STU2.2/)<br>`hl7.fhir.uv.smart-app-launch` | 2.2.0 | 2.2.0, 2.0.0 | Required | server | ONC (g)(10): Single-patient API (patients and clinicians), Multiple-patient API (Bulk Data) |
 
@@ -39,6 +42,7 @@
   - ✓ 8.0.0 — SVAP-approved, 2025-08-29 → …: SVAP Approved Standards 2025 (g)(10): US Core 8.0.0 (https://isp.healthit.gov/sites/default/files/2025-06/SVAP_Standards_Document_2025_508.pdf)
   - ✓ 8.0.1 — SVAP-approved, 2026-08-13 → …: Certification Companion Guide and Test Method: §170.315(g)(10) Standardized API Technical explanations: US Core 8.0.1 errata (https://healthit.gov/test-method/standardized-api-for-patient-and-population-services-acb-atl/) — Errata release of 8.0.0, effective for testing August 13, 2026.
   - ✓ 9.0.0 — SVAP-approved, 2026-08-29 → …: SVAP Standards for Approval 2026 (g)(10): US Core 9.0.0 (https://isp.healthit.gov/sites/default/files/2026-06/20260611_2026%20Standards%20for%20Approval_508.pdf)
+- National core for United States.
 - Links: [IG home](http://hl7.org/fhir/us/core/STU9/) · [artifacts](http://hl7.org/fhir/us/core/STU9/artifacts.html) · [US Core Client CapabilityStatement (client)](http://hl7.org/fhir/us/core/STU9/CapabilityStatement-us-core-client.html) · [US Core Server CapabilityStatement (server)](http://hl7.org/fhir/us/core/STU9/CapabilityStatement-us-core-server.html) · [ONC Certification (g)(10) Standardized API Test Kit](https://inferno.healthit.gov/test-kits/onc-certification-g10/) · [US Core Test Kit](https://inferno.healthit.gov/test-kits/us-core/) · [chat: #argonaut](https://chat.fhir.org/#narrow/channel/179175-argonaut)
 
 ### Bulk Data (`hl7.fhir.uv.bulkdata`)
