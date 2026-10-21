@@ -27,6 +27,7 @@ import type {
   PackageSnapshot,
   ProjectProfile,
   Reason,
+  RemovedIg,
   RegistryPackage,
   RegistrySnapshot,
   ResolvedCitation,
@@ -140,12 +141,49 @@ interface Applied {
   reason: Reason;
 }
 
+/** The components a side sees; every component when the driver has no sides. */
+export function componentsForSide(d: Driver, side: string | undefined): Component[] {
+  if (!d.sides?.length) return d.components;
+  if (!side) return [];
+  return d.components.filter((c) => !c.sides || c.sides.includes(side));
+}
+
 export function selectedComponents(d: Driver, profile: ProjectProfile): Component[] {
   const sel = profile.drivers.find((x) => x.id === d.id);
   if (!sel) return [];
-  const forRole = d.components.filter((c) => !c.roles || c.roles.includes(profile.role));
-  if (sel.components?.length) return forRole.filter((c) => sel.components!.includes(c.id));
-  return forRole.filter((c) => c.default !== false);
+  const offered = componentsForSide(d, sel.side);
+  if (sel.components?.length) return offered.filter((c) => sel.components!.includes(c.id));
+  return offered.filter((c) => c.default !== false);
+}
+
+/** Selected drivers that have sides but no side chosen yet: nothing resolves for them until then. */
+export function driversNeedingSide(kb: KnowledgeBase, profile: ProjectProfile): Driver[] {
+  return profile.drivers
+    .filter((s) => !s.side)
+    .map((s) => kb.drivers.find((d) => d.id === s.id))
+    .filter((d): d is Driver => !!d?.sides?.length && driverApplies(d, profile.realm));
+}
+
+/**
+ * The actors the selected drivers' rules use, for the chosen sides and components: what a project
+ * with these drivers builds. Both when no driver says (a project scoped from guides alone).
+ */
+export function driverActors(kb: KnowledgeBase, profile: ProjectProfile): Actor[] {
+  const used = new Set<Actor>();
+  for (const d of kb.drivers) {
+    if (!driverApplies(d, profile.realm)) continue;
+    const comps = selectedComponents(d, profile).map((c) => c.id);
+    const side = profile.drivers.find((x) => x.id === d.id)?.side;
+    for (const r of d.rules)
+      if (
+        comps.length &&
+        (!d.sides?.length || r.side === side) &&
+        (!r.components || r.components.some((c) => comps.includes(c)))
+      )
+        used.add(r.actor);
+  }
+  const actors = (['server', 'client'] as Actor[]).filter((a) => used.has(a));
+  return actors.length ? actors : ['server', 'client'];
 }
 
 /** Drivers apply only in their realms (ONC and CMS rules mean nothing to a project in Australia). */
@@ -159,8 +197,9 @@ function applyRules(kb: KnowledgeBase, profile: ProjectProfile): Applied[] {
     if (!driverApplies(d, profile.realm)) continue;
     const comps = selectedComponents(d, profile);
     if (!comps.length) continue;
+    const side = profile.drivers.find((x) => x.id === d.id)?.side;
     for (const rule of d.rules) {
-      if (rule.roles && !rule.roles.includes(profile.role)) continue;
+      if (d.sides?.length && rule.side !== side) continue;
       if (!profile.actors.includes(rule.actor)) continue;
       const matching = rule.components
         ? comps.filter((c) => rule.components!.includes(c.id))
@@ -287,6 +326,14 @@ export function resolve(
       cites: [resolveCitation(kb, d.cite)],
     });
   }
+  for (const d of driversNeedingSide(kb, profile))
+    warnings.push({
+      kind: 'side-missing',
+      severity: 'error',
+      title: `${d.short}: choose which side your system is on`,
+      detail: `Its guides depend on it: ${d.sides!.map((x) => `${x.id} (${x.name})`).join(', ')}. Its rules were left out.`,
+      cites: [resolveCitation(kb, d.cite)],
+    });
 
   // "Where is the project?": the national foundation, or the international defaults.
   for (const p of realm.packages) {
@@ -323,17 +370,34 @@ export function resolve(
     if (name !== extra) d.ig.pinNote = `Uses ${name}, the R4 edition of ${extra}.`;
   }
 
-  for (const [name, version] of Object.entries(profile.implemented ?? {})) {
-    if (!drafts.has(name)) {
-      draft(name).ig.reasons.push({
-        kind: 'implemented',
-        strength: 'optional',
-        accepts: [version],
-        windows: [],
-        status: 'in-force',
-        text: 'Already implemented by this project.',
-      });
-    }
+  // Guides the user took out: gone from the scope, listed so they can come back.
+  const removed: RemovedIg[] = [];
+  const removedCites = new Map<string, ResolvedCitation[]>();
+  for (const name of profile.removed ?? []) {
+    const d = drafts.get(name);
+    if (!d) continue;
+    drafts.delete(name);
+    removed.push({
+      package: name,
+      title: d.ig.title,
+      strength: strongest(d.ig.reasons),
+      from: [
+        ...new Set(
+          d.ig.reasons.map((r) =>
+            r.kind === 'rule'
+              ? (r.driverName ?? 'a driver')
+              : r.kind === 'realm'
+                ? `the ${realm.def.name} foundation`
+                : 'you',
+          ),
+        ),
+      ],
+      stillNeeded: false,
+    });
+    removedCites.set(
+      name,
+      d.ig.reasons.map((r) => r.cite).filter((c): c is ResolvedCitation => !!c),
+    );
   }
 
   const locked = new Set<string>();
@@ -353,6 +417,18 @@ export function resolve(
     );
 
   const dependencies = closeDependencies(reg, igs, warnings);
+  for (const r of removed) {
+    r.stillNeeded = dependencies.some((d) => d.name === r.package);
+    if (r.strength === 'optional') continue;
+    warnings.push({
+      kind: 'removed',
+      severity: r.strength === 'required' ? 'warn' : 'info',
+      package: r.package,
+      title: `${r.title} removed, though ${r.from.join(' and ')} ${r.strength === 'required' ? 'requires' : 'recommends'} it`,
+      detail: `The scope no longer covers it.${r.stillNeeded ? ' Other guides depend on it, so it stays in the dependencies.' : ''} Restore it to put it back.`,
+      cites: removedCites.get(r.package) ?? [],
+    });
+  }
   for (const ig of igs) ig.links = linksFor(kb, reg, ig, deep);
   const surface = buildSurface(reg, profile, igs, drafts, deep, warnings);
   const tests = buildTestPlan(kb, igs, profile);
@@ -422,6 +498,7 @@ export function resolve(
     profile,
     realm: { id: realm.def.id, name: realm.def.name, fallback: realm.fallback },
     igs,
+    removed,
     dependencies,
     surface,
     warnings,
@@ -449,6 +526,13 @@ function layerRank(l: ManifestIg['layer']): number {
   return ['auto', 'workflow', 'capability', 'content', 'hidden', 'dependency'].indexOf(l);
 }
 
+function strongest(reasons: Reason[]): Strength {
+  return reasons.reduce<Strength>(
+    (s, r) => (STRENGTH_RANK[r.strength] > STRENGTH_RANK[s] ? r.strength : s),
+    'optional',
+  );
+}
+
 function pickVersion(
   kb: KnowledgeBase,
   reg: RegistrySnapshot,
@@ -464,10 +548,7 @@ function pickVersion(
     ...ig.reasons.filter((r) => r.attested).flatMap((r) => r.accepts),
   ];
   const reasons = ig.reasons;
-  ig.strength = reasons.reduce<Strength>(
-    (s, r) => (STRENGTH_RANK[r.strength] > STRENGTH_RANK[s] ? r.strength : s),
-    'optional',
-  );
+  ig.strength = strongest(reasons);
   ig.actors = [...new Set(reasons.map((r) => r.actor).filter((a): a is Actor => !!a))];
   const cites = (rs: Reason[]) =>
     rs
@@ -517,9 +598,13 @@ function pickVersion(
         cites: cites(requiredNow),
       });
       ig.allowed = [];
-      ig.pin = null;
-      ig.pinNote = 'Conflict between required versions; see warnings.';
       ig.fhir = [];
+      const chosen = profile.pins?.[name];
+      ig.pin = chosen ?? null;
+      ig.chosen = !!chosen;
+      ig.pinNote = chosen
+        ? 'Your choice. The required versions conflict; see warnings.'
+        : 'Conflict between required versions; see warnings.';
       return true;
     }
     if (requiredLater.length) {
@@ -586,36 +671,43 @@ function pickVersion(
   }
 
   ig.allowed = candidates;
-  const implemented = profile.implemented?.[name];
   const publishedPreferred = preferred.filter((v) => published.includes(v));
   const publishedCandidates = candidates.filter((v) => published.includes(v));
-  if (implemented && candidates.includes(implemented)) {
-    ig.pin = implemented;
-    ig.pinNote = 'Kept the version you already implement.';
-  } else {
-    ig.pin = publishedPreferred[0] ?? publishedCandidates[0] ?? candidates[0] ?? null;
+  const pick = publishedPreferred[0] ?? publishedCandidates[0] ?? candidates[0] ?? null;
+  const chosen = profile.pins?.[name];
+  if (!chosen) {
+    ig.pin = pick;
     if (followsRecommendation && ig.pin === publishedPreferred[0])
       ig.pinNote = `Follows the recommendation (${recommended.map((r) => label(r)).join('; ')}); ${candidates[0]} is also accepted.`;
-    if (implemented) {
-      const lapsed = rules.some((a) =>
-        a.reason.windows.some(
-          (w) => w.version === implemented && !w.active && w.expires && w.expires <= profile.asOf,
-        ),
-      );
-      warnings.push({
-        kind: lapsed ? 'expired-implemented' : 'implemented-mismatch',
-        severity: ig.strength === 'required' ? 'error' : 'warn',
-        package: name,
-        title: lapsed
-          ? `${ig.title} ${implemented} has expired for this target date`
-          : `${ig.title} ${implemented} isn't among the accepted versions`,
-        detail: `You implement ${implemented}; accepted on ${profile.asOf}: ${candidates.join(', ') || 'none'}.`,
-        cites: cites(required.length ? required : recommended),
-      });
-    }
+    else if (!ig.pinNote && !rules.length && publishedCandidates.length > 1)
+      ig.pinNote = `The newest release: nothing in scope narrows the choice, so any of ${publishedCandidates.length} published versions will do.`;
+    return false;
   }
 
-  return !!(implemented && candidates.includes(implemented));
+  // The user's choice wins; say when it falls outside what the reasons accept.
+  ig.pin = chosen;
+  ig.chosen = true;
+  ig.pinNote =
+    chosen === pick || !pick ? 'Your choice.' : `Your choice. Initializr would pick ${pick}.`;
+  if (!candidates.includes(chosen)) {
+    const lapsed = rules.some((a) =>
+      a.reason.windows.some(
+        (w) => w.version === chosen && !w.active && w.expires && w.expires <= profile.asOf,
+      ),
+    );
+    warnings.push({
+      kind: lapsed ? 'expired-choice' : 'choice-not-accepted',
+      severity:
+        ig.strength === 'required' ? 'error' : ig.strength === 'recommended' ? 'warn' : 'info',
+      package: name,
+      title: lapsed
+        ? `${ig.title} ${chosen} has expired for this target date`
+        : `${ig.title} ${chosen} isn't among the accepted versions`,
+      detail: `You chose ${chosen}; accepted on ${profile.asOf}: ${candidates.join(', ') || 'none'}.`,
+      cites: cites(required.length ? required : recommended),
+    });
+  }
+  return true;
 }
 
 /**
@@ -653,7 +745,7 @@ function alignPins(
       severity: 'info',
       package: ig.package,
       title: `${ig.title} pinned to ${hit} (not ${newest}) to match the IGs that use it`,
-      detail: `${who.join(', ')} ${verb} on ${ig.title} ${hit}, so pinning ${newest} would load two versions. List ${newest} under "already implemented" to keep it.`,
+      detail: `${who.join(', ')} ${verb} on ${ig.title} ${hit}, so pinning ${newest} would load two versions. Choose ${newest} on the guide to keep it anyway.`,
       cites: [],
     });
   }
@@ -978,7 +1070,7 @@ function pickCapStmts(
   fallbackActors: Actor[],
 ): CapStmtSummary[] {
   const all = snap.capstmts ?? [];
-  // `capstmts: []` on every rule means the KB says none of the IG's statements apply to this role.
+  // `capstmts: []` on every rule means the KB says none of the IG's statements apply to this project.
   if (
     rules.length &&
     rules.every((a) => Array.isArray(a.rule.capstmts) && a.rule.capstmts.length === 0)
@@ -1050,10 +1142,10 @@ function buildSurface(
           kind: 'narrative-only',
           severity: 'info',
           package: ig.package,
-          title: `${ig.title} ${ig.pin}: no machine-readable REST expectations for your role`,
+          title: `${ig.title} ${ig.pin}: no machine-readable REST expectations for your side`,
           detail: picked.length
             ? `Its CapabilityStatement (${picked.map((c) => c.title).join(', ')}) lists no resources or operations; the requirements are in the guide's narrative.`
-            : "The package has no CapabilityStatement for your role. Read the guide's conformance pages; Initializr does not guess.",
+            : "The package has no CapabilityStatement for your side of the exchange. Read the guide's conformance pages; Initializr does not guess.",
           cites: [],
         });
       continue;

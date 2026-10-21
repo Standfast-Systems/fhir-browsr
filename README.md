@@ -8,14 +8,16 @@
 
 Package tools (SUSHI, Firely Terminal, the FHIR Package Loader) resolve a dependency tree once you know the root IG and version. Nothing tells you which IGs you need in the first place, or which versions a regulation accepts on the date you have to comply. FHIR Initializr does that part, the way [start.spring.io](https://start.spring.io) sets up a Spring project.
 
-Tell it **where** the project is (the US, a country, or nowhere in particular), your **role** (EHR developer, payer, provider organization, app developer, HIE), your **actor** (FHIR server, client or both), your **drivers** (ONC (g)(10), CMS-0057-F, HTI-4 prior authorization…) and a **target date**. It returns a scope manifest:
+Tell it **where** the project is (the US, a country, or nowhere in particular) and **what drives it** (ONC (g)(10), CMS-0057-F, HTI-4 prior authorization…). Where a regulation asks different things of each party, it asks **which side your system is on** (for CMS-0057-F: the payer's APIs, a provider system that calls them, or a member app). Then it asks whether you're building a **FHIR server, client or both** and the **target date**, and returns a scope manifest:
 
 - **IG set:** every guide in scope with its accepted versions on that date, a recommended pin, the requirement strength (required, recommended or optional, never collapsed) and the citation for each.
 - **Warnings:** conflicts between drivers (reported with both citations, never silently resolved), versions that expire soon after your date, multi-version dependencies, FHIR-version mismatches, pins no Inferno suite can test yet, and versions a *proposed* rule would require.
-- **Functional surface:** resources, interactions, search parameters and operations at SHALL/SHOULD, merged from each IG's own CapabilityStatements for your role. Where a guide publishes none, it says "narrative only" instead of guessing.
+- **Functional surface:** resources, interactions, search parameters and operations at SHALL/SHOULD, merged from each IG's own CapabilityStatements for your side of the exchange. Where a guide publishes none, it says "narrative only" instead of guessing.
 - **Test plan:** the Inferno kits and suites that exercise the scope, and whether they support your pinned versions.
 - **Files:** `package.json`, a `sushi-config.yaml` dependencies block, the HAPI JPA Starter `implementationguides` block, a draft CapabilityStatement, an Inferno plan, a Markdown report and the JSON manifest.
 - **Links** to each IG's version-specific pages, CapabilityStatements, artifacts, Inferno kit and chat.fhir.org stream.
+
+Every pick is yours to change on its card: click another version (accepted or not; the scope warns when it doesn't qualify), or remove a guide. Removed guides are listed under "Removed by you" with a Restore button, and the scope flags a removed requirement.
 
 > Scoping guidance with citations, not a compliance determination.
 
@@ -47,18 +49,18 @@ Then open http://localhost:4200. The project you're scoping lives in a signal st
 ### CLI
 
 ```bash
-node cli/initializr.ts scope --role payer --driver cms-0057-f --as-of 2027-01-01
+node cli/initializr.ts scope --driver cms-0057-f@payer --as-of 2027-01-01
 ```
 
 ```bash
-node cli/initializr.ts scope --role ehr-developer --driver onc-g10 --driver onc-epa --out ./scope
+node cli/initializr.ts scope --driver onc-g10 --driver onc-epa --out ./scope
 ```
 
 ```bash
 node cli/initializr.ts drivers
 ```
 
-`--driver` takes `id:component+component` to limit a driver to some components (e.g. `cms-0057-f:prior-auth+provider-access`). `--implemented hl7.fhir.us.core@6.1.0` keeps a version you already run if it still qualifies. `--format` picks one output (`report`, `package-json`, `sushi-config`, `hapi-yaml`, `capability-statement`, `inferno-plan`, `manifest`); `--out` writes them all.
+`--driver` takes `id@side:component+component`: the side for a driver that has sides, and optionally some of its components (e.g. `cms-0057-f@payer:prior-auth+provider-access`). `--pin hl7.fhir.us.core@6.1.0` uses that version, accepted or not; `--remove <package>` takes a guide out of the scope. `--format` picks one output (`report`, `package-json`, `sushi-config`, `hapi-yaml`, `capability-statement`, `inferno-plan`, `manifest`); `--out` writes them all.
 
 ### The data, for any client
 
@@ -85,12 +87,12 @@ There is no backend. The site serves the compiled knowledge base and registry sn
 
 For each IG, every applicable rule contributes the versions it accepts on the target date (or on its in-force date, for obligations that start later). Required rules are intersected; an empty intersection is a conflict, reported with every citation and no pin. Recommended rules narrow the preference without shrinking what's accepted. The pin is the newest published R4 release left, with two exceptions, both shown on the card:
 
-- a version you list as already implemented wins if it still qualifies;
+- a version you choose on the card wins, even outside the accepted versions (a warning says so, as an error if it's a requirement), so it also covers a version you already run;
 - if other IGs in the set depend on an accepted version, Initializr pins that one so the project loads one version instead of two (US Core 7.0.0 rather than 9.0.0 for a CMS-0057-F payer, because PDex, CRD, DTR and PAS depend on 7.0.0).
 
-### CapabilityStatements and roles
+### CapabilityStatements and sides
 
-Rules name the CapabilityStatements for the implementer's role in an IG; each statement's own `rest.mode` decides whether it lands on the "what you serve" or "what you call" side of the surface. This matters for CDS Hooks–based IGs: the EHR, which the CRD guide calls the "CRD Client", is the FHIR *server*.
+Rules name the CapabilityStatements for the implementer's part in an IG; each statement's own `rest.mode` decides whether it lands on the "what you serve" or "what you call" side of the surface. This matters for CDS Hooks–based IGs: the EHR, which the CRD guide calls the "CRD Client", is the FHIR *server*.
 
 ## Keeping it current
 

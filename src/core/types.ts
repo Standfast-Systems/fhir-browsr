@@ -10,7 +10,6 @@
 // ---------------------------------------------------------------------------------------------
 // Shared vocabulary
 
-export type Role = 'ehr-developer' | 'payer' | 'provider-org' | 'app-developer' | 'hie';
 export type Actor = 'server' | 'client';
 
 /**
@@ -87,16 +86,16 @@ export interface Rule {
   /** The actor of the project being scoped (not of its counterparty). */
   actor: Actor;
   strength: Strength;
-  /** Only applies to these roles. Absent: every role the driver covers. */
-  roles?: Role[];
+  /** For a driver with sides: the side this rule applies to (required there). */
+  side?: string;
   /** Only applies when one of these driver components is selected. Absent: every component. */
   components?: string[];
   versions: VersionWindow[];
   /**
-   * CapabilityStatement canonicals (unversioned) for the project's role in this IG. Their own
-   * rest.mode places them on the server or client side of the surface. List every name the role
+   * CapabilityStatement canonicals (unversioned) for the project's part in this IG. Their own
+   * rest.mode places them on the server or client side of the surface. List every name that part
    * has used across versions; absent (or none present in the package), Initializr falls back to
-   * statements whose rest.mode matches the actor. An empty list means none apply to this role.
+   * statements whose rest.mode matches the actor. An empty list means none apply to this project.
    */
   capstmts?: string[];
   /** Why the IG is in scope at all. */
@@ -111,10 +110,16 @@ export interface Component {
   /** When the obligation starts and (optionally) ends. */
   in_force: { from?: IsoDate; until?: IsoDate };
   cite: Citation;
-  /** Roles that this component binds. Absent: all of the driver's roles. */
-  roles?: Role[];
+  /** For a driver with sides: the sides that use this component. Absent: every side. */
+  sides?: string[];
   /** Pre-ticked when the driver is chosen. */
   default?: boolean;
+}
+
+export interface Side {
+  id: string;
+  name: string;
+  summary: string;
 }
 
 export interface Driver {
@@ -124,8 +129,11 @@ export interface Driver {
   kind: 'regulation' | 'program' | 'profile';
   authority: string;
   summary: string;
-  /** Roles the driver regulates or typically applies to (UI hint and rule filter). */
-  roles: Role[];
+  /**
+   * The sides of the exchange a project can be on, when they need different guides (CMS-0057-F:
+   * the payer's APIs, or a system that calls them). The project must pick one; absent: no choice.
+   */
+  sides?: Side[];
   /** Realms (see RealmDef.id) where the driver applies. Absent: every realm. */
   realms?: string[];
   fhir: string[];
@@ -194,18 +202,10 @@ export interface CatalogGuide {
   parties?: string[];
 }
 
-export interface RoleDef {
-  id: Role;
-  label: string;
-  summary: string;
-  defaultActors: Actor[];
-}
-
 export interface KnowledgeBase {
   kbVersion: string;
   kbAsOf: IsoDate;
   disclaimer: string;
-  roles: RoleDef[];
   sources: Record<string, Source>;
   drivers: Driver[];
   realms: RealmDef[];
@@ -327,13 +327,18 @@ export interface RegistrySnapshot {
 export interface ProjectProfile {
   /** "us", an ISO country code from the KB's realms, or "intl" (no particular country). */
   realm: string;
-  role: Role;
   actors: Actor[];
-  drivers: { id: string; components?: string[] }[];
+  /** Selected drivers; `side` is required for a driver with sides. */
+  drivers: { id: string; side?: string; components?: string[] }[];
   asOf: IsoDate;
   fhir: '4.0.1';
-  /** IGs the project already implements, package -> version. */
-  implemented?: Record<string, string>;
+  /**
+   * Versions the user chose, package -> version. A choice wins even outside the accepted versions
+   * (with a warning), so it also records a version the project already runs.
+   */
+  pins?: Record<string, string>;
+  /** Guides the user took out of the scope. They are listed in the manifest so they can come back. */
+  removed?: string[];
   /** Catalog guides picked by hand (workflows, capabilities, content packs). */
   extras?: string[];
   projectName?: string;
@@ -349,7 +354,7 @@ export interface ResolvedCitation {
 }
 
 export interface Reason {
-  kind: 'rule' | 'realm' | 'selected' | 'implemented';
+  kind: 'rule' | 'realm' | 'selected';
   driver?: string;
   driverName?: string;
   component?: string;
@@ -401,6 +406,20 @@ export interface ManifestIg {
   reasons: Reason[];
   links: IgLinks;
   pinNote?: string;
+  /** The pin is the user's choice, not Initializr's. */
+  chosen?: boolean;
+}
+
+/** A guide the user removed from the scope. */
+export interface RemovedIg {
+  package: string;
+  title: string;
+  /** What it would have been: required, recommended or optional. */
+  strength: Strength;
+  /** Who brought it in: driver names, the realm, or "you". */
+  from: string[];
+  /** Other guides still depend on it, so it stays in the dependencies. */
+  stillNeeded: boolean;
 }
 
 export interface ManifestDependency {
@@ -417,8 +436,9 @@ export type WarningKind =
   | 'conflict'
   | 'no-version'
   | 'expiring'
-  | 'expired-implemented'
-  | 'implemented-mismatch'
+  | 'expired-choice'
+  | 'choice-not-accepted'
+  | 'removed'
   | 'upcoming'
   | 'multi-version'
   | 'fhir-mismatch'
@@ -432,6 +452,7 @@ export type WarningKind =
   | 'proposed'
   | 'aligned'
   | 'realm-mismatch'
+  | 'side-missing'
   | 'dead-link';
 
 export interface ManifestWarning {
@@ -490,6 +511,7 @@ export interface Manifest {
   /** Where the project is; fallback means the international defaults stood in for a national base. */
   realm: { id: string; name: string; fallback: boolean };
   igs: ManifestIg[];
+  removed: RemovedIg[];
   dependencies: ManifestDependency[];
   surface: ActorSurface[];
   warnings: ManifestWarning[];

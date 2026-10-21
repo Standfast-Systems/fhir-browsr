@@ -6,7 +6,7 @@ The knowledge base in [kb/](../kb/) is the part of Initializr nobody else has. I
 
 | File | What it holds |
 |---|---|
-| `meta.yaml` | KB version, **as-of date**, disclaimer, roles and their default actors |
+| `meta.yaml` | KB version, **as-of date**, disclaimer |
 | `sources.yaml` | Every source a rule can cite: title, publisher, URL, publication date, the date a curator last **checked** it, and its kind |
 | `drivers/*.yaml` | One file per driver (regulation, program or profile), each scoped to the realms where it applies |
 | `realms.yaml` | "Where is the project?": each country's national foundation IGs, plus the international defaults |
@@ -22,7 +22,7 @@ name: "ONC certification — §170.315(g)(10) Standardized API"
 short: "ONC (g)(10)"
 kind: regulation            # regulation | program | profile
 authority: "ONC (HHS)"
-roles: [ehr-developer, hie] # who it applies to (UI hint and rule filter)
+sides: [...]                # optional: see "Sides" below
 cite: {source: ecfr-170-315, pin: "(g)(10)", url: "...#p-170.315(g)(10)"}
 components:                 # selectable parts, each with its own in-force window
   - id: population
@@ -35,8 +35,8 @@ rules:
     actor: server           # the project's actor, not its counterparty's
     strength: required      # required | recommended | optional — never collapse these
     components: [...]       # optional: only for these components
-    roles: [...]            # optional: only for these roles
-    capstmts: [...]         # CapabilityStatement canonicals for the project's role in this IG
+    side: payer             # required when the driver has sides
+    capstmts: [...]         # CapabilityStatement canonicals for the project's part in this IG
     cite: {...}             # why the IG is in scope at all
     versions:               # version windows
       - version: "6.1.0"    # always quote versions
@@ -48,7 +48,26 @@ rules:
 notes: [...]                # caveats shown with every manifest using this driver
 ```
 
-A regulation binds some of its `roles` (those with `required` rules). Give the others `optional` rules for their side of the exchange, at the versions the bound party is asked to run: CMS-0057-F binds payers, so EHR developers get PDex, Bulk Data, CRD, DTR and PAS as clients. The app tells those users the driver requires nothing of them and offers the bound role. When another driver requires a different version of the same guide, the manifest warns (`optional-outside-required`) that the other side may be on other versions.
+### Sides
+
+Most drivers ask the same of every project that picks them. When a regulation asks different things of each party to an exchange, give it `sides`, and the app asks "Which side is your system on?" right after the driver is picked. The question is about the system being built, never about who the user is: a consultant building a payer's API picks the payer's side.
+
+```yaml
+sides:
+  - id: payer
+    name: The payer's APIs
+    summary: You build or run the APIs the rule requires of impacted payers.
+  - id: provider
+    name: A provider system that calls them
+    summary: An EHR or provider system that pulls member data and requests prior authorization.
+components:
+  - id: prior-auth
+    sides: [payer, provider]  # which sides take part; absent: every side
+```
+
+Every rule of a driver with sides names its `side`; the driver resolves nothing until a side is chosen. The bound side gets the `required` and `recommended` rules. The other sides get `optional` client rules at the versions the bound party is asked to run, so a provider system calling CMS-0057-F's APIs gets PDex, Bulk Data, CRD, DTR and PAS. When another driver requires a different version of the same guide, the manifest warns (`optional-outside-required`) that the other side may be on other versions.
+
+FHIR server and client are not curated per driver: the app presets them from the actors of the rules that apply, and the user can untick one.
 
 ### Version bases
 
@@ -85,7 +104,7 @@ The IG registry's "National Base" category is not a reliable signal (some countr
 - **Primary sources only.** eCFR, the Federal Register, agency pages and approved-version lists, the IGs themselves. No vendor summaries.
 - **Quote briefly.** A verbatim excerpt under 25 words that supports the claim.
 - **Recommended is not required.** If an agency says "recommends", the rule is `recommended`, even when everyone treats it as required.
-- **Don't infer surfaces.** If an IG has no CapabilityStatement for a role, leave it; Initializr reports "narrative only".
+- **Don't infer surfaces.** If an IG has no CapabilityStatement for a side, leave it; Initializr reports "narrative only".
 - **Date everything.** Windows carry `from`/`expires`; sources carry `checked`. Bump `kb_as_of` in `meta.yaml` after a review.
 - **Proposed rules are `proposed`.** Never move a proposed version into an accepted window until the rule is final.
 
@@ -100,7 +119,7 @@ npm run test:core
 ```
 
 ```bash
-node cli/initializr.ts scope --role payer --driver cms-0057-f --as-of 2027-01-01
+node cli/initializr.ts scope --driver cms-0057-f@payer --as-of 2027-01-01
 ```
 
-Validation fails on unknown sources, bad dates, unquoted versions, unknown components or roles, and any cited version that isn't published in the registry snapshot.
+Validation fails on unknown sources, bad dates, unquoted versions, unknown components or sides, rules missing their side, and any cited version that isn't published in the registry snapshot.

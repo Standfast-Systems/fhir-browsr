@@ -39,11 +39,12 @@
       <div class="pane">
         @if (!m.igs.length) {
           <div class="empty">
-            <p>
-              <strong>Pick a driver</strong> on the left (or add guides) to see the IGs your project
-              needs.
+            <p><strong>Nothing in scope.</strong></p>
+            <p class="muted">
+              Add guides on the left{{
+                m.removed.length ? ', or restore one you removed below' : ''
+              }}.
             </p>
-            <p class="muted">Try “CMS-0057-F” as a payer, or “ONC (g)(10)” as an EHR developer.</p>
           </div>
         }
         @for (g of groups(); track g.id) {
@@ -56,6 +57,30 @@
                 <fi-ig-card [ig]="ig" [allWarnings]="m.warnings" [asOf]="m.profile.asOf" />
               }
             </div>
+          </section>
+        }
+        @if (m.removed.length) {
+          <section class="group removed">
+            <h3>
+              Removed by you
+              <span class="faint">· Left out of the scope and the generated files.</span>
+            </h3>
+            <ul>
+              @for (r of m.removed; track r.package) {
+                <li>
+                  <span class="pill" [class]="r.strength">{{ r.strength }}</span>
+                  <span class="rtitle">{{ r.title }}</span>
+                  <span class="mono faint">{{ r.package }}</span>
+                  <span class="faint"
+                    >· from {{ r.from.join(', ')
+                    }}{{ r.stillNeeded ? ' · still loaded as a dependency' : '' }}</span
+                  >
+                  <button mat-button type="button" (click)="store.restoreIg(r.package)">
+                    <mat-icon fontSet="material-symbols-outlined">undo</mat-icon> Restore
+                  </button>
+                </li>
+              }
+            </ul>
           </section>
         }
         @if (m.driverNotes.length) {
@@ -115,8 +140,8 @@
       <div class="pane">
         <p class="intro muted">
           Resources, interactions, search parameters and operations at SHALL/SHOULD, merged from
-          each IG's own CapabilityStatements for your role. Where a guide publishes none, Initializr
-          says “narrative only” instead of guessing.
+          each IG's own CapabilityStatements for your side of the exchange. Where a guide publishes
+          none, Initializr says “narrative only” instead of guessing.
         </p>
         @if (data.loadingDeep()) {
           <p class="faint">Loading IG details…</p>
@@ -241,4 +266,28 @@
       </div>
     </mat-tab>
   </mat-tab-group>
+} @else if (data.kb()) {
+  <div class="start">
+    @if (store.needsSide()[0]; as d) {
+      <h2>Which side of {{ d.short }} is your system on?</h2>
+      <p class="muted">
+        {{ d.short }} asks different things of each side. Pick one on the left and the guides appear
+        here.
+      </p>
+    } @else {
+      <h2>Start with what drives the project</h2>
+      <p class="muted">
+        Pick the regulation or program your system has to meet, or “None of these” to choose guides
+        yourself. Initializr then lists:
+      </p>
+      <ul>
+        <li>
+          the implementation guides and the versions that count on your date, each with its source
+        </li>
+        <li>warnings for conflicts, expiring versions and guides no test kit covers yet</li>
+        <li>the FHIR surface your system has to expose</li>
+        <li>a package.json, HAPI config, CapabilityStatement draft and Inferno test plan</li>
+      </ul>
+    }
+  </div>
 }

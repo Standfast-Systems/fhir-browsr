@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // FHIR Initializr CLI. Same core as the web app; reads the KB YAML and the committed registry snapshot.
 //
-//   node cli/initializr.ts scope --role payer --driver cms-0057-f --as-of 2027-01-01
-//   node cli/initializr.ts scope --role ehr-developer --driver onc-g10 --out ./scope
+//   node cli/initializr.ts scope --driver cms-0057-f@payer --as-of 2027-01-01
+//   node cli/initializr.ts scope --driver onc-g10 --out ./scope
 //   node cli/initializr.ts drivers
 //   node cli/initializr.ts validate
 
@@ -14,6 +14,7 @@ import {
   EMITTERS,
   defaultProfile,
   deepKeysFor,
+  driverActors,
   emitterById,
   resolve,
   validateKb,
@@ -23,7 +24,6 @@ import type {
   PackageSnapshot,
   ProjectProfile,
   RegistrySnapshot,
-  Role,
 } from '../src/core/index.ts';
 import { loadKb, ROOT } from '../scripts/lib/kb-load.ts';
 
@@ -31,18 +31,20 @@ const HELP = `FHIR Initializr — which FHIR IGs and versions your project needs
 
 Usage:
   initializr scope [options]       Resolve a scope manifest
-  initializr drivers               List drivers and their components
+  initializr drivers               List drivers, their sides and components
   initializr realms                List countries and their national foundation IGs
   initializr validate              Check the knowledge base
 
 Scope options:
   --realm <code>         us (default), a country code from "initializr realms", or intl
-  --role <role>          ehr-developer | payer | provider-org | app-developer | hie
-  --driver <id[:c1+c2]>  Driver, optionally limited to components (repeatable)
+  --driver <id[@side][:c1+c2]>
+                         Driver, its side when it has sides (cms-0057-f@payer), optionally
+                         limited to components (repeatable)
   --as-of <yyyy-mm-dd>   Target date (default ${DEFAULT_AS_OF})
-  --actor <a>            server | client (repeatable; default from role)
+  --actor <a>            server | client (repeatable; default: what the drivers use)
   --extra <package>      Add a catalog guide by package id (repeatable)
-  --implemented <p@v>    A version you already implement (repeatable)
+  --pin <p@v>            Use this version of a guide in scope, accepted or not (repeatable)
+  --remove <package>     Take a guide out of the scope (repeatable)
   --name <text>          Project name for generated files
   --format <id>          ${EMITTERS.map((e) => e.id).join(' | ')} (default report)
   --out <dir>            Write every output file into <dir>
@@ -74,12 +76,12 @@ function main() {
     allowPositionals: true,
     options: {
       realm: { type: 'string' },
-      role: { type: 'string' },
       driver: { type: 'string', multiple: true },
       'as-of': { type: 'string' },
       actor: { type: 'string', multiple: true },
       extra: { type: 'string', multiple: true },
-      implemented: { type: 'string', multiple: true },
+      pin: { type: 'string', multiple: true },
+      remove: { type: 'string', multiple: true },
       name: { type: 'string' },
       format: { type: 'string' },
       out: { type: 'string' },
@@ -104,11 +106,12 @@ function main() {
   if (cmd === 'drivers') {
     for (const d of kb.drivers) {
       console.log(
-        `${d.id}  —  ${d.name}  [${d.kind}; roles: ${d.roles.join(', ')}; realms: ${(d.realms ?? ['any']).join(', ')}]`,
+        `${d.id}  —  ${d.name}  [${d.kind}; realms: ${(d.realms ?? ['any']).join(', ')}]`,
       );
+      for (const x of d.sides ?? []) console.log(`    ${d.id}@${x.id}  side: ${x.name}`);
       for (const c of d.components)
         console.log(
-          `    ${d.id}:${c.id}  ${c.name}${c.in_force.from ? `  (from ${c.in_force.from})` : ''}${c.default === false ? '  [opt-in]' : ''}`,
+          `    ${d.id}:${c.id}  ${c.name}${c.in_force.from ? `  (from ${c.in_force.from})` : ''}${c.default === false ? '  [opt-in]' : ''}${c.sides ? `  [${c.sides.join(', ')}]` : ''}`,
         );
     }
     return;
@@ -129,33 +132,44 @@ function main() {
     return;
   }
 
-  const role = (values.role ?? 'ehr-developer') as Role;
-  if (!kb.roles.some((r) => r.id === role))
-    throw new Error(`Unknown role "${role}". Roles: ${kb.roles.map((r) => r.id).join(', ')}`);
-  const profile: ProjectProfile = defaultProfile(kb, role);
+  const profile: ProjectProfile = defaultProfile();
   if (values.realm) {
     if (!kb.realms.some((r) => r.id === values.realm))
       throw new Error(`Unknown realm "${values.realm}". Run "initializr realms".`);
     profile.realm = values.realm;
   }
   profile.drivers = (values.driver ?? []).map((s) => {
-    const [id, comps] = s.split(':');
-    if (!kb.drivers.some((d) => d.id === id))
-      throw new Error(`Unknown driver "${id}". Run "initializr drivers".`);
-    return comps ? { id, components: comps.split(/[+,]/) } : { id };
+    const [head, comps] = s.split(':');
+    const [id, side] = head.split('@');
+    const d = kb.drivers.find((x) => x.id === id);
+    if (!d) throw new Error(`Unknown driver "${id}". Run "initializr drivers".`);
+    const sides = (d.sides ?? []).map((x) => x.id);
+    if (sides.length && !side)
+      throw new Error(`${id} needs a side: ${sides.map((x) => `${id}@${x}`).join(', ')}.`);
+    if (side && !sides.includes(side))
+      throw new Error(
+        sides.length
+          ? `Unknown side "${side}" for ${id}. Sides: ${sides.join(', ')}.`
+          : `${id} has no sides.`,
+      );
+    return { id, ...(side ? { side } : {}), ...(comps ? { components: comps.split(/[+,]/) } : {}) };
   });
   if (values['as-of']) profile.asOf = values['as-of'];
-  if (values.actor?.length) profile.actors = values.actor as Actor[];
+  profile.actors = values.actor?.length ? (values.actor as Actor[]) : driverActors(kb, profile);
   profile.extras = values.extra ?? [];
-  profile.implemented = Object.fromEntries(
-    (values.implemented ?? []).map((s) => [
-      s.slice(0, s.lastIndexOf('@')),
-      s.slice(s.lastIndexOf('@') + 1),
-    ]),
+  const reg = loadRegistry();
+  profile.pins = Object.fromEntries(
+    (values.pin ?? []).map((s) => {
+      const at = s.lastIndexOf('@');
+      const [name, version] = [s.slice(0, at), s.slice(at + 1)];
+      if (at < 1 || !reg.packages[name]?.versions.some((v) => v.version === version))
+        throw new Error(`--pin ${s}: no such package version in the registry snapshot.`);
+      return [name, version];
+    }),
   );
+  profile.removed = values.remove ?? [];
   if (values.name) profile.projectName = values.name;
 
-  const reg = loadRegistry();
   const first = resolve(kb, reg, profile, { now: values.now });
   const manifest = resolve(kb, reg, profile, {
     now: values.now,

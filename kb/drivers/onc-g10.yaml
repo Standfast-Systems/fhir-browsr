@@ -17,7 +17,6 @@ summary: >-
   Certified health IT must offer a FHIR R4 API for single-patient access (patients and clinicians,
   via SMART App Launch and OpenID Connect) and population access (Bulk Data with SMART Backend
   Services). Versions come from 45 CFR 170.215; newer versions are allowed once approved through SVAP.
-roles: [ehr-developer, hie]
 realms: [us]
 fhir: ["4.0.1"]
 cite:

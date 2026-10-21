@@ -6,8 +6,8 @@
 
 - **Where:** United States
 - **Target date:** 2027-01-01
-- **Role / actors:** ehr-developer / server, client
 - **Drivers:** onc-g10
+- **Building:** FHIR server
 - **KB as of:** 2026-10-21 (v0.2.0) · **Registry snapshot:** 2026-10-21 · **Generated:** 2026-10-20T00:00:00Z
 
 ## IG set
@@ -23,7 +23,7 @@
 - **WARN · untested** — No Inferno suite tests US Core 9.0.0 yet. ONC Certification (g)(10) Standardized API Test Kit tests 7.0.0, 6.1.0 for the server role; US Core Test Kit tests 8.0.0, 7.0.0, 6.1.0, 5.0.1, 4.0.0, 3.1.1 for the server role. 7.0.0 is also accepted here and is testable today.
 - **INFO · newer-available** — Bulk Data 3.0.0 is published but not accepted here. Newer releases (3.0.0) exist, but ONC (g)(10) accepts at most 2.0.0 on this date.
 - **INFO · multi-version** — Terminology, extension and core packages appear at several versions. hl7.fhir.uv.extensions.r4 ×4, hl7.terminology.r4 ×2. This is normal: package tools usually load the newest. Act only if validation results disagree between tools.
-- **INFO · narrative-only** — SMART App Launch 2.2.0: no machine-readable REST expectations for your role. The package has no CapabilityStatement for your role. Read the guide's conformance pages; Initializr does not guess.
+- **INFO · narrative-only** — SMART App Launch 2.2.0: no machine-readable REST expectations for your side. The package has no CapabilityStatement for your side of the exchange. Read the guide's conformance pages; Initializr does not guess.
 
 ## Why each IG is in scope
 
@@ -131,10 +131,6 @@ Narrative only (no machine-readable server expectations): hl7.fhir.uv.smart-app-
 | Group | — | — / — | — / — | $group-export (SHOULD) |
 
 System operations: $export (SHOULD).
-
-## Functional surface — client
-
-No machine-readable expectations loaded.
 
 ## Test plan
 

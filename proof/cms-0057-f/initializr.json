@@ -11,19 +11,20 @@
   "disclaimer": "Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.",
   "profile": {
     "realm": "us",
-    "role": "payer",
     "actors": [
       "server",
       "client"
     ],
     "drivers": [
       {
-        "id": "cms-0057-f"
+        "id": "cms-0057-f",
+        "side": "payer"
       }
     ],
     "asOf": "2027-01-01",
     "fhir": "4.0.1",
-    "implemented": {},
+    "pins": {},
+    "removed": [],
     "extras": [],
     "projectName": "cms-payer"
   },
@@ -1534,6 +1535,7 @@
       }
     }
   ],
+  "removed": [],
   "dependencies": [
     {
       "name": "hl7.fhir.r4.core",
@@ -12480,7 +12482,7 @@
       "severity": "info",
       "package": "hl7.fhir.us.core",
       "title": "US Core pinned to 7.0.0 (not 9.0.0) to match the IGs that use it",
-      "detail": "Da Vinci PDex, PDex US Drug Formulary, PDex Plan-Net, Da Vinci CRD, Da Vinci DTR, Da Vinci PAS depend on US Core 7.0.0, so pinning 9.0.0 would load two versions. List 9.0.0 under \"already implemented\" to keep it.",
+      "detail": "Da Vinci PDex, PDex US Drug Formulary, PDex Plan-Net, Da Vinci CRD, Da Vinci DTR, Da Vinci PAS depend on US Core 7.0.0, so pinning 9.0.0 would load two versions. Choose 9.0.0 on the guide to keep it anyway.",
       "cites": []
     },
     {
@@ -12603,7 +12605,7 @@
       "kind": "narrative-only",
       "severity": "info",
       "package": "hl7.fhir.us.davinci-crd",
-      "title": "Da Vinci CRD 2.1.0: no machine-readable REST expectations for your role",
+      "title": "Da Vinci CRD 2.1.0: no machine-readable REST expectations for your side",
       "detail": "Its CapabilityStatement (CRD Server USCDI 1, 3, 4) lists no resources or operations; the requirements are in the guide's narrative.",
       "cites": []
     },

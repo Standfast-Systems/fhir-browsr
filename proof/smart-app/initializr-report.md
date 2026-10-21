@@ -6,8 +6,8 @@
 
 - **Where:** United States
 - **Target date:** 2027-01-01
-- **Role / actors:** app-developer / client
 - **Drivers:** smart-app-us-core
+- **Building:** FHIR client
 - **KB as of:** 2026-10-21 (v0.2.0) · **Registry snapshot:** 2026-10-21 · **Generated:** 2026-10-20T00:00:00Z
 
 ## IG set

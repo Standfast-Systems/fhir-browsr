@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -12,7 +13,15 @@ import { SurfaceView } from './surface-view';
 @Component({
   selector: 'fi-results',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, MatTabsModule, MatTooltipModule, IgCard, SurfaceView, FilesView],
+  imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
+    MatTooltipModule,
+    IgCard,
+    SurfaceView,
+    FilesView,
+  ],
   templateUrl: './results.html',
   styleUrl: './results.scss',
 })
@@ -43,7 +52,7 @@ export class Results {
       {
         id: 'optional',
         title: 'Optional',
-        hint: 'Useful for your role; nothing requires them.',
+        hint: 'Useful for this project; nothing requires them.',
         igs: by((i) => ruled(i) && i.strength === 'optional'),
       },
       {

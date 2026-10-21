@@ -6,8 +6,8 @@
 
 - **Where:** United States
 - **Target date:** 2027-01-01
-- **Role / actors:** payer / server, client
-- **Drivers:** cms-0057-f
+- **Drivers:** cms-0057-f@payer
+- **Building:** FHIR server and FHIR client
 - **KB as of:** 2026-10-21 (v0.2.0) · **Registry snapshot:** 2026-10-21 · **Generated:** 2026-10-20T00:00:00Z
 
 ## IG set
@@ -40,7 +40,7 @@
 - **WARN · untested** — No Inferno suite tests Da Vinci PDex 2.1.0 yet. Da Vinci PDex Test Kit tests 2.0.0 for the server/client role. 2.0.0 is also accepted here and is testable today.
 - **WARN · untested** — No Inferno suite tests PDex Plan-Net 1.2.0 yet. Da Vinci Plan Net Test Kit tests 1.1.0 for the server role. 1.1.0 is also accepted here and is testable today.
 - **WARN · untested** — No Inferno suite tests PDex US Drug Formulary 2.1.0 yet. Da Vinci US Drug Formulary Test Kit tests 2.0.1 for the server role. 2.0.1 is also accepted here and is testable today.
-- **INFO · aligned** — US Core pinned to 7.0.0 (not 9.0.0) to match the IGs that use it. Da Vinci PDex, PDex US Drug Formulary, PDex Plan-Net, Da Vinci CRD, Da Vinci DTR, Da Vinci PAS depend on US Core 7.0.0, so pinning 9.0.0 would load two versions. List 9.0.0 under "already implemented" to keep it.
+- **INFO · aligned** — US Core pinned to 7.0.0 (not 9.0.0) to match the IGs that use it. Da Vinci PDex, PDex US Drug Formulary, PDex Plan-Net, Da Vinci CRD, Da Vinci DTR, Da Vinci PAS depend on US Core 7.0.0, so pinning 9.0.0 would load two versions. Choose 9.0.0 on the guide to keep it anyway.
 - **INFO · newer-available** — Bulk Data 3.0.0 is published but not accepted here. Newer releases (3.0.0) exist, but CMS-0057-F accepts at most 2.0.0 on this date.
 - **INFO · proposed** — CARIN Blue Button: a proposed rule would move CMS-0057-F — Patient Access API, Provider Access API, Payer-to-Payer API to 2.2.0 from 2027-10-01. CMS-0062-P would require the unexpired 170.215(k)(1) version, now CARIN BB 2.2.0. Proposed only; Initializr doesn't count it as accepted.
   - CMS-0062-P 2026 Interoperability Standards and Prior Authorization for Drugs (91 FR 19890) — PROPOSED: https://www.federalregister.gov/documents/2026/04/14/2026-07205/medicare-and-medicaid-programs-patient-protection-and-affordable-care-act-interoperability-standards
@@ -56,7 +56,7 @@
   - CMS-0062-P 2026 Interoperability Standards and Prior Authorization for Drugs (91 FR 19890) — PROPOSED: https://www.federalregister.gov/documents/2026/04/14/2026-07205/medicare-and-medicaid-programs-patient-protection-and-affordable-care-act-interoperability-standards
 - **INFO · newer-available** — Da Vinci PAS 2.2.1 is published but not accepted here. Newer releases (2.2.1, 2.2.0) exist, but CMS-0057-F accepts at most 2.1.0 on this date.
 - **INFO · multi-version** — Terminology, extension and core packages appear at several versions. hl7.fhir.r4.core ×2, hl7.fhir.uv.extensions.r4 ×3, hl7.terminology.r4 ×8, us.nlm.vsac ×5. This is normal: package tools usually load the newest. Act only if validation results disagree between tools.
-- **INFO · narrative-only** — Da Vinci CRD 2.1.0: no machine-readable REST expectations for your role. Its CapabilityStatement (CRD Server USCDI 1, 3, 4) lists no resources or operations; the requirements are in the guide's narrative.
+- **INFO · narrative-only** — Da Vinci CRD 2.1.0: no machine-readable REST expectations for your side. Its CapabilityStatement (CRD Server USCDI 1, 3, 4) lists no resources or operations; the requirements are in the guide's narrative.
 - **INFO · verify** — PDex US Drug Formulary: classification under review. registry also lists hl7.fhir.us.Davinci-drug-formulary (case duplicate)
 
 ## Why each IG is in scope
