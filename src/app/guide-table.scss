@@ -111,6 +111,12 @@ tbody tr:hover {
   }
 }
 
+// Country of a national or regional core guide.
+.tag.country {
+  font-family: var(--mb-mono);
+  color: var(--mb-text);
+}
+
 // Family chip: a button styled as a tag; it filters the table to the whole family.
 .tag.family {
   font: inherit;

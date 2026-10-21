@@ -87,6 +87,9 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
                   @if (g.start) {
                     <span class="tag start">Start here</span>
                   }
+                  @if (g.country) {
+                    <span class="tag country">{{ g.country }}</span>
+                  }
                   @if (g.use === 'generic') {
                     <span class="tag" title="Not US-specific: used in the US and elsewhere"
                       >universal</span
@@ -130,8 +133,8 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
                   [href]="initializr(g)"
                   target="_blank"
                   rel="noopener"
-                  title="Pin versions and generate config in FHIR Initializr"
-                  >Open in Initializr</a
+                  title="Pin versions and generate config in FHIR Initializr, which is still under construction"
+                  >Open in Initializr <span class="beta">BETA</span></a
                 >
               </td>
             </tr>
@@ -224,7 +227,7 @@ export class GuideTable {
   }
 
   protected partyText(g: ScopedGuide): string {
-    if (!g.parties.length) return 'Sponsors & regulators';
+    if (!g.parties.length) return 'Other';
     if (g.parties.length === 3) return 'Everyone';
     return g.parties.map((p) => PARTY_NAME[p]).join(' + ');
   }

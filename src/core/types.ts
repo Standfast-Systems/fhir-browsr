@@ -45,6 +45,8 @@ export interface Guide {
   curated: boolean;
   /** Good-first-guide rank for newcomers (1 sorts first); 0 when it isn't one. */
   start: number;
+  /** Country or region label (AU, CH, UK, EU, ...) for national and regional cores; else null. */
+  country: string | null;
   knownPublisher: boolean;
   withdrawn: boolean;
   releases: Release[];
@@ -77,6 +79,4 @@ export interface ScopeOptions {
   drafts: boolean;
   /** Include R5 and R6 releases. */
   r5: boolean;
-  /** Include publishers beyond HL7, IHE, US federal agencies and WHO. */
-  otherPublishers: boolean;
 }

@@ -1,7 +1,10 @@
 // Joins data/ig-map.yaml (party tags), data/notes.yaml (plain one-liners) and snapshot/registry.json
-// (releases from each guide's package-list.json) into public/data/guides.json for the browser.
+// (the official registry plus each guide's package-list.json, from `npm run snapshot`) into
+// public/data/guides.json for the browser. National and regional cores come from the registry by
+// rule (src/core/national.ts) rather than from ig-map.yaml.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { parse } from 'yaml';
+import { countryLabel, isNationalCore, type RegistryEntry } from '../src/core/national.ts';
 import { DEFAULT_SCOPE, REGIONS, applyScope, countByRegion } from '../src/core/scope.ts';
 import type {
   Bucket,
@@ -58,8 +61,10 @@ const bucketDefs = parse(readFileSync('data/buckets.yaml', 'utf8')) as (Bucket &
 })[];
 const snap = JSON.parse(readFileSync('snapshot/registry.json', 'utf8')) as {
   generated: string;
+  registry: Record<string, RegistryEntry>;
   packages: Record<string, SnapPackage>;
 };
+const cores = Object.values(snap.registry).filter(isNationalCore);
 
 // HL7 International, IHE, US federal agencies (ONC/ASTP, CDC, HRSA) and WHO.
 const KNOWN =
@@ -129,11 +134,27 @@ function fallbackBlurb(p: SnapPackage, name: string, groupLabel: string): string
   return first.slice(0, 177).replace(/\s+\S*$/, '') + '…';
 }
 
+function releasesOf(id: string, p: SnapPackage): Release[] {
+  return p.versions
+    .map((v) => ({
+      version: v.version,
+      status: v.status ?? (p.packageList ? 'unlisted' : null),
+      fhir: [...new Set(v.fhir.flatMap((f) => f.split(/[|,;]\s*/)).map(fhirOf))],
+      date: v.date,
+      url: v.path ?? p.canonical ?? `https://packages.fhir.org/${id}`,
+      label: label(v),
+    }))
+    .sort((a, b) => semverDesc(a.version, b.version));
+}
+
 const errors: string[] = [];
+const warnings: string[] = [];
 const guides: Guide[] = [];
 const ids = new Set(map.guides.map((g) => g.npm));
+const coreIds = new Set(cores.map((e) => e.npm));
 for (const id of Object.keys(notes))
-  if (!ids.has(id)) errors.push(`notes.yaml: ${id} is not in ig-map.yaml`);
+  if (!ids.has(id) && !coreIds.has(id))
+    errors.push(`notes.yaml: ${id} is neither in ig-map.yaml nor a national core`);
 
 // Each visible ig-map group sits in exactly one bucket.
 const bucketOf = new Map<string, string>();
@@ -173,23 +194,15 @@ for (const g of map.guides) {
     continue;
   }
   if (group.layer === 'hidden') continue; // legacy, non-FHIR, tooling, unofficial, withdrawn
+  // The registry is the only source of guides: one it no longer lists drops out.
   const p = snap.packages[g.npm];
-  if (!p) {
-    errors.push(`snapshot: ${g.npm} missing (run npm run sync-snapshot)`);
+  if (!snap.registry[g.npm] || !p) {
+    warnings.push(`${g.npm}: not in the registry snapshot, so not listed`);
     continue;
   }
   const note = notes[g.npm] ?? {};
   const parties = (g.parties ?? []).map((x) => PARTY[x]).filter(Boolean);
-  const releases: Release[] = p.versions
-    .map((v) => ({
-      version: v.version,
-      status: v.status ?? (p.packageList ? 'unlisted' : null),
-      fhir: [...new Set(v.fhir.flatMap((f) => f.split('|')).map(fhirOf))],
-      date: v.date,
-      url: v.path ?? p.canonical ?? `https://packages.fhir.org/${g.npm}`,
-      label: label(v),
-    }))
-    .sort((a, b) => semverDesc(a.version, b.version));
+  const releases = releasesOf(g.npm, p);
   const name = note.name ?? cleanName(g.name);
   guides.push({
     id: g.npm,
@@ -203,12 +216,49 @@ for (const g of map.guides) {
     blurb: note.blurb ?? fallbackBlurb(p, name, group.label),
     curated: Boolean(note.blurb),
     start: typeof note.start === 'number' ? note.start : note.start ? 50 : 0,
+    country: null,
     knownPublisher: KNOWN.test(g.npm),
-    withdrawn: releases.some((r) => r.status === 'withdrawn'),
+    withdrawn: snap.registry[g.npm].withdrawn || releases.some((r) => r.status === 'withdrawn'),
     releases,
   });
 }
 
+// National and regional cores: every party builds to them, so they sit in the centre, the way
+// US Core does in the US view. Their publishers are national HL7 affiliates and health
+// authorities, so they count as known. Hand-written names and one-liners live in notes.yaml; a
+// core that appears on a later refresh gets a cleaned registry name and a generic line.
+const foundation = map.groups['foundation'];
+for (const e of cores) {
+  const p = snap.packages[e.npm];
+  if (!p) {
+    warnings.push(`${e.npm}: national core missing from the snapshot (run npm run snapshot)`);
+    continue;
+  }
+  const note = notes[e.npm] ?? {};
+  const releases = releasesOf(e.npm, p);
+  const name = note.name ?? cleanName(e.name.replace(/[®©]/g, ''));
+  guides.push({
+    id: e.npm,
+    name,
+    use: 'intl',
+    group: foundation.label,
+    bucket: bucketOf.get('foundation') ?? '',
+    family: null,
+    familyRank: 0,
+    parties: ['patient', 'provider', 'payer'],
+    blurb:
+      note.blurb ??
+      `${countryLabel(e.country)}'s ${/core/i.test(e.name) ? 'core' : 'base'} FHIR profiles that its other guides build on.`,
+    curated: Boolean(note.blurb),
+    start: 0,
+    country: countryLabel(e.country),
+    knownPublisher: true,
+    withdrawn: e.withdrawn || releases.some((r) => r.status === 'withdrawn'),
+    releases,
+  });
+}
+
+if (warnings.length) console.warn(warnings.join('\n'));
 if (errors.length) {
   console.error(errors.join('\n'));
   process.exit(1);

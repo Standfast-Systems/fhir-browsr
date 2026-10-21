@@ -9,7 +9,8 @@
     target="_blank"
     rel="noopener"
   >
-    Building something? Pin versions in FHIR Initializr →
+    Building something? Pin versions in FHIR Initializr <span class="beta">BETA</span>
+    <span class="beta-note">under construction</span> →
   </a>
 </header>
 
@@ -113,7 +114,7 @@
         app on the other side.
       </p>
     }
-    @if (bucketChips().length) {
+    @if (bucketChips(); as bc) {
       <div class="buckets" role="group" aria-label="What are you working on?">
         <span class="sel-label">What are you working on?</span>
         <button
@@ -123,9 +124,9 @@
           [attr.aria-pressed]="!view().bucket"
           (click)="store.setBucket(null)"
         >
-          All <b>{{ poolSize() }}</b>
+          All <b>{{ bc.all }}</b>
         </button>
-        @for (b of bucketChips(); track b.id) {
+        @for (b of bc.chips; track b.id) {
           <button
             type="button"
             class="chip"
@@ -134,6 +135,31 @@
             (click)="store.setBucket(b.id)"
           >
             {{ b.label }} <b>{{ b.count }}</b>
+          </button>
+        }
+      </div>
+    }
+    @if (addedChips(); as ac) {
+      <div class="buckets" role="group" aria-label="Added by the toggles">
+        <span class="sel-label">Added by the toggles</span>
+        <button
+          type="button"
+          class="chip"
+          [class.on]="!view().added"
+          [attr.aria-pressed]="!view().added"
+          (click)="store.setAdded(null)"
+        >
+          All <b>{{ ac.all }}</b>
+        </button>
+        @for (c of ac.chips; track c.id) {
+          <button
+            type="button"
+            class="chip"
+            [class.on]="view().added === c.id"
+            [attr.aria-pressed]="view().added === c.id"
+            (click)="store.setAdded(c.id)"
+          >
+            {{ c.label }} <b>{{ c.count }}</b>
           </button>
         }
       </div>

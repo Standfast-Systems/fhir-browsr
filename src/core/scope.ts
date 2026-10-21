@@ -12,7 +12,7 @@ const PUBLISHED = new Set([
   'update',
 ]);
 
-export const DEFAULT_SCOPE: ScopeOptions = { drafts: false, r5: false, otherPublishers: false };
+export const DEFAULT_SCOPE: ScopeOptions = { drafts: false, r5: false };
 
 const isR4 = (f: Fhir) => f === 'R4' || f === 'R4B';
 const isR5 = (f: Fhir) => f === 'R5' || f === 'R6';
@@ -43,6 +43,18 @@ export function pickRelease(g: Guide, o: ScopeOptions): Release | null {
   return null;
 }
 
+/** Which scope toggle brought a guide in. */
+export type AddedBy = keyof ScopeOptions;
+
+/**
+ * What the toggles added, judged by the release the row links to: not a published release means
+ * the drafts toggle, not R4 means the R5/R6 toggle (a draft R5 guide counts under both). A guide
+ * from the default view never counts, because a published R4 release always wins.
+ */
+export function addedBy(g: ScopedGuide): Record<AddedBy, boolean> {
+  return { drafts: !isPublished(g.release), r5: !g.release.fhir.some(isR4) };
+}
+
 export interface ScopedGuide extends Guide {
   release: Release;
   region: RegionKey;
@@ -56,7 +68,9 @@ export function inCountry(g: Guide, c: Country): boolean {
 export function applyScope(guides: Guide[], o: ScopeOptions, c: Country): ScopedGuide[] {
   const out: ScopedGuide[] = [];
   for (const g of guides) {
-    if (g.withdrawn || (!g.knownPublisher && !o.otherPublishers) || !inCountry(g, c)) continue;
+    // Only known publishers: HL7 and its national affiliates, IHE, US agencies, WHO and national
+    // health authorities. There is no toggle for others; it only ever added a handful.
+    if (g.withdrawn || !g.knownPublisher || !inCountry(g, c)) continue;
     const release = pickRelease(g, o);
     if (release) out.push({ ...g, release, region: regionOf(g.parties) });
   }
@@ -140,7 +154,17 @@ export function sortGuides(
 ): ScopedGuide[] {
   const byName = (a: ScopedGuide, b: ScopedGuide) =>
     a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });
-  const byStart = (a: ScopedGuide, b: ScopedGuide) => rank(a) - rank(b) || byName(a, b);
+  // National cores read in country order (AT, AU, BD, BE, ...), ahead of guides with no country.
+  const byCountry = (a: ScopedGuide, b: ScopedGuide) =>
+    a.country && b.country
+      ? a.country.localeCompare(b.country)
+      : a.country
+        ? -1
+        : b.country
+          ? 1
+          : 0;
+  const byStart = (a: ScopedGuide, b: ScopedGuide) =>
+    rank(a) - rank(b) || byCountry(a, b) || byName(a, b);
   const fam = (g: Guide) => {
     const i = g.family ? families.indexOf(g.family) : -1;
     return i < 0 ? Number.MAX_SAFE_INTEGER : i;
@@ -188,6 +212,8 @@ export interface ViewState {
   bucket: string | null;
   /** Family filter from a row's family chip: shows the whole family, whatever its regions. */
   family: string | null;
+  /** Narrow to what a scope toggle added; only while that toggle is on. */
+  added: AddedBy | null;
   scope: ScopeOptions;
   query: string;
   sort: SortKey;
@@ -200,6 +226,7 @@ export const DEFAULT_VIEW: ViewState = {
   regions: ['all'],
   bucket: null,
   family: null,
+  added: null,
   scope: DEFAULT_SCOPE,
   query: '',
   sort: 'start',
