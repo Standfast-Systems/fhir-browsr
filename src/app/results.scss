@@ -262,3 +262,31 @@
     font-size: 13px;
   }
 }
+
+.removed ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    padding: 6px 10px;
+    border: 1px dashed var(--fi-line);
+    border-radius: 10px;
+    font-size: 13px;
+    & + li {
+      margin-top: 6px;
+    }
+  }
+  .rtitle {
+    font-weight: 600;
+  }
+  .mono {
+    font-size: 12px;
+  }
+  button {
+    margin-left: auto;
+  }
+}

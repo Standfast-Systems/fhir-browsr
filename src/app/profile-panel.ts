@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -22,7 +21,6 @@ import { ProfileStore } from './profile-store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
-    MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCheckboxModule,
@@ -97,30 +95,6 @@ export class ProfilePanel {
       name: kb.catalog.find((g) => g.npm === npm)?.name ?? npm,
     }));
   });
-
-  // "Already implemented" form: local to this panel until the user adds the entry.
-  protected readonly implPkg = signal('');
-  protected readonly implVersion = signal('');
-  protected readonly implOptions = computed(() => {
-    const m = this.store.manifest();
-    const reg = this.data.registry();
-    const q = this.implPkg().toLowerCase();
-    if (!reg) return [];
-    const inScope = (m?.igs ?? []).map((i) => i.package);
-    const all = [...new Set([...inScope, ...Object.keys(reg.packages)])];
-    return all.filter((n) => !q || n.toLowerCase().includes(q)).slice(0, 30);
-  });
-  protected readonly implVersions = computed(() => {
-    const pkg = this.data.registry()?.packages[this.implPkg()];
-    return pkg ? pkg.versions.map((v) => v.version) : [];
-  });
-  protected readonly implemented = computed(() => Object.entries(this.p()?.implemented ?? {}));
-
-  protected addImplemented() {
-    this.store.setImplemented(this.implPkg().trim(), this.implVersion().trim());
-    this.implPkg.set('');
-    this.implVersion.set('');
-  }
 
   protected isOn(d: Driver): boolean {
     return !!this.p()?.drivers.some((x) => x.id === d.id);

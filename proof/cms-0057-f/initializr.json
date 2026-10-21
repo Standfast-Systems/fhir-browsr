@@ -23,7 +23,8 @@
     ],
     "asOf": "2027-01-01",
     "fhir": "4.0.1",
-    "implemented": {},
+    "pins": {},
+    "removed": [],
     "extras": [],
     "projectName": "cms-payer"
   },
@@ -1534,6 +1535,7 @@
       }
     }
   ],
+  "removed": [],
   "dependencies": [
     {
       "name": "hl7.fhir.r4.core",
@@ -12480,7 +12482,7 @@
       "severity": "info",
       "package": "hl7.fhir.us.core",
       "title": "US Core pinned to 7.0.0 (not 9.0.0) to match the IGs that use it",
-      "detail": "Da Vinci PDex, PDex US Drug Formulary, PDex Plan-Net, Da Vinci CRD, Da Vinci DTR, Da Vinci PAS depend on US Core 7.0.0, so pinning 9.0.0 would load two versions. List 9.0.0 under \"already implemented\" to keep it.",
+      "detail": "Da Vinci PDex, PDex US Drug Formulary, PDex Plan-Net, Da Vinci CRD, Da Vinci DTR, Da Vinci PAS depend on US Core 7.0.0, so pinning 9.0.0 would load two versions. Choose 9.0.0 on the guide to keep it anyway.",
       "cites": []
     },
     {

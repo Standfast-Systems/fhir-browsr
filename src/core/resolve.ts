@@ -27,6 +27,7 @@ import type {
   PackageSnapshot,
   ProjectProfile,
   Reason,
+  RemovedIg,
   RegistryPackage,
   RegistrySnapshot,
   ResolvedCitation,
@@ -369,17 +370,34 @@ export function resolve(
     if (name !== extra) d.ig.pinNote = `Uses ${name}, the R4 edition of ${extra}.`;
   }
 
-  for (const [name, version] of Object.entries(profile.implemented ?? {})) {
-    if (!drafts.has(name)) {
-      draft(name).ig.reasons.push({
-        kind: 'implemented',
-        strength: 'optional',
-        accepts: [version],
-        windows: [],
-        status: 'in-force',
-        text: 'Already implemented by this project.',
-      });
-    }
+  // Guides the user took out: gone from the scope, listed so they can come back.
+  const removed: RemovedIg[] = [];
+  const removedCites = new Map<string, ResolvedCitation[]>();
+  for (const name of profile.removed ?? []) {
+    const d = drafts.get(name);
+    if (!d) continue;
+    drafts.delete(name);
+    removed.push({
+      package: name,
+      title: d.ig.title,
+      strength: strongest(d.ig.reasons),
+      from: [
+        ...new Set(
+          d.ig.reasons.map((r) =>
+            r.kind === 'rule'
+              ? (r.driverName ?? 'a driver')
+              : r.kind === 'realm'
+                ? `the ${realm.def.name} foundation`
+                : 'you',
+          ),
+        ),
+      ],
+      stillNeeded: false,
+    });
+    removedCites.set(
+      name,
+      d.ig.reasons.map((r) => r.cite).filter((c): c is ResolvedCitation => !!c),
+    );
   }
 
   const locked = new Set<string>();
@@ -399,6 +417,18 @@ export function resolve(
     );
 
   const dependencies = closeDependencies(reg, igs, warnings);
+  for (const r of removed) {
+    r.stillNeeded = dependencies.some((d) => d.name === r.package);
+    if (r.strength === 'optional') continue;
+    warnings.push({
+      kind: 'removed',
+      severity: r.strength === 'required' ? 'warn' : 'info',
+      package: r.package,
+      title: `${r.title} removed, though ${r.from.join(' and ')} ${r.strength === 'required' ? 'requires' : 'recommends'} it`,
+      detail: `The scope no longer covers it.${r.stillNeeded ? ' Other guides depend on it, so it stays in the dependencies.' : ''} Restore it to put it back.`,
+      cites: removedCites.get(r.package) ?? [],
+    });
+  }
   for (const ig of igs) ig.links = linksFor(kb, reg, ig, deep);
   const surface = buildSurface(reg, profile, igs, drafts, deep, warnings);
   const tests = buildTestPlan(kb, igs, profile);
@@ -468,6 +498,7 @@ export function resolve(
     profile,
     realm: { id: realm.def.id, name: realm.def.name, fallback: realm.fallback },
     igs,
+    removed,
     dependencies,
     surface,
     warnings,
@@ -495,6 +526,13 @@ function layerRank(l: ManifestIg['layer']): number {
   return ['auto', 'workflow', 'capability', 'content', 'hidden', 'dependency'].indexOf(l);
 }
 
+function strongest(reasons: Reason[]): Strength {
+  return reasons.reduce<Strength>(
+    (s, r) => (STRENGTH_RANK[r.strength] > STRENGTH_RANK[s] ? r.strength : s),
+    'optional',
+  );
+}
+
 function pickVersion(
   kb: KnowledgeBase,
   reg: RegistrySnapshot,
@@ -510,10 +548,7 @@ function pickVersion(
     ...ig.reasons.filter((r) => r.attested).flatMap((r) => r.accepts),
   ];
   const reasons = ig.reasons;
-  ig.strength = reasons.reduce<Strength>(
-    (s, r) => (STRENGTH_RANK[r.strength] > STRENGTH_RANK[s] ? r.strength : s),
-    'optional',
-  );
+  ig.strength = strongest(reasons);
   ig.actors = [...new Set(reasons.map((r) => r.actor).filter((a): a is Actor => !!a))];
   const cites = (rs: Reason[]) =>
     rs
@@ -563,9 +598,13 @@ function pickVersion(
         cites: cites(requiredNow),
       });
       ig.allowed = [];
-      ig.pin = null;
-      ig.pinNote = 'Conflict between required versions; see warnings.';
       ig.fhir = [];
+      const chosen = profile.pins?.[name];
+      ig.pin = chosen ?? null;
+      ig.chosen = !!chosen;
+      ig.pinNote = chosen
+        ? 'Your choice. The required versions conflict; see warnings.'
+        : 'Conflict between required versions; see warnings.';
       return true;
     }
     if (requiredLater.length) {
@@ -632,36 +671,43 @@ function pickVersion(
   }
 
   ig.allowed = candidates;
-  const implemented = profile.implemented?.[name];
   const publishedPreferred = preferred.filter((v) => published.includes(v));
   const publishedCandidates = candidates.filter((v) => published.includes(v));
-  if (implemented && candidates.includes(implemented)) {
-    ig.pin = implemented;
-    ig.pinNote = 'Kept the version you already implement.';
-  } else {
-    ig.pin = publishedPreferred[0] ?? publishedCandidates[0] ?? candidates[0] ?? null;
+  const pick = publishedPreferred[0] ?? publishedCandidates[0] ?? candidates[0] ?? null;
+  const chosen = profile.pins?.[name];
+  if (!chosen) {
+    ig.pin = pick;
     if (followsRecommendation && ig.pin === publishedPreferred[0])
       ig.pinNote = `Follows the recommendation (${recommended.map((r) => label(r)).join('; ')}); ${candidates[0]} is also accepted.`;
-    if (implemented) {
-      const lapsed = rules.some((a) =>
-        a.reason.windows.some(
-          (w) => w.version === implemented && !w.active && w.expires && w.expires <= profile.asOf,
-        ),
-      );
-      warnings.push({
-        kind: lapsed ? 'expired-implemented' : 'implemented-mismatch',
-        severity: ig.strength === 'required' ? 'error' : 'warn',
-        package: name,
-        title: lapsed
-          ? `${ig.title} ${implemented} has expired for this target date`
-          : `${ig.title} ${implemented} isn't among the accepted versions`,
-        detail: `You implement ${implemented}; accepted on ${profile.asOf}: ${candidates.join(', ') || 'none'}.`,
-        cites: cites(required.length ? required : recommended),
-      });
-    }
+    else if (!ig.pinNote && !rules.length && publishedCandidates.length > 1)
+      ig.pinNote = `The newest release: nothing in scope narrows the choice, so any of ${publishedCandidates.length} published versions will do.`;
+    return false;
   }
 
-  return !!(implemented && candidates.includes(implemented));
+  // The user's choice wins; say when it falls outside what the reasons accept.
+  ig.pin = chosen;
+  ig.chosen = true;
+  ig.pinNote =
+    chosen === pick || !pick ? 'Your choice.' : `Your choice. Initializr would pick ${pick}.`;
+  if (!candidates.includes(chosen)) {
+    const lapsed = rules.some((a) =>
+      a.reason.windows.some(
+        (w) => w.version === chosen && !w.active && w.expires && w.expires <= profile.asOf,
+      ),
+    );
+    warnings.push({
+      kind: lapsed ? 'expired-choice' : 'choice-not-accepted',
+      severity:
+        ig.strength === 'required' ? 'error' : ig.strength === 'recommended' ? 'warn' : 'info',
+      package: name,
+      title: lapsed
+        ? `${ig.title} ${chosen} has expired for this target date`
+        : `${ig.title} ${chosen} isn't among the accepted versions`,
+      detail: `You chose ${chosen}; accepted on ${profile.asOf}: ${candidates.join(', ') || 'none'}.`,
+      cites: cites(required.length ? required : recommended),
+    });
+  }
+  return true;
 }
 
 /**
@@ -699,7 +745,7 @@ function alignPins(
       severity: 'info',
       package: ig.package,
       title: `${ig.title} pinned to ${hit} (not ${newest}) to match the IGs that use it`,
-      detail: `${who.join(', ')} ${verb} on ${ig.title} ${hit}, so pinning ${newest} would load two versions. List ${newest} under "already implemented" to keep it.`,
+      detail: `${who.join(', ')} ${verb} on ${ig.title} ${hit}, so pinning ${newest} would load two versions. Choose ${newest} on the guide to keep it anyway.`,
       cites: [],
     });
   }

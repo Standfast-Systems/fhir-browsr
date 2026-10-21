@@ -1,13 +1,18 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { publishedR4 } from '../core/index.ts';
 import type { ManifestIg, ManifestWarning } from '../core/index.ts';
+import { DataStore } from './data-store';
+import { ProfileStore } from './profile-store';
 import { BASIS_LABEL, Timeline } from './timeline';
 
 @Component({
   selector: 'fi-ig-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatIconModule, MatTooltipModule, Timeline],
+  imports: [MatButtonModule, MatIconModule, MatMenuModule, MatTooltipModule, Timeline],
   template: `
     @let g = ig();
     <article class="card" [class.conflict]="!g.pin">
@@ -23,10 +28,25 @@ import { BASIS_LABEL, Timeline } from './timeline';
         <div class="right">
           <span class="pill" [class]="g.strength">{{ g.strength }}</span>
           @if (g.pin) {
-            <span class="pin" [matTooltip]="'Recommended pin for ' + asOf()">{{ g.pin }}</span>
+            <span
+              class="pin"
+              [class.chosen]="g.chosen"
+              [matTooltip]="g.chosen ? 'Your choice' : 'Picked by Initializr for ' + asOf()"
+              >{{ g.pin }}</span
+            >
           } @else {
             <span class="pin none">conflict</span>
           }
+          <button
+            mat-icon-button
+            type="button"
+            class="remove"
+            (click)="store.removeIg(g)"
+            [matTooltip]="removeTip()"
+            [attr.aria-label]="'Remove ' + g.title + ' from the scope'"
+          >
+            <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
+          </button>
         </div>
       </header>
 
@@ -34,8 +54,41 @@ import { BASIS_LABEL, Timeline } from './timeline';
         @if (g.allowed.length) {
           <span class="lbl">Accepted on {{ asOf() }}</span>
           @for (v of g.allowed; track v) {
-            <span class="ver mono" [class.is-pin]="v === g.pin">{{ v }}</span>
+            <button
+              type="button"
+              class="ver mono"
+              [class.is-pin]="v === g.pin"
+              [attr.aria-pressed]="v === g.pin"
+              (click)="store.setPin(g.package, v)"
+              [matTooltip]="v === g.pin ? 'Pinned' : 'Use ' + v"
+            >
+              {{ v }}
+            </button>
           }
+        }
+        @if (others().length) {
+          <button type="button" class="more" [matMenuTriggerFor]="otherVersions">
+            {{ g.allowed.length ? 'other version' : 'choose a version' }}
+            <mat-icon fontSet="material-symbols-outlined">expand_more</mat-icon>
+          </button>
+          <mat-menu #otherVersions="matMenu" class="fi-version-menu">
+            <p class="menu-head">
+              {{ g.allowed.length ? 'Not accepted on ' + asOf() : 'Published R4 versions' }}
+            </p>
+            @for (v of others(); track v) {
+              <button mat-menu-item type="button" (click)="store.setPin(g.package, v)">
+                <span class="mono">{{ v }}</span>
+                @if (v === g.pin) {
+                  <mat-icon fontSet="material-symbols-outlined">check</mat-icon>
+                }
+              </button>
+            }
+          </mat-menu>
+        }
+        @if (g.chosen) {
+          <button type="button" class="more" (click)="store.setPin(g.package, null)">
+            let Initializr pick
+          </button>
         }
         @if (g.actors.length) {
           <span class="sep">·</span><span class="lbl">as {{ g.actors.join(' + ') }}</span>
@@ -106,7 +159,7 @@ import { BASIS_LABEL, Timeline } from './timeline';
             } @else {
               <p class="rhead">
                 <span class="pill optional">{{
-                  r.kind === 'implemented' ? 'implemented' : 'selected'
+                  r.kind === 'realm' ? 'foundation' : 'selected'
                 }}</span>
                 {{ r.text }}
               </p>
@@ -198,9 +251,64 @@ import { BASIS_LABEL, Timeline } from './timeline';
       color: var(--fi-muted);
       font-size: 12px;
     }
+    button.ver {
+      border: 1px solid transparent;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    button.ver:hover {
+      border-color: var(--mat-sys-outline);
+      color: var(--fi-text);
+    }
+    button.ver:focus-visible,
+    .more:focus-visible {
+      outline: 2px solid var(--fi-lime);
+      outline-offset: 1px;
+    }
     .ver.is-pin {
       background: color-mix(in srgb, var(--fi-lime) 22%, transparent);
       color: var(--fi-lime);
+    }
+    .more {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 2px;
+      border: 0;
+      background: none;
+      color: var(--fi-lime);
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .more mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+    .menu-head {
+      margin: 4px 16px 6px;
+      font-size: 12px;
+      color: var(--fi-faint);
+    }
+    .pin.chosen {
+      outline: 1px dashed var(--fi-lime);
+      outline-offset: 2px;
+    }
+    .remove {
+      --mat-icon-button-state-layer-size: 30px;
+      width: 30px;
+      height: 30px;
+      padding: 3px;
+      margin: -4px -6px -4px -2px;
+      color: var(--fi-faint);
+    }
+    .remove:hover {
+      color: var(--fi-text);
+    }
+    .remove mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
     }
     .note {
       margin: 8px 0 0;
@@ -334,12 +442,32 @@ import { BASIS_LABEL, Timeline } from './timeline';
   `,
 })
 export class IgCard {
+  protected readonly store = inject(ProfileStore);
+  private readonly data = inject(DataStore);
   readonly ig = input.required<ManifestIg>();
   readonly allWarnings = input<ManifestWarning[]>([]);
   readonly asOf = input.required<string>();
   protected readonly warnings = computed(() =>
     this.allWarnings().filter((w) => w.package === this.ig().package && w.severity !== 'info'),
   );
+  /** Published R4 versions outside the accepted list, newest first. */
+  protected readonly others = computed(() => {
+    const g = this.ig();
+    const all = publishedR4(this.data.registry()?.packages[g.package]);
+    return all.filter((v) => !g.allowed.includes(v));
+  });
+
+  protected readonly removeTip = computed(() => {
+    const g = this.ig();
+    const by = [
+      ...new Set(g.reasons.filter((r) => r.kind === 'rule').map((r) => r.driverName ?? '')),
+    ].join(' and ');
+    if (g.strength === 'required' && by)
+      return `Remove from the scope. ${by} requires it, so the scope will flag the gap.`;
+    if (g.strength === 'recommended' && by) return `Remove from the scope. ${by} recommends it.`;
+    return 'Remove from the scope';
+  });
+
   protected basis(b: string) {
     return BASIS_LABEL[b] ?? b;
   }

@@ -379,6 +379,11 @@ const report: Emitter = {
       `- **Target date:** ${p.asOf}`,
       `- **Drivers:** ${driverList(m) || 'none'}`,
       `- **Building:** ${p.actors.map((a) => `FHIR ${a}`).join(' and ')}`,
+      ...(m.removed.length
+        ? [
+            `- **Removed by you:** ${m.removed.map((r) => `${r.title} (\`${r.package}\`, ${r.strength})`).join('; ')}`,
+          ]
+        : []),
       `- **KB as of:** ${m.kbAsOf} (v${m.kbVersion}) · **Registry snapshot:** ${m.snapshotAsOf.slice(0, 10)} · **Generated:** ${m.generated}`,
       '',
       '## IG set',

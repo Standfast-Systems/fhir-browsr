@@ -21,7 +21,8 @@
     ],
     "asOf": "2027-01-01",
     "fhir": "4.0.1",
-    "implemented": {},
+    "pins": {},
+    "removed": [],
     "extras": [],
     "projectName": "g10-ehr"
   },
@@ -538,6 +539,7 @@
       }
     }
   ],
+  "removed": [],
   "dependencies": [
     {
       "name": "hl7.fhir.r4.core",

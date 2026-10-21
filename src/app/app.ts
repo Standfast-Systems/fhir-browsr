@@ -47,7 +47,8 @@ export class App {
     parts.push(`--as-of ${p.asOf}`);
     for (const a of p.actors) parts.push(`--actor ${a}`);
     for (const e of p.extras ?? []) parts.push(`--extra ${e}`);
-    for (const [k, v] of Object.entries(p.implemented ?? {})) parts.push(`--implemented ${k}@${v}`);
+    for (const [k, v] of Object.entries(p.pins ?? {})) parts.push(`--pin ${k}@${v}`);
+    for (const r of p.removed ?? []) parts.push(`--remove ${r}`);
     if (p.projectName) parts.push(`--name "${p.projectName.replace(/"/g, '')}"`);
     return parts.join(' ');
   });

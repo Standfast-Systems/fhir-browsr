@@ -43,7 +43,8 @@ Scope options:
   --as-of <yyyy-mm-dd>   Target date (default ${DEFAULT_AS_OF})
   --actor <a>            server | client (repeatable; default: what the drivers use)
   --extra <package>      Add a catalog guide by package id (repeatable)
-  --implemented <p@v>    A version you already implement (repeatable)
+  --pin <p@v>            Use this version of a guide in scope, accepted or not (repeatable)
+  --remove <package>     Take a guide out of the scope (repeatable)
   --name <text>          Project name for generated files
   --format <id>          ${EMITTERS.map((e) => e.id).join(' | ')} (default report)
   --out <dir>            Write every output file into <dir>
@@ -79,7 +80,8 @@ function main() {
       'as-of': { type: 'string' },
       actor: { type: 'string', multiple: true },
       extra: { type: 'string', multiple: true },
-      implemented: { type: 'string', multiple: true },
+      pin: { type: 'string', multiple: true },
+      remove: { type: 'string', multiple: true },
       name: { type: 'string' },
       format: { type: 'string' },
       out: { type: 'string' },
@@ -155,15 +157,19 @@ function main() {
   if (values['as-of']) profile.asOf = values['as-of'];
   profile.actors = values.actor?.length ? (values.actor as Actor[]) : driverActors(kb, profile);
   profile.extras = values.extra ?? [];
-  profile.implemented = Object.fromEntries(
-    (values.implemented ?? []).map((s) => [
-      s.slice(0, s.lastIndexOf('@')),
-      s.slice(s.lastIndexOf('@') + 1),
-    ]),
+  const reg = loadRegistry();
+  profile.pins = Object.fromEntries(
+    (values.pin ?? []).map((s) => {
+      const at = s.lastIndexOf('@');
+      const [name, version] = [s.slice(0, at), s.slice(at + 1)];
+      if (at < 1 || !reg.packages[name]?.versions.some((v) => v.version === version))
+        throw new Error(`--pin ${s}: no such package version in the registry snapshot.`);
+      return [name, version];
+    }),
   );
+  profile.removed = values.remove ?? [];
   if (values.name) profile.projectName = values.name;
 
-  const reg = loadRegistry();
   const first = resolve(kb, reg, profile, { now: values.now });
   const manifest = resolve(kb, reg, profile, {
     now: values.now,

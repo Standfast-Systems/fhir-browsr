@@ -81,13 +81,16 @@ describe('ONC (g)(10)', () => {
     assert.ok(untested, 'expected an untested warning');
     assert.match(untested.detail, /7\.0\.0 is also accepted/);
   });
-  it('reports an implemented version that has expired as an error', () => {
-    const m = g10('2026-06-01', { implemented: { 'hl7.fhir.us.core': '3.1.1' } });
-    const w = m.warnings.find((x) => x.kind === 'expired-implemented');
+  it('keeps a chosen version that has expired, and reports it as an error', () => {
+    const m = g10('2026-06-01', { pins: { 'hl7.fhir.us.core': '3.1.1' } });
+    assert.equal(ig(m, 'hl7.fhir.us.core')!.pin, '3.1.1');
+    const w = m.warnings.find((x) => x.kind === 'expired-choice');
     assert.equal(w?.severity, 'error');
   });
-  it('keeps an implemented version that still qualifies', () => {
-    const m = g10('2027-01-01', { implemented: { 'hl7.fhir.us.core': '6.1.0' } });
+  it('keeps a chosen version that still qualifies, without a warning', () => {
+    const m = g10('2027-01-01', { pins: { 'hl7.fhir.us.core': '6.1.0' } });
+    assert.ok(ig(m, 'hl7.fhir.us.core')!.chosen);
+    assert.ok(!kinds(m, 'hl7.fhir.us.core').includes('choice-not-accepted'));
     assert.equal(ig(m, 'hl7.fhir.us.core')!.pin, '6.1.0');
   });
 });
@@ -165,6 +168,36 @@ describe('driver sides', () => {
     const k: KnowledgeBase = structuredClone(kb);
     delete k.drivers.find((d) => d.id === 'cms-0057-f')!.rules[0].side;
     assert.ok(validateKb(k).some((f) => f.level === 'error' && /needs a side/.test(f.message)));
+  });
+});
+
+describe('choices on the guide cards', () => {
+  const payer = (extra: Partial<ProjectProfile> = {}) =>
+    scope({ drivers: [{ id: 'cms-0057-f', side: 'payer' }], asOf: '2027-01-01', ...extra });
+
+  it('says why the newest version was picked when nothing narrows it', () => {
+    const core = ig(scope({ asOf: '2027-01-01' }), 'hl7.fhir.us.core')!;
+    assert.equal(core.pin, '9.0.0');
+    assert.match(core.pinNote ?? '', /nothing in scope narrows/);
+  });
+  it('honours a version outside the accepted ones, and warns', () => {
+    const m = payer({ pins: { 'hl7.fhir.us.davinci-crd': '2.2.1' } });
+    assert.equal(ig(m, 'hl7.fhir.us.davinci-crd')!.pin, '2.2.1');
+    assert.ok(kinds(m, 'hl7.fhir.us.davinci-crd').includes('choice-not-accepted'));
+  });
+  it('drops a removed guide, lists it, and flags a removed requirement', () => {
+    const m = payer({ removed: ['hl7.fhir.uv.smart-app-launch'] });
+    assert.ok(!ig(m, 'hl7.fhir.uv.smart-app-launch'));
+    const r = m.removed.find((x) => x.package === 'hl7.fhir.uv.smart-app-launch')!;
+    assert.equal(r.strength, 'required');
+    assert.deepEqual(r.from, ['CMS-0057-F']);
+    assert.ok(r.stillNeeded, 'US Core still depends on it');
+    assert.equal(
+      m.warnings.find((w) => w.kind === 'removed' && w.package === r.package)?.severity,
+      'warn',
+    );
+    const pkg = JSON.parse(EMITTERS.find((e) => e.id === 'package-json')!.emit(m, reg));
+    assert.ok(!('hl7.fhir.uv.smart-app-launch' in pkg.dependencies));
   });
 });
 
@@ -355,6 +388,25 @@ describe('conflicts', () => {
     const w = m.warnings.find((x) => x.kind === 'conflict' && x.package === 'hl7.fhir.us.core');
     assert.equal(w?.severity, 'error');
     assert.ok(w!.cites.length >= 2);
+  });
+  it('lets a chosen version settle a conflict, while still reporting it', () => {
+    const k: KnowledgeBase = structuredClone(kb);
+    const d = k.drivers.find((x) => x.id === 'smart-app-us-core')!;
+    for (const r of d.rules) r.strength = 'required';
+    d.rules.find((r) => r.ig === 'hl7.fhir.us.core')!.versions = [
+      { version: '3.1.1', basis: 'profile', cite: { source: 'ig-us-core' } },
+    ];
+    const m = scope(
+      {
+        actors: ['server', 'client'],
+        drivers: [{ id: 'onc-g10' }, { id: 'smart-app-us-core' }],
+        pins: { 'hl7.fhir.us.core': '6.1.0' },
+        asOf: '2027-01-01',
+      },
+      k,
+    );
+    assert.equal(ig(m, 'hl7.fhir.us.core')!.pin, '6.1.0');
+    assert.ok(kinds(m, 'hl7.fhir.us.core').includes('conflict'));
   });
 });
 

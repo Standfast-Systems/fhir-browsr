@@ -39,11 +39,12 @@
       <div class="pane">
         @if (!m.igs.length) {
           <div class="empty">
-            <p>
-              <strong>Pick a driver</strong> on the left (or add guides) to see the IGs your project
-              needs.
+            <p><strong>Nothing in scope.</strong></p>
+            <p class="muted">
+              Add guides on the left{{
+                m.removed.length ? ', or restore one you removed below' : ''
+              }}.
             </p>
-            <p class="muted">Try “CMS-0057-F” as a payer, or “ONC (g)(10)” as an EHR developer.</p>
           </div>
         }
         @for (g of groups(); track g.id) {
@@ -56,6 +57,30 @@
                 <fi-ig-card [ig]="ig" [allWarnings]="m.warnings" [asOf]="m.profile.asOf" />
               }
             </div>
+          </section>
+        }
+        @if (m.removed.length) {
+          <section class="group removed">
+            <h3>
+              Removed by you
+              <span class="faint">· Left out of the scope and the generated files.</span>
+            </h3>
+            <ul>
+              @for (r of m.removed; track r.package) {
+                <li>
+                  <span class="pill" [class]="r.strength">{{ r.strength }}</span>
+                  <span class="rtitle">{{ r.title }}</span>
+                  <span class="mono faint">{{ r.package }}</span>
+                  <span class="faint"
+                    >· from {{ r.from.join(', ')
+                    }}{{ r.stillNeeded ? ' · still loaded as a dependency' : '' }}</span
+                  >
+                  <button mat-button type="button" (click)="store.restoreIg(r.package)">
+                    <mat-icon fontSet="material-symbols-outlined">undo</mat-icon> Restore
+                  </button>
+                </li>
+              }
+            </ul>
           </section>
         }
         @if (m.driverNotes.length) {

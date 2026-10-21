@@ -332,8 +332,13 @@ export interface ProjectProfile {
   drivers: { id: string; side?: string; components?: string[] }[];
   asOf: IsoDate;
   fhir: '4.0.1';
-  /** IGs the project already implements, package -> version. */
-  implemented?: Record<string, string>;
+  /**
+   * Versions the user chose, package -> version. A choice wins even outside the accepted versions
+   * (with a warning), so it also records a version the project already runs.
+   */
+  pins?: Record<string, string>;
+  /** Guides the user took out of the scope. They are listed in the manifest so they can come back. */
+  removed?: string[];
   /** Catalog guides picked by hand (workflows, capabilities, content packs). */
   extras?: string[];
   projectName?: string;
@@ -349,7 +354,7 @@ export interface ResolvedCitation {
 }
 
 export interface Reason {
-  kind: 'rule' | 'realm' | 'selected' | 'implemented';
+  kind: 'rule' | 'realm' | 'selected';
   driver?: string;
   driverName?: string;
   component?: string;
@@ -401,6 +406,20 @@ export interface ManifestIg {
   reasons: Reason[];
   links: IgLinks;
   pinNote?: string;
+  /** The pin is the user's choice, not Initializr's. */
+  chosen?: boolean;
+}
+
+/** A guide the user removed from the scope. */
+export interface RemovedIg {
+  package: string;
+  title: string;
+  /** What it would have been: required, recommended or optional. */
+  strength: Strength;
+  /** Who brought it in: driver names, the realm, or "you". */
+  from: string[];
+  /** Other guides still depend on it, so it stays in the dependencies. */
+  stillNeeded: boolean;
 }
 
 export interface ManifestDependency {
@@ -417,8 +436,9 @@ export type WarningKind =
   | 'conflict'
   | 'no-version'
   | 'expiring'
-  | 'expired-implemented'
-  | 'implemented-mismatch'
+  | 'expired-choice'
+  | 'choice-not-accepted'
+  | 'removed'
   | 'upcoming'
   | 'multi-version'
   | 'fhir-mismatch'
@@ -491,6 +511,7 @@ export interface Manifest {
   /** Where the project is; fallback means the international defaults stood in for a national base. */
   realm: { id: string; name: string; fallback: boolean };
   igs: ManifestIg[];
+  removed: RemovedIg[];
   dependencies: ManifestDependency[];
   surface: ActorSurface[];
   warnings: ManifestWarning[];

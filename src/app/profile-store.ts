@@ -8,7 +8,7 @@ import {
   resolve,
   selectedComponents,
 } from '../core/index.ts';
-import type { Actor, KnowledgeBase, Manifest, ProjectProfile } from '../core/index.ts';
+import type { Actor, KnowledgeBase, Manifest, ManifestIg, ProjectProfile } from '../core/index.ts';
 import { DataStore } from './data-store';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -182,19 +182,29 @@ export class ProfileStore {
     });
   }
 
-  // --- Already implemented ---------------------------------------------------------------------
+  // --- Versions and removals, from the guide cards -------------------------------------------
 
-  setImplemented(pkg: string, version: string) {
-    if (!pkg || !version) return;
-    this.patch((p) => ({ ...p, implemented: { ...(p.implemented ?? {}), [pkg]: version } }));
+  /** Choose a guide's version; null hands the choice back to Initializr. */
+  setPin(pkg: string, version: string | null) {
+    this.patch((p) => {
+      const pins = { ...(p.pins ?? {}) };
+      if (version) pins[pkg] = version;
+      else delete pins[pkg];
+      return { ...p, pins };
+    });
   }
 
-  removeImplemented(pkg: string) {
-    this.patch((p) => {
-      const implemented = { ...(p.implemented ?? {}) };
-      delete implemented[pkg];
-      return { ...p, implemented };
-    });
+  /** A guide only you added is simply un-added; anything else moves to "Removed by you". */
+  removeIg(ig: ManifestIg) {
+    if (ig.reasons.every((r) => r.kind === 'selected')) {
+      this.setExtra(ig.package, false);
+      return;
+    }
+    this.patch((p) => ({ ...p, removed: [...new Set([...(p.removed ?? []), ig.package])] }));
+  }
+
+  restoreIg(pkg: string) {
+    this.patch((p) => ({ ...p, removed: (p.removed ?? []).filter((x) => x !== pkg) }));
   }
 
   // --- Name ------------------------------------------------------------------------------------

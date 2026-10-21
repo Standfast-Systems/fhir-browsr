@@ -191,20 +191,6 @@ h2 {
   margin-top: 10px;
 }
 
-.impl-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 8px;
-  .impl-pkg {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-  .impl-ver {
-    width: 110px;
-  }
-}
-
 .name {
   width: 100%;
 }

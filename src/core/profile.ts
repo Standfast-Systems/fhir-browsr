@@ -13,7 +13,8 @@ export function defaultProfile(): ProjectProfile {
     drivers: [],
     asOf: DEFAULT_AS_OF,
     fhir: '4.0.1',
-    implemented: {},
+    pins: {},
+    removed: [],
     extras: [],
   };
 }

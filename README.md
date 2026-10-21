@@ -17,6 +17,8 @@ Tell it **where** the project is (the US, a country, or nowhere in particular) a
 - **Files:** `package.json`, a `sushi-config.yaml` dependencies block, the HAPI JPA Starter `implementationguides` block, a draft CapabilityStatement, an Inferno plan, a Markdown report and the JSON manifest.
 - **Links** to each IG's version-specific pages, CapabilityStatements, artifacts, Inferno kit and chat.fhir.org stream.
 
+Every pick is yours to change on its card: click another version (accepted or not; the scope warns when it doesn't qualify), or remove a guide. Removed guides are listed under "Removed by you" with a Restore button, and the scope flags a removed requirement.
+
 > Scoping guidance with citations, not a compliance determination.
 
 ## What's in the knowledge base (as of 2026-10-21)
@@ -58,7 +60,7 @@ node cli/initializr.ts scope --driver onc-g10 --driver onc-epa --out ./scope
 node cli/initializr.ts drivers
 ```
 
-`--driver` takes `id:component+component` to limit a driver to some components (e.g. `cms-0057-f:prior-auth+provider-access`). `--implemented hl7.fhir.us.core@6.1.0` keeps a version you already run if it still qualifies. `--format` picks one output (`report`, `package-json`, `sushi-config`, `hapi-yaml`, `capability-statement`, `inferno-plan`, `manifest`); `--out` writes them all.
+`--driver` takes `id@side:component+component`: the side for a driver that has sides, and optionally some of its components (e.g. `cms-0057-f@payer:prior-auth+provider-access`). `--pin hl7.fhir.us.core@6.1.0` uses that version, accepted or not; `--remove <package>` takes a guide out of the scope. `--format` picks one output (`report`, `package-json`, `sushi-config`, `hapi-yaml`, `capability-statement`, `inferno-plan`, `manifest`); `--out` writes them all.
 
 ### The data, for any client
 
@@ -85,7 +87,7 @@ There is no backend. The site serves the compiled knowledge base and registry sn
 
 For each IG, every applicable rule contributes the versions it accepts on the target date (or on its in-force date, for obligations that start later). Required rules are intersected; an empty intersection is a conflict, reported with every citation and no pin. Recommended rules narrow the preference without shrinking what's accepted. The pin is the newest published R4 release left, with two exceptions, both shown on the card:
 
-- a version you list as already implemented wins if it still qualifies;
+- a version you choose on the card wins, even outside the accepted versions (a warning says so, as an error if it's a requirement), so it also covers a version you already run;
 - if other IGs in the set depend on an accepted version, Initializr pins that one so the project loads one version instead of two (US Core 7.0.0 rather than 9.0.0 for a CMS-0057-F payer, because PDex, CRD, DTR and PAS depend on 7.0.0).
 
 ### CapabilityStatements and sides
