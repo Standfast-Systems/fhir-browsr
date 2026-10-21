@@ -148,13 +148,14 @@
         [page]="view().page"
         [sort]="view().sort"
         [query]="view().query"
+        [searchable]="hasSelection()"
         [families]="families()"
         (familyChange)="store.setFamily($event)"
         (pageChange)="store.setPage($event)"
         (sortChange)="store.setSort($event)"
         (queryChange)="store.setQuery($event)"
       >
-        @if (!activeFamily() && !view().regions.length && !view().query.trim()) {
+        @if (!hasSelection()) {
           Click a circle or an overlap above to list its guides.
         } @else if (view().query.trim()) {
           Nothing matches “{{ view().query }}” here. Try clearing the search or selecting more

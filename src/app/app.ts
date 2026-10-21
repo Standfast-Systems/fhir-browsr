@@ -60,16 +60,19 @@ export class App {
     return id ? (this.families().get(id) ?? null) : null;
   });
 
+  /** True when there's something to list: a family from a chip, or at least one region. */
+  protected readonly hasSelection = computed(
+    () => !!this.view().family || this.selected().size > 0,
+  );
+
   /**
    * Rows before the bucket filter: a whole family when a family chip was clicked, otherwise the
-   * selected regions. Both go through the search box; with nothing selected, search covers all.
+   * selected regions, narrowed by the search box. Nothing selected lists nothing.
    */
   private readonly pool = computed(() => {
     const v = this.view();
     const sel = this.selected();
-    const searchAll = !sel.size && v.query.trim().length > 0;
-    const inView = (g: ScopedGuide) =>
-      v.family ? g.family === v.family : searchAll || sel.has(g.region);
+    const inView = (g: ScopedGuide) => (v.family ? g.family === v.family : sel.has(g.region));
     return this.scoped().filter((g) => inView(g) && matches(g, v.query));
   });
 
@@ -95,8 +98,7 @@ export class App {
     const family = this.activeFamily();
     if (family) return `${family.label} family`;
     const sel = this.view().regions;
-    if (!sel.length)
-      return this.view().query.trim() ? 'Search results, all regions' : 'No regions selected';
+    if (!sel.length) return 'No regions selected';
     if (sel.length === REGION_KEYS.length) return 'Every region';
     if (sel.length === 1 && sel[0] === 'all') return 'The Foundation';
     return REGIONS.filter((r) => sel.includes(r.key))
