@@ -1,0 +1,156 @@
+# Clinical domains: the clinical area a guide's content is about (who builds to it stays the
+# party tags). Transcribed from matchbook-domain-tags.md (2026-10-21), the product decision; change
+# tags there and here together. A guide carries every domain it genuinely covers; most have none.
+# Never tag by keyword. Members are npm ids; the build fails on an id it doesn't know.
+
+- id: oncology
+  label: "Oncology"
+  members:
+    - hl7.fhir.us.breast-radiology # Breast Radiology Report
+    - hl7.fhir.uv.ihe-sdc-ecc # Cancer Checklists on FHIR (SDC/eCC)
+    - hl7.fhir.us.cancer-reporting # Cancer Pathology Reports to the EHR
+    - hl7.fhir.us.central-cancer-registry-reporting # Central Cancer Registry Reporting
+    - hl7.fhir.us.codex-radiation-therapy # CodeX Radiation Therapy
+    - hl7.fhir.uv.genomics-reporting # Genomics Reporting
+    - hl7.fhir.uv.ichom-breast-cancer # ICHOM Breast Cancer Outcomes
+    - hl7.fhir.us.mcode # mCODE (Oncology)
+
+- id: cardiology
+  label: "Cardiology"
+  members:
+    - hl7.fhir.uv.cardx-htn-mng # CardX Hypertension Management
+    - hl7.fhir.uv.cardx-cied # CardX Implanted Cardiac Devices
+    - smart.who.int.dak-smbp # WHO Blood Pressure in Pregnancy Adaptation Kit
+
+- id: behavioral-health
+  label: "Behavioral health"
+  members:
+    - hl7.fhir.us.cdc-opioid-cpg # CDC Opioid Guideline Data Profiles
+    - fhir.cdc.opioid-cds # CDC Opioid Prescribing Guideline
+    - hl7.fhir.uv.security-label-ds4p # Data Segmentation for Privacy (DS4P)
+    - hl7.fhir.us.pdmp # Prescription Drug Monitoring (PDMP)
+    - fhir.astp.bhp # US Behavioral Health Profiles
+
+- id: maternal-and-child
+  label: "Maternal & child"
+  members:
+    - hl7.fhir.us.bfdr # Birth & Fetal Death Reporting
+    - ihe.pcc.bfde # IHE Birth & Fetal Death Reporting
+    - ihe.pcc.maps # IHE Mobile Antepartum Summary
+    - ihe.pcc.maps.us # IHE Mobile Antepartum Summary (US)
+    - hl7.fhir.uv.ibcm # International Birth And Child Model
+    - hl7.fhir.us.mihr # Maternal & Infant Health Research
+    - smart.who.int.dak-bds # WHO Birth Defects Surveillance Adaptation Kit
+    - smart.who.int.dak-smbp # WHO Blood Pressure in Pregnancy Adaptation Kit
+    - smart.who.int.dak-pnc # WHO Postnatal Care Adaptation Kit
+    - smart.who.int.anc # WHO SMART Antenatal Care
+
+- id: dental
+  label: "Dental"
+  members:
+    - hl7.fhir.us.dental-data-exchange # Dental Data Exchange
+
+- id: imaging
+  label: "Imaging"
+  members:
+    - hl7.fhir.us.breast-radiology # Breast Radiology Report
+    - hl7.fhir.uv.dicom-sr # DICOM SR to FHIR
+    - hl7.fhir.uv.fhircast # FHIRcast
+    - ihe.rad.ira # IHE Integrated Reporting Applications
+    - ihe.rad.imr # IHE Interactive Multimedia Report
+    - ihe.rad.mado # IHE Manifest-based DICOM Access (MADO)
+    - ihe.rad.sole # IHE Operational Log of Events (SOLE)
+    - hl7.fhir.uv.eyecare # Ophthalmology Retinal Imaging
+    - hl7.fhir.uv.radiation-dose-summary # Radiation Dose Summary
+
+- id: lab-and-genomics
+  label: "Lab & genomics"
+  members:
+    - hl7.fhir.us.home-lab-report # At-Home Test Reports
+    - hl7.fhir.uv.ihe-sdc-ecc # Cancer Checklists on FHIR (SDC/eCC)
+    - hl7.fhir.us.cancer-reporting # Cancer Pathology Reports to the EHR
+    - hl7.fhir.uv.cdisc-lab # CDISC Lab Semantics
+    - hl7.fhir.uv.genomics-reporting # Genomics Reporting
+    - hl7.fhir.uv.lab-report # HL7 Laboratory Report
+    - hl7.fhir.uv.livd # LOINC to Lab Device Mapping (LIVD)
+    - hl7.fhir.uv.phenomics-exchange # Phenomics Exchange
+    - hl7.fhir.uv.shc-vaccination # SMART Health Cards for Vaccination & Testing
+
+- id: medications
+  label: "Medications"
+  members:
+    - hl7.fhir.us.carin-rtpbc # CARIN Real-time Pharmacy Benefit Check
+    - hl7.fhir.us.cdc-opioid-cpg # CDC Opioid Guideline Data Profiles
+    - fhir.cdc.opioid-mme-r4 # CDC Opioid MME Calculator
+    - fhir.cdc.opioid-cds # CDC Opioid Prescribing Guideline
+    - hl7.fhir.uv.pddi # Drug-Drug Interaction Alerts
+    - hl7.fhir.uv.emedicinal-product-info # Electronic Product Information (ePI)
+    - ihe.pharm.meow # IHE Medication Overview
+    - ihe.pharm.mpd # IHE Medication Prescription & Dispense
+    - ihe.pharm.mma # IHE Mobile Medication Administration
+    - ihe.pcc.recon # IHE Reconciliation (RECON)
+    - ihe.pharm.ubp # IHE Uniform Barcode Processing
+    - hl7.fhir.us.medication-rems # Medication REMS
+    - hl7.fhir.us.nhsn-ade # NHSN Adverse Drug Events (Hypoglycemia)
+    - hl7.fhir.us.nhsn-med-admin # NHSN Medication Administration
+    - hl7.fhir.uv.pharm-quality # Pharmaceutical Quality (Industry)
+    - hl7.fhir.us.phcp # Pharmacist Care Plan
+    - hl7.fhir.us.pq-cmc-fda # PQ-CMC Submissions to FDA
+    - hl7.fhir.us.pdmp # Prescription Drug Monitoring (PDMP)
+    - hl7.fhir.us.specialty-rx # Specialty Medication Enrollment
+    - hl7.fhir.us.davinci-drug-formulary # US Drug Formulary
+    - hl7.fhir.us.smp # US Standardized Medication Profile
+
+- id: immunization
+  label: "Immunization"
+  members:
+    - hl7.fhir.us.icsr-ae-reporting # ICSR Adverse Event Reporting
+    - hl7.fhir.us.immds # Immunization Decision Support
+    - hl7.fhir.uv.immds # Immunization Decision Support (international)
+    - hl7.fhir.uv.shc-vaccination # SMART Health Cards for Vaccination & Testing
+    - smart.who.int.pcmt-vaxprequal # SMART Product Dataset for Prequalified Vaccines
+    - who.ddcc # WHO COVID-19 Certificates (DDCC)
+    - smart.who.int.dak-immz # WHO Immunizations Adaptation Kit
+    - smart.who.int.icvp # WHO SMART ICVP
+    - smart.who.int.immunizations # WHO SMART Immunizations
+
+- id: post-acute-and-long-term-care
+  label: "Post-acute & long-term care"
+  members:
+    - hl7.fhir.us.hai-ltcf # Infection Reporting from Long-Term Care
+    - hl7.fhir.us.eltss # Long-Term Services & Supports (eLTSS)
+    - hl7.fhir.us.pacio-adi # PACIO Advance Directives
+    - hl7.fhir.us.pacio-cs # PACIO Cognitive Status
+    - hl7.fhir.us.pacio-fs # PACIO Functional Status
+    - hl7.fhir.us.pacio-pfe # PACIO Personal Functioning & Engagement
+    - hl7.fhir.us.pacio-rt # PACIO Re-Assessment Timepoints
+    - hl7.fhir.us.pacio-toc # PACIO Transitions of Care
+    - hl7.fhir.us.dme-orders # Post-Acute Orders
+
+- id: devices-and-remote-monitoring
+  label: "Devices & remote monitoring"
+  members:
+    - hl7.fhir.uv.cardx-htn-mng # CardX Hypertension Management
+    - hl7.fhir.uv.cardx-cied # CardX Implanted Cardiac Devices
+    - hl7.fhir.uv.cgm # Continuous Glucose Monitoring
+    - ihe.pcc.pmdt # IHE Point-of-Care Device Tracking
+    - ihe.pcc.rpm # IHE Remote Patient Monitoring
+    - hl7.fhir.uv.phd # Personal Health Devices
+    - hl7.fhir.uv.pocd # Point-of-Care Devices
+    - smart.who.int.dak-smbp # WHO Blood Pressure in Pregnancy Adaptation Kit
+
+- id: infectious-disease
+  label: "Infectious disease"
+  members:
+    - hl7.fhir.us.home-lab-report # At-Home Test Reports
+    - hl7.fhir.us.covid19library # COVID-19 Profile Library
+    - hl7.fhir.us.ecr # Electronic Case Reporting (eCR)
+    - hl7.fhir.us.hai # Healthcare-Associated Infections (HAI)
+    - hl7.fhir.us.hai-ltcf # Infection Reporting from Long-Term Care
+    - hl7.fhir.us.resp-net # RESP-NET
+    - hl7.fhir.uv.saner # SANER (Epidemic Response)
+    - hl7.fhir.uv.shc-vaccination # SMART Health Cards for Vaccination & Testing
+    - who.ddcc # WHO COVID-19 Certificates (DDCC)
+    - smart.who.int.hiv # WHO SMART HIV
+    - smart.who.int.dak-srv # WHO Surveillance Adaptation Kit
+    - smart.who.int.dak-tb # WHO Tuberculosis Adaptation Kit

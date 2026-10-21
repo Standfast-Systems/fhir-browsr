@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { paginate, type ScopedGuide, type SortKey } from '../core/scope';
-import { PARTIES, type Family, type Party } from '../core/types';
+import { PARTIES, type Domain, type Family, type Party } from '../core/types';
 
 const PAGE_SIZE = 12;
-const INITIALIZR = 'https://standfast-systems.github.io/fhir-initializr/';
-
 const STATUS: Record<string, { text: string; tone: 'good' | 'ok' | 'warn' | 'plain' }> = {
   normative: { text: 'Normative', tone: 'good' },
   'normative+trial-use': { text: 'Normative + trial use', tone: 'good' },
@@ -72,15 +70,32 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
                       >universal</span
                     >
                   }
+                  <!-- Program and domain tags are shortcuts for the dropdowns: click to show all of it. -->
                   @if (g.family && families().get(g.family); as f) {
                     <button
                       type="button"
                       class="tag family"
-                      [attr.title]="'Show every ' + f.label + ' guide'"
+                      [attr.title]="'Show all ' + f.label + ' guides'"
                       (click)="familyChange.emit(f.id)"
                     >
-                      {{ f.label }}
+                      <svg class="funnel" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M2 3h12l-4.6 5.4V13l-2.8 1.4V8.4z" /></svg
+                      >{{ f.label }}
                     </button>
+                  }
+                  @for (id of g.domains; track id) {
+                    @if (domains().get(id); as d) {
+                      <button
+                        type="button"
+                        class="tag domain"
+                        [attr.title]="'Show all ' + d.label + ' guides'"
+                        (click)="domainChange.emit(d.id)"
+                      >
+                        <svg class="funnel" viewBox="0 0 16 16" aria-hidden="true">
+                          <path d="M2 3h12l-4.6 5.4V13l-2.8 1.4V8.4z" /></svg
+                        >{{ d.label }}
+                      </button>
+                    }
                   }
                 </div>
                 <div class="blurb">{{ g.blurb }}</div>
@@ -106,13 +121,6 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
               <td class="date">{{ month(g.release.date) }}</td>
               <td class="links">
                 <a [href]="g.release.url" target="_blank" rel="noopener">Official page ↗</a>
-                <a
-                  [href]="initializr(g)"
-                  target="_blank"
-                  rel="noopener"
-                  title="Pin versions and generate config in FHIR Initializr, which is still under construction"
-                  >Open in Initializr <span class="beta">BETA</span></a
-                >
               </td>
             </tr>
           }
@@ -170,6 +178,9 @@ export class GuideTable {
   readonly families = input<ReadonlyMap<string, Family>>(new Map());
   /** A row's family chip was clicked: show that whole family. */
   readonly familyChange = output<string>();
+  readonly domains = input<ReadonlyMap<string, Domain>>(new Map());
+  /** A row's domain tag was clicked: show every guide in that domain. */
+  readonly domainChange = output<string>();
 
   protected readonly parties = PARTIES;
   protected readonly partyName = PARTY_NAME;
@@ -207,16 +218,5 @@ export class GuideTable {
   protected month(date?: string): string {
     const m = /^(\d{4})-(\d{2})/.exec(date ?? '');
     return m ? `${MONTHS[Number(m[2]) - 1]} ${m[1]}` : '—';
-  }
-
-  protected initializr(g: ScopedGuide): string {
-    const role = g.parties.includes('provider')
-      ? 'ehr-developer'
-      : g.parties.includes('payer')
-        ? 'payer'
-        : g.parties.includes('patient')
-          ? 'app-developer'
-          : 'ehr-developer';
-    return `${INITIALIZR}?${new URLSearchParams({ role, extras: g.id })}`;
   }
 }

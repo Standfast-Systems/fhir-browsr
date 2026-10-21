@@ -271,12 +271,14 @@ h1 {
   }
 }
 
-.sort {
+// Domain, Program and Sort dropdowns, each with its label.
+.pick {
   display: flex;
   gap: 8px;
   align-items: center;
   color: var(--mb-muted);
   select {
+    max-width: 16rem;
     padding: 8px 10px;
     border-radius: 8px;
     border: 1px solid var(--mb-line);
@@ -343,6 +345,13 @@ footer {
   }
   h1 {
     font-size: 24px;
+  }
+}
+
+// Phones: search gets its own line, then Domain, Program and Sort wrap below it.
+@media (max-width: 720px) {
+  .search {
+    flex-basis: 100%;
   }
 }
 

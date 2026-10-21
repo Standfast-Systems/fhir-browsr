@@ -4,7 +4,9 @@ A way into FHIR's implementation guides for people who are new to it. Pick **Pat
 
 It opens on the center of the diagram, the foundation every side shares, with US Core first.
 
-Its sibling, [FHIR Initializr](https://standfast-systems.github.io/fhir-initializr/), is the developer tool: pinned versions, regulatory drivers and generated config. Every row here links to it.
+Above the table, **Domain** (oncology, imaging, medications, ...) and **Program** (Da Vinci, CARIN, IHE, ...) dropdowns show every guide in that clinical area or program, across all regions. Only one applies at a time. The domain and program tags on each row are shortcuts for the same filter.
+
+Its sibling, [FHIR Initializr](https://standfast-systems.github.io/fhir-initializr/), is the developer tool: pinned versions, regulatory drivers and generated config. The header links to it.
 
 ## The rule
 
@@ -30,6 +32,7 @@ Each guide links to its current published R4 release. Turning a toggle on only a
 | `data/ig-map.yaml` | The 277 US and universal-realm guides, their group, and the `parties` tags. Hidden groups (legacy, non-FHIR, tooling, unofficial, withdrawn) are dropped. |
 | `data/notes.yaml` | Hand-written display names and one-liners, plus `start` ranks for the good first guides. This is the curation file. |
 | `data/families.yaml` | Program families (Da Vinci, CARIN, SMART, IHE, ...): the chip label, the one-line header used when the table is grouped by family, and members in reading order. |
+| `data/domains.yaml` | The 12 clinical domains and the guides in each, hand-assigned (a guide can be in several; most are in none). Transcribed from `matchbook-domain-tags.md`, the product decision. |
 | `data/buckets.yaml` | The "What are you working on?" chips shown with Provider-only selected. Every ig-map group sits in exactly one bucket. |
 | `snapshot/registry.json` | The official FHIR IG registry's index, plus each listed guide's releases from its own `package-list.json` (status, date, FHIR version, page). Guides with no reachable `package-list.json` fall back to the editions the registry lists. |
 

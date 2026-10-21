@@ -73,6 +73,40 @@ tbody tr:hover {
   color: var(--mb-text);
 }
 
+// Domain tag: a clinical area; like the family tag, clicking it shows all of it.
+.tag.domain {
+  font: inherit;
+  font-size: 11px;
+  line-height: 16px;
+  background: none;
+  cursor: pointer;
+  color: var(--mb-domain);
+  border-color: color-mix(in srgb, var(--mb-domain) 40%, transparent);
+  &:hover {
+    background: color-mix(in srgb, var(--mb-domain) 14%, transparent);
+  }
+}
+
+// The funnel on program and domain tags says "click to filter": shown on hover or focus, and
+// always on touch screens, which have no hover.
+.tag .funnel {
+  display: none;
+  width: 9px;
+  height: 9px;
+  margin-right: 3px;
+  vertical-align: -1px;
+  fill: currentColor;
+}
+.tag:hover .funnel,
+.tag:focus-visible .funnel {
+  display: inline-block;
+}
+@media (hover: none) {
+  .tag .funnel {
+    display: inline-block;
+  }
+}
+
 // Family chip: a button styled as a tag; it filters the table to the whole family.
 .tag.family {
   font: inherit;

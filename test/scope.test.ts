@@ -5,6 +5,8 @@ import {
   DEFAULT_VIEW,
   addedBy,
   applyScope,
+  countBy,
+  inFocus,
   isPublished,
   matches,
   paginate,
@@ -30,6 +32,7 @@ const guide = (over: Partial<Guide> = {}): Guide => ({
   bucket: 'b',
   family: null,
   familyRank: 0,
+  domains: [],
   group: 'g',
   parties: ['provider'],
   blurb: '',
@@ -214,6 +217,19 @@ test('what a toggle added goes by the linked release', () => {
   assert.deepEqual(addedBy(ballot), { drafts: true, r5: false });
   assert.deepEqual(addedBy(r5), { drafts: false, r5: true });
   assert.deepEqual(addedBy(draftR5), { drafts: true, r5: true });
+});
+
+test('domain and program picks combine, across regions', () => {
+  const pacio = guide({ family: 'pacio', domains: ['post-acute'], parties: ['provider'] });
+  const loner = guide({ domains: ['post-acute', 'infectious'], parties: ['patient', 'provider'] });
+  const mcode = guide({ family: 'codex', domains: ['oncology'] });
+  assert.ok(inFocus(pacio, 'pacio', null));
+  assert.ok(inFocus(loner, null, 'post-acute'));
+  assert.ok(inFocus(pacio, 'pacio', 'post-acute'));
+  assert.ok(!inFocus(loner, 'pacio', 'post-acute'), 'both picks apply');
+  assert.ok(!inFocus(mcode, 'pacio', null));
+  const n = countBy([pacio, loner, mcode], (g) => g.domains);
+  assert.deepEqual(Object.fromEntries(n), { 'post-acute': 2, infectious: 1, oncology: 1 });
 });
 
 test('paginate clamps the page', () => {

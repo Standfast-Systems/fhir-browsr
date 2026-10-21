@@ -9,6 +9,7 @@ import { DEFAULT_SCOPE, REGIONS, applyScope, countByRegion } from '../src/core/s
 import type {
   Bucket,
   Dataset,
+  Domain,
   Family,
   Fhir,
   Guide,
@@ -55,6 +56,9 @@ const notes = (parse(readFileSync('data/notes.yaml', 'utf8')) ?? {}) as Record<s
 const familyDefs = parse(readFileSync('data/families.yaml', 'utf8')) as (Family & {
   members?: string[];
   prefixes?: string[];
+})[];
+const domainDefs = parse(readFileSync('data/domains.yaml', 'utf8')) as (Domain & {
+  members: string[];
 })[];
 const bucketDefs = parse(readFileSync('data/buckets.yaml', 'utf8')) as (Bucket & {
   groups: string[];
@@ -187,6 +191,16 @@ for (const f of familyDefs) {
   for (const p of f.prefixes ?? []) for (const id of ids) if (id.startsWith(p)) join(id, f.id, 0);
 }
 
+// Clinical domains, hand-assigned (data/domains.yaml); a guide can be in several.
+const domainsOf = new Map<string, string[]>();
+for (const dm of domainDefs) {
+  for (const id of dm.members) {
+    if (!ids.has(id) && !coreIds.has(id))
+      errors.push(`domains.yaml: ${dm.id} lists ${id}, which is not in ig-map.yaml`);
+    domainsOf.set(id, [...(domainsOf.get(id) ?? []), dm.id]);
+  }
+}
+
 for (const g of map.guides) {
   const group = map.groups[g.group];
   if (!group) {
@@ -212,6 +226,7 @@ for (const g of map.guides) {
     bucket: bucketOf.get(g.group) ?? '',
     family: familyOf.get(g.npm)?.id ?? null,
     familyRank: familyOf.get(g.npm)?.rank ?? 0,
+    domains: domainsOf.get(g.npm) ?? [],
     parties,
     blurb: note.blurb ?? fallbackBlurb(p, name, group.label),
     curated: Boolean(note.blurb),
@@ -245,6 +260,7 @@ for (const e of cores) {
     bucket: bucketOf.get('foundation') ?? '',
     family: null,
     familyRank: 0,
+    domains: domainsOf.get(e.npm) ?? [],
     parties: ['patient', 'provider', 'payer'],
     blurb:
       note.blurb ??
@@ -269,6 +285,7 @@ const out: Dataset = {
   snapshot: snap.generated,
   families: familyDefs.map(({ id, label, blurb }) => ({ id, label, blurb })),
   buckets: bucketDefs.map(({ id, label }) => ({ id, label })),
+  domains: domainDefs.map(({ id, label }) => ({ id, label })),
   guides,
 };
 mkdirSync('public/data', { recursive: true });
