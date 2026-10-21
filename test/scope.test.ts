@@ -5,6 +5,7 @@ import {
   DEFAULT_VIEW,
   applyScope,
   isPublished,
+  matches,
   paginate,
   pickRelease,
   regionOf,
@@ -151,6 +152,28 @@ test('group by family keeps reading order and puts loners last', () => {
   assert.deepEqual(
     sortGuides(scoped, 'family', ['davinci', 'ihe']).map((g) => g.id),
     ['crd', 'dtr', 'pas', 'mhd', 'core', 'bulk'],
+  );
+});
+
+test('search matches word starts in name, one-liner and group, not package ids', () => {
+  const g = guide({
+    id: 'hl7.fhir.us.davinci-dtr',
+    name: 'Da Vinci Documentation Templates (DTR)',
+    blurb: "Fills in the payer's documentation questionnaire inside the EHR.",
+    group: 'Coverage & prior authorization',
+  });
+  assert.ok(matches(g, 'prior auth'));
+  assert.ok(matches(g, 'DTR'));
+  assert.ok(matches(g, 'questionn'));
+  assert.ok(matches(g, ''));
+  assert.ok(!matches(g, 'us'), 'the .us. in the package id is not searched');
+  assert.ok(!matches(g, 'emplates'), 'matches the start of words only');
+  assert.ok(!matches(g, 'prior payment'), 'every word has to match');
+  const core = guide({ name: 'US Core', blurb: 'The baseline US profiles, used everywhere.' });
+  assert.ok(matches(core, 'US'));
+  assert.ok(
+    !matches(guide({ name: 'X', blurb: 'Widely used.' }), 'us'),
+    'short words match whole words',
   );
 });
 

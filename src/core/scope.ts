@@ -108,11 +108,23 @@ export function countByRegion(guides: readonly ScopedGuide[]): Record<RegionKey,
 
 export type SortKey = 'start' | 'name' | 'date' | 'family';
 
+const words = (text: string) =>
+  text
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+
+/**
+ * Search over a guide's name, one-liner and topic group, word by word. Every query word has to
+ * match: words of three letters or more match the start of a word ("auth" finds "authorization"),
+ * shorter ones only a whole word, so "US" finds US Core but not "used" or the ".us." inside
+ * package ids, which are no longer searched.
+ */
 export function matches(g: Guide, query: string): boolean {
-  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
-  if (!words.length) return true;
-  const hay = `${g.name} ${g.blurb} ${g.id} ${g.group}`.toLowerCase();
-  return words.every((w) => hay.includes(w));
+  const want = words(query);
+  if (!want.length) return true;
+  const have = words(`${g.name} ${g.blurb} ${g.group}`);
+  return want.every((w) => (w.length <= 2 ? have.includes(w) : have.some((h) => h.startsWith(w))));
 }
 
 const rank = (g: Guide) => g.start || Number.MAX_SAFE_INTEGER;
