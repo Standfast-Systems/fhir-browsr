@@ -1,0 +1,321 @@
+:host {
+  display: block;
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.search {
+  flex: 1 1 260px;
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--mb-line);
+    background: var(--mb-panel);
+    color: var(--mb-text);
+    font: inherit;
+    &::placeholder {
+      color: var(--mb-faint);
+    }
+    &:focus {
+      border-color: var(--mb-lime-dim);
+      outline: none;
+    }
+  }
+}
+
+.sort {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--mb-muted);
+  select {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--mb-line);
+    background: var(--mb-panel);
+    color: var(--mb-text);
+    font: inherit;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: var(--mb-faint);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--mb-line);
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid var(--mb-line);
+  vertical-align: top;
+}
+
+tbody tr:hover {
+  background: var(--mb-panel);
+}
+
+.guide {
+  .title {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    align-items: baseline;
+    a {
+      color: var(--mb-text);
+      font-weight: 600;
+      font-size: 15px;
+      &:hover {
+        color: var(--mb-lime);
+      }
+    }
+  }
+  .blurb {
+    color: var(--mb-muted);
+    margin-top: 3px;
+    max-width: 62ch;
+  }
+}
+
+.tag {
+  font-size: 11px;
+  line-height: 16px;
+  padding: 0 7px;
+  border-radius: 999px;
+  border: 1px solid var(--mb-line);
+  color: var(--mb-muted);
+  white-space: nowrap;
+  &.start {
+    color: var(--mb-bg);
+    background: var(--mb-lime);
+    border-color: var(--mb-lime);
+    font-weight: 600;
+  }
+}
+
+// Family chip: a button styled as a tag; it filters the table to the whole family.
+.tag.family {
+  font: inherit;
+  font-size: 11px;
+  line-height: 16px;
+  background: none;
+  cursor: pointer;
+  color: var(--mb-info);
+  border-color: color-mix(in srgb, var(--mb-info) 40%, transparent);
+  &:hover {
+    background: color-mix(in srgb, var(--mb-info) 14%, transparent);
+  }
+}
+
+// Family header rows when the table is grouped by family.
+tr.group th {
+  padding: 18px 12px 8px;
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: normal;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--mb-muted);
+  border-bottom: 1px solid var(--mb-line);
+  .fam {
+    color: var(--mb-text);
+    font-weight: 600;
+  }
+  // Angular drops the whitespace between the two spans.
+  .fam-blurb {
+    margin-left: 0.35em;
+  }
+}
+
+.parties {
+  white-space: nowrap;
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: -1px;
+    &.patient {
+      background: var(--mb-patient);
+    }
+    &.provider {
+      background: var(--mb-provider);
+    }
+    &.payer {
+      background: var(--mb-payer);
+    }
+    &.off {
+      background: transparent;
+      box-shadow: inset 0 0 0 1px var(--mb-line);
+    }
+  }
+  .party-text {
+    display: block;
+    font-size: 12px;
+    color: var(--mb-muted);
+    margin-top: 4px;
+  }
+}
+
+.maturity {
+  white-space: nowrap;
+  .label {
+    display: block;
+    font-family: var(--mb-mono);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .status {
+    display: inline-block;
+    margin: 4px 4px 0 0;
+    font-size: 11px;
+    line-height: 16px;
+    padding: 0 7px;
+    border-radius: 999px;
+    border: 1px solid var(--mb-line);
+    color: var(--mb-muted);
+    &.good {
+      color: var(--mb-lime);
+      border-color: color-mix(in srgb, var(--mb-lime) 45%, transparent);
+    }
+    &.ok {
+      color: var(--mb-info);
+      border-color: color-mix(in srgb, var(--mb-info) 40%, transparent);
+    }
+    &.warn {
+      color: var(--mb-warn);
+      border-color: color-mix(in srgb, var(--mb-warn) 45%, transparent);
+    }
+  }
+}
+
+.date {
+  white-space: nowrap;
+  color: var(--mb-muted);
+}
+
+.links {
+  white-space: nowrap;
+  text-align: right;
+  a {
+    display: block;
+    font-size: 13px;
+    & + a {
+      margin-top: 4px;
+      color: var(--mb-muted);
+      &:hover {
+        color: var(--mb-lime);
+      }
+    }
+  }
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0 0;
+  .range {
+    color: var(--mb-muted);
+  }
+  .pages {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+  button {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+    border-radius: 8px;
+    border: 1px solid var(--mb-line);
+    background: var(--mb-panel);
+    cursor: pointer;
+    &:hover:not(:disabled) {
+      border-color: var(--mb-lime-dim);
+    }
+    &.on {
+      background: var(--mb-lime);
+      border-color: var(--mb-lime);
+      color: var(--mb-bg);
+      font-weight: 600;
+    }
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+  }
+  .gap {
+    color: var(--mb-faint);
+    padding: 0 2px;
+  }
+}
+
+.empty {
+  margin: 0;
+  padding: 36px 16px;
+  text-align: center;
+  color: var(--mb-muted);
+  border: 1px dashed var(--mb-line);
+  border-radius: 12px;
+}
+
+// Phones: each row becomes a card.
+@media (max-width: 720px) {
+  thead {
+    display: none;
+  }
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+  }
+  tr {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--mb-line);
+  }
+  td {
+    border: 0;
+    padding: 2px 0;
+  }
+  .parties,
+  .maturity,
+  .date {
+    display: inline-block;
+    margin-right: 14px;
+    vertical-align: top;
+  }
+  .links {
+    text-align: left;
+    a {
+      display: inline-block;
+      margin-right: 14px;
+      & + a {
+        margin-top: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+# "What are you working on?" filter chips, shown when Provider-only is selected.
+# Each ig-map group belongs to exactly one bucket; the build fails if a group is missing or doubled.
+# Chips appear in this order, and only when they have guides in the current selection.
+
+- id: public-health
+  label: Public health & vital records
+  groups: [wf-public-health, wf-vital-records]
+
+- id: clinical
+  label: Specialty clinical data
+  groups:
+    [
+      ct-oncology,
+      ct-cardiology,
+      ct-behavioral,
+      ct-post-acute,
+      ct-maternal,
+      ct-lab-genomics,
+      ct-imaging,
+      ct-meds,
+      ct-devices,
+      ct-history,
+      ct-observations,
+    ]
+
+- id: sharing
+  label: Sharing records across organizations
+  groups: [wf-doc-sharing, wf-directories, cap-identity]
+
+- id: cds-quality
+  label: Decision support & quality
+  groups: [wf-cds, wf-quality]
+
+- id: care-coord
+  label: Care coordination & referrals
+  groups: [wf-care-coord, wf-orders]
+
+- id: who
+  label: WHO SMART Guidelines
+  groups: [wf-who-smart]
+
+- id: research
+  label: Research & registries
+  groups: [wf-research, wf-regulatory]
+
+- id: coverage
+  label: Coverage, payment & patient access
+  groups: [wf-patient-access, wf-prior-auth, wf-payer-exchange, wf-payments-value, wf-portable]
+
+- id: building-blocks
+  label: Shared building blocks
+  groups:
+    [
+      foundation,
+      library,
+      cap-app,
+      cap-security,
+      cap-privacy,
+      cap-audit,
+      cap-notify,
+      cap-bulk,
+      cap-forms,
+      cap-terminology,
+      cap-bridge,
+    ]

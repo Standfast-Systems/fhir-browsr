@@ -1,0 +1,102 @@
+// Standfast brand: near-black surfaces with a lime green accent.
+:root {
+  color-scheme: dark;
+
+  --mb-bg: #0a0a0b;
+  --mb-panel: #141517;
+  --mb-panel-2: #18191c;
+  --mb-panel-3: #1e2023;
+  --mb-line: #2b2d31;
+  --mb-text: #eff1e9;
+  --mb-muted: #a9ad9f;
+  --mb-faint: #6b6f63;
+  --mb-lime: #a3e635;
+  --mb-lime-dim: #3f6212;
+  --mb-warn: #fbbf24;
+  --mb-info: #7dd3fc;
+
+  // Paint-box primaries, one per party: circles, labels and the table's party dots.
+  --mb-patient: #3b82f6; // blue
+  --mb-provider: #ef4444; // red
+  --mb-payer: #f2b01e; // marigold: a yellow leaning orange, so it isn't highlighter
+
+  // Diagram regions: each overlap is the colour its circles mix to.
+  --mb-r-pt: var(--mb-patient);
+  --mb-r-pr: var(--mb-provider);
+  --mb-r-py: var(--mb-payer);
+  --mb-r-pt-pr: #a855f7; // blue + red = purple
+  --mb-r-pr-py: #f97316; // red + yellow = orange
+  --mb-r-pt-py: #34a853; // blue + yellow = green
+  --mb-r-all: #d4d4d8; // all three: light gray when selected, dark gray (its dim wash) when not
+  --mb-r-none: var(--mb-muted);
+
+  --mb-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+}
+
+// `--c` is a region's colour, for anything (diagram, chips) tagged with its region key.
+.c-all {
+  --c: var(--mb-r-all);
+}
+.c-pt-pr {
+  --c: var(--mb-r-pt-pr);
+}
+.c-pr-py {
+  --c: var(--mb-r-pr-py);
+}
+.c-pt-py {
+  --c: var(--mb-r-pt-py);
+}
+.c-pt {
+  --c: var(--mb-r-pt);
+}
+.c-pr {
+  --c: var(--mb-r-pr);
+}
+.c-py {
+  --c: var(--mb-r-py);
+}
+.c-none {
+  --c: var(--mb-r-none);
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--mb-bg);
+  color: var(--mb-text);
+  font-family: Inter, Roboto, system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--mb-lime);
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--mb-lime);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

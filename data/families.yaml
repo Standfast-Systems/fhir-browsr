@@ -1,0 +1,96 @@
+# Program families. A guide belongs to at most one.
+#   label:   the chip text
+#   blurb:   the one-line header shown when the table is grouped by family (the glossary entry)
+#   members: npm ids in reading order, so related guides read in workflow order (CRD → DTR → PAS)
+#   prefixes: instead of members, every guide whose npm id starts with one of these, by name
+# Families are listed in the order the grouped table shows them; guides in no family come last.
+# Argonaut has no entry: its only guides in ig-map.yaml (Clinical Notes, Questionnaire) are
+# legacy pre-R4 and hidden. US Core and SMART App Launch grew out of it but are HL7's now.
+
+- id: davinci
+  label: Da Vinci
+  blurb: "Payers and providers: mostly prior authorization and data exchange; driven by CMS-0057-F."
+  members:
+    - hl7.fhir.us.davinci-crd
+    - hl7.fhir.us.davinci-dtr
+    - hl7.fhir.us.davinci-pas
+    - hl7.fhir.us.davinci-cdex
+    - hl7.fhir.us.davinci-pdex
+    - hl7.fhir.us.davinci-pcde
+    - hl7.fhir.us.davinci-pdex-plan-net
+    - hl7.fhir.us.davinci-drug-formulary
+    - hl7.fhir.us.davinci-pct
+    - hl7.fhir.us.davinci-alerts
+    - hl7.fhir.us.davinci-deqm
+    - hl7.fhir.us.davinci-atr
+    - hl7.fhir.us.davinci-ra
+    - hl7.fhir.us.davinci-vbpr
+    - hl7.fhir.us.davinci-pr
+    - hl7.fhir.us.davinci-hrex
+
+- id: carin
+  label: CARIN
+  blurb: "Consumers and health plans: claims, insurance cards and drug costs in a member's own app; CARIN Blue Button is the CMS Patient Access API format."
+  members:
+    - hl7.fhir.us.carin-bb
+    - hl7.fhir.us.insurance-card
+    - hl7.fhir.us.carin-rtpbc
+
+- id: smart
+  label: SMART
+  blurb: "Apps and patient-held records: how an app launches and gets permission, plus health cards and links a patient can carry."
+  members:
+    - hl7.fhir.uv.smart-app-launch
+    - hl7.fhir.uv.smart-web-messaging
+    - hl7.fhir.uv.smart-health-cards-and-links
+    - hl7.fhir.uv.shc-vaccination
+    - hl7.fhir.uv.smart-scheduling-links
+
+- id: fast
+  label: FAST
+  blurb: "The plumbing for national-scale exchange: certificate-based app security (UDAP), identity matching and routing through intermediaries."
+  members:
+    - hl7.fhir.us.udap-security
+    - hl7.fhir.uv.fast-security
+    - hl7.fhir.us.identity-matching
+    - hl7.fhir.us.exchange-routing
+
+- id: pacio
+  label: PACIO
+  blurb: "Post-acute care: what moves with a patient between hospitals, nursing and rehab facilities, and home health."
+  members:
+    - hl7.fhir.us.pacio-toc
+    - hl7.fhir.us.pacio-adi
+    - hl7.fhir.us.pacio-fs
+    - hl7.fhir.us.pacio-cs
+    - hl7.fhir.us.pacio-pfe
+    - hl7.fhir.us.pacio-rt
+
+- id: codex
+  label: CodeX
+  blurb: "Specialty data that starts from mCODE for cancer, then radiation therapy and cardiology (CardX)."
+  members:
+    - hl7.fhir.us.mcode
+    - hl7.fhir.us.codex-radiation-therapy
+    - hl7.fhir.uv.cardx-htn-mng
+    - hl7.fhir.uv.cardx-cied
+
+- id: medmorph
+  label: MedMorph
+  blurb: "Sending EHR data to public health and research when a trigger fires, with content guides for cancer registries and health care surveys."
+  members:
+    - hl7.fhir.us.medmorph
+    - hl7.fhir.us.fhir-medmorph
+    - hl7.fhir.us.central-cancer-registry-reporting
+    - hl7.fhir.us.health-care-surveys-reporting
+    - hl7.fhir.us.medmorph-research-dex
+
+- id: ihe
+  label: IHE
+  blurb: "International building blocks for document sharing, patient identity, audit and devices, used by national and regional networks."
+  prefixes: [ihe.]
+
+- id: who
+  label: WHO SMART Guidelines
+  blurb: "WHO's computable guidelines for national health programs: immunization, HIV, antenatal care and more."
+  prefixes: [smart.who.int., who.]
