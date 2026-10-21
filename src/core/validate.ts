@@ -26,7 +26,6 @@ export function validateKb(kb: KnowledgeBase, reg?: RegistrySnapshot): Finding[]
   const out: Finding[] = [];
   const err = (where: string, message: string) => out.push({ level: 'error', where, message });
   const warn = (where: string, message: string) => out.push({ level: 'warn', where, message });
-  const roleIds = new Set(kb.roles.map((r) => r.id));
 
   if (!ISO.test(kb.kbAsOf)) err('meta', `kb_as_of "${kb.kbAsOf}" is not yyyy-mm-dd`);
   for (const s of Object.values(kb.sources)) {
@@ -49,10 +48,13 @@ export function validateKb(kb: KnowledgeBase, reg?: RegistrySnapshot): Finding[]
     if (ids.has(d.id)) err(dw, 'duplicate driver id');
     ids.add(d.id);
     cite(dw, d.cite);
-    for (const r of d.roles) if (!roleIds.has(r)) err(dw, `unknown role "${r}"`);
+    const sideIds = new Set((d.sides ?? []).map((x) => x.id));
+    if (sideIds.size !== (d.sides ?? []).length) err(dw, 'duplicate side id');
     const compIds = new Set(d.components.map((c) => c.id));
     for (const c of d.components) {
       cite(`${dw} component ${c.id}`, c.cite);
+      for (const x of c.sides ?? [])
+        if (!sideIds.has(x)) err(`${dw} component ${c.id}`, `unknown side "${x}"`);
       for (const k of ['from', 'until'] as const) {
         const v = c.in_force?.[k];
         if (v && !ISO.test(String(v)))
@@ -66,7 +68,8 @@ export function validateKb(kb: KnowledgeBase, reg?: RegistrySnapshot): Finding[]
       ruleIds.add(r.id);
       if (!STRENGTHS.includes(r.strength)) err(rw, `bad strength "${r.strength}"`);
       if (!ACTORS.includes(r.actor)) err(rw, `bad actor "${r.actor}"`);
-      for (const role of r.roles ?? []) if (!roleIds.has(role)) err(rw, `unknown role "${role}"`);
+      if (sideIds.size && !r.side) err(rw, 'driver has sides: rule needs a side');
+      if (r.side && !sideIds.has(r.side)) err(rw, `unknown side "${r.side}"`);
       for (const c of r.components ?? []) if (!compIds.has(c)) err(rw, `unknown component "${c}"`);
       cite(rw, r.cite);
       if (!r.versions?.length) err(rw, 'no versions');

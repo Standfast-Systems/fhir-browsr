@@ -5,15 +5,15 @@ The proof of done for each driver: generate the HAPI config, boot the server, lo
 Each folder here is the unedited output of:
 
 ```bash
-node cli/initializr.ts scope --role ehr-developer --driver onc-g10 --as-of 2027-01-01 --name g10-ehr --out proof/onc-g10
+node cli/initializr.ts scope --driver onc-g10 --as-of 2027-01-01 --name g10-ehr --out proof/onc-g10
 ```
 
 ```bash
-node cli/initializr.ts scope --role payer --driver cms-0057-f --as-of 2027-01-01 --name cms-payer --out proof/cms-0057-f
+node cli/initializr.ts scope --driver cms-0057-f@payer --as-of 2027-01-01 --name cms-payer --out proof/cms-0057-f
 ```
 
 ```bash
-node cli/initializr.ts scope --role app-developer --driver smart-app-us-core --as-of 2027-01-01 --name smart-app --out proof/smart-app
+node cli/initializr.ts scope --driver smart-app-us-core --as-of 2027-01-01 --name smart-app --out proof/smart-app
 ```
 
 ## Running it

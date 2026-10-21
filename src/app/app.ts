@@ -40,9 +40,10 @@ export class App {
     if (!p) return '';
     const parts = ['node cli/initializr.ts scope'];
     if (p.realm !== 'us') parts.push(`--realm ${p.realm}`);
-    parts.push(`--role ${p.role}`);
     for (const d of p.drivers)
-      parts.push(`--driver ${d.id}${d.components?.length ? ':' + d.components.join('+') : ''}`);
+      parts.push(
+        `--driver ${d.id}${d.side ? '@' + d.side : ''}${d.components?.length ? ':' + d.components.join('+') : ''}`,
+      );
     parts.push(`--as-of ${p.asOf}`);
     for (const a of p.actors) parts.push(`--actor ${a}`);
     for (const e of p.extras ?? []) parts.push(`--extra ${e}`);

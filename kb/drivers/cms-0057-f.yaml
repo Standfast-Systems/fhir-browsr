@@ -22,7 +22,16 @@ summary: >-
   issuers on the federally facilitated exchanges) must run FHIR APIs for patients, providers, other
   payers and prior authorization, most from January 1, 2027. The rule requires the base standards in
   45 CFR 170.215 and recommends Da Vinci and CARIN implementation guides.
-roles: [payer, app-developer, provider-org, ehr-developer]
+sides:
+  - id: payer
+    name: The payer's APIs
+    summary: You build or run the APIs the rule requires of impacted payers.
+  - id: provider
+    name: A provider system that calls them
+    summary: An EHR or provider system that pulls member data and requests prior authorization.
+  - id: app
+    name: A member app that calls them
+    summary: An app members use to get their claims and clinical data.
 realms: [us]
 fhir: ["4.0.1"]
 cite:
@@ -35,6 +44,7 @@ components:
     summary: Claims, encounter, clinical and (from 2027) prior authorization data for members' apps.
     in_force: {from: "2021-01-01"}
     default: true
+    sides: [payer, app]
     cite:
       source: ecfr-42-422-119
       pin: "(b)(1)"
@@ -44,6 +54,7 @@ components:
     summary: Member data for in-network providers with a treatment relationship, individually or in bulk.
     in_force: {from: "2027-01-01"}
     default: true
+    sides: [payer, provider]
     cite:
       source: ecfr-42-422-121
       pin: "(a)"
@@ -53,6 +64,7 @@ components:
     summary: Member data exchanged with a member's previous and concurrent payers.
     in_force: {from: "2027-01-01"}
     default: true
+    sides: [payer]
     cite:
       source: ecfr-42-422-121
       pin: "(b)"
@@ -62,6 +74,7 @@ components:
     summary: Lets providers discover requirements, gather documentation, and submit and track prior authorization.
     in_force: {from: "2027-01-01"}
     default: true
+    sides: [payer, provider]
     cite:
       source: ecfr-42-422-122
       pin: "(b)"
@@ -71,6 +84,7 @@ components:
     summary: Public, unauthenticated provider directory (not required of QHP issuers on the FFEs).
     in_force: {from: "2021-01-01"}
     default: true
+    sides: [payer]
     cite:
       source: ecfr-42-422-120
       pin: "(c)"
@@ -85,7 +99,7 @@ rules:
     ig: hl7.fhir.us.core
     actor: server
     strength: required
-    roles: [payer]
+    side: payer
     capstmts: [http://hl7.org/fhir/us/core/CapabilityStatement/us-core-server]
     note: Every CMS API cross-references 45 CFR 170.215(b)(1)(i) (US Core); updated versions are allowed under the flexibility clause.
     cite:
@@ -149,7 +163,7 @@ rules:
     actor: server
     strength: required
     capstmts: []  # SMART's only CapabilityStatement (App State) is an optional capability
-    roles: [payer]
+    side: payer
     components: [patient-access, provider-access, prior-auth]
     note: Patient Access, Provider Access and Prior Authorization cross-reference 170.215(c)(1); Payer-to-Payer and Provider Directory do not.
     cite:
@@ -184,7 +198,7 @@ rules:
     ig: hl7.fhir.uv.bulkdata
     actor: server
     strength: required
-    roles: [payer]
+    side: payer
     components: [provider-access, payer-to-payer]
     cite:
       source: ecfr-42-422-121
@@ -218,7 +232,7 @@ rules:
     ig: hl7.fhir.us.carin-bb
     actor: server
     strength: recommended
-    roles: [payer]
+    side: payer
     components: [patient-access, provider-access, payer-to-payer]
     cite:
       source: cms-recommended-igs
@@ -250,7 +264,7 @@ rules:
       - http://hl7.org/fhir/us/davinci-pdex/CapabilityStatement/pdex-server-6-1
       - http://hl7.org/fhir/us/davinci-pdex/CapabilityStatement/pdex-provider-access-server
       - http://hl7.org/fhir/us/davinci-pdex/CapabilityStatement/pdex-payer-access-server
-    roles: [payer]
+    side: payer
     components: [patient-access, provider-access, payer-to-payer]
     cite:
       source: cms-recommended-igs
@@ -275,7 +289,7 @@ rules:
     ig: hl7.fhir.us.davinci-drug-formulary
     actor: server
     strength: recommended
-    roles: [payer]
+    side: payer
     components: [patient-access]
     cite: {source: cms-recommended-igs, pin: "Patient Access"}
     versions:
@@ -297,7 +311,7 @@ rules:
     ig: hl7.fhir.us.davinci-pdex-plan-net
     actor: server
     strength: recommended
-    roles: [payer]
+    side: payer
     components: [provider-directory]
     cite: {source: cms-recommended-igs, pin: "Provider Directory"}
     versions:
@@ -321,7 +335,7 @@ rules:
     strength: recommended
     capstmts:
       - http://hl7.org/fhir/us/davinci-crd/CapabilityStatement/crd-server
-    roles: [payer]
+    side: payer
     components: [prior-auth]
     cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
     versions:
@@ -346,7 +360,7 @@ rules:
     strength: recommended
     capstmts:
       - http://hl7.org/fhir/us/davinci-dtr/CapabilityStatement/dtr-payer-service
-    roles: [payer]
+    side: payer
     components: [prior-auth]
     cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
     versions:
@@ -371,7 +385,7 @@ rules:
     strength: recommended
     capstmts:
       - http://hl7.org/fhir/us/davinci-pas/CapabilityStatement/IntermediaryCapabilities
-    roles: [payer]
+    side: payer
     components: [prior-auth]
     cite: {source: cms-recommended-igs, pin: "Prior Authorization"}
     versions:
@@ -394,7 +408,7 @@ rules:
     actor: server
     strength: recommended
     capstmts: []  # SMART's only CapabilityStatement (App State) is an optional capability
-    roles: [payer]
+    side: payer
     components: [payer-to-payer]
     note: CMS recommends SMART Backend Services to authorize Payer-to-Payer and Provider Access exchanges.
     cite: {source: cms-recommended-igs, pin: "Payer-to-Payer: SMART App Launch 2.0.0 Backend Services"}
@@ -412,7 +426,7 @@ rules:
     ig: hl7.fhir.uv.bulkdata
     actor: client
     strength: recommended
-    roles: [payer]
+    side: payer
     components: [payer-to-payer]
     note: You request member data from other payers' Payer-to-Payer APIs, which are built to these standards.
     cite:
@@ -433,7 +447,7 @@ rules:
     ig: hl7.fhir.us.core
     actor: client
     strength: recommended
-    roles: [payer]
+    side: payer
     components: [payer-to-payer]
     capstmts: [http://hl7.org/fhir/us/core/CapabilityStatement/us-core-client]
     cite: {source: ecfr-42-422-121, pin: "(b)"}
@@ -466,7 +480,7 @@ rules:
     ig: hl7.fhir.us.davinci-pdex
     actor: client
     strength: recommended
-    roles: [payer]
+    side: payer
     components: [payer-to-payer]
     cite: {source: cms-recommended-igs, pin: "Payer-to-Payer"}
     versions:
@@ -480,13 +494,13 @@ rules:
         cite: {source: cms-recommended-igs, pin: "Payer-to-Payer"}
 
   # ------------------------------------------------------------------------------------------
-  # Counterparties. CMS-0057-F binds payers; these roles connect to payers' APIs as clients.
+  # Counterparties. CMS-0057-F binds payers; these sides call payers' APIs as clients.
 
   - id: cms-app-carin-client
     ig: hl7.fhir.us.carin-bb
     actor: client
     strength: optional
-    roles: [app-developer]
+    side: app
     components: [patient-access]
     note: Payers' Patient Access APIs are recommended to follow CARIN Blue Button; your app reads them as a client.
     cite: {source: cms-recommended-igs, pin: "Patient Access"}
@@ -505,7 +519,7 @@ rules:
     actor: client
     strength: optional
     capstmts: []  # SMART's only CapabilityStatement (App State) is an optional capability
-    roles: [app-developer]
+    side: app
     components: [patient-access]
     note: Patient Access APIs authorize apps with SMART App Launch and OpenID Connect.
     cite: {source: ecfr-42-422-119, pin: "(c)(1)"}
@@ -523,7 +537,7 @@ rules:
     ig: hl7.fhir.uv.bulkdata
     actor: client
     strength: optional
-    roles: [provider-org, ehr-developer]
+    side: provider
     components: [provider-access]
     note: Providers pull attributed members' data from payers' Provider Access APIs, often in bulk.
     cite: {source: ecfr-42-422-121, pin: "(a)"}
@@ -540,7 +554,7 @@ rules:
     ig: hl7.fhir.us.davinci-pdex
     actor: client
     strength: optional
-    roles: [provider-org, ehr-developer]
+    side: provider
     components: [provider-access]
     cite: {source: cms-recommended-igs, pin: "Provider Access"}
     versions:
@@ -561,7 +575,7 @@ rules:
     ig: hl7.fhir.us.davinci-crd
     actor: client
     strength: optional
-    roles: [provider-org, ehr-developer]
+    side: provider
     components: [prior-auth]
     capstmts:
       - http://hl7.org/fhir/us/davinci-crd/CapabilityStatement/crd-client6.1
@@ -589,7 +603,7 @@ rules:
     ig: hl7.fhir.us.davinci-dtr
     actor: client
     strength: optional
-    roles: [provider-org, ehr-developer]
+    side: provider
     components: [prior-auth]
     capstmts:
       - http://hl7.org/fhir/us/davinci-dtr/CapabilityStatement/full-dtr-ehr-700
@@ -617,7 +631,7 @@ rules:
     ig: hl7.fhir.us.davinci-pas
     actor: client
     strength: optional
-    roles: [provider-org, ehr-developer]
+    side: provider
     components: [prior-auth]
     capstmts:
       - http://hl7.org/fhir/us/davinci-pas/CapabilityStatement/EHRCapabilities

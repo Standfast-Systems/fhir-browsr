@@ -41,7 +41,7 @@ import type { ActorSurface, MergedResource } from '../core/index.ts';
       </p>
       @if (s.narrativeOnly.length) {
         <p class="narr">
-          Narrative only (no machine-readable expectations for your role):
+          Narrative only (no machine-readable expectations for your side):
           <span class="mono">{{ s.narrativeOnly.join(', ') }}</span
           >. Read those guides' conformance pages.
         </p>

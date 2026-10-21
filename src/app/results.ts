@@ -43,7 +43,7 @@ export class Results {
       {
         id: 'optional',
         title: 'Optional',
-        hint: 'Useful for your role; nothing requires them.',
+        hint: 'Useful for this project; nothing requires them.',
         igs: by((i) => ruled(i) && i.strength === 'optional'),
       },
       {

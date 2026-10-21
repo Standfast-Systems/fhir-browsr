@@ -12,7 +12,6 @@ authority: "HL7 (no regulation)"
 summary: >-
   A SMART App Launch client that reads US Core data from certified EHR APIs. Initializr targets the
   versions every certified server must support on your target date, so the app works everywhere.
-roles: [app-developer, provider-org, hie, payer, ehr-developer]
 realms: [us]
 fhir: ["4.0.1"]
 cite:

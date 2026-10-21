@@ -1,12 +1,14 @@
-import { Injectable, computed, effect, inject, linkedSignal } from '@angular/core';
+import { Injectable, computed, effect, inject, linkedSignal, signal } from '@angular/core';
 import {
   deepKeysFor,
   defaultProfile,
+  driverActors,
   driverApplies,
+  driversNeedingSide,
   resolve,
   selectedComponents,
 } from '../core/index.ts';
-import type { Actor, KnowledgeBase, Manifest, ProjectProfile, Role } from '../core/index.ts';
+import type { Actor, KnowledgeBase, Manifest, ProjectProfile } from '../core/index.ts';
 import { DataStore } from './data-store';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -14,6 +16,9 @@ const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 /**
  * The project being scoped, and the manifest resolved from it. Held in memory only: it starts
  * from the defaults once the knowledge base loads, and a reload starts over.
+ *
+ * The questions open in order: where, then what drives the project (and, for a driver with sides,
+ * which side the system is on). Everything else waits until there is something to resolve.
  */
 @Injectable({ providedIn: 'root' })
 export class ProfileStore {
@@ -21,10 +26,35 @@ export class ProfileStore {
 
   private readonly state = linkedSignal<KnowledgeBase | null, ProjectProfile | null>({
     source: this.data.kb,
-    computation: (kb) => (kb ? defaultProfile(kb, 'ehr-developer') : null),
+    computation: (kb) => (kb ? defaultProfile() : null),
   });
 
   readonly profile = this.state.asReadonly();
+
+  /** "None of these": no regulation drives the project; it's scoped from guides picked by hand. */
+  private readonly guidesOnlyState = signal(false);
+  readonly guidesOnly = this.guidesOnlyState.asReadonly();
+
+  /** The drivers that apply where the project is. */
+  readonly drivers = computed(() => {
+    const kb = this.data.kb();
+    const p = this.state();
+    return kb && p ? kb.drivers.filter((d) => driverApplies(d, p.realm)) : [];
+  });
+
+  /** Selected drivers still waiting for "which side is your system on?". */
+  readonly needsSide = computed(() => {
+    const kb = this.data.kb();
+    const p = this.state();
+    return kb && p ? driversNeedingSide(kb, p) : [];
+  });
+
+  /** True once the project has something to resolve: the remaining questions and the results open. */
+  readonly ready = computed(() => {
+    const p = this.state();
+    if (!p || this.needsSide().length) return false;
+    return p.drivers.length > 0 || this.guidesOnly() || !this.drivers().length;
+  });
 
   /** Resolved on every change; the run timestamp stays fixed so outputs are stable in a session. */
   private readonly now = new Date().toISOString();
@@ -32,7 +62,7 @@ export class ProfileStore {
     const kb = this.data.kb();
     const reg = this.data.registry();
     const profile = this.state();
-    if (!kb || !reg || !profile) return null;
+    if (!kb || !reg || !profile || !this.ready()) return null;
     return resolve(kb, reg, profile, { deep: this.data.deep(), now: this.now });
   });
 
@@ -51,13 +81,22 @@ export class ProfileStore {
     this.state.update((p) => (p ? change(p) : p));
   }
 
+  /** A change to drivers, sides or components resets client/server to what the drivers use. */
+  private patchDrivers(change: (p: ProjectProfile) => ProjectProfile) {
+    const kb = this.data.kb();
+    this.patch((p) => {
+      const next = change(p);
+      return kb ? { ...next, actors: driverActors(kb, next) } : next;
+    });
+  }
+
   // --- Where -----------------------------------------------------------------------------------
 
   /** Moving the project drops drivers that don't apply there. */
   setRealm(realm: string) {
     if (realm !== 'us') this.lastCountry = realm;
     const drivers = this.data.kb()?.drivers ?? [];
-    this.patch((p) => ({
+    this.patchDrivers((p) => ({
       ...p,
       realm,
       drivers: p.drivers.filter((s) => {
@@ -71,13 +110,7 @@ export class ProfileStore {
     this.setRealm(mode === 'us' ? 'us' : this.lastCountry);
   }
 
-  // --- Who -------------------------------------------------------------------------------------
-
-  /** A new role brings that role's usual actors. */
-  setRole(role: Role) {
-    const actors = this.data.kb()?.roles.find((r) => r.id === role)?.defaultActors ?? ['server'];
-    this.patch((p) => ({ ...p, role, actors: [...actors] }));
-  }
+  // --- What you're building --------------------------------------------------------------------
 
   /** At least one actor stays on. */
   setActor(actor: Actor, on: boolean) {
@@ -97,7 +130,8 @@ export class ProfileStore {
   // --- Drivers ---------------------------------------------------------------------------------
 
   setDriver(id: string, on: boolean) {
-    this.patch((p) => ({
+    if (on) this.guidesOnlyState.set(false);
+    this.patchDrivers((p) => ({
       ...p,
       drivers: on
         ? [...p.drivers.filter((d) => d.id !== id), { id }]
@@ -105,11 +139,25 @@ export class ProfileStore {
     }));
   }
 
+  /** A new side starts from that side's default components. */
+  setSide(driverId: string, side: string) {
+    this.patchDrivers((p) => ({
+      ...p,
+      drivers: p.drivers.map((d) => (d.id === driverId ? { id: driverId, side } : d)),
+    }));
+  }
+
+  /** "None of these" clears the drivers; picking a driver clears it. */
+  setGuidesOnly(on: boolean) {
+    this.guidesOnlyState.set(on);
+    if (on) this.patchDrivers((p) => ({ ...p, drivers: [] }));
+  }
+
   /** Toggles one component; the last selected component of a driver stays on. */
   toggleComponent(driverId: string, componentId: string) {
     const driver = this.data.kb()?.drivers.find((d) => d.id === driverId);
     if (!driver) return;
-    this.patch((p) => {
+    this.patchDrivers((p) => {
       const current = selectedComponents(driver, p).map((c) => c.id);
       const next = current.includes(componentId)
         ? current.filter((c) => c !== componentId)
@@ -117,7 +165,7 @@ export class ProfileStore {
       return {
         ...p,
         drivers: p.drivers.map((d) =>
-          d.id === driverId ? { id: driverId, components: next.length ? next : current } : d,
+          d.id === driverId ? { ...d, components: next.length ? next : current } : d,
         ),
       };
     });

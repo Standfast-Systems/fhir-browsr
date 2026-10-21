@@ -6,8 +6,8 @@
 
 - **Where:** United States
 - **Target date:** 2027-01-01
-- **Role / actors:** payer / server, client
-- **Drivers:** cms-0057-f
+- **Drivers:** cms-0057-f@payer
+- **Building:** FHIR server and FHIR client
 - **KB as of:** 2026-10-21 (v0.2.0) · **Registry snapshot:** 2026-10-21 · **Generated:** 2026-10-20T00:00:00Z
 
 ## IG set
@@ -56,7 +56,7 @@
   - CMS-0062-P 2026 Interoperability Standards and Prior Authorization for Drugs (91 FR 19890) — PROPOSED: https://www.federalregister.gov/documents/2026/04/14/2026-07205/medicare-and-medicaid-programs-patient-protection-and-affordable-care-act-interoperability-standards
 - **INFO · newer-available** — Da Vinci PAS 2.2.1 is published but not accepted here. Newer releases (2.2.1, 2.2.0) exist, but CMS-0057-F accepts at most 2.1.0 on this date.
 - **INFO · multi-version** — Terminology, extension and core packages appear at several versions. hl7.fhir.r4.core ×2, hl7.fhir.uv.extensions.r4 ×3, hl7.terminology.r4 ×8, us.nlm.vsac ×5. This is normal: package tools usually load the newest. Act only if validation results disagree between tools.
-- **INFO · narrative-only** — Da Vinci CRD 2.1.0: no machine-readable REST expectations for your role. Its CapabilityStatement (CRD Server USCDI 1, 3, 4) lists no resources or operations; the requirements are in the guide's narrative.
+- **INFO · narrative-only** — Da Vinci CRD 2.1.0: no machine-readable REST expectations for your side. Its CapabilityStatement (CRD Server USCDI 1, 3, 4) lists no resources or operations; the requirements are in the guide's narrative.
 - **INFO · verify** — PDex US Drug Formulary: classification under review. registry also lists hl7.fhir.us.Davinci-drug-formulary (case duplicate)
 
 ## Why each IG is in scope

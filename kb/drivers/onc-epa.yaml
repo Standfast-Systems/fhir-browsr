@@ -15,7 +15,6 @@ summary: >-
   requirements (CRD client), complete documentation (DTR "full EHR"), and submit and track the
   request (PAS client). There is no deadline to certify; demand comes from CMS's Promoting
   Interoperability "Electronic Prior Authorization" measure.
-roles: [ehr-developer, provider-org]
 realms: [us]
 fhir: ["4.0.1"]
 cite:

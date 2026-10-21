@@ -10,7 +10,6 @@ import type {
   RealmDef,
   IgExtra,
   KnowledgeBase,
-  RoleDef,
   Source,
   TestKit,
 } from '../../src/core/types.ts';
@@ -27,7 +26,6 @@ interface MetaFile {
   kb_version: string;
   kb_as_of: string;
   disclaimer: string;
-  roles: RoleDef[];
 }
 
 export function loadKb(dir = KB_DIR): KnowledgeBase {
@@ -52,7 +50,6 @@ export function loadKb(dir = KB_DIR): KnowledgeBase {
     kbVersion: meta.kb_version,
     kbAsOf: String(meta.kb_as_of),
     disclaimer: meta.disclaimer,
-    roles: meta.roles,
     sources: Object.fromEntries(Object.entries(sources).map(([id, s]) => [id, { id, ...s }])),
     drivers,
     realms,

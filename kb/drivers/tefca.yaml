@@ -22,7 +22,6 @@ summary: >-
   Subparticipant that lists a FHIR endpoint answers US Core queries after IHE patient discovery, and
   registers, authenticates and authorizes with UDAP (HL7 FAST Security, "SSRAA") 1.1.0 from Q1 2027.
   FHIR itself is optional in TEFCA; once a node offers it, these rules apply.
-roles: [hie, ehr-developer, provider-org, payer, app-developer]
 realms: [us]
 fhir: ["4.0.1"]
 cite:
@@ -63,7 +62,6 @@ components:
     summary: Sending electronic case reports to public health over FHIR under the Public Health exchange purpose.
     in_force: {from: "2025-04-25"}
     default: false
-    roles: [provider-org, ehr-developer, hie]
     cite:
       source: rce-sop-public-health
       pin: "6.5.3.1.c"

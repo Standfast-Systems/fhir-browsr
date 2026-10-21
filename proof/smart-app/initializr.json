@@ -11,7 +11,6 @@
   "disclaimer": "Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.",
   "profile": {
     "realm": "us",
-    "role": "app-developer",
     "actors": [
       "client"
     ],

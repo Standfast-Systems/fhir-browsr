@@ -140,12 +140,49 @@ interface Applied {
   reason: Reason;
 }
 
+/** The components a side sees; every component when the driver has no sides. */
+export function componentsForSide(d: Driver, side: string | undefined): Component[] {
+  if (!d.sides?.length) return d.components;
+  if (!side) return [];
+  return d.components.filter((c) => !c.sides || c.sides.includes(side));
+}
+
 export function selectedComponents(d: Driver, profile: ProjectProfile): Component[] {
   const sel = profile.drivers.find((x) => x.id === d.id);
   if (!sel) return [];
-  const forRole = d.components.filter((c) => !c.roles || c.roles.includes(profile.role));
-  if (sel.components?.length) return forRole.filter((c) => sel.components!.includes(c.id));
-  return forRole.filter((c) => c.default !== false);
+  const offered = componentsForSide(d, sel.side);
+  if (sel.components?.length) return offered.filter((c) => sel.components!.includes(c.id));
+  return offered.filter((c) => c.default !== false);
+}
+
+/** Selected drivers that have sides but no side chosen yet: nothing resolves for them until then. */
+export function driversNeedingSide(kb: KnowledgeBase, profile: ProjectProfile): Driver[] {
+  return profile.drivers
+    .filter((s) => !s.side)
+    .map((s) => kb.drivers.find((d) => d.id === s.id))
+    .filter((d): d is Driver => !!d?.sides?.length && driverApplies(d, profile.realm));
+}
+
+/**
+ * The actors the selected drivers' rules use, for the chosen sides and components: what a project
+ * with these drivers builds. Both when no driver says (a project scoped from guides alone).
+ */
+export function driverActors(kb: KnowledgeBase, profile: ProjectProfile): Actor[] {
+  const used = new Set<Actor>();
+  for (const d of kb.drivers) {
+    if (!driverApplies(d, profile.realm)) continue;
+    const comps = selectedComponents(d, profile).map((c) => c.id);
+    const side = profile.drivers.find((x) => x.id === d.id)?.side;
+    for (const r of d.rules)
+      if (
+        comps.length &&
+        (!d.sides?.length || r.side === side) &&
+        (!r.components || r.components.some((c) => comps.includes(c)))
+      )
+        used.add(r.actor);
+  }
+  const actors = (['server', 'client'] as Actor[]).filter((a) => used.has(a));
+  return actors.length ? actors : ['server', 'client'];
 }
 
 /** Drivers apply only in their realms (ONC and CMS rules mean nothing to a project in Australia). */
@@ -159,8 +196,9 @@ function applyRules(kb: KnowledgeBase, profile: ProjectProfile): Applied[] {
     if (!driverApplies(d, profile.realm)) continue;
     const comps = selectedComponents(d, profile);
     if (!comps.length) continue;
+    const side = profile.drivers.find((x) => x.id === d.id)?.side;
     for (const rule of d.rules) {
-      if (rule.roles && !rule.roles.includes(profile.role)) continue;
+      if (d.sides?.length && rule.side !== side) continue;
       if (!profile.actors.includes(rule.actor)) continue;
       const matching = rule.components
         ? comps.filter((c) => rule.components!.includes(c.id))
@@ -287,6 +325,14 @@ export function resolve(
       cites: [resolveCitation(kb, d.cite)],
     });
   }
+  for (const d of driversNeedingSide(kb, profile))
+    warnings.push({
+      kind: 'side-missing',
+      severity: 'error',
+      title: `${d.short}: choose which side your system is on`,
+      detail: `Its guides depend on it: ${d.sides!.map((x) => `${x.id} (${x.name})`).join(', ')}. Its rules were left out.`,
+      cites: [resolveCitation(kb, d.cite)],
+    });
 
   // "Where is the project?": the national foundation, or the international defaults.
   for (const p of realm.packages) {
@@ -978,7 +1024,7 @@ function pickCapStmts(
   fallbackActors: Actor[],
 ): CapStmtSummary[] {
   const all = snap.capstmts ?? [];
-  // `capstmts: []` on every rule means the KB says none of the IG's statements apply to this role.
+  // `capstmts: []` on every rule means the KB says none of the IG's statements apply to this project.
   if (
     rules.length &&
     rules.every((a) => Array.isArray(a.rule.capstmts) && a.rule.capstmts.length === 0)
@@ -1050,10 +1096,10 @@ function buildSurface(
           kind: 'narrative-only',
           severity: 'info',
           package: ig.package,
-          title: `${ig.title} ${ig.pin}: no machine-readable REST expectations for your role`,
+          title: `${ig.title} ${ig.pin}: no machine-readable REST expectations for your side`,
           detail: picked.length
             ? `Its CapabilityStatement (${picked.map((c) => c.title).join(', ')}) lists no resources or operations; the requirements are in the guide's narrative.`
-            : "The package has no CapabilityStatement for your role. Read the guide's conformance pages; Initializr does not guess.",
+            : "The package has no CapabilityStatement for your side of the exchange. Read the guide's conformance pages; Initializr does not guess.",
           cites: [],
         });
       continue;

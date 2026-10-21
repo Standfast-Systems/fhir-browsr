@@ -11,10 +11,8 @@
   "disclaimer": "Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.",
   "profile": {
     "realm": "us",
-    "role": "ehr-developer",
     "actors": [
-      "server",
-      "client"
+      "server"
     ],
     "drivers": [
       {
@@ -4992,13 +4990,6 @@
       "narrativeOnly": [
         "hl7.fhir.uv.smart-app-launch"
       ]
-    },
-    {
-      "actor": "client",
-      "resources": [],
-      "systemOperations": [],
-      "sources": [],
-      "narrativeOnly": []
     }
   ],
   "warnings": [
@@ -5029,8 +5020,8 @@
       "kind": "narrative-only",
       "severity": "info",
       "package": "hl7.fhir.uv.smart-app-launch",
-      "title": "SMART App Launch 2.2.0: no machine-readable REST expectations for your role",
-      "detail": "The package has no CapabilityStatement for your role. Read the guide's conformance pages; Initializr does not guess.",
+      "title": "SMART App Launch 2.2.0: no machine-readable REST expectations for your side",
+      "detail": "The package has no CapabilityStatement for your side of the exchange. Read the guide's conformance pages; Initializr does not guess.",
       "cites": []
     }
   ],

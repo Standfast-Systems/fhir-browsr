@@ -115,8 +115,8 @@
       <div class="pane">
         <p class="intro muted">
           Resources, interactions, search parameters and operations at SHALL/SHOULD, merged from
-          each IG's own CapabilityStatements for your role. Where a guide publishes none, Initializr
-          says “narrative only” instead of guessing.
+          each IG's own CapabilityStatements for your side of the exchange. Where a guide publishes
+          none, Initializr says “narrative only” instead of guessing.
         </p>
         @if (data.loadingDeep()) {
           <p class="faint">Loading IG details…</p>
@@ -241,4 +241,28 @@
       </div>
     </mat-tab>
   </mat-tab-group>
+} @else if (data.kb()) {
+  <div class="start">
+    @if (store.needsSide()[0]; as d) {
+      <h2>Which side of {{ d.short }} is your system on?</h2>
+      <p class="muted">
+        {{ d.short }} asks different things of each side. Pick one on the left and the guides appear
+        here.
+      </p>
+    } @else {
+      <h2>Start with what drives the project</h2>
+      <p class="muted">
+        Pick the regulation or program your system has to meet, or “None of these” to choose guides
+        yourself. Initializr then lists:
+      </p>
+      <ul>
+        <li>
+          the implementation guides and the versions that count on your date, each with its source
+        </li>
+        <li>warnings for conflicts, expiring versions and guides no test kit covers yet</li>
+        <li>the FHIR surface your system has to expose</li>
+        <li>a package.json, HAPI config, CapabilityStatement draft and Inferno test plan</li>
+      </ul>
+    }
+  </div>
 }

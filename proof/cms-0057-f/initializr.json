@@ -11,14 +11,14 @@
   "disclaimer": "Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.",
   "profile": {
     "realm": "us",
-    "role": "payer",
     "actors": [
       "server",
       "client"
     ],
     "drivers": [
       {
-        "id": "cms-0057-f"
+        "id": "cms-0057-f",
+        "side": "payer"
       }
     ],
     "asOf": "2027-01-01",
@@ -12603,7 +12603,7 @@
       "kind": "narrative-only",
       "severity": "info",
       "package": "hl7.fhir.us.davinci-crd",
-      "title": "Da Vinci CRD 2.1.0: no machine-readable REST expectations for your role",
+      "title": "Da Vinci CRD 2.1.0: no machine-readable REST expectations for your side",
       "detail": "Its CapabilityStatement (CRD Server USCDI 1, 3, 4) lists no resources or operations; the requirements are in the guide's narrative.",
       "cites": []
     },

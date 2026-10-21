@@ -11,8 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { driverApplies, realmFor, selectedComponents } from '../core/index.ts';
-import type { Driver, Role } from '../core/index.ts';
+import { componentsForSide, realmFor, selectedComponents } from '../core/index.ts';
+import type { Driver } from '../core/index.ts';
 import { GuidePicker } from './guide-picker';
 import { DataStore } from './data-store';
 import { ProfileStore } from './profile-store';
@@ -45,37 +45,19 @@ export class ProfilePanel {
   protected readonly p = this.store.profile;
   protected readonly quickDates = ['2026-10-01', '2027-01-01', '2027-10-01', '2028-01-01'];
 
-  protected readonly drivers = computed(() => {
-    const kb = this.kb();
-    const p = this.p();
-    if (!kb || !p) return [];
-    // Only the drivers that apply where the project is; those covering the chosen role first.
-    return kb.drivers
-      .filter((d) => driverApplies(d, p.realm))
-      .sort((a, b) => Number(b.roles.includes(p.role)) - Number(a.roles.includes(p.role)));
-  });
+  protected readonly drivers = this.store.drivers;
 
-  /**
-   * Drivers that require nothing of the chosen role, with the roles they do bind. CMS-0057-F binds
-   * payers; an EHR developer only gets the guides for calling payers' APIs, and should know why.
-   */
-  protected readonly bindsOthers = computed(() => {
+  /** Where client/server came from, in words. */
+  protected readonly actorsHint = computed(() => {
     const kb = this.kb();
     const p = this.p();
-    const out = new Map<string, { id: Role; label: string }[]>();
-    if (!kb || !p) return out;
-    for (const d of kb.drivers) {
-      const binds = (role: Role) =>
-        d.rules.some((r) => r.strength === 'required' && (r.roles ?? d.roles).includes(role));
-      if (binds(p.role)) continue;
-      const others = d.roles.filter(binds);
-      if (others.length)
-        out.set(
-          d.id,
-          others.map((id) => ({ id, label: kb.roles.find((r) => r.id === id)?.label ?? id })),
-        );
-    }
-    return out;
+    if (!kb || !p) return '';
+    const names = p.drivers
+      .map((s) => kb.drivers.find((d) => d.id === s.id)?.short)
+      .filter((n): n is string => !!n);
+    return names.length
+      ? `Set from what ${names.join(' and ')} cover${names.length === 1 ? 's' : ''}. Untick a part you're not building.`
+      : 'Which parts of the exchange your system implements.';
   });
 
   /** Countries for the International choice: "no particular country" first, then by name. */
@@ -140,10 +122,6 @@ export class ProfilePanel {
     this.implVersion.set('');
   }
 
-  protected labels(roles: { label: string }[]): string {
-    return roles.map((r) => r.label).join(' and ');
-  }
-
   protected isOn(d: Driver): boolean {
     return !!this.p()?.drivers.some((x) => x.id === d.id);
   }
@@ -153,9 +131,12 @@ export class ProfilePanel {
     return p ? selectedComponents(d, p).map((c) => c.id) : [];
   }
 
+  protected sideOf(d: Driver): string | undefined {
+    return this.p()?.drivers.find((x) => x.id === d.id)?.side;
+  }
+
   protected componentsFor(d: Driver) {
-    const role = this.p()?.role;
-    return d.components.filter((c) => !c.roles || (role && c.roles.includes(role)));
+    return componentsForSide(d, this.sideOf(d));
   }
 
   protected openPicker() {
