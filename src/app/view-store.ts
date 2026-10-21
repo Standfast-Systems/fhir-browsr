@@ -3,6 +3,7 @@ import {
   DEFAULT_VIEW,
   REGION_KEYS,
   regionsWith,
+  type AddedBy,
   type RegionKey,
   type SortKey,
   type ViewState,
@@ -85,8 +86,15 @@ export class ViewStore {
     this.setCountry(this.state().country === 'us' ? 'intl' : 'us');
   }
 
+  /** Turning a toggle off also clears the chip that narrowed to what it added. */
   setScope(key: keyof ScopeOptions, on: boolean) {
-    this.update({ scope: { ...this.state().scope, [key]: on } });
+    const added = !on && this.state().added === key ? null : this.state().added;
+    this.update({ scope: { ...this.state().scope, [key]: on }, added });
+  }
+
+  /** Clicking the active chip again goes back to All. */
+  setAdded(added: AddedBy | null) {
+    this.update({ added: added === this.state().added ? null : added });
   }
 
   setQuery(query: string) {

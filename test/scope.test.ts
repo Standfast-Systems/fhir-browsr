@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {
   DEFAULT_SCOPE,
   DEFAULT_VIEW,
+  addedBy,
   applyScope,
   isPublished,
   matches,
@@ -34,6 +35,7 @@ const guide = (over: Partial<Guide> = {}): Guide => ({
   blurb: '',
   curated: false,
   start: 0,
+  country: null,
   knownPublisher: true,
   withdrawn: false,
   releases: [],
@@ -69,10 +71,10 @@ test('toggles bring in ballot-only and R5-only guides', () => {
 test('R4B counts as R4; R3 never counts', () => {
   assert.ok(pickRelease(guide({ releases: [rel('1.1.0', 'trial-use', ['R4B'])] }), DEFAULT_SCOPE));
   const r3 = guide({ releases: [rel('1.0.0', 'trial-use', ['R3'])] });
-  assert.equal(pickRelease(r3, { drafts: true, r5: true, otherPublishers: true }), null);
+  assert.equal(pickRelease(r3, { drafts: true, r5: true }), null);
 });
 
-test('withdrawn guides and other publishers drop out', () => {
+test('withdrawn guides and unknown publishers always drop out', () => {
   const ok = [rel('1.0.0', 'trial-use')];
   const guides = [
     guide({ id: 'a', releases: ok }),
@@ -83,10 +85,10 @@ test('withdrawn guides and other publishers drop out', () => {
     applyScope(guides, DEFAULT_SCOPE, 'us').map((g) => g.id),
     ['a'],
   );
-  const all = applyScope(guides, { drafts: true, r5: true, otherPublishers: true }, 'us');
+  const all = applyScope(guides, { drafts: true, r5: true }, 'us');
   assert.deepEqual(
     all.map((g) => g.id),
-    ['a', 'c'],
+    ['a'],
   );
 });
 
@@ -175,6 +177,43 @@ test('search matches word starts in name, one-liner and group, not package ids',
     !matches(guide({ name: 'X', blurb: 'Widely used.' }), 'us'),
     'short words match whole words',
   );
+});
+
+test('national cores sort by country, after start-here guides', () => {
+  const ok = [rel('1.0.0', 'trial-use')];
+  const scoped = applyScope(
+    [
+      guide({ id: 'uk', name: 'UK Core', use: 'intl', country: 'UK', releases: ok }),
+      guide({ id: 'other', name: 'Another guide', use: 'intl', releases: ok }),
+      guide({ id: 'at', name: 'Austrian Core', use: 'intl', country: 'AT', releases: ok }),
+      guide({ id: 'ipa', name: 'IPA', use: 'intl', start: 1, releases: ok }),
+      guide({ id: 'au', name: 'AU Core', use: 'intl', country: 'AU', releases: ok }),
+    ],
+    DEFAULT_SCOPE,
+    'intl',
+  );
+  assert.deepEqual(
+    sortGuides(scoped, 'start').map((g) => g.id),
+    ['ipa', 'at', 'au', 'uk', 'other'],
+  );
+});
+
+test('what a toggle added goes by the linked release', () => {
+  const both = { drafts: true, r5: true };
+  const [published, ballot, r5, draftR5] = applyScope(
+    [
+      guide({ id: 'p', releases: [rel('2.0.0-ballot', 'ballot'), rel('1.0.0', 'trial-use')] }),
+      guide({ id: 'b', releases: [rel('1.0.0-ballot', 'ballot')] }),
+      guide({ id: 'r', releases: [rel('1.0.0', 'trial-use', ['R5'])] }),
+      guide({ id: 'd', releases: [rel('0.1.0', 'draft', ['R5'])] }),
+    ],
+    both,
+    'us',
+  );
+  assert.deepEqual(addedBy(published), { drafts: false, r5: false });
+  assert.deepEqual(addedBy(ballot), { drafts: true, r5: false });
+  assert.deepEqual(addedBy(r5), { drafts: false, r5: true });
+  assert.deepEqual(addedBy(draftR5), { drafts: true, r5: true });
 });
 
 test('paginate clamps the page', () => {
