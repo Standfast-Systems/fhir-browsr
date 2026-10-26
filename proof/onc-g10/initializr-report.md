@@ -8,7 +8,7 @@
 - **Target date:** 2027-01-01
 - **Drivers:** onc-g10
 - **Building:** FHIR server
-- **KB as of:** 2026-10-21 (v0.2.0) · **Registry snapshot:** 2026-10-21 · **Generated:** 2026-10-20T00:00:00Z
+- **KB as of:** 2026-10-21 (v0.2.0) · **Registry snapshot:** 2026-10-26 · **Generated:** 2026-10-20T00:00:00Z
 
 ## IG set
 

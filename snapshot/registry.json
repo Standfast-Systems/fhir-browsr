@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-21T21:07:22.463Z",
+ "generated": "2026-10-26T15:46:30.360Z",
  "packages": {
   "ans.fr.terminologies": {
    "name": "ans.fr.terminologies",
@@ -2878,6 +2878,10 @@
      "fhir": [
       "4.0.1"
      ],
+     "date": "2026-08-19",
+     "status": "release",
+     "sequence": "Trial Use",
+     "path": "https://www.ehealth.fgov.be/standards/fhir/core/2.2.0",
      "prerelease": false
     },
     {
@@ -2885,6 +2889,10 @@
      "fhir": [
       "4.0.1"
      ],
+     "date": "2024-08-30",
+     "status": "release",
+     "sequence": "Trial Use",
+     "path": "https://www.ehealth.fgov.be/standards/fhir/core/2.1.2",
      "prerelease": false
     },
     {
@@ -2892,6 +2900,10 @@
      "fhir": [
       "4.0.1"
      ],
+     "date": "2024-06-11",
+     "status": "release",
+     "sequence": "Trial Use",
+     "path": "https://www.ehealth.fgov.be/standards/fhir/core/2.1.1",
      "prerelease": false
     },
     {
@@ -2899,6 +2911,10 @@
      "fhir": [
       "4.0.1"
      ],
+     "date": "2024-05-02",
+     "status": "release",
+     "sequence": "Trial Use",
+     "path": "https://www.ehealth.fgov.be/standards/fhir/core/2.1.0",
      "prerelease": false
     },
     {
@@ -2906,6 +2922,10 @@
      "fhir": [
       "4.0.1"
      ],
+     "date": "2022-09-13",
+     "status": "trial-use",
+     "sequence": "Trial Use",
+     "path": "https://www.ehealth.fgov.be/standards/fhir/core/2.0.1",
      "prerelease": false
     },
     {
@@ -2913,10 +2933,15 @@
      "fhir": [
       "4.0.1"
      ],
-     "prerelease": false
+     "date": "2022-03-24",
+     "status": "draft",
+     "sequence": "Trial Use",
+     "path": "https://www.ehealth.fgov.be/standards/fhir/core/2.0.0",
+     "prerelease": true
     }
    ],
-   "packageList": false,
+   "current": "2.2.0",
+   "packageList": true,
    "inRegistry": true
   },
   "hl7.fhir.ca.baseline": {
@@ -13337,6 +13362,17 @@
    "ciBuild": "http://build.fhir.org/ig/HL7/smart-scheduling-links",
    "versions": [
     {
+     "version": "1.0.0",
+     "fhir": [
+      "4.0.1"
+     ],
+     "date": "2026-10-22",
+     "status": "trial-use",
+     "sequence": "STU 1",
+     "path": "http://hl7.org/fhir/uv/smart-scheduling-links/1.0.0",
+     "prerelease": false
+    },
+    {
      "version": "1.0.0-ballot",
      "fhir": [
       "4.0.1"
@@ -13348,6 +13384,7 @@
      "prerelease": true
     }
    ],
+   "current": "1.0.0",
    "packageList": true,
    "inRegistry": true
   },
@@ -13977,6 +14014,17 @@
    "ciBuild": "http://build.fhir.org/ig/HL7/fhir-tx-ecosystem-ig",
    "versions": [
     {
+     "version": "1.10.0",
+     "fhir": [
+      "5.0.0"
+     ],
+     "date": "2026-10-25",
+     "status": "informative",
+     "sequence": "Releases",
+     "path": "http://hl7.org/fhir/uv/tx-ecosystem/1.10.0",
+     "prerelease": false
+    },
+    {
      "version": "1.9.6",
      "fhir": [
       "5.0.0"
@@ -14105,7 +14153,7 @@
      "prerelease": false
     }
    ],
-   "current": "1.9.6",
+   "current": "1.10.0",
    "packageList": true,
    "inRegistry": true
   },
@@ -27880,6 +27928,40 @@
      "key": "hl7.fhir.uv.extensions.r4",
      "name": "hl7.fhir.uv.extensions.r4",
      "version": "5.2.0",
+     "alias": false
+    }
+   ]
+  },
+  "hl7.fhir.uv.smart-scheduling-links@1.0.0": {
+   "name": "hl7.fhir.uv.smart-scheduling-links",
+   "version": "1.0.0",
+   "canonical": "http://hl7.org/fhir/uv/smart-scheduling-links",
+   "fhirVersions": [
+    "4.0.1"
+   ],
+   "dependencies": [
+    {
+     "key": "hl7.fhir.r4.core",
+     "name": "hl7.fhir.r4.core",
+     "version": "4.0.1",
+     "alias": false
+    },
+    {
+     "key": "hl7.terminology.r4",
+     "name": "hl7.terminology.r4",
+     "version": "7.4.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.extensions.r4",
+     "name": "hl7.fhir.uv.extensions.r4",
+     "version": "5.3.0",
+     "alias": false
+    },
+    {
+     "key": "hl7.fhir.uv.xver-r5.r4",
+     "name": "hl7.fhir.uv.xver-r5.r4",
+     "version": "0.1.0",
      "alias": false
     }
    ]
