@@ -22,35 +22,33 @@
   }
 }
 
-// Page links next to the title, as outlined pills so they read as clickable; the current page
-// is filled with the brand lime.
+// Page links next to the title, styled like the US/International switch: one rounded control,
+// the current page filled lime. Each side is a real link to its page.
 nav ul {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
   margin: 0;
-  padding: 0;
+  padding: 3px;
+  border: 1px solid var(--mb-line);
+  border-radius: 999px;
+  background: var(--mb-panel);
   list-style: none;
   a {
     display: inline-block;
-    padding: 6px 14px;
-    border: 1px solid var(--mb-line);
+    padding: 6px 16px;
     border-radius: 999px;
-    background: var(--mb-panel);
-    color: var(--mb-text);
-    font-size: 14px;
+    color: var(--mb-muted);
     font-weight: 500;
     transition:
-      border-color 120ms ease,
-      background 120ms ease;
+      background 120ms ease,
+      color 120ms ease;
     &:hover {
-      border-color: color-mix(in srgb, var(--mb-lime) 60%, transparent);
+      color: var(--mb-text);
       text-decoration: none;
     }
     &.active {
-      border-color: color-mix(in srgb, var(--mb-lime) 65%, transparent);
-      background: color-mix(in srgb, var(--mb-lime) 16%, transparent);
+      background: var(--mb-lime);
+      color: var(--mb-bg);
       font-weight: 600;
     }
   }
