@@ -1,11 +1,9 @@
 # National and regional core and base guides for the International view. All three parties build
 # to them, so they sit in the centre of the diagram, labelled with their country and sorted by it.
 #
-# Copied, not linked, from FHIR Initializr's hand-checked list (kb/realms.yaml in
-# github.com/Standfast-Systems/fhir-initializr, curated 2026-10-21); the two apps stay independent.
+# Hand-checked 2026-10-21 against each guide's own site, its package-list.json and packages.fhir.org.
 # The registry's own "National Base" tagging points at the wrong package for several countries, so
-# this list replaces the earlier registry rule. The EU entries are regional guides Initializr
-# doesn't list.
+# this list replaces the earlier registry rule. The two EU entries are regional guides.
 #
 # The official registry is Matchbook's only source of guides: an entry it doesn't list is skipped
 # at build time (with a warning) and shows up by itself once the registry adds it. As of 2026-10-21
