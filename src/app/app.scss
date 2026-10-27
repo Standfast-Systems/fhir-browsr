@@ -22,11 +22,17 @@
   }
 }
 
-// Page links next to the title, styled like the US/International switch: one rounded control,
-// the current page filled lime. Each side is a real link to its page.
+// The page switch, centred under the header and styled like the US/International switch: one
+// rounded control, the current page filled lime. Each side is a real link to its page.
+nav.pages {
+  display: flex;
+  justify-content: center;
+  padding: 20px 24px 0;
+}
+
 nav ul {
   display: inline-flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin: 0;
   padding: 3px;
   border: 1px solid var(--mb-line);
@@ -79,7 +85,13 @@ footer {
     padding-left: 16px;
     padding-right: 16px;
   }
-  nav {
-    flex-basis: 100%;
+  // Keep the page switch on one line on narrow phones.
+  nav.pages {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  nav ul a {
+    padding: 6px 13px;
+    font-size: 13.5px;
   }
 }

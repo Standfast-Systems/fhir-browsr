@@ -1,5 +1,12 @@
 <section class="hero">
   <div class="diagram">
+    <app-venn
+      [counts]="vennCounts()"
+      [selected]="vennSelected()"
+      (toggle)="store.toggleRegion($event)"
+      (party)="store.selectParty($event)"
+    />
+    <!-- Under the diagram, away from the page switch at the top. -->
     <button
       type="button"
       class="country"
@@ -13,12 +20,6 @@
       <span [class.on]="view().country === 'us'">US</span>
       <span [class.on]="view().country === 'intl'">International</span>
     </button>
-    <app-venn
-      [counts]="vennCounts()"
-      [selected]="vennSelected()"
-      (toggle)="store.toggleRegion($event)"
-      (party)="store.selectParty($event)"
-    />
   </div>
 
   <div class="intro">

@@ -32,11 +32,12 @@
   justify-self: center;
 }
 
-// US/International switch, centred above the diagram. One button: any click flips it.
+// US/International switch, centred under the diagram, away from the page switch at the top.
+// One button: any click flips it.
 .country {
   display: flex;
   width: fit-content;
-  margin: 0 auto 8px;
+  margin: 14px auto 0;
   padding: 3px;
   border-radius: 999px;
   border: 1px solid var(--mb-line);

@@ -3,26 +3,28 @@
     <img src="favicon.svg" alt="" width="28" height="28" />
     <span>FHIR <b>Browsr</b></span>
   </div>
-  <!-- Full names, never abbreviated. A list, so a third page ("Start here") can join later. -->
-  <nav aria-label="Pages">
-    <ul>
-      <li>
-        <a
-          routerLink="/"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-          ariaCurrentWhenActive="page"
-          >Implementation Guides</a
-        >
-      </li>
-      <li>
-        <a routerLink="/resources" routerLinkActive="active" ariaCurrentWhenActive="page"
-          >FHIR Resources</a
-        >
-      </li>
-    </ul>
-  </nav>
 </header>
+
+<!-- The page switch, centred at the top of every page. Full names, never abbreviated. A list, so a
+     third page ("Start here") can join later. -->
+<nav class="pages" aria-label="Pages">
+  <ul>
+    <li>
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        ariaCurrentWhenActive="page"
+        >Implementation Guides</a
+      >
+    </li>
+    <li>
+      <a routerLink="/resources" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >FHIR Resources</a
+      >
+    </li>
+  </ul>
+</nav>
 
 <main>
   <router-outlet />
