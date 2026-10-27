@@ -122,6 +122,15 @@
       </span>
     </div>
 
+    <!-- Filtering is by circles and overlaps or by a domain/program pick, never both: say which. -->
+    @if (activeDomain() ?? activeFamily(); as pick) {
+      <p class="mode-note">
+        <b>Filtering by {{ activeDomain() ? 'domain' : 'program' }}:</b> every
+        {{ pick.label }} guide, across the whole diagram. Click a circle or overlap to filter by
+        that instead.
+      </p>
+    }
+
     @if (bucketChips(); as bc) {
       <div class="filter-row" role="group" aria-label="What are you working on?">
         <span class="sel-label">What are you working on?</span>

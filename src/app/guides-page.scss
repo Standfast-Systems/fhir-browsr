@@ -248,6 +248,18 @@ h1 {
   }
 }
 
+// Says the table is filtered by a domain or program pick rather than by circles and overlaps.
+.mode-note {
+  margin: -2px 0 0;
+  padding-left: 10px;
+  border-left: 2px solid var(--mb-lime-dim);
+  color: var(--mb-muted);
+  b {
+    color: var(--mb-text);
+    font-weight: 600;
+  }
+}
+
 .region-note {
   margin: 0 0 14px;
   color: var(--mb-muted);
