@@ -22,27 +22,35 @@
   }
 }
 
-// Plain text page links next to the title, the current one marked.
+// Page links next to the title, as outlined pills so they read as clickable; the current page
+// is filled with the brand lime.
 nav ul {
   display: flex;
   flex-wrap: wrap;
+  gap: 8px;
   align-items: center;
   margin: 0;
   padding: 0;
   list-style: none;
-  li + li::before {
-    content: '·';
-    margin: 0 10px;
-    color: var(--mb-faint);
-  }
   a {
-    color: var(--mb-muted);
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--mb-line);
+    border-radius: 999px;
+    background: var(--mb-panel);
+    color: var(--mb-text);
+    font-size: 14px;
+    font-weight: 500;
+    transition:
+      border-color 120ms ease,
+      background 120ms ease;
     &:hover {
-      color: var(--mb-text);
+      border-color: color-mix(in srgb, var(--mb-lime) 60%, transparent);
       text-decoration: none;
     }
     &.active {
-      color: var(--mb-text);
+      border-color: color-mix(in srgb, var(--mb-lime) 65%, transparent);
+      background: color-mix(in srgb, var(--mb-lime) 16%, transparent);
       font-weight: 600;
     }
   }
