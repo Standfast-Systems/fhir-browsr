@@ -6,7 +6,7 @@ It opens on the center of the diagram, the foundation every side shares, with US
 
 Above the table, **Domain** (oncology, imaging, medications, ...) and **Program** (Da Vinci, CARIN, IHE, ...) dropdowns show every guide in that clinical area or program, across all regions. Only one applies at a time. The domain and program tags on each row are shortcuts for the same filter.
 
-Its sibling, [FHIR Initializr](https://standfast-systems.github.io/fhir-initializr/), is the developer tool: pinned versions, regulatory drivers and generated config. The header links to it.
+Its sibling, [FHIR Initializr](https://standfast-systems.github.io/fhir-initializr/), is the developer tool: pinned versions, regulatory drivers and generated config. Matchbook doesn't link to it while it's in beta.
 
 ## The rule
 
