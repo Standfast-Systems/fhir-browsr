@@ -40,13 +40,13 @@
   margin: 14px auto 0;
   padding: 3px;
   border-radius: 999px;
-  border: 1px solid var(--mb-line);
-  background: var(--mb-panel);
+  border: 1px solid var(--mb-switch-edge);
+  background: var(--mb-switch-track);
   cursor: pointer;
   span {
     padding: 6px 16px;
     border-radius: 999px;
-    color: var(--mb-muted);
+    color: var(--mb-text);
     font-weight: 500;
     transition:
       background 120ms ease,

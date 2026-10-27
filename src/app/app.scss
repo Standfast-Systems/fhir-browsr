@@ -35,15 +35,15 @@ nav ul {
   flex-wrap: nowrap;
   margin: 0;
   padding: 3px;
-  border: 1px solid var(--mb-line);
+  border: 1px solid var(--mb-switch-edge);
   border-radius: 999px;
-  background: var(--mb-panel);
+  background: var(--mb-switch-track);
   list-style: none;
   a {
     display: inline-block;
     padding: 6px 16px;
     border-radius: 999px;
-    color: var(--mb-muted);
+    color: var(--mb-text);
     font-weight: 500;
     transition:
       background 120ms ease,
