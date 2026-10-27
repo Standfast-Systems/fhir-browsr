@@ -1,0 +1,113 @@
+:host {
+  display: block;
+}
+
+.resources {
+  padding: 28px 0 8px;
+}
+
+h1 {
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+}
+
+.intro {
+  color: var(--mb-text);
+  font-size: 16px;
+  max-width: 62ch;
+  margin: 0 0 8px;
+}
+
+.back {
+  color: var(--mb-muted);
+  max-width: 62ch;
+  margin: 0 0 24px;
+}
+
+// Six groups as cards: two columns on wide screens, one on phones, reading top to bottom.
+.groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+.group {
+  background: var(--mb-panel);
+  border: 1px solid var(--mb-line);
+  border-radius: 12px;
+  &[open] {
+    border-color: color-mix(in srgb, var(--mb-lime) 35%, var(--mb-line));
+  }
+}
+
+summary {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px 14px 40px;
+  position: relative;
+  cursor: pointer;
+  list-style: none;
+  &::-webkit-details-marker {
+    display: none;
+  }
+  // The open/closed arrow.
+  &::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 21px;
+    border: 5px solid transparent;
+    border-left-color: var(--mb-muted);
+    transition: transform 120ms ease;
+    transform-origin: 2px 5px;
+  }
+  .name {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .line {
+    color: var(--mb-muted);
+  }
+}
+
+.group[open] summary::before {
+  transform: rotate(90deg);
+  border-left-color: var(--mb-lime);
+}
+
+ul {
+  margin: 0;
+  padding: 0 16px 14px 40px;
+  list-style: none;
+}
+
+li {
+  padding: 8px 0;
+  border-top: 1px solid var(--mb-line);
+  color: var(--mb-muted);
+  a {
+    color: var(--mb-text);
+    font-family: var(--mb-mono);
+    font-size: 13px;
+    font-weight: 600;
+    &:hover {
+      color: var(--mb-lime);
+    }
+  }
+}
+
+.all {
+  margin: 24px 0 0;
+}
+
+@media (max-width: 720px) {
+  .groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  h1 {
+    font-size: 24px;
+  }
+}

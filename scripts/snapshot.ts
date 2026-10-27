@@ -1,5 +1,5 @@
 // Refreshes snapshot/registry.json straight from the official FHIR IG registry and each guide's
-// published version list (package-list.json). Matchbook keeps no registry of its own: a guide
+// published version list (package-list.json). FHIR Browsr keeps no registry of its own: a guide
 // appears only if the registry lists it.
 //
 //   npm run snapshot

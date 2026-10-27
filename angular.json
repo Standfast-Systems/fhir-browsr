@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "fhir-matchbook": {
+    "fhir-browsr": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -60,10 +60,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "fhir-matchbook:build:production"
+              "buildTarget": "fhir-browsr:build:production"
             },
             "development": {
-              "buildTarget": "fhir-matchbook:build:development"
+              "buildTarget": "fhir-browsr:build:development"
             }
           },
           "defaultConfiguration": "development"
