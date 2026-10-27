@@ -14,8 +14,8 @@
       <span [class.on]="view().country === 'intl'">International</span>
     </button>
     <app-venn
-      [counts]="counts()"
-      [selected]="selected()"
+      [counts]="vennCounts()"
+      [selected]="vennSelected()"
       (toggle)="store.toggleRegion($event)"
       (party)="store.selectParty($event)"
     />
