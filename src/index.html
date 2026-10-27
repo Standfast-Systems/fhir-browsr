@@ -2,19 +2,45 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>FHIR Matchbook — the FHIR guides for your side of healthcare</title>
+    <title>FHIR Browsr — the FHIR implementation guides that apply to you</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="New to FHIR? Pick Patient, Provider or Payer and see the published implementation guides that side has to build to, with the overlaps you share."
+      content="Find the FHIR implementation guides that apply to you: Patient, Provider or Payer."
     />
     <meta name="theme-color" content="#0a0a0b" />
-    <meta property="og:title" content="FHIR Matchbook" />
+
+    <!-- Link previews (LinkedIn, Slack, X and others build their cards from these). -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FHIR Browsr" />
+    <meta property="og:title" content="FHIR Browsr" />
     <meta
       property="og:description"
-      content="The FHIR implementation guides for your side of healthcare: Patient, Provider, Payer, and the overlaps."
+      content="Find the FHIR implementation guides that apply to you: Patient, Provider or Payer."
     />
+    <meta property="og:url" content="https://standfast-systems.github.io/fhir-browsr/" />
+    <meta
+      property="og:image"
+      content="https://standfast-systems.github.io/fhir-browsr/og-image.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="FHIR Browsr: a three-circle diagram of Patient, Provider and Payer"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FHIR Browsr" />
+    <meta
+      name="twitter:description"
+      content="Find the FHIR implementation guides that apply to you: Patient, Provider or Payer."
+    />
+    <meta
+      name="twitter:image"
+      content="https://standfast-systems.github.io/fhir-browsr/og-image.png"
+    />
+
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -26,7 +52,7 @@
   <body>
     <app-root></app-root>
     <noscript
-      >FHIR Matchbook runs in your browser and needs JavaScript. The data behind it is plain JSON at
+      >FHIR Browsr runs in your browser and needs JavaScript. The data behind it is plain JSON at
       data/guides.json.</noscript
     >
   </body>

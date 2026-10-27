@@ -5,9 +5,8 @@
 .top {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 16px;
+  gap: 8px 28px;
   align-items: center;
-  justify-content: space-between;
   max-width: 1180px;
   margin: 0 auto;
   padding: 16px 24px;
@@ -23,329 +22,58 @@
   }
 }
 
-main {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 24px 48px;
-}
-
-// Desktop: diagram on the left, intro and controls stacked on the right.
-// Phones: intro, then the diagram, then the controls.
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  grid-template-areas:
-    'diagram intro'
-    'diagram controls';
-  gap: 0 48px;
-  padding: 28px 0 20px;
-}
-
-.intro {
-  grid-area: intro;
-  align-self: end;
-}
-
-.controls {
-  grid-area: controls;
-  align-self: start;
-}
-
-.diagram {
-  grid-area: diagram;
-  align-self: center;
-  max-width: 600px;
-  width: 100%;
-  justify-self: center;
-}
-
-// US/International switch, centred above the diagram. One button: any click flips it.
-.country {
+// Plain text page links next to the title, the current one marked.
+nav ul {
   display: flex;
-  width: fit-content;
-  margin: 0 auto 8px;
-  padding: 3px;
-  border-radius: 999px;
-  border: 1px solid var(--mb-line);
-  background: var(--mb-panel);
-  cursor: pointer;
-  span {
-    padding: 6px 16px;
-    border-radius: 999px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li + li::before {
+    content: '·';
+    margin: 0 10px;
+    color: var(--mb-faint);
+  }
+  a {
     color: var(--mb-muted);
-    font-weight: 500;
-    transition:
-      background 120ms ease,
-      color 120ms ease;
-    &.on {
-      background: var(--mb-lime);
-      color: var(--mb-bg);
+    &:hover {
+      color: var(--mb-text);
+      text-decoration: none;
+    }
+    &.active {
+      color: var(--mb-text);
       font-weight: 600;
     }
   }
-  &:hover span:not(.on) {
-    color: var(--mb-text);
-  }
 }
 
-h1 {
-  font-size: 30px;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  margin: 0 0 12px;
-}
-
-.lede {
-  color: var(--mb-muted);
-  font-size: 15px;
-  margin: 0 0 20px;
-  max-width: 52ch;
-}
-
-.scope {
-  background: var(--mb-panel);
-  border: 1px solid var(--mb-line);
-  border-radius: 12px;
-  padding: 14px 16px 6px;
-  margin-bottom: 16px;
-}
-
-.scope-line {
-  margin: 0 0 10px;
-  b {
-    color: var(--mb-lime);
-    font-size: 16px;
-  }
-}
-
-.switch {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  padding: 7px 0;
-  cursor: pointer;
-  input {
-    position: absolute;
-    opacity: 0;
-    width: 1px;
-    height: 1px;
-  }
-  .track {
-    flex: none;
-    position: relative;
-    width: 34px;
-    height: 20px;
-    margin-top: 1px;
-    border-radius: 999px;
-    background: var(--mb-panel-3);
-    border: 1px solid var(--mb-line);
-    transition: background 120ms ease;
-    &::after {
-      content: '';
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--mb-muted);
-      transition: transform 120ms ease;
-    }
-  }
-  input:checked + .track {
-    background: var(--mb-lime-dim);
-    border-color: var(--mb-lime-dim);
-    &::after {
-      transform: translateX(14px);
-      background: var(--mb-lime);
-    }
-  }
-  input:focus-visible + .track {
-    outline: 2px solid var(--mb-lime);
-    outline-offset: 2px;
-  }
-  .text {
-    display: flex;
-    flex-direction: column;
-  }
-  .hint {
-    font-size: 12px;
-    color: var(--mb-faint);
-  }
-}
-
-.chip {
-  display: inline-flex;
-  gap: 6px;
-  align-items: center;
-  padding: 5px 11px;
-  border-radius: 999px;
-  border: 1px solid var(--mb-line);
-  background: var(--mb-panel);
-  cursor: pointer;
-  b {
-    font-weight: 600;
-  }
-  .hint {
-    color: var(--mb-faint);
-    font-size: 12px;
-  }
-  .swatch {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--c);
-  }
-  &:hover {
-    border-color: color-mix(in srgb, var(--c, var(--mb-muted)) 50%, transparent);
-  }
-  // Selected chips take their region's colour from the diagram; bucket and family chips, which
-  // have no region, use the brand lime.
-  &.on {
-    border-color: color-mix(in srgb, var(--c, var(--mb-lime)) 65%, transparent);
-    background: color-mix(in srgb, var(--c, var(--mb-lime)) 16%, transparent);
-  }
-}
-
-// The filter bar right above the table: Showing chips, topic chips, toggle chips, search and sort.
-.filters {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.filter-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-  .sel-label {
-    color: var(--mb-muted);
-    margin-right: 2px;
-  }
-  .none {
-    color: var(--mb-faint);
-  }
-  .sel-actions {
-    margin-left: auto;
-    display: flex;
-    gap: 12px;
-  }
-  &.search-sort {
-    gap: 12px;
-  }
-}
-
-.search {
-  flex: 1 1 260px;
-  input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 9px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--mb-line);
-    background: var(--mb-panel);
-    color: var(--mb-text);
-    font: inherit;
-    &::placeholder {
-      color: var(--mb-faint);
-    }
-    &:focus {
-      border-color: var(--mb-lime-dim);
-      outline: none;
-    }
-  }
-}
-
-// Domain, Program and Sort dropdowns, each with its label.
-.pick {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  color: var(--mb-muted);
-  select {
-    max-width: 16rem;
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--mb-line);
-    background: var(--mb-panel);
-    color: var(--mb-text);
-    font: inherit;
-  }
-}
-
-.region-note {
-  margin: 0 0 14px;
-  color: var(--mb-muted);
-  max-width: 80ch;
-}
-
-.link {
-  border: 0;
-  background: none;
-  padding: 0;
-  color: var(--mb-lime);
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.results {
-  border-top: 1px solid var(--mb-line);
-  padding-top: 20px;
-}
-
-.registry {
-  margin: 18px 0 0;
-}
-
-.loading,
-.error {
-  color: var(--mb-muted);
-}
-.error {
-  color: var(--mb-warn);
+main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 footer {
-  margin-top: 40px;
-  color: var(--mb-faint);
-  font-size: 12px;
-  max-width: 90ch;
-  code {
-    font-family: var(--mb-mono);
-  }
-  .fine {
-    margin-top: 6px;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 8px 24px 48px;
+  p {
+    margin: 0;
+    color: var(--mb-faint);
+    font-size: 12px;
   }
 }
 
-@media (max-width: 900px) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: 'intro' 'diagram' 'controls';
-  }
-  .diagram {
-    margin-bottom: 20px;
-  }
-  h1 {
-    font-size: 24px;
-  }
-}
-
-// Phones: search gets its own line, then Domain, Program and Sort wrap below it.
-@media (max-width: 720px) {
-  .search {
-    flex-basis: 100%;
-  }
-}
-
+// Phones: the page links go under the title rather than squeezing beside it.
 @media (max-width: 520px) {
   .top,
-  main {
+  main,
+  footer {
     padding-left: 16px;
     padding-right: 16px;
+  }
+  nav {
+    flex-basis: 100%;
   }
 }
