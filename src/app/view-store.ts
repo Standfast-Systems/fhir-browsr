@@ -43,7 +43,13 @@ export class ViewStore {
     });
   }
 
+  /** With a Program or Domain picked, clicking a region leaves the pick and shows just that region. */
+  private get focused() {
+    return !!this.state().family || !!this.state().domain;
+  }
+
   toggleRegion(key: RegionKey) {
+    if (this.focused) return this.setRegions(new Set([key]));
     const sel = new Set(this.state().regions);
     if (sel.has(key)) sel.delete(key);
     else sel.add(key);
@@ -53,6 +59,7 @@ export class ViewStore {
   /** Clicking a party's name selects its whole circle, or clears it if it's already selected. */
   selectParty(p: Party) {
     const keys = regionsWith(p);
+    if (this.focused) return this.setRegions(new Set(keys));
     const sel = new Set(this.state().regions);
     const all = keys.every((k) => sel.has(k));
     for (const k of keys) {

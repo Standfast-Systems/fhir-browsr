@@ -13,6 +13,7 @@ import {
   addedBy,
   type AddedBy,
   type Region,
+  type RegionKey,
   type ScopedGuide,
 } from '../core/scope';
 import type { Domain, Family, ScopeOptions } from '../core/types';
@@ -149,6 +150,20 @@ export class GuidesPage {
     if (drafts) chips.push({ id: 'drafts', label: 'Ballots & drafts', count: count('drafts') });
     if (r5) chips.push({ id: 'r5', label: 'R5/R6', count: count('r5') });
     return { all: base.length, chips };
+  });
+
+  /**
+   * What the diagram shows. With a Program or Domain picked, it follows the table: each region
+   * counts the picked guides that fall in it, and the regions holding any are lit. Otherwise it
+   * shows every guide in the current view and the selected regions.
+   */
+  protected readonly vennCounts = computed(() =>
+    this.focused() ? countByRegion(this.rows()) : this.counts(),
+  );
+  protected readonly vennSelected = computed<ReadonlySet<RegionKey>>(() => {
+    if (!this.focused()) return this.selected();
+    const n = this.vennCounts();
+    return new Set(REGION_KEYS.filter((k) => n[k] > 0));
   });
 
   protected readonly rows = computed(() =>

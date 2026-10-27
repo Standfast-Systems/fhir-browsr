@@ -22,27 +22,39 @@
   }
 }
 
-// Plain text page links next to the title, the current one marked.
-nav ul {
+// The page switch, centred under the header and styled like the US/International switch: one
+// rounded control, the current page filled lime. Each side is a real link to its page.
+nav.pages {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  justify-content: center;
+  padding: 20px 24px 0;
+}
+
+nav ul {
+  display: inline-flex;
+  flex-wrap: nowrap;
   margin: 0;
-  padding: 0;
+  padding: 3px;
+  border: 1px solid var(--mb-line);
+  border-radius: 999px;
+  background: var(--mb-panel);
   list-style: none;
-  li + li::before {
-    content: '·';
-    margin: 0 10px;
-    color: var(--mb-faint);
-  }
   a {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
     color: var(--mb-muted);
+    font-weight: 500;
+    transition:
+      background 120ms ease,
+      color 120ms ease;
     &:hover {
       color: var(--mb-text);
       text-decoration: none;
     }
     &.active {
-      color: var(--mb-text);
+      background: var(--mb-lime);
+      color: var(--mb-bg);
       font-weight: 600;
     }
   }
@@ -73,7 +85,13 @@ footer {
     padding-left: 16px;
     padding-right: 16px;
   }
-  nav {
-    flex-basis: 100%;
+  // Keep the page switch on one line on narrow phones.
+  nav.pages {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  nav ul a {
+    padding: 6px 13px;
+    font-size: 13.5px;
   }
 }
