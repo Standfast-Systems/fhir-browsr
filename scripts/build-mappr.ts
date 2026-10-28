@@ -138,6 +138,9 @@ if (errors.length) {
 
 const out: MapprData = { patterns, guides, resources };
 
+// Written first, since `npm run vectors` embeds what's in it.
+writeFileSync('public/data/mappr.json', JSON.stringify(out));
+
 // The lookup's meaning-based fallback needs a vector for every text it searches, made from these
 // same texts by `npm run vectors`.
 const vectors = JSON.parse(readFileSync('data/mappr/vectors.json', 'utf8')) as VectorFile;
@@ -148,8 +151,6 @@ if (vectors.textHash !== textHash(embeddedTexts(out))) {
   );
   process.exit(1);
 }
-
-writeFileSync('public/data/mappr.json', JSON.stringify(out));
 writeFileSync('public/data/mappr-vectors.json', JSON.stringify(vectors));
 
 // Browsr's rows say which patterns a guide is part of ("Used in: Prior auth").

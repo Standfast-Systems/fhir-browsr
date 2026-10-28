@@ -3,8 +3,10 @@
 // with the same model the browser uses. Writes data/mappr/vectors.json, committed so the build
 // never needs the model.
 //
-//   npm run data && npm run vectors
+//   npm run vectors
 //
+// It embeds public/data/mappr.json as the last `npm run data` (or scripts/build-mappr.ts) wrote
+// it, which happens even when that build stops on stale vectors.
 // Run it again whenever patterns or data/mappr/wider.yaml change; the build fails on stale
 // vectors. The first run downloads the model (~23 MB) from Hugging Face into .cache/models.
 
