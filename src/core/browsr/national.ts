@@ -2,15 +2,7 @@
 // from the registry's own "National Base" tagging, which points at the wrong package for several
 // countries. The registry still decides whether a listed guide exists for FHIR Browsr.
 
-/** The part of an official registry entry (fhir-ig-list.json) FHIR Browsr keeps. */
-export interface RegistryEntry {
-  npm: string;
-  name: string;
-  category: string;
-  /** Lowercase country or region code from the registry: au, ch, gb, eu, ... */
-  country: string;
-  withdrawn: boolean;
-}
+export type { RegistryEntry } from '../registry.ts';
 
 /** One row of data/national-cores.yaml. */
 export interface NationalCore {

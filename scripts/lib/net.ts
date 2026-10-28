@@ -37,8 +37,24 @@ async function fetchWithRetry(url: string, init: RequestInit = {}, tries = 3): P
   throw new Error(`fetch failed for ${url}: ${String(last)}`);
 }
 
-/** GET JSON; returns null on 404 or unparseable bodies (some sites serve HTML error pages). */
-export async function getJson<T>(url: string, { fresh = false } = {}): Promise<T | null> {
+/** Responses already fetched (or being fetched) in this run, so one URL is only asked for once. */
+const inRun = new Map<string, Promise<unknown>>();
+
+/**
+ * GET JSON; returns null on 404 or unparseable bodies (some sites serve HTML error pages). Each URL
+ * is fetched once per run, so every caller sees the same answer. A request that fails outright
+ * (network error, or 5xx/429 after retries) isn't cached, so the next run tries again.
+ */
+export function getJson<T>(url: string, { fresh = false } = {}): Promise<T | null> {
+  let hit = inRun.get(url);
+  if (!hit) {
+    hit = fetchJson<T>(url, fresh);
+    inRun.set(url, hit);
+  }
+  return hit as Promise<T | null>;
+}
+
+async function fetchJson<T>(url: string, fresh: boolean): Promise<T | null> {
   const p = cachePath('json', url, '.json');
   if (!fresh && existsSync(p) && Date.now() - statSync(p).mtimeMs < JSON_TTL_MS) {
     const cached = readFileSync(p, 'utf8');
@@ -56,7 +72,7 @@ export async function getJson<T>(url: string, { fresh = false } = {}): Promise<T
       }
     }
   } catch {
-    body = null;
+    return null;
   }
   writeFileSync(p, JSON.stringify(body));
   return body;

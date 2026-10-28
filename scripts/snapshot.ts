@@ -1,15 +1,23 @@
-// Snapshot registry metadata for every guide Initializr can recommend.
+// Snapshot registry metadata for every guide Browsr lists and Initializr can recommend: the one
+// copy of the registry data both sections build from.
 //
-//   node scripts/snapshot.ts            # refresh (uses .cache for anything < 12h old)
-//   node scripts/snapshot.ts --fresh    # ignore the JSON cache
+//   npm run snapshot            # refresh (uses .cache for anything < 12h old)
+//   npm run snapshot -- --fresh # ignore the JSON cache
 //
-// Writes snapshot/registry.json (versions, paths, dependency manifests) and
-// snapshot/packages/<name>@<version>.json (profiles + CapabilityStatement surface) for package
-// versions the KB names or the catalog would pin. Both are committed so builds are reproducible
-// and a scheduled job can diff them against the live registry.
+// Writes snapshot/registry.json and snapshot/packages/<name>@<version>.json (profiles +
+// CapabilityStatement surface) for package versions the KB names or the catalog would pin. Both
+// are committed so builds are reproducible and a scheduled job can diff them against the live
+// registry. registry.json holds, from one fetch of each source:
+//   - every guide in the official IG registry (`registry`), so Browsr lists only guides it lists;
+//   - per package, the versions on packages.fhir.org (`versions`, what Initializr can pin), and
+//     every release the publisher lists in package-list.json (`published`, what Browsr shows);
+//   - the dependency manifests Initializr resolves against (`manifests`).
 
-import { mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { parse } from 'yaml';
+import type { NationalCore } from '../src/core/browsr/national.ts';
+import type { Published, RegistryEntry } from '../src/core/registry.ts';
 import {
   compareVersions,
   isPrerelease,
@@ -35,6 +43,9 @@ const IG_LIST = 'https://raw.githubusercontent.com/FHIR/ig-registry/master/fhir-
 
 interface IgListEntry {
   name: string;
+  category?: string;
+  country?: string;
+  withdrawn?: unknown;
   description?: string;
   editions?: {
     name: string;
@@ -282,9 +293,54 @@ async function main() {
     };
   }
 
-  // 4. Write.
+  // 4. Browsr: every catalog guide and national core the registry lists, with the releases its
+  // publisher lists. package-list.json comes from the cache filled above.
+  const national = parse(
+    readFileSync(join(ROOT, 'data', 'national-cores.yaml'), 'utf8'),
+  ) as NationalCore[];
+  const browsrIds = [...new Set([...kb.catalog.map((g) => g.npm), ...national.map((n) => n.ig)])]
+    .filter((id) => igByNpm.has(id))
+    .sort();
+  await pool(browsrIds, 8, async (id) => {
+    const ig = igByNpm.get(id)!;
+    const p =
+      packages[id] ??
+      (await registerPackage(id)) ??
+      (packages[id] = {
+        name: id,
+        title: ig.name,
+        description: ig.description?.replace(/\s+/g, ' ').slice(0, 400),
+        canonical: ig.canonical,
+        history: ig.history,
+        ciBuild: ig['ci-build'],
+        versions: (ig.editions ?? []).map((e) => ({
+          version: e['ig-version'],
+          fhir: (e['fhir-version'] ?? []).map(normalizeFhirVersion),
+          path: e.url,
+          prerelease: isPrerelease(e['ig-version']),
+        })),
+        packageList: false,
+        inRegistry: false,
+      });
+    p.published = await publishedFor(ig);
+  });
+  const registry: Record<string, RegistryEntry> = {};
+  for (const g of igList) {
+    if (!g['npm-name']) continue;
+    registry[g['npm-name']] = {
+      npm: g['npm-name'],
+      name: g.name,
+      category: g.category ?? '',
+      country: (g.country ?? '').toLowerCase(),
+      withdrawn: Boolean(g.withdrawn),
+    };
+  }
+  log(`browsr: ${browsrIds.length} guides with their publishers' release lists`);
+
+  // 5. Write.
   const snapshot: RegistrySnapshot = {
     generated: new Date().toISOString(),
+    registry,
     packages: sortKeys(packages),
     manifests: sortKeys(manifests),
   };
@@ -298,6 +354,45 @@ async function main() {
     writeFileSync(join(pkgDir, `${key}.json`), JSON.stringify({ ...m, ...d }) + '\n');
   }
   log(`wrote snapshot/registry.json and ${readdirSync(pkgDir).length} package files`);
+}
+
+/**
+ * Every release the publisher lists in package-list.json, as written there. A guide with no
+ * readable list falls back to the editions the registry itself lists, which carry no status or
+ * date.
+ */
+async function publishedFor(g: IgListEntry): Promise<Published> {
+  const canonical = g.canonical?.replace(/\/$/, '');
+  const pl = canonical
+    ? await getJson<{ list?: PackageListEntry[] }>(`${canonical}/package-list.json`, {
+        fresh: FRESH,
+      })
+    : null;
+  const entries = (pl?.list ?? []).filter((e) => e.version && e.version !== 'current');
+  if (entries.length) {
+    // Some version lists leave out the FHIR version; fall back to what the registry's editions say.
+    const editionFhir = [...new Set((g.editions ?? []).flatMap((e) => e['fhir-version'] ?? []))];
+    return {
+      packageList: true,
+      releases: entries.map((e) => ({
+        version: e.version,
+        fhir: e.fhirversion ? e.fhirversion.split(/[|,;]\s*/).filter(Boolean) : editionFhir,
+        date: e.date?.slice(0, 10),
+        status: e.status,
+        sequence: e.sequence,
+        path: e.path,
+        current: e.current === true || undefined,
+      })),
+    };
+  }
+  return {
+    packageList: false,
+    releases: (g.editions ?? []).map((e) => ({
+      version: e['ig-version'],
+      fhir: e['fhir-version'] ?? [],
+      path: e.url,
+    })),
+  };
 }
 
 function latestR4(p: RegistryPackage | undefined): string | null {

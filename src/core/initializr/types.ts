@@ -1,11 +1,13 @@
 // FHIR Initializr core types.
 //
 // Three families live here:
-//   1. The knowledge base (KB): curated YAML in kb/, compiled to JSON. Drivers, rules, sources.
+//   1. The knowledge base (KB): curated YAML in data/kb/, compiled to JSON. Drivers, rules, sources.
 //   2. The registry snapshot: what packages.fhir.org and each IG's package-list.json said at build time.
 //   3. The scope manifest: what the resolver produces for one project profile.
 //
 // Everything is plain data so the same types serve the browser, the CLI and the build scripts.
+
+import type { Published, RegistryEntry } from '../registry.ts';
 
 // ---------------------------------------------------------------------------------------------
 // Shared vocabulary
@@ -192,11 +194,11 @@ export interface CatalogGroup {
 
 export interface CatalogGuide {
   npm: string;
-  /** Display name: igs.yaml short name, else kb/names.yaml, else the tidied registry title. */
+  /** Display name: igs.yaml short name, else data/notes.yaml, else the tidied registry title. */
   name: string;
   /** The IG registry's own title (search only). */
   registryName?: string;
-  /** One plain sentence about what the guide is for (kb/names.yaml). */
+  /** One plain sentence about what the guide is for (data/notes.yaml). */
   blurb?: string;
   realm: string;
   group: string;
@@ -257,6 +259,8 @@ export interface RegistryPackage {
   packageList: boolean;
   /** False when packages.fhir.org has no such package (versions then come from the IG registry). */
   inRegistry: boolean;
+  /** The publisher's own release list, for Browsr (left out of Initializr's published data). */
+  published?: Published;
 }
 
 export interface Dependency {
@@ -322,6 +326,8 @@ export interface PackageSnapshot {
 
 export interface RegistrySnapshot {
   generated: string;
+  /** Every guide in the official IG registry, for Browsr (left out of Initializr's published data). */
+  registry?: Record<string, RegistryEntry>;
   packages: Record<string, RegistryPackage>;
   /** Manifests, keyed "name@version". */
   manifests: Record<string, PackageSnapshot>;

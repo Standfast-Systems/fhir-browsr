@@ -10,7 +10,7 @@
     "data": "node scripts/build-browsr.ts && node scripts/build-initializr.ts",
     "prebuild": "npm run data",
     "prestart": "npm run data",
-    "snapshot": "node scripts/snapshot-browsr.ts && node scripts/snapshot-initializr.ts",
+    "snapshot": "node scripts/snapshot.ts",
     "resources": "node scripts/resources.ts",
     "initializr": "node cli/initializr.ts",
     "typecheck": "tsc -p tsconfig.node.json",
