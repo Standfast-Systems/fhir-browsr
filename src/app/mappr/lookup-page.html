@@ -126,6 +126,21 @@
           <p class="lead">Looking for a match by meaning…</p>
         } @else {
           <p class="lead none">No good match.</p>
+          <!-- Nothing fits the words or the meaning: browse instead of guessing. -->
+          <div class="browse">
+            <p>Browse instead:</p>
+            <ul>
+              <li>
+                <a routerLink="/browsr/guides">Implementation guides</a>, by who has to build to
+                them: patients, providers or payers
+              </li>
+              <li>
+                <a routerLink="/browsr/resources">FHIR resources</a>, the building blocks every
+                guide uses
+              </li>
+              <li><a routerLink="/mappr/patterns">Mappr's patterns</a>, by type</li>
+            </ul>
+          </div>
         }
       }
     }
