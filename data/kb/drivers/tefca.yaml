@@ -1,0 +1,296 @@
+# TEFCA Facilitated FHIR exchange.
+#
+# Curated 2026-10-21 from the governing RCE documents: QHIN Technical Framework v2.1 (effective
+# 2025-12-04) and the Facilitated FHIR Implementation SOP v2.0 (effective 2026-03-08), which
+# superseded SOP v1.0 (2024-07-01). Both PDFs carry "Draft" in their file names but are the approved
+# versions per the RCE change-management page. The RCE's "TEFCA on FHIR" web page is out of date
+# (it still says US Core 3.1.1); don't cite it.
+#
+# Modelling choices:
+#   - TEFCA is a voluntary framework joined by agreement, so versions use the "program" basis.
+#   - FHIR is optional for Participants and Subparticipants ("FHIR Adopters"); these rules describe
+#     what a node must do once it lists a FHIR endpoint.
+#   - "Q1 2027" for SSRAA is read as 2027-01-01 (ASTP's Feb 2026 deck: "leading to Jan 1, 2027").
+
+id: tefca
+name: "TEFCA Facilitated FHIR exchange"
+short: "TEFCA FHIR"
+kind: program
+authority: "ASTP/ONC · The Sequoia Project (RCE)"
+summary: >-
+  Nationwide exchange under the Trusted Exchange Framework and Common Agreement. A Participant or
+  Subparticipant that lists a FHIR endpoint answers US Core queries after IHE patient discovery, and
+  registers, authenticates and authorizes with UDAP (HL7 FAST Security, "SSRAA") 1.1.0 from Q1 2027.
+  FHIR itself is optional in TEFCA; once a node offers it, these rules apply.
+realms: [us]
+fhir: ["4.0.1"]
+cite:
+  source: rce-sop-ffhir-2
+  pin: "3"
+  quote: "Any FHIR Adopter may participate in any of the FHIR activities specified in this SOP."
+
+components:
+  - id: responding
+    name: Responding Node (FHIR endpoint)
+    summary: Lists a FHIR endpoint in the QHIN directory and answers queries for patient data.
+    in_force: {from: "2024-07-01"}
+    default: true
+    cite:
+      source: rce-sop-ffhir-2
+      pin: "6.5"
+      quote: "FHIR Adopters MUST share all patient data via US Core V6.1.0 conformant APIs, where such data exists and is available"
+  - id: initiating
+    name: Initiating Node (FHIR client)
+    summary: Finds endpoints through its QHIN, runs patient discovery, then queries other nodes over FHIR.
+    in_force: {from: "2024-07-01"}
+    default: true
+    cite:
+      source: rce-sop-ffhir-2
+      pin: "6.7.1"
+      quote: "All Nodes with FHIR Capabilities listed in the RCE Directory Service MUST support the FHIR $match operation using a US Core Patient Resource"
+  - id: ssraa
+    name: SSRAA (UDAP) registration and authorization
+    summary: Dynamic client registration, authentication and authorization with HL7 FAST Security (UDAP) 1.1.0.
+    in_force: {from: "2027-01-01"}
+    default: true
+    cite:
+      source: rce-sop-ffhir-2
+      pin: "6.2"
+      quote: "As of Q1 2027, all registration, authentication, and authorization of a FHIR client ... MUST follow ... HL7 SSRAA FHIR IG 1.1.0"
+  - id: public-health-ecr
+    name: Public health eCR push (FHIR)
+    summary: Sending electronic case reports to public health over FHIR under the Public Health exchange purpose.
+    in_force: {from: "2025-04-25"}
+    default: false
+    cite:
+      source: rce-sop-public-health
+      pin: "6.5.3.1.c"
+      quote: "Initiating Nodes MUST, at least, use the appropriate, corresponding content standards, as specified in Table 4"
+
+rules:
+  - id: tefca-us-core-server
+    ig: hl7.fhir.us.core
+    actor: server
+    strength: required
+    components: [responding]
+    capstmts: [http://hl7.org/fhir/us/core/CapabilityStatement/us-core-server]
+    note: >-
+      Provide the Patient resource and at least one more US Core profiled resource in the patient
+      compartment, a CapabilityStatement on every endpoint, $match on a US Core Patient, and US Core
+      Provenance (SOP 6.5, 6.7.1, 6.8).
+    cite:
+      source: rce-sop-ffhir-2
+      pin: "6.5.a"
+      quote: "MUST provide access to the Patient Resource and at least one additional US Core profiled patient compartment FHIR Resource."
+    versions: &tefca-us-core
+      - version: "3.1.1"
+        basis: program
+        from: "2024-07-01"
+        expires: "2026-03-08"
+        note: SOP v1.0 required US Core 3.1.1 or higher; v2.0 raised the floor to 6.1.0.
+        cite: {source: rce-sop-ffhir-1, pin: "Facilitated FHIR requirements"}
+      - version: "4.0.0"
+        basis: permitted-update
+        from: "2024-07-01"
+        expires: "2026-03-08"
+        note: Allowed by SOP v1.0's "3.1.1 or higher".
+        cite: {source: rce-sop-ffhir-1, pin: "Facilitated FHIR requirements"}
+      - version: "5.0.1"
+        basis: permitted-update
+        from: "2024-07-01"
+        expires: "2026-03-08"
+        note: Allowed by SOP v1.0's "3.1.1 or higher".
+        cite: {source: rce-sop-ffhir-1, pin: "Facilitated FHIR requirements"}
+      - version: "6.1.0"
+        basis: permitted-update
+        from: "2024-07-01"
+        expires: "2026-03-08"
+        note: Allowed by SOP v1.0's "3.1.1 or higher".
+        cite: {source: rce-sop-ffhir-1, pin: "Facilitated FHIR requirements"}
+      - version: "6.1.0"
+        basis: program
+        from: "2026-03-08"
+        cite:
+          source: rce-sop-ffhir-2
+          pin: "6.5"
+          quote: "FHIR Adopters MUST share all patient data via US Core V6.1.0 conformant APIs, where such data exists and is available"
+      - version: "7.0.0"
+        basis: permitted-update
+        from: "2024-07-01"
+        note: Higher US Core versions than the one named are allowed.
+        cite: {source: rce-sop-ffhir-2, pin: "Table 1"}
+      - version: "8.0.0"
+        basis: permitted-update
+        from: "2024-07-01"
+        note: Higher US Core versions than the one named are allowed.
+        cite: {source: rce-sop-ffhir-2, pin: "Table 1"}
+      - version: "8.0.1"
+        basis: permitted-update
+        from: "2024-07-01"
+        note: Higher US Core versions than the one named are allowed.
+        cite: {source: rce-sop-ffhir-2, pin: "Table 1"}
+      - version: "9.0.0"
+        basis: permitted-update
+        from: "2024-07-01"
+        note: Higher US Core versions than the one named are allowed.
+        cite: {source: rce-sop-ffhir-2, pin: "Table 1"}
+
+  - id: tefca-us-core-client
+    ig: hl7.fhir.us.core
+    actor: client
+    strength: required
+    components: [initiating]
+    capstmts: [http://hl7.org/fhir/us/core/CapabilityStatement/us-core-client]
+    note: Initiating Nodes send a US Core Patient in $match and follow US Core vocabulary bindings.
+    cite:
+      source: rce-sop-ffhir-2
+      pin: "6.7.1"
+      quote: "All Nodes with FHIR Capabilities listed in the RCE Directory Service MUST support the FHIR $match operation using a US Core Patient Resource"
+    versions: *tefca-us-core
+
+  - id: tefca-udap-metadata
+    ig: hl7.fhir.us.udap-security
+    actor: server
+    strength: required
+    components: [responding]
+    capstmts: []
+    note: >-
+      Publish UDAP server metadata at {baseURL}/.well-known/udap for every listed endpoint now,
+      with JWTs signed by a TEFCA Facilitated FHIR certificate. Until Q1 2027 clients may still be
+      registered out of band.
+    cite:
+      source: rce-sop-ffhir-2
+      pin: "6.1.3.b"
+      quote: "Each FHIR Responding Node SHALL publish UDAP Server Metadata at {baseURL}/.well-known/udap for every {baseURL} published as a FHIR Endpoint"
+    versions:
+      - version: "1.1.0"
+        basis: program
+        from: "2026-03-08"
+        cite:
+          source: rce-sop-ffhir-2
+          pin: "Table 1"
+          url: https://hl7.org/fhir/us/udap-security/STU1.1/
+
+  - id: tefca-ssraa-server
+    ig: hl7.fhir.us.udap-security
+    actor: server
+    strength: required
+    components: [ssraa]
+    capstmts: []
+    note: >-
+      Act as the UDAP authorization server: dynamic registration, the TEFCA community parameter and
+      basic-app certification. New production nodes listed after 2027-01-01 must support SSRAA from
+      the start. 1.1.0 is named, not 2.0.0.
+    cite:
+      source: rce-sop-ffhir-2
+      pin: "6.2"
+      quote: "All FHIR Registrations SHALL use SSRAA dynamic registration for all clients."
+    versions:
+      - version: "1.1.0"
+        basis: program
+        cite:
+          source: rce-sop-ffhir-2
+          pin: "6.2"
+          quote: "As of Q1 2027, all registration, authentication, and authorization of a FHIR client ... MUST follow ... HL7 SSRAA FHIR IG 1.1.0"
+
+  - id: tefca-ssraa-client
+    ig: hl7.fhir.us.udap-security
+    actor: client
+    strength: required
+    components: [ssraa]
+    capstmts: []
+    note: >-
+      Register one UDAP client per exchange purpose, with the hl7-b2b extension (and tefca_ias for
+      Individual Access Services).
+    cite:
+      source: rce-sop-ffhir-2
+      pin: "6.11.4"
+      quote: "FHIR Initiating Nodes that initiate for multiple exchange purposes MUST register multiple client applications, one for each exchange purpose"
+    versions:
+      - version: "1.1.0"
+        basis: program
+        cite:
+          source: rce-sop-ffhir-2
+          pin: "6.2"
+          quote: "As of Q1 2027, all registration, authentication, and authorization of a FHIR client ... MUST follow ... HL7 SSRAA FHIR IG 1.1.0"
+
+  - id: tefca-smart-scopes-server
+    ig: hl7.fhir.uv.smart-app-launch
+    actor: server
+    strength: recommended
+    components: [responding]
+    capstmts: []
+    note: >-
+      TEFCA names SMART only for its scope syntax ("Scopes and Launch Context ... or higher"); list
+      supported SMART scopes in scopes_supported. SMART App Launch and Backend Services as an
+      authentication path were removed in SOP v2.0.
+    cite:
+      source: rce-sop-ffhir-2
+      pin: "Table 1; 6.12.6"
+      quote: "SMART Application Launch Framework Implementation Guide Release 1.0.0: SMART App Launch: Scopes and Launch Context or higher versions"
+    versions: &tefca-smart
+      - version: "1.0.0"
+        basis: program
+        from: "2026-03-08"
+        cite: {source: rce-sop-ffhir-2, pin: "Table 1"}
+      - version: "2.0.0"
+        basis: permitted-update
+        from: "2026-03-08"
+        note: '"or higher versions"'
+        cite: {source: rce-sop-ffhir-2, pin: "Table 1"}
+      - version: "2.2.0"
+        basis: permitted-update
+        from: "2026-03-08"
+        note: '"or higher versions"'
+        cite: {source: rce-sop-ffhir-2, pin: "Table 1"}
+
+  - id: tefca-smart-scopes-client
+    ig: hl7.fhir.uv.smart-app-launch
+    actor: client
+    strength: recommended
+    components: [initiating]
+    capstmts: []
+    note: Request scopes in SMART syntax.
+    cite: {source: rce-sop-ffhir-2, pin: "Table 1"}
+    versions: *tefca-smart
+
+  - id: tefca-ecr
+    ig: hl7.fhir.us.ecr
+    actor: client
+    strength: required
+    components: [public-health-ecr]
+    note: eCR is push only over TEFCA FHIR; querying case reports is not supported.
+    cite:
+      source: rce-sop-public-health
+      pin: "6.5.3.1.c"
+      quote: "Initiating Nodes MUST, at least, use the appropriate, corresponding content standards, as specified in Table 4"
+    versions:
+      - version: "2.1.1"
+        basis: program
+        from: "2025-04-25"
+        cite: {source: rce-sop-public-health, pin: "Table 4"}
+
+notes:
+  - >-
+    FHIR is optional for Participants and Subparticipants ("FHIR Adopters"); once a node lists a
+    FHIR endpoint, the Facilitated FHIR SOP's MUSTs apply to it. QHINs must provide Facilitated FHIR
+    connectivity (directory with FHIR endpoints, patient discovery, certificates) under QTF v2.1 from
+    December 4, 2025, and be able to onboard SSRAA clients by November 1, 2026.
+  - >-
+    Facilitated FHIR is not FHIR alone: every FHIR query follows an IHE XCPD Patient Discovery
+    (QTF-1502); transport is TLS 1.2 (BCP 195) or 1.3; JWTs are signed RS256 with TEFCA Facilitated
+    FHIR certificates; audit follows ASTM E2147-18 for Participants. Endpoints are found through the
+    QHIN directory, which follows the RCE Directory Service IG 1.15.0 (not on packages.fhir.org:
+    https://rce.sequoiaproject.org/RCEIG/output/index.html). No TEFCA document requires Bulk Data or
+    the National Directory (NDH).
+  - >-
+    Individual Access Services endpoints follow the IAS SOP v3.0: FHIR stays optional for IAS
+    responders, and SSRAA is required for IAS FHIR endpoints from July 1, 2027, later than the
+    general Q1 2027 date.
+  - >-
+    No Inferno kit tests TEFCA FHIR. The Inferno UDAP Security kit tests UDAP STU 1.0.0, not the
+    1.1.0 TEFCA names, and none of the TEFCA extensions. The RCE's conformance testing covers QHIN
+    Query, Message Delivery and security, not Facilitated FHIR.
+  - >-
+    QHIN-to-QHIN (brokered) FHIR exchange is still planned (FHIR Roadmap v2, stages 3 and 4); only
+    facilitated FHIR, with direct node-to-node calls after QHIN-assisted discovery, is in force.

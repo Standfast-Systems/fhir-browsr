@@ -1,0 +1,189 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  padding-bottom: 72px;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--fi-line);
+  background: var(--mat-sys-surface-container-lowest);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--fi-text);
+  text-decoration: none;
+  .logo {
+    width: 34px;
+    height: 34px;
+  }
+  .name {
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    strong {
+      color: var(--fi-lime);
+      font-weight: 700;
+    }
+  }
+}
+
+.tagline {
+  margin: 0;
+  color: var(--fi-muted);
+  font-size: 13.5px;
+  flex: 1 1 320px;
+}
+
+.toplinks {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+  .kbdate {
+    color: var(--fi-faint);
+    font-family: var(--fi-mono);
+    font-size: 12px;
+  }
+}
+
+.error {
+  margin: 16px 24px;
+  padding: 12px 16px;
+  border: 1px solid var(--fi-error);
+  border-radius: 10px;
+  color: var(--fi-error);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 400px) minmax(0, 1fr);
+  gap: 24px;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 20px 24px;
+}
+
+.config {
+  position: sticky;
+  top: 12px;
+  align-self: start;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;
+}
+
+.results {
+  min-width: 0;
+}
+
+.foot {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 12px 24px 24px;
+  border-top: 1px solid var(--fi-line);
+  font-size: 12.5px;
+  .disclaimer {
+    color: var(--fi-warn);
+  }
+}
+
+.actionbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  border-top: 1px solid var(--fi-line);
+  background: color-mix(in srgb, var(--mat-sys-surface-container-lowest) 92%, transparent);
+  backdrop-filter: blur(8px);
+  .inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 10px 24px;
+  }
+  .sum {
+    margin-right: auto;
+    color: var(--fi-muted);
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+  .config {
+    position: static;
+    max-height: none;
+    overflow: visible;
+  }
+  .top {
+    padding: 12px 16px;
+  }
+  .actionbar .inner {
+    padding: 8px 16px;
+    flex-wrap: wrap;
+  }
+}
+
+// Release badge next to the name: the version, and how far from an MVP the tool is.
+.release {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  .version {
+    padding: 1px 7px;
+    border-radius: 6px;
+    border: 1px solid var(--fi-line);
+    color: var(--fi-muted);
+    font-size: 12px;
+  }
+}
+
+// The under-construction banner. Amber with a hazard-stripe edge; always shown, never dismissed.
+.construction {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  max-width: 1480px;
+  margin: 14px auto 0;
+  padding: 10px 16px 10px 22px;
+  box-sizing: border-box;
+  width: calc(100% - 48px);
+  border: 1px solid color-mix(in srgb, var(--fi-warn) 45%, transparent);
+  border-radius: 10px;
+  background:
+    repeating-linear-gradient(-45deg, var(--fi-warn) 0 6px, transparent 6px 12px) left / 6px 100%
+      no-repeat,
+    color-mix(in srgb, var(--fi-warn) 8%, var(--fi-panel));
+  color: var(--fi-text);
+  font-size: 13px;
+  mat-icon {
+    flex-shrink: 0;
+    color: var(--fi-warn);
+  }
+  p {
+    margin: 0;
+  }
+  strong {
+    color: var(--fi-warn);
+  }
+}
+
+@media (max-width: 900px) {
+  .construction {
+    width: calc(100% - 32px);
+  }
+}

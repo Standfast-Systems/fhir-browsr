@@ -1,0 +1,225 @@
+# Inferno test kits, as hosted at https://inferno.healthit.gov/test-kits/ (checked 2026-10-20).
+# `covers` lists the IG versions each kit can test, per actor. Suite ids come from the kit pages and
+# https://inferno.healthit.gov/suites/api/test_suites.
+
+testkits:
+  - id: onc-certification-g10
+    title: ONC Certification (g)(10) Standardized API Test Kit
+    url: https://inferno.healthit.gov/test-kits/onc-certification-g10/
+    repo: https://github.com/onc-healthit/onc-certification-g10-test-kit
+    note: v8.0.7. ONC says it gains the 2026 SVAP versions (US Core 9.0.0) by December 31, 2026.
+    covers:
+      - {ig: hl7.fhir.us.core, versions: ["6.1.0", "7.0.0"], actors: [server]}
+      - {ig: hl7.fhir.uv.smart-app-launch, versions: ["2.0.0", "2.2.0"], actors: [server]}
+      - {ig: hl7.fhir.uv.bulkdata, versions: ["1.0.1", "2.0.0"], actors: [server]}
+    suites:
+      - {id: g10_certification, title: "ONC (g)(10) certification", actor: server}
+
+  - id: us-core
+    title: US Core Test Kit
+    url: https://inferno.healthit.gov/test-kits/us-core/
+    repo: https://github.com/inferno-framework/us-core-test-kit
+    note: v1.1.6. No US Core 8.0.1 or 9.0.0 suite yet.
+    covers:
+      - {ig: hl7.fhir.us.core, versions: ["3.1.1", "4.0.0", "5.0.1", "6.1.0", "7.0.0", "8.0.0"], actors: [server, client]}
+    suites:
+      - {id: us_core_v311, title: "US Core v3.1.1", actor: server, igVersion: "3.1.1"}
+      - {id: us_core_v400, title: "US Core v4.0.0", actor: server, igVersion: "4.0.0"}
+      - {id: us_core_v501, title: "US Core v5.0.1", actor: server, igVersion: "5.0.1"}
+      - {id: us_core_v610, title: "US Core v6.1.0", actor: server, igVersion: "6.1.0"}
+      - {id: us_core_v700, title: "US Core v7.0.0", actor: server, igVersion: "7.0.0"}
+      - {id: us_core_v800, title: "US Core v8.0.0", actor: server, igVersion: "8.0.0"}
+      - {id: us_core_client_v311, title: "US Core Client v3.1.1", actor: client, igVersion: "3.1.1"}
+      - {id: us_core_client_v400, title: "US Core Client v4.0.0", actor: client, igVersion: "4.0.0"}
+      - {id: us_core_client_v501, title: "US Core Client v5.0.1", actor: client, igVersion: "5.0.1"}
+      - {id: us_core_client_v610, title: "US Core Client v6.1.0", actor: client, igVersion: "6.1.0"}
+      - {id: us_core_client_v700, title: "US Core Client v7.0.0", actor: client, igVersion: "7.0.0"}
+      - {id: us_core_client_v800, title: "US Core Client v8.0.0", actor: client, igVersion: "8.0.0"}
+
+  - id: smart-app-launch
+    title: SMART App Launch Test Kit
+    url: https://inferno.healthit.gov/test-kits/smart-app-launch/
+    repo: https://github.com/inferno-framework/smart-app-launch-test-kit
+    note: v1.0.3. Server suites for STU1, STU2 and STU2.2; the client suite targets STU2.2.
+    covers:
+      - {ig: hl7.fhir.uv.smart-app-launch, versions: ["1.0.0", "2.0.0", "2.2.0"], actors: [server]}
+      - {ig: hl7.fhir.uv.smart-app-launch, versions: ["2.2.0"], actors: [client]}
+    suites:
+      - {id: smart, title: "SMART App Launch STU1", actor: server, igVersion: "1.0.0"}
+      - {id: smart_stu2, title: "SMART App Launch STU2", actor: server, igVersion: "2.0.0"}
+      - {id: smart_stu2_2, title: "SMART App Launch STU2.2", actor: server, igVersion: "2.2.0"}
+      - {id: smart_client_stu2_2, title: "SMART App Launch STU2.2 Client", actor: client, igVersion: "2.2.0"}
+
+  - id: bulk-data
+    title: Bulk Data Test Kit
+    url: https://inferno.healthit.gov/test-kits/bulk-data/
+    repo: https://github.com/inferno-framework/bulk-data-test-kit
+    note: v0.13.1.
+    covers:
+      - {ig: hl7.fhir.uv.bulkdata, versions: ["1.0.1", "2.0.0"], actors: [server]}
+      - {ig: hl7.fhir.uv.bulkdata, versions: ["2.0.0"], actors: [client]}
+    suites:
+      - {id: bulk_data_v101, title: "Bulk Data v1.0.1", actor: server, igVersion: "1.0.1"}
+      - {id: bulk_data_v200, title: "Bulk Data v2.0.0", actor: server, igVersion: "2.0.0"}
+      - {id: bulk_data_v200_client, title: "Bulk Data v2.0.0 Client", actor: client, igVersion: "2.0.0"}
+
+  - id: carin-for-blue-button
+    title: CARIN IG for Blue Button Test Kit
+    url: https://inferno.healthit.gov/test-kits/carin-for-blue-button/
+    repo: https://github.com/inferno-framework/carin-for-blue-button-test-kit
+    note: v0.16.3. No suite for CARIN BB 2.1.0 or 2.2.0 yet.
+    covers:
+      - {ig: hl7.fhir.us.carin-bb, versions: ["1.1.0", "2.0.0"], actors: [server]}
+      - {ig: hl7.fhir.us.carin-bb, versions: ["2.0.0"], actors: [client]}
+    suites:
+      - {id: c4bb_v110, title: "CARIN BB v1.1.0", actor: server, igVersion: "1.1.0"}
+      - {id: c4bb_v200, title: "CARIN BB v2.0.0", actor: server, igVersion: "2.0.0"}
+      - {id: c4bb_v200_client, title: "CARIN BB v2.0.0 Client", actor: client, igVersion: "2.0.0"}
+
+  - id: pdex
+    title: Da Vinci PDex Test Kit
+    url: https://inferno.healthit.gov/test-kits/pdex/
+    repo: https://github.com/inferno-framework/davinci-pdex-test-kit
+    note: v0.13.2. Payer-to-payer workflow only; no Provider Access suite is hosted.
+    covers:
+      - {ig: hl7.fhir.us.davinci-pdex, versions: ["2.0.0"], actors: [server, client]}
+    suites:
+      - {id: pdex_payer_server, title: "PDex Payer Server", actor: server, igVersion: "2.0.0"}
+      - {id: pdex_payer_client, title: "PDex Payer Client", actor: client, igVersion: "2.0.0"}
+
+  - id: davinci-plan-net
+    title: Da Vinci Plan Net Test Kit
+    url: https://inferno.healthit.gov/test-kits/davinci-plan-net/
+    repo: https://github.com/inferno-framework/davinci-plan-net-test-kit
+    note: v0.13.4.
+    covers:
+      - {ig: hl7.fhir.us.davinci-pdex-plan-net, versions: ["1.1.0"], actors: [server]}
+    suites:
+      - {id: davinci_plan_net_server_v110, title: "Plan Net Server v1.1.0", actor: server, igVersion: "1.1.0"}
+
+  - id: davinci-us-drug-formulary
+    title: Da Vinci US Drug Formulary Test Kit
+    url: https://inferno.healthit.gov/test-kits/davinci-us-drug-formulary/
+    repo: https://github.com/inferno-framework/davinci-us-drug-formulary-test-kit
+    note: v0.13.3.
+    covers:
+      - {ig: hl7.fhir.us.davinci-drug-formulary, versions: ["2.0.1"], actors: [server]}
+    suites:
+      - {id: davinci_us_drug_formulary_v201, title: "US Drug Formulary v2.0.1", actor: server, igVersion: "2.0.1"}
+
+  - id: davinci-crd
+    title: Da Vinci CRD Test Kit
+    url: https://inferno.healthit.gov/test-kits/davinci-crd/
+    repo: https://github.com/inferno-framework/davinci-crd-test-kit
+    note: v0.14.2 (maturity low).
+    covers:
+      - {ig: hl7.fhir.us.davinci-crd, versions: ["2.0.1", "2.2.1"], actors: [server, client]}
+    suites:
+      - {id: crd_client, title: "CRD Client v2.0.1", actor: client, igVersion: "2.0.1"}
+      - {id: crd_client_v221, title: "CRD Client v2.2.1", actor: client, igVersion: "2.2.1"}
+      - {id: crd_server, title: "CRD Server v2.0.1", actor: server, igVersion: "2.0.1"}
+      - {id: crd_server_v221, title: "CRD Server v2.2.1", actor: server, igVersion: "2.2.1"}
+
+  - id: davinci-dtr
+    title: Da Vinci DTR Test Kit
+    url: https://inferno.healthit.gov/test-kits/davinci-dtr/
+    repo: https://github.com/inferno-framework/davinci-dtr-test-kit
+    note: v0.18.0 (maturity low). For 2.2.0 only payer-server and full-EHR client suites exist.
+    covers:
+      - {ig: hl7.fhir.us.davinci-dtr, versions: ["2.0.1", "2.2.0"], actors: [server, client]}
+    suites:
+      - {id: dtr_payer_server, title: "DTR Payer Server v2.0.1", actor: server, igVersion: "2.0.1"}
+      - {id: dtr_full_ehr, title: "DTR Full EHR v2.0.1", actor: client, igVersion: "2.0.1"}
+      - {id: dtr_light_ehr, title: "DTR Light EHR v2.0.1", actor: client, igVersion: "2.0.1"}
+      - {id: dtr_smart_app, title: "DTR SMART App v2.0.1", actor: client, igVersion: "2.0.1"}
+      - {id: dtr_payer_server_v220, title: "DTR Payer Server v2.2.0", actor: server, igVersion: "2.2.0"}
+      - {id: dtr_full_ehr_v220, title: "DTR Client (Full EHR) v2.2.0", actor: client, igVersion: "2.2.0"}
+
+  - id: davinci-pas
+    title: Da Vinci PAS Test Kit
+    url: https://inferno.healthit.gov/test-kits/davinci-pas/
+    repo: https://github.com/inferno-framework/davinci-pas-test-kit
+    note: v0.15.2 (maturity low).
+    covers:
+      - {ig: hl7.fhir.us.davinci-pas, versions: ["2.0.1", "2.2.1"], actors: [server, client]}
+    suites:
+      - {id: davinci_pas_server_suite_v201, title: "PAS Server v2.0.1", actor: server, igVersion: "2.0.1"}
+      - {id: davinci_pas_server_suite_v221, title: "PAS Server v2.2.1", actor: server, igVersion: "2.2.1"}
+      - {id: davinci_pas_client_suite_v201, title: "PAS Client v2.0.1", actor: client, igVersion: "2.0.1"}
+      - {id: davinci_pas_client_suite_v221, title: "PAS Client v2.2.1", actor: client, igVersion: "2.2.1"}
+
+  - id: subscriptions
+    title: Subscriptions Test Kit
+    url: https://inferno.healthit.gov/test-kits/subscriptions/
+    repo: https://github.com/inferno-framework/subscriptions-test-kit
+    note: Hosted v0.12.2. Tests the R5 Backport on FHIR R4.
+    covers:
+      - {ig: hl7.fhir.uv.subscriptions-backport.r4, versions: ["1.1.0"], actors: [server, client]}
+      - {ig: hl7.fhir.uv.subscriptions-backport, versions: ["1.1.0"], actors: [server, client]}
+    suites:
+      - {id: subscriptions_r5_backport_r4_server, title: "Subscriptions Backport (R4) Server", actor: server, igVersion: "1.1.0"}
+      - {id: subscriptions_r5_backport_r4_client, title: "Subscriptions Backport (R4) Client", actor: client, igVersion: "1.1.0"}
+
+  - id: ipa
+    title: International Patient Access Test Kit
+    url: https://inferno.healthit.gov/test-kits/ipa/
+    repo: https://github.com/inferno-framework/ipa-test-kit
+    covers:
+      - {ig: hl7.fhir.uv.ipa, versions: ["1.0.0"], actors: [server]}
+    suites:
+      - {id: ipa_v100, title: "IPA v1.0.0", actor: server, igVersion: "1.0.0"}
+
+  - id: ips
+    title: International Patient Summary Test Kit
+    url: https://inferno.healthit.gov/test-kits/ips/
+    repo: https://github.com/inferno-framework/ips-test-kit
+    covers:
+      - {ig: hl7.fhir.uv.ips, versions: ["1.1.0"], actors: [server]}
+    suites:
+      - {id: ips, title: "IPS v1.1.0", actor: server, igVersion: "1.1.0"}
+
+  - id: udap-security
+    title: UDAP Security Test Kit
+    url: https://inferno.healthit.gov/test-kits/udap-security/
+    repo: https://github.com/inferno-framework/udap-security-test-kit
+    note: v0.12.2 tests UDAP Security STU 1.0.0 only; not 1.1.0 (the version TEFCA names), 2.0.0, or TEFCA's extensions.
+    covers:
+      - {ig: hl7.fhir.us.udap-security, versions: ["1.0.0"], actors: [server, client]}
+    suites:
+      - {id: udap_security, title: "UDAP Security Server", actor: server}
+      - {id: udap_security_client, title: "UDAP Security Client", actor: client}
+
+  - id: us-quality-core
+    title: US Quality Core Test Kit
+    url: https://inferno.healthit.gov/test-kits/us-quality-core/
+    repo: https://github.com/inferno-framework/us-quality-core-test-kit
+    covers:
+      - {ig: hl7.fhir.us.quality-core, versions: ["0.5.0"], actors: [server, client]}
+
+  - id: cancer-registry-reporting
+    title: Central Cancer Registry Reporting Test Kit
+    url: https://inferno.healthit.gov/test-kits/cancer-registry-reporting/
+    repo: https://github.com/inferno-framework/cancer-registry-reporting-test-kit
+    covers:
+      - {ig: hl7.fhir.us.central-cancer-registry-reporting, versions: ["1.0.0"], actors: [server, client]}
+
+  - id: cancer-pathology-data-sharing
+    title: Cancer Pathology Data Sharing Test Kit
+    url: https://inferno.healthit.gov/test-kits/cancer-pathology-data-sharing/
+    repo: https://github.com/inferno-framework/cancer-pathology-data-sharing-test-kit
+    covers:
+      - {ig: hl7.fhir.us.cancer-reporting, versions: ["1.0.1"], actors: [server, client]}
+
+  - id: uds-plus
+    title: UDS+ Test Kit
+    url: https://inferno.healthit.gov/test-kits/uds-plus/
+    repo: https://github.com/inferno-framework/uds-plus-test-kit
+    covers:
+      - {ig: fhir.hrsa.uds-plus, versions: ["2.0.0"], actors: [server]}
+
+  - id: at-home-in-vitro
+    title: At-Home In-Vitro Test Kit
+    url: https://inferno.healthit.gov/test-kits/at-home-in-vitro/
+    repo: https://github.com/inferno-framework/at-home-in-vitro-test-kit
+    covers:
+      - {ig: hl7.fhir.us.home-lab-report, versions: ["1.0.0"], actors: [server, client]}

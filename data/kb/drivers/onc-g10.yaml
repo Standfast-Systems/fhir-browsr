@@ -1,0 +1,217 @@
+# ONC Health IT Certification: 45 CFR 170.315(g)(10) Standardized API for patient and population services.
+#
+# Curated 2026-10-20 against eCFR (current to 2026-10-16), the HTI-1 final rule, ONC's SVAP pages and
+# enforcement discretion notices. Version windows:
+#   - "adopted" versions come from 45 CFR 170.215 and carry its "expires on" dates (exclusive).
+#   - "svap" versions are usable from the date ONC said developers could begin using them. Since the
+#     2026 cycle, approved versions stay available across cycles unless superseded.
+#   - SVAP versions older than the only remaining adopted version (US Core 4.0.0 and 5.0.1 after
+#     US Core 3.1.1 expired) are no longer "advanced" and are closed on the same date.
+
+id: onc-g10
+name: "ONC certification — §170.315(g)(10) Standardized API"
+short: "ONC (g)(10)"
+kind: regulation
+authority: "ONC (HHS)"
+summary: >-
+  Certified health IT must offer a FHIR R4 API for single-patient access (patients and clinicians,
+  via SMART App Launch and OpenID Connect) and population access (Bulk Data with SMART Backend
+  Services). Versions come from 45 CFR 170.215; newer versions are allowed once approved through SVAP.
+realms: [us]
+fhir: ["4.0.1"]
+cite:
+  source: ecfr-170-315
+  pin: "(g)(10)"
+  url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(10)
+
+components:
+  - id: single-patient
+    name: Single-patient API (patients and clinicians)
+    summary: Data response and search for one patient, authorized with SMART App Launch and OpenID Connect.
+    in_force: {}
+    default: true
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(10)(i)(A), (ii)(A), (v)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(10)(i)(A)
+      quote: "according to the standards and implementation specifications adopted in § 170.215(a) and in § 170.215(b)(1)"
+  - id: population
+    name: Multiple-patient API (Bulk Data)
+    summary: Group export for population services, authorized with SMART Backend Services.
+    in_force: {}
+    default: true
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(10)(i)(B), (ii)(B)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(10)(i)(B)
+      quote: "Respond to requests for multiple patients' data as a group according to ... § 170.215(a), (b)(1), and (d)"
+
+rules:
+  - id: g10-us-core
+    ig: hl7.fhir.us.core
+    actor: server
+    strength: required
+    capstmts: [http://hl7.org/fhir/us/core/CapabilityStatement/us-core-server]
+    note: >-
+      Serve the USCDI data elements per the US Core Server CapabilityStatement's mandatory
+      capabilities. Each US Core version maps to a USCDI version (6.1.0 = v3, 7.0.0 = v4,
+      8.0.x = v5, 9.0.0 = v6).
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(10)(i)(A)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(10)(i)(A)
+      quote: "according to the standards and implementation specifications adopted in § 170.215(a) and in § 170.215(b)(1)"
+    versions:
+      - version: "3.1.1"
+        basis: adopted
+        expires: "2026-01-01"
+        cite:
+          source: ecfr-170-215
+          pin: "(b)(1)(i)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(b)(1)(i)
+          quote: "HL7® FHIR® US Core Implementation Guide STU 3.1.1 ... The adoption of this standard expires on January 1, 2026."
+      - version: "3.1.1"
+        basis: enforcement-discretion
+        from: "2026-01-01"
+        expires: "2026-03-01"
+        note: Funding-lapse notice EDN2025.06 deferred enforcement of the HTI-1 update deadline.
+        cite:
+          source: onc-edn
+          pin: "EDN2025.06 (Nov 24, 2025)"
+          quote: "will, in effect, have through February 28, 2026, to complete updates required under the HTI-1 Final Rule"
+      - version: "4.0.0"
+        basis: svap
+        from: "2022-08-29"
+        expires: "2026-01-01"
+        note: Not an advanced version once US Core 3.1.1 expired; Inferno (g)(10) v8.0.0 dropped it.
+        cite: {source: svap-2022}
+      - version: "5.0.1"
+        basis: svap
+        from: "2022-08-29"
+        expires: "2026-01-01"
+        note: Not an advanced version once US Core 3.1.1 expired.
+        cite: {source: svap-2022}
+      - version: "6.1.0"
+        basis: svap
+        from: "2023-09-11"
+        expires: "2024-02-08"
+        cite: {source: svap-2023}
+      - version: "6.1.0"
+        basis: adopted
+        from: "2024-02-08"
+        cite:
+          source: ecfr-170-215
+          pin: "(b)(1)(ii)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(b)(1)(ii)
+          quote: "HL7® FHIR® US Core Implementation Guide STU 6.1.0 (incorporated by reference, see § 170.299)."
+      - version: "7.0.0"
+        basis: svap
+        from: "2024-08-19"
+        cite: {source: svap-2024, pin: "(g)(10): US Core 7.0.0"}
+      - version: "8.0.0"
+        basis: svap
+        from: "2025-08-29"
+        cite: {source: svap-2025, pin: "(g)(10): US Core 8.0.0"}
+      - version: "8.0.1"
+        basis: svap
+        from: "2026-08-13"
+        note: Errata release of 8.0.0, effective for testing August 13, 2026.
+        cite: {source: onc-ccg-g10, pin: "Technical explanations: US Core 8.0.1 errata"}
+      - version: "9.0.0"
+        basis: svap
+        from: "2026-08-29"
+        cite: {source: svap-2026, pin: "(g)(10): US Core 9.0.0"}
+
+  - id: g10-smart
+    ig: hl7.fhir.uv.smart-app-launch
+    actor: server
+    strength: required
+    capstmts: []  # SMART's only CapabilityStatement (App State) is an optional capability
+    components: [single-patient, population]
+    note: >-
+      SMART 2.0.0 Capability Sets "Patient Access for Standalone Apps" and "Clinician Access for EHR
+      Launch", every 8.1.2 capability except permission-online, and token introspection. Population
+      access uses SMART Backend Services.
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(10)(v)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(10)(v)
+    versions:
+      - version: "1.0.0"
+        basis: adopted
+        expires: "2026-01-01"
+        cite:
+          source: ecfr-170-215
+          pin: "(c)(1)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(c)(1)
+          quote: "SMART Application Launch Framework Implementation Guide Release 1.0.0 ... The adoption of this standard expires on January 1, 2026."
+      - version: "1.0.0"
+        basis: enforcement-discretion
+        from: "2026-01-01"
+        expires: "2026-03-01"
+        cite:
+          source: onc-edn
+          pin: "EDN2025.06 (Nov 24, 2025)"
+          quote: "will, in effect, have through February 28, 2026, to complete updates required under the HTI-1 Final Rule"
+      - version: "2.0.0"
+        basis: svap
+        from: "2022-08-29"
+        expires: "2024-02-08"
+        cite: {source: svap-2022}
+      - version: "2.0.0"
+        basis: adopted
+        from: "2024-02-08"
+        cite:
+          source: ecfr-170-215
+          pin: "(c)(2)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(c)(2)
+          quote: "all “Capabilities” as defined in “8.1.2 Capabilities,” excepting the “permission-online” capability"
+      - version: "2.2.0"
+        basis: svap
+        from: "2024-08-19"
+        cite: {source: svap-2024, pin: "(g)(10): SMART App Launch 2.2.0"}
+
+  - id: g10-bulk
+    ig: hl7.fhir.uv.bulkdata
+    actor: server
+    strength: required
+    components: [population]
+    note: Group-level export ($export on Group) is mandatory; system scopes use SMART Backend Services.
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(10)(i)(B)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(10)(i)(B)
+    versions:
+      - version: "1.0.0"
+        basis: adopted
+        note: The version named in regulation; ONC's test method requires its 1.0.1 errata (since October 25, 2021).
+        cite:
+          source: ecfr-170-215
+          pin: "(d)(1)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(d)(1)
+          quote: "FHIR® Bulk Data Access (Flat FHIR®) (v1.0.0: STU 1), including mandatory support for the “group-export” “OperationDefinition”"
+      - version: "1.0.1"
+        basis: adopted
+        from: "2021-10-25"
+        note: Errata of the adopted v1.0.0 that ONC's test method requires.
+        cite: {source: onc-ccg-g10, pin: "Technical explanations: Bulk Data 1.0.1 errata"}
+      - version: "2.0.0"
+        basis: svap
+        from: "2022-08-29"
+        cite: {source: svap-2022, pin: "(g)(10): Bulk Data Access 2.0.0"}
+
+notes:
+  - >-
+    USCDI is not a FHIR package. 45 CFR 170.213 requires USCDI v3 since January 1, 2026 (v1 expired);
+    SVAP adds v4, v5 and v6, which travel with US Core 7.0.0, 8.0.x and 9.0.0.
+  - >-
+    Authentication also requires OpenID Connect Core 1.0 (170.215(e)(1)), refresh tokens valid at
+    least three months, revocation within one hour at the patient's direction, and token introspection
+    ((g)(10)(v)–(vii)). None of these are FHIR packages.
+  - >-
+    HTI-5 (proposed December 29, 2025; not final as of this KB) would delete the expired US Core 3.1.1
+    and SMART 1.0.0 paragraphs and make USCDI v3.1 the only USCDI version. It would not change the
+    (g)(10) text.
+  - >-
+    The Inferno (g)(10) test kit v8.0.7 tests US Core 6.1.0 and 7.0.0 only; ONC says test tools gain
+    the 2026 SVAP versions by December 31, 2026.

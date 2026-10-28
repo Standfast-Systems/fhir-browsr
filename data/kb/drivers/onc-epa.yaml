@@ -1,0 +1,231 @@
+# ONC Health IT Certification: 45 CFR 170.315(g)(31)–(g)(33) electronic prior authorization (HTI-4).
+#
+# Provider-side clients for the payer Prior Authorization API. Added by HTI-4 (in the FY2026 IPPS
+# final rule, effective 2025-10-01). The FY2027 IPPS final rule (effective 2026-10-01) replaced the
+# 2.0.1 IG versions in 170.215(j) with CRD 2.2.1, DTR 2.2.0 and PAS 2.2.1, with no transition period.
+# Curated 2026-10-20.
+
+id: onc-epa
+name: "ONC certification — §170.315(g)(31)–(33) electronic prior authorization"
+short: "ONC (g)(31)–(33)"
+kind: regulation
+authority: "ONC (HHS)"
+summary: >-
+  Certification criteria for the EHR side of electronic prior authorization: discover coverage
+  requirements (CRD client), complete documentation (DTR "full EHR"), and submit and track the
+  request (PAS client). There is no deadline to certify; demand comes from CMS's Promoting
+  Interoperability "Electronic Prior Authorization" measure.
+realms: [us]
+fhir: ["4.0.1"]
+cite:
+  source: ecfr-170-315
+  pin: "(g)(31)–(g)(33)"
+  url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(31)
+
+components:
+  - id: g31-crd
+    name: "(g)(31) Coverage requirements discovery"
+    summary: CRD client, including the CDS Hooks order-sign hook via (j)(20).
+    in_force: {from: "2025-10-01"}
+    default: true
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(31)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(31)
+  - id: g32-dtr
+    name: "(g)(32) Prior authorization documentation"
+    summary: DTR full-EHR client, with SMART Backend Services authorization.
+    in_force: {from: "2025-10-01"}
+    default: true
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(32)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(32)
+  - id: g33-pas
+    name: "(g)(33) Prior authorization submission"
+    summary: PAS client, receiving pended responses through subscriptions via (j)(21).
+    in_force: {from: "2025-10-01"}
+    default: true
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(33)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(33)
+
+rules:
+  - id: epa-crd
+    ig: hl7.fhir.us.davinci-crd
+    actor: client
+    strength: required
+    capstmts:
+      - http://hl7.org/fhir/us/davinci-crd/CapabilityStatement/crd-client6.1
+      - http://hl7.org/fhir/us/davinci-crd/CapabilityStatement/crd-client
+    components: [g31-crd]
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(31)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(31)
+    versions:
+      - version: "2.0.1"
+        basis: adopted
+        from: "2025-10-01"
+        expires: "2026-10-01"
+        cite:
+          source: fr-hti-4
+          pin: "45 CFR 170.215(j)(1)(i) as of 2025-10-01 (90 FR 37208)"
+          url: https://www.ecfr.gov/on/2025-10-01/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215
+      - version: "2.2.1"
+        basis: svap
+        from: "2026-08-29"
+        expires: "2026-10-01"
+        cite: {source: svap-2026, pin: "(g)(31): CRD 2.2.1"}
+      - version: "2.2.1"
+        basis: adopted
+        from: "2026-10-01"
+        cite:
+          source: ecfr-170-215
+          pin: "(j)(1)(i)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(j)(1)(i)
+          quote: "Da Vinci—Coverage Requirements Discovery IG [Implementation Guide], Version 2.2.1-STU 2.2"
+
+  - id: epa-cds-hooks
+    ig: hl7.fhir.uv.cds-hooks
+    actor: client
+    strength: required
+    components: [g31-crd]
+    note: The EHR fires the order-sign hook as a CDS Hooks client (§170.315(j)(20)).
+    cite:
+      source: ecfr-170-315
+      pin: "(j)(20)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(j)(20)
+    versions:
+      - version: "2.0.1"
+        basis: adopted
+        from: "2025-10-01"
+        cite:
+          source: ecfr-170-215
+          pin: "(f)(1)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(f)(1)
+          quote: "HL7 FHIR® CDS Hooks Implementation Guide, Version 2.0.1—STU 2 Release 2"
+
+  - id: epa-dtr
+    ig: hl7.fhir.us.davinci-dtr
+    actor: client
+    strength: required
+    capstmts:
+      - http://hl7.org/fhir/us/davinci-dtr/CapabilityStatement/full-dtr-ehr-700
+      - http://hl7.org/fhir/us/davinci-dtr/CapabilityStatement/full-dtr-ehr
+    components: [g32-dtr]
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(32)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(32)
+    versions:
+      - version: "2.0.1"
+        basis: adopted
+        from: "2025-10-01"
+        expires: "2026-10-01"
+        cite:
+          source: fr-hti-4
+          pin: "45 CFR 170.215(j)(2)(i) as of 2025-10-01 (90 FR 37208)"
+          url: https://www.ecfr.gov/on/2025-10-01/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215
+      - version: "2.2.0"
+        basis: svap
+        from: "2026-08-29"
+        expires: "2026-10-01"
+        cite: {source: svap-2026, pin: "(g)(32): DTR 2.2.0"}
+      - version: "2.2.0"
+        basis: adopted
+        from: "2026-10-01"
+        cite:
+          source: ecfr-170-215
+          pin: "(j)(2)(i)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(j)(2)(i)
+          quote: "Da Vinci—Documentation Templates and Rules Implementation Guide, Version 2.2.0-STU 2.2"
+
+  - id: epa-dtr-smart
+    ig: hl7.fhir.uv.smart-app-launch
+    actor: client
+    strength: required
+    capstmts: []  # SMART's only CapabilityStatement (App State) is an optional capability
+    components: [g32-dtr]
+    note: (g)(32) uses SMART Backend Services authorization from §170.215(c).
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(32)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(32)
+    versions:
+      - version: "2.0.0"
+        basis: adopted
+        from: "2025-10-01"
+        cite:
+          source: ecfr-170-215
+          pin: "(c)(2)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(c)(2)
+
+  - id: epa-pas
+    ig: hl7.fhir.us.davinci-pas
+    actor: client
+    strength: required
+    capstmts:
+      - http://hl7.org/fhir/us/davinci-pas/CapabilityStatement/EHRCapabilities
+    components: [g33-pas]
+    cite:
+      source: ecfr-170-315
+      pin: "(g)(33)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(g)(33)
+    versions:
+      - version: "2.0.1"
+        basis: adopted
+        from: "2025-10-01"
+        expires: "2026-10-01"
+        cite:
+          source: fr-hti-4
+          pin: "45 CFR 170.215(j)(3)(i) as of 2025-10-01 (90 FR 37208)"
+          url: https://www.ecfr.gov/on/2025-10-01/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215
+      - version: "2.2.1"
+        basis: svap
+        from: "2026-08-29"
+        expires: "2026-10-01"
+        cite: {source: svap-2026, pin: "(g)(33): PAS 2.2.1"}
+      - version: "2.2.1"
+        basis: adopted
+        from: "2026-10-01"
+        cite:
+          source: ecfr-170-215
+          pin: "(j)(3)(i)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(j)(3)(i)
+          quote: "Da Vinci Prior Authorization Support (PAS) FHIR Implementation Guide, Version 2.2.1-STU 2.2"
+
+  - id: epa-subscriptions
+    ig: hl7.fhir.uv.subscriptions-backport.r4
+    actor: client
+    strength: required
+    components: [g33-pas]
+    note: >-
+      Pended PAS responses arrive through a REST-hook subscription (§170.315(j)(21)). For an R4
+      system the R4 package of the Subscriptions R5 Backport applies.
+    cite:
+      source: ecfr-170-315
+      pin: "(j)(21)"
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315#p-170.315(j)(21)
+    versions:
+      - version: "1.1.0"
+        basis: adopted
+        from: "2025-10-01"
+        cite:
+          source: ecfr-170-215
+          pin: "(h)(1)"
+          url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(h)(1)
+          quote: "HL7® FHIR® Subscriptions R5 Backport Implementation Guide, Version 1.1.0—Standard for Trial Use"
+
+notes:
+  - >-
+    No date by which these criteria must be certified: "We are, therefore, not defining a specific date
+    by which these criteria must be certified" (90 FR 37168). The pressure comes from CMS's Promoting
+    Interoperability Electronic Prior Authorization measure: optional with bonus points for CY 2027,
+    required (attest or exclusion) for hospitals and CAHs from the CY 2028 EHR reporting period; the
+    same change for MIPS clinicians is proposed in the CY 2027 PFS rule, not final as of this KB.
+  - >-
+    Payers' Prior Authorization APIs under CMS-0057-F are only recommended to use CRD/DTR/PAS, and CMS's
+    page still lists 2.0.1 and 2.1.0. Expect to meet payers on older versions until CMS finalizes
+    CMS-0062-P (proposed: payers on the 170.215 versions by October 1, 2027).

@@ -1,0 +1,19 @@
+{
+ "http://fhir.org/packages/fhir.dicom/2022.4.20221006/": "403",
+ "http://fhir.org/packages/fhir.dicom/2024.1.20240120/": "403",
+ "http://fhir.org/packages/fhir.dicom/2025.3.20250714/": "403",
+ "http://fhir.org/packages/fhir.dicom/22025.2.20250411/": "404",
+ "http://fhir.org/packages/us.cdc.phinvads/0.10.0/": "403",
+ "http://fhir.org/packages/us.cdc.phinvads/0.12.0/": "403",
+ "http://fhir.org/packages/us.cdc.phinvads/0.7.0/": "403",
+ "http://fhir.org/packages/us.nlm.vsac/0.11.0/": "403",
+ "http://fhir.org/packages/us.nlm.vsac/0.15.0/": "403",
+ "http://fhir.org/packages/us.nlm.vsac/0.17.0/": "403",
+ "http://fhir.org/packages/us.nlm.vsac/0.3.0/": "403",
+ "http://fhir.org/packages/us.nlm.vsac/0.4.0/": "403",
+ "http://fhir.org/packages/us.nlm.vsac/0.7.0/": "403",
+ "http://fhir.org/packages/us.nlm.vsac/0.9.0/": "403",
+ "http://hl7.org/fhir/R4/CapabilityStatement-phr.html": "404",
+ "http://hl7.org/fhir/R5/CapabilityStatement-example-terminology-server.html": "404",
+ "http://smart.who.int/hiv/v1.0.0/": "404"
+}

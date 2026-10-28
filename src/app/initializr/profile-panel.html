@@ -1,0 +1,197 @@
+@if (p(); as p) {
+  @if (kb(); as kb) {
+    <section class="step">
+      <h2><span class="n">1</span> Where</h2>
+      <mat-button-toggle-group
+        class="realm"
+        [value]="p.realm === 'us' ? 'us' : 'intl'"
+        (change)="store.setRealmMode($event.value)"
+        aria-label="Where is the project?"
+      >
+        <mat-button-toggle value="us">United States</mat-button-toggle>
+        <mat-button-toggle value="intl">International</mat-button-toggle>
+      </mat-button-toggle-group>
+      @if (p.realm !== 'us') {
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="country">
+          <mat-label>Country</mat-label>
+          <mat-select [value]="p.realm" (selectionChange)="store.setRealm($event.value)">
+            @for (r of countries(); track r.id) {
+              <mat-option [value]="r.id">
+                {{ r.name }}
+                @if (r.id !== 'intl' && !r.packages.length) {
+                  <span class="faint"> · IPA + IPS</span>
+                }
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
+      <p class="hint">{{ foundation() }}</p>
+    </section>
+
+    <section class="step">
+      <h2><span class="n">2</span> What drives the project</h2>
+      @if (!drivers().length) {
+        <p class="hint">
+          No regulations or programs are curated for this realm yet. The national foundation above
+          is added automatically; pick the guides you need below.
+        </p>
+      } @else {
+        <p class="hint">
+          The regulation or program your system has to meet. It decides which guides and versions
+          apply.
+        </p>
+        <div class="drivers">
+          @for (d of drivers(); track d.id) {
+            <div class="driver" [class.on]="isOn(d)">
+              <mat-checkbox [checked]="isOn(d)" (change)="store.setDriver(d.id, $event.checked)">
+                <span class="dname">{{ d.short }}</span>
+                <span class="kind">{{ d.kind === 'profile' ? 'profile' : d.authority }}</span>
+              </mat-checkbox>
+              <p class="dsum">{{ d.summary }}</p>
+              @if (isOn(d) && d.sides?.length) {
+                <div class="sides reveal">
+                  <span class="lbl" [id]="d.id + '-side'">Which side is your system on?</span>
+                  <div class="side-list" role="radiogroup" [attr.aria-labelledby]="d.id + '-side'">
+                    @for (x of d.sides; track x.id) {
+                      <button
+                        type="button"
+                        class="side"
+                        role="radio"
+                        [attr.aria-checked]="sideOf(d) === x.id"
+                        [class.on]="sideOf(d) === x.id"
+                        (click)="store.setSide(d.id, x.id)"
+                      >
+                        <span class="sname">{{ x.name }}</span>
+                        <span class="ssum">{{ x.summary }}</span>
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+              @if (isOn(d) && componentsFor(d).length) {
+                <div class="comps reveal" role="group" [attr.aria-label]="d.short + ' components'">
+                  @for (c of componentsFor(d); track c.id) {
+                    <button
+                      type="button"
+                      class="chip"
+                      [class.on]="activeComponents(d).includes(c.id)"
+                      [attr.aria-pressed]="activeComponents(d).includes(c.id)"
+                      (click)="store.toggleComponent(d.id, c.id)"
+                      [matTooltip]="c.summary ?? ''"
+                    >
+                      {{ c.name }}
+                      @if (c.in_force.from) {
+                        <span class="when">{{ inForceLabel(c.in_force.from) }}</span>
+                      }
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          }
+          <div class="driver none" [class.on]="store.guidesOnly()">
+            <mat-checkbox
+              [checked]="store.guidesOnly()"
+              (change)="store.setGuidesOnly($event.checked)"
+            >
+              <span class="dname">None of these</span>
+            </mat-checkbox>
+            <p class="dsum">No regulation drives it: pick the guides you need yourself.</p>
+          </div>
+        </div>
+      }
+    </section>
+
+    @if (store.ready()) {
+      <section class="step reveal">
+        <h2><span class="n">3</span> What you're building</h2>
+        <div class="actors">
+          <mat-checkbox
+            [checked]="p.actors.includes('server')"
+            (change)="store.setActor('server', $event.checked)"
+            >FHIR server</mat-checkbox
+          >
+          <mat-checkbox
+            [checked]="p.actors.includes('client')"
+            (change)="store.setActor('client', $event.checked)"
+            >FHIR client</mat-checkbox
+          >
+        </div>
+        <p class="hint">{{ actorsHint() }}</p>
+      </section>
+
+      <section class="step reveal">
+        <h2><span class="n">4</span> Compliant as of</h2>
+        <div class="date-row">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic" class="date">
+            <mat-label>Target date</mat-label>
+            <input
+              matInput
+              type="date"
+              [ngModel]="p.asOf"
+              (ngModelChange)="store.setAsOf($event)"
+              min="2020-01-01"
+              max="2032-12-31"
+            />
+          </mat-form-field>
+          <div class="quick">
+            @for (d of quickDates; track d) {
+              <button
+                type="button"
+                class="chip"
+                [class.on]="p.asOf === d"
+                (click)="store.setAsOf(d)"
+              >
+                {{ d }}
+              </button>
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="step reveal">
+        <h2>
+          <span class="n">5</span> Workflows, capabilities &amp; content
+          @if (p.drivers.length) {
+            <span class="opt">optional</span>
+          }
+        </h2>
+        <p class="hint">
+          Pick the exchanges you do and anything else your system needs from the
+          {{ kb.catalog.length }}-guide catalog.
+        </p>
+        <button mat-stroked-button type="button" (click)="openPicker()">
+          <mat-icon fontSet="material-symbols-outlined">add</mat-icon>
+          Add guides
+        </button>
+        @if (extras().length) {
+          <mat-chip-set class="extras" aria-label="Added guides">
+            @for (e of extras(); track e.npm) {
+              <mat-chip (removed)="store.setExtra(e.npm, false)" [matTooltip]="e.npm">
+                {{ e.name }}
+                <button matChipRemove [attr.aria-label]="'Remove ' + e.name">
+                  <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
+                </button>
+              </mat-chip>
+            }
+          </mat-chip-set>
+        }
+      </section>
+
+      <section class="step reveal">
+        <h2><span class="n">6</span> Project name <span class="opt">optional</span></h2>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="name">
+          <mat-label>Used in generated files</mat-label>
+          <input
+            matInput
+            [ngModel]="p.projectName ?? ''"
+            (ngModelChange)="store.setProjectName($event)"
+            maxlength="80"
+            placeholder="acme-payer-apis"
+          />
+        </mat-form-field>
+      </section>
+    }
+  }
+}
