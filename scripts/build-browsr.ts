@@ -285,6 +285,39 @@ for (const n of national) {
   });
 }
 
+// What each release's package depends on, for the guide row's "Its package uses" line. A package
+// dependency means the guide reuses profiles, extensions or value sets from the other one, not that
+// an implementer must build to it. Left out: FHIR's base and examples packages, terminology
+// (HL7's, VSAC, PHIN VADS, DICOM, national ones), extension packs, tooling and cross-version
+// packages. Version copies and FHIR-release editions (hl7.fhir.us.core.v610, ihe.pharm.mpd.r4)
+// count as the guide Browsr lists.
+const NOT_A_GUIDE =
+  /^hl7\.fhir\.r\d+b?\.(core|examples)$|^hl7\.terminology|terminology$|-term$|^us\.nlm\.vsac$|^us\.cdc\.phinvads$|^fhir\.dicom$|\.extensions(\.r\d+b?)?$|^hl7\.fhir\.uv\.tools|\.xver-/;
+const listed = new Set(guides.map((g) => g.id));
+function guideId(dep: string): string {
+  if (listed.has(dep)) return dep;
+  const base = dep.replace(/\.(v?\d+(\.\d+)*|r\d+b?)$/, '');
+  return listed.has(base) ? base : dep;
+}
+let withUses = 0;
+for (const g of guides) {
+  for (const r of g.releases) {
+    const m = shared.manifests[`${g.id}@${r.version}`];
+    if (!m) continue;
+    r.uses = [
+      ...new Set(
+        m.dependencies
+          .map((d) => d.name)
+          .filter((n) => !NOT_A_GUIDE.test(n))
+          .map(guideId)
+          .filter((id) => id !== g.id),
+      ),
+    ];
+  }
+  if (g.releases.some((r) => r.uses?.length)) withUses++;
+}
+console.log(`package dependencies: ${withUses} guides have a release that uses another guide`);
+
 if (warnings.length) console.warn(warnings.join('\n'));
 if (errors.length) {
   console.error(errors.join('\n'));

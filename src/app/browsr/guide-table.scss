@@ -49,6 +49,38 @@ tbody tr:hover {
     margin-top: 3px;
     max-width: 62ch;
   }
+  // "Its package uses: US Core · SDC": the other guides' names, each showing that guide's row.
+  .uses {
+    margin-top: 4px;
+    max-width: 62ch;
+    color: var(--mb-muted);
+    font-size: 12.5px;
+  }
+  .dep {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--mb-text);
+    font: inherit;
+    cursor: pointer;
+    &:hover,
+    &:focus-visible {
+      color: var(--mb-lime);
+      text-decoration: underline;
+    }
+    &.plain {
+      cursor: auto;
+      color: var(--mb-muted);
+      text-decoration: none;
+    }
+  }
+  code.dep {
+    font-family: var(--mb-mono);
+    font-size: 11.5px;
+  }
+  .sep {
+    margin: 0 5px;
+  }
 }
 
 .tag {

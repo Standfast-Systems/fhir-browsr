@@ -173,6 +173,50 @@ h2 {
   }
 }
 
+// The spec's "Boundaries and Relationships" section, collapsed under the notes.
+.relations {
+  margin: 0 0 18px;
+  max-width: 72ch;
+  summary {
+    color: var(--mb-lime);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  &[open] summary {
+    margin-bottom: 8px;
+  }
+  p,
+  li {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--mb-text);
+  }
+  p {
+    margin: 0 0 10px;
+  }
+  ul {
+    margin: 0 0 10px;
+    padding-left: 20px;
+  }
+  li {
+    margin: 3px 0;
+  }
+  .rel-h {
+    margin: 14px 0 4px;
+    font-weight: 600;
+  }
+  code {
+    font-family: var(--mb-mono);
+    font-size: 12.5px;
+    color: var(--mb-info);
+  }
+  .rel-source {
+    color: var(--mb-faint);
+    font-size: 12.5px;
+  }
+}
+
 // Schema | Sample, styled like the site's other switches.
 .view-switch {
   display: inline-flex;

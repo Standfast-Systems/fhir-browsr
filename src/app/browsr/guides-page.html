@@ -275,6 +275,8 @@
       (familyChange)="store.setFamily($event)"
       (domainChange)="store.setDomain($event)"
       (pageChange)="store.setPage($event)"
+      [guides]="guideNames()"
+      (guideOpen)="openGuide($event)"
     >
       @if (view().query.trim()) {
         Nothing matches “{{ view().query }}” here. Try clearing the search or selecting more

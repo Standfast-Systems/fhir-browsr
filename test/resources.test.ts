@@ -15,6 +15,13 @@ interface Detail {
   example: string;
   schema: Row[];
   sample: { resourceType: string };
+  relations?: { h?: string; p?: Part[]; ul?: Part[][] }[];
+}
+interface Part {
+  text: string;
+  code?: boolean;
+  href?: string;
+  resource?: string;
 }
 
 const { resources } = JSON.parse(readFileSync('data/fhir-resources.json', 'utf8')) as {
@@ -65,4 +72,36 @@ test('a note splits into text, code and links', () => {
     { text: 'SDC', href: 'https://hl7.org/fhir/uv/sdc/' },
     { text: ' guide.' },
   ]);
+});
+
+test("relations: the spec's Boundaries and Relationships section, where R4 has one", () => {
+  const without = names.filter((n) => !resources[n].relations);
+  assert.deepEqual(without.sort(), ['CapabilityStatement', 'Patient']);
+  for (const name of names) {
+    for (const b of resources[name].relations ?? []) {
+      assert.equal([b.h, b.p, b.ul].filter(Boolean).length, 1, `${name}: one kind per block`);
+    }
+  }
+});
+
+test('relations: card links name real cards, other links are absolute, no markup leaks', () => {
+  for (const name of names) {
+    const parts = (resources[name].relations ?? []).flatMap((b) => [
+      ...(b.p ?? []),
+      ...(b.ul ?? []).flat(),
+    ]);
+    for (const part of parts) {
+      if (part.resource) {
+        assert.ok(names.includes(part.resource), `${name}: ${part.resource} has no card`);
+        assert.notEqual(part.resource, name, `${name}: links to itself`);
+      }
+      if (part.href) assert.match(part.href, /^https?:\/\//, `${name}: ${part.href}`);
+      assert.doesNotMatch(part.text, /<\/?[a-z]|!--|&[a-z]+;/, `${name}: "${part.text}"`);
+    }
+    // The long "This resource is referenced by" list is left out.
+    assert.ok(!parts.some((x) => x.text.includes('This resource is referenced by')), name);
+  }
+  // The financial resources' comparison table becomes a list whose names link to their cards.
+  const eob = resources['ExplanationOfBenefit'].relations!.flatMap((b) => b.ul ?? []);
+  assert.ok(eob.some((item) => item[0].resource === 'Claim' && item[1].text.startsWith(': ')));
 });

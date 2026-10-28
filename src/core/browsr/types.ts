@@ -24,6 +24,13 @@ export interface Release {
   label: string;
   /** The publisher marks this the current release in its package-list.json. */
   current?: boolean;
+  /**
+   * The guides this version's package depends on (package ids), from its package.json in the
+   * snapshot: FHIR's base, terminology, extension and tooling packages are left out, and version
+   * copies (hl7.fhir.us.core.v610) count as the guide itself. Missing when the snapshot has no
+   * manifest for this version.
+   */
+  uses?: string[];
 }
 
 export interface Guide {

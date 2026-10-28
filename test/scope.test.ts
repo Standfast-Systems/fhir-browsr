@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -300,4 +301,29 @@ test("a link in by party opens on that party's whole circle, or every region", (
   assert.deepEqual(viewForParty('provider').scope, DEFAULT_SCOPE);
   assert.equal(viewForParty('provider', 'coverage').bucket, 'coverage');
   assert.equal(viewForParty('payer').bucket, null);
+});
+
+test("a release's package uses: other guides only, version copies folded in", () => {
+  const { guides } = JSON.parse(readFileSync('public/data/guides.json', 'utf8')) as {
+    guides: Guide[];
+  };
+  const byId = new Map(guides.map((g) => [g.id, g]));
+  const uses = (id: string) => byId.get(id)!.releases.find((r) => r.uses)?.uses ?? [];
+  for (const g of guides) {
+    for (const r of g.releases) {
+      for (const id of r.uses ?? []) {
+        assert.notEqual(id, g.id, `${g.id} uses itself`);
+        assert.doesNotMatch(
+          id,
+          /^hl7\.fhir\.r\d|^hl7\.terminology|\.extensions|us\.core\.v\d|xver/,
+          id,
+        );
+      }
+    }
+  }
+  // PAS builds on US Core and the Da Vinci guides beside it; US Core's old-version copies count
+  // as US Core once.
+  const pas = uses('hl7.fhir.us.davinci-pas');
+  assert.ok(pas.includes('hl7.fhir.us.core') && pas.includes('hl7.fhir.us.davinci-crd'));
+  assert.equal(pas.filter((x) => x === 'hl7.fhir.us.core').length, 1);
 });

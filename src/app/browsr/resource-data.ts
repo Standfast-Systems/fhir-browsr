@@ -15,6 +15,23 @@ export interface SchemaRow {
   sameAs?: string;
 }
 
+/** A run of text in the spec's relations section: plain, `code`, a spec link, or another card. */
+export interface RelPart {
+  text: string;
+  code?: boolean;
+  /** A page in the FHIR spec (or elsewhere). */
+  href?: string;
+  /** A resource with its own card on this page. */
+  resource?: string;
+}
+
+/** One block of the relations section: a subheading, a paragraph, or a list. */
+export interface RelBlock {
+  h?: string;
+  p?: RelPart[];
+  ul?: RelPart[][];
+}
+
 export interface ResourceDetail {
   /** The resource's page in the R4 spec. */
   spec: string;
@@ -23,6 +40,8 @@ export interface ResourceDetail {
   schema: SchemaRow[];
   /** The official example, without its narrative, meta or extensions. */
   sample: Record<string, unknown>;
+  /** The spec page's "Boundaries and Relationships" section; Patient and CapabilityStatement have none. */
+  relations?: RelBlock[];
 }
 
 /**

@@ -32,7 +32,8 @@
           </li>
           <li>
             Its card starts with one plain sentence and, where it helps, a few things that are good
-            to know.
+            to know. <b>How it relates to other resources</b> opens the spec's own notes on where it
+            stops and others take over.
           </li>
           <li>
             <b>Schema</b> shows its key fields: the field's name, its type, how many there can be
@@ -99,6 +100,21 @@
   </p>
 </section>
 
+<!-- A run of the relations section's text: a card link, a spec link, code or plain text. -->
+<ng-template #relParts let-parts>
+  @for (part of parts; track $index) {
+    @if (part.resource) {
+      <a routerLink="/browsr/resources" [fragment]="part.resource">{{ part.text }}</a>
+    } @else if (part.href) {
+      <a [href]="part.href" target="_blank" rel="noopener">{{ part.text }}</a>
+    } @else if (part.code) {
+      <code>{{ part.text }}</code>
+    } @else {
+      <ng-container>{{ part.text }}</ng-container>
+    }
+  }
+</ng-template>
+
 <!-- One resource's card: a real one, or the made-up Example on the welcome card. -->
 <ng-template #cardBody let-c>
   <p class="group-name">{{ c.group ?? 'Example · not a real resource' }}</p>
@@ -127,13 +143,44 @@
               } @else if (part.href) {
                 <a [href]="part.href" target="_blank" rel="noopener">{{ part.text }}</a>
               } @else {
-                {{ part.text }}
+                <ng-container>{{ part.text }}</ng-container>
               }
             }
           </li>
         }
       </ul>
     </div>
+  }
+
+  <!-- The spec's own "Boundaries and Relationships" section, collapsed: it runs to several
+       paragraphs. Resources with a card here link to it; anything else opens in the spec. -->
+  @if (c.detail?.relations; as rel) {
+    <details class="relations">
+      <summary>How it relates to other resources</summary>
+      @for (b of rel; track $index) {
+        @if (b.h) {
+          <p class="rel-h">{{ b.h }}</p>
+        } @else if (b.p) {
+          <p><ng-container *ngTemplateOutlet="relParts; context: { $implicit: b.p }" /></p>
+        } @else if (b.ul) {
+          <ul>
+            @for (item of b.ul; track $index) {
+              <li><ng-container *ngTemplateOutlet="relParts; context: { $implicit: item }" /></li>
+            }
+          </ul>
+        }
+      }
+      <p class="rel-source">
+        From the
+        @if (c.spec) {
+          <a [href]="c.spec + '#bnr'" target="_blank" rel="noopener"
+            >FHIR R4 spec's Boundaries and Relationships section ↗</a
+          >
+        } @else {
+          FHIR R4 spec's Boundaries and Relationships section
+        }
+      </p>
+    </details>
   }
 
   <div class="view-switch" role="group" aria-label="Show">

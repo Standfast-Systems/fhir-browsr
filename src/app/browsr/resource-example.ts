@@ -107,4 +107,17 @@ export const EXAMPLE_DETAIL: ResourceDetail = {
     date: '2026-10-27',
     author: { reference: 'Practitioner/example' },
   },
+  relations: [
+    {
+      p: [
+        {
+          text: "Most real cards can open the spec's own notes on where a resource stops and others take over, like ",
+        },
+        { text: 'Observation', resource: 'Observation' },
+        { text: ' versus ' },
+        { text: 'DiagnosticReport', resource: 'DiagnosticReport' },
+        { text: '. Resources with a card here link to it; the rest open in the spec.' },
+      ],
+    },
+  ],
 };
