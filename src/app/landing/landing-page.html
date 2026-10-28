@@ -1,0 +1,163 @@
+<main>
+  <section class="intro">
+    <h1>FHIR <b>Matchbook</b></h1>
+    <p class="motto">Browsr, Mappr, Initializr. <b>Discover, Map, Build.</b></p>
+  </section>
+
+  <!-- The handoff's wording, one line per section. Mappr isn't built yet: no link. -->
+  <ul class="sections" aria-label="Sections">
+    <li>
+      <a routerLink="/browsr">
+        <span class="verb">Discover</span>
+        <h2>FHIR Browsr</h2>
+        <p>
+          Discover the implementation guides that apply to you, by Patient, Provider or Payer, and
+          the FHIR resources they're built from.
+        </p>
+        <span class="go">Open Browsr →</span>
+      </a>
+    </li>
+    <li class="soon">
+      <div>
+        <span class="verb">Map</span>
+        <h2>FHIR Mappr <small>coming soon</small></h2>
+        <p>
+          Describe what you're trying to do and see the guides, resources and patterns that fit.
+        </p>
+      </div>
+    </li>
+    <li>
+      <a routerLink="/initializr">
+        <span class="verb">Build</span>
+        <h2>FHIR Initializr <small class="beta">BETA</small></h2>
+        <p>Get the exact guide versions and starter config for your project.</p>
+        <span class="go">Open Initializr →</span>
+      </a>
+    </li>
+  </ul>
+
+  <section aria-labelledby="ideas">
+    <h2 id="ideas">Five ideas to know first</h2>
+    <ol class="ideas">
+      <!-- R4 profiling.html: an IG is "a coherent and bounded set of adaptations that are
+           published as a single unit"; a profile is "a set of constraints on a resource";
+           adaptations set which elements are used or added and which terminologies apply. -->
+      <li>
+        <h3>What an implementation guide and a profile are</h3>
+        <p>
+          FHIR defines about 150 general-purpose resources, such as Patient and Observation, meant
+          to be adapted. An implementation guide is a set of those adaptations, published as one
+          unit. Each adapted resource is a profile: a set of constraints saying which elements are
+          used, what's added, and which terminologies apply.
+        </p>
+      </li>
+      <!-- US Core home page: "defines the minimum constraints on the FHIR resources to create the
+           US Core Profiles", updated yearly with USCDI. 80 of the 89 US guides in Browsr with an
+           R4 package depend on US Core (snapshot manifests, 2026-10-28). -->
+      <li>
+        <h3>Almost every US guide builds on US Core</h3>
+        <p>
+          In the US, US Core sets the floor: the minimum constraints on the core resources, updated
+          each year to follow USCDI. Of the US guides here that publish an R4 package, nine in ten
+          depend on it, so it's the one to learn first.
+        </p>
+      </li>
+      <!-- Registry descriptions and Browsr's notes for CARIN Blue Button, SMART App Launch and
+           Bulk Data. -->
+      <li>
+        <h3>Some guides move data and others define it</h3>
+        <p>
+          Some guides define what a record holds, like US Core for clinical data or CARIN Blue
+          Button for claims. Others define how data moves: SMART App Launch for how an app signs in
+          and gets permission, Bulk Data for exporting many patients' records at once. A project
+          often needs one of each.
+        </p>
+      </li>
+      <!-- Initializr's knowledge base (data/kb/drivers/onc-g10.yaml, cms-0057-f.yaml), each rule
+           cited to eCFR or CMS. -->
+      <li>
+        <h3>Regulation drives much of what's adopted</h3>
+        <p>
+          In the US, a rule is often the reason a guide gets built. ONC certification's (g)(10) API
+          is built on US Core, SMART App Launch and Bulk Data. CMS-0057-F requires health plans to
+          run Patient Access, Provider Access, Payer-to-Payer and Prior Authorization APIs, and
+          recommends the Da Vinci and CARIN guides for them.
+        </p>
+      </li>
+      <!-- R4 versions.html, Trial Use: "ready for use in production systems… However, it has not
+           yet seen widespread use". 157 of the 239 guides in Browsr with a release are trial-use
+           (2026-10-28). The registry lists Patient Reported Outcomes as withdrawn. -->
+      <li>
+        <h3>Published isn't the same as used</h3>
+        <p>
+          Two in three guides here are Standard for Trial Use (STU): ready for production, in HL7's
+          words, but not yet in widespread use. The official registry still lists guides that were
+          withdrawn, such as Patient Reported Outcomes. Before you build on a guide, check that the
+          systems you exchange with support it.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="read">
+    <h2 id="read">Read first</h2>
+    <ol class="links">
+      <li>
+        <a href="https://hl7.org/fhir/us/core/" target="_blank" rel="noopener">US Core</a>: the home
+        page, then
+        <a href="https://hl7.org/fhir/us/core/general-guidance.html" target="_blank" rel="noopener"
+          >General Guidance</a
+        >, then two profiles,
+        <a
+          href="https://hl7.org/fhir/us/core/StructureDefinition-us-core-patient.html"
+          target="_blank"
+          rel="noopener"
+          >Patient</a
+        >
+        and
+        <a
+          href="https://hl7.org/fhir/us/core/StructureDefinition-us-core-observation-lab.html"
+          target="_blank"
+          rel="noopener"
+          >Laboratory Result Observation</a
+        >. Not the whole guide.
+      </li>
+      <li>
+        A first build: a plain
+        <a href="https://hl7.org/fhir/R4/questionnaire.html" target="_blank" rel="noopener"
+          >Questionnaire</a
+        >
+        and its completed form,
+        <a href="https://hl7.org/fhir/R4/questionnaireresponse.html" target="_blank" rel="noopener"
+          >QuestionnaireResponse</a
+        >. The result is a form on screen.
+      </li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="people">
+    <h2 id="people">Where the people are</h2>
+    <ul class="links">
+      <li>
+        <a href="https://chat.fhir.org/" target="_blank" rel="noopener">chat.fhir.org</a>: the FHIR
+        community's chat, where implementers and guide authors answer questions.
+      </li>
+      <li>
+        <a href="https://www.hl7.org/Special/committees/index.cfm" target="_blank" rel="noopener"
+          >HL7 work groups</a
+        >: the groups that write and maintain the guides.
+      </li>
+      <li>
+        <a href="https://www.hl7.org/events/fhir-connectathon/" target="_blank" rel="noopener"
+          >FHIR Connectathons</a
+        >: hands-on events where implementers build and test against each other.
+      </li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <p>
+    FHIR® is the registered trademark of HL7. This site isn't affiliated with or endorsed by HL7.
+  </p>
+</footer>
