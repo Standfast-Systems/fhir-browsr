@@ -1,11 +1,11 @@
 name: Refresh registry snapshot
 
-# Weekly: re-read packages.fhir.org, the IG registry and each IG's package-list.json, re-check links,
-# and open a PR listing new versions. The KB itself only changes through curator review.
+# Run by hand (Actions → Refresh registry snapshot → Run workflow): re-read packages.fhir.org, the IG
+# registry and each IG's package-list.json, re-check links, and open a PR listing new versions. The
+# KB itself only changes through curator review. To open its PR, the repo needs Settings → Actions →
+# General → "Allow GitHub Actions to create and approve pull requests".
 
 on:
-  schedule:
-    - cron: '17 6 * * 1'
   workflow_dispatch:
 
 permissions:
