@@ -12,8 +12,8 @@ summary: >-
 guides: [hl7.fhir.uv.cds-hooks, hl7.fhir.uv.subscriptions-backport]
 resources: [QuestionnaireResponse, Subscription, Task]
 inR5: >-
-  Subscriptions are built into R5, with topics defined as SubscriptionTopic resources. In R4 the
-  same model comes from the Subscriptions R5 Backport guide.
+  Subscriptions are built into R5, with topics defined as SubscriptionTopic resources. In R4, the
+  Subscriptions R5 Backport guide brings over most of that model.
 drawing:
   kind: contrast
   scenario: The same PHQ-9 depression screener, completed two ways.
@@ -35,7 +35,7 @@ drawing:
             text: with the patient
           - lane: ehr
             title: Hook fires
-            text: sends the context and waits
+            text: a custom hook, since no standard one covers a finished form yet; the EHR waits
             via: CDS Hooks
           - lane: ehr
             title: Service scores it

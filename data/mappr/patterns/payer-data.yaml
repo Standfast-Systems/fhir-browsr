@@ -6,8 +6,8 @@ kind: established
 title: Share payer data with members, providers and the next plan
 ask: I want to share a health plan's data with members, providers and the next plan
 summary: >-
-  One set of health plan data, three audiences. Members connect an app and get their claims and
-  clinical data. Providers and a member's next plan get it too, without the payment details.
+  One set of health plan data, three audiences. Members connect an app and get the most, including
+  costs. Providers and a member's next plan get it too, without the payment details.
 stack:
   moves:
     - guide: hl7.fhir.uv.smart-app-launch
@@ -17,7 +17,7 @@ stack:
     - guide: hl7.fhir.uv.bulkdata
       note: many members at once
     - guide: hl7.fhir.us.davinci-atr
-      note: which members a provider gets
+      note: the bulk export for a group of members, and attribution lists for value-based contracts
   carries:
     - guide: hl7.fhir.us.core
       note: clinical data
@@ -28,8 +28,9 @@ stack:
       note: shared Da Vinci pieces, such as matching a member across plans
 resources: [Patient, Coverage, ExplanationOfBenefit, Condition, Observation, Group]
 why: >-
-  CMS has required a Patient Access API since 2021, and CMS-0057-F adds Provider Access and
-  Payer-to-Payer APIs from January 1, 2027.
+  CMS has required Medicare Advantage, Medicaid, CHIP and federal-exchange plans to offer a Patient
+  Access API since 2021, and CMS-0057-F adds Provider Access and Payer-to-Payer APIs starting in
+  2027 (January 1, 2027 for Medicare Advantage).
 drawing:
   kind: walkthrough
   scenario: A health plan shares one member's data three ways.
@@ -44,26 +45,26 @@ drawing:
       title: Connects an app
       text: and signs in to their health plan
     - lane: app
-      title: Gets everything
+      title: Gets the most
       text: claims with costs, and clinical data
       via: SMART App Launch
     - lane: provider
       title: Asks for its patients
-      text: the members attributed to it
-      via: PDex, Bulk Data, ATR
+      text: the members it attests it treats
+      via: PDex, Bulk Data
     - lane: plan
       title: Sends their data
       text: clinical data, and claims without the payment details
     - lane: next
       title: Asks for a new member's history
-      text: after the member joins and agrees
+      text: after the member joins and opts in
       via: PDex
     - lane: plan
       title: Sends the history
-      text: the same data, without the payment details
+      text: the last five years, without the payment details
   takeaway: >-
-    One set of data, three audiences: members see everything; providers and the next plan get it
-    without the payment details.
+    One set of data, three audiences: members see the most, including costs; providers and the next
+    plan get it without the payment details.
 readFirst:
   - title: CARIN Blue Button
     url: https://hl7.org/fhir/us/carin-bb/

@@ -7,7 +7,8 @@ title: Send a referral and get the result back
 ask: I want to send a referral and get the result back
 summary: >-
   A clinician refers a patient to another service, such as a community program or a dentist, and
-  needs to hear what happened. Guides exist for both directions; few systems use them end to end.
+  needs to hear what happened. Guides exist for both directions; what's thin is using them end to
+  end.
 stack:
   moves:
     - guide: hl7.fhir.us.bser
@@ -20,8 +21,8 @@ stack:
 resources: [ServiceRequest, Task, Patient, DocumentReference]
 gap:
   thin: >-
-    Adoption is uneven. Referrals often still go by fax, a portal or a phone call, and the result
-    often doesn't come back at all.
+    Adoption is uneven. In practice, many referrals still go by fax or phone, and the loop often
+    isn't closed.
   who: >-
     HL7 work groups maintain each guide, listed on its home page, and the Gravity Project works on
     social care referrals.
@@ -55,7 +56,7 @@ drawing:
       text: and shows it to the clinician
       via: BSeR
       result: The step that's most often missing
-  takeaway: The guides cover both directions. What's thin is systems on both ends that use them.
+  takeaway: The guides cover both directions. What's thin is using them end to end.
 readFirst:
   - title: BSeR
     url: https://hl7.org/fhir/us/bser/

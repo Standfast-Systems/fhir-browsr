@@ -4,8 +4,9 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
-import { buildIndex, lookup, stem, terms } from '../src/core/mappr/lookup.ts';
+import { buildIndex, lookup, stem, terms, type Hit } from '../src/core/mappr/lookup.ts';
 import { isR5OrLater, resourceIn, resourceSpecUrl } from '../src/core/mappr/release.ts';
+import { MODEL, nearest, semanticLookup, type VectorFile } from '../src/core/mappr/semantic.ts';
 import type { MapprData } from '../src/core/mappr/types.ts';
 
 const data = JSON.parse(readFileSync('public/data/mappr.json', 'utf8')) as MapprData;
@@ -89,5 +90,35 @@ describe('release control', () => {
     const r6 = lookup(index, 'Report a death to the state', 'R6');
     const n = (r: ReturnType<typeof lookup>) => (r.tier === 'wider' ? r.guides.length : 0);
     assert.ok(n(r6) < n(r4));
+  });
+});
+
+describe('lookup by meaning', () => {
+  const vf = JSON.parse(readFileSync('data/mappr/vectors.json', 'utf8')) as VectorFile;
+  it('ships one vector per embedded text', () => {
+    assert.equal(Buffer.from(vf.data, 'base64').length, vf.entries.length * vf.dims);
+    assert.equal(vf.model, MODEL);
+  });
+  it('takes a pattern only when one is close', () => {
+    const hit = (kind: Hit['kind'], id: string, score: number): Hit => ({ kind, id, score });
+    const keep = () => true;
+    assert.equal(semanticLookup([hit('pattern', 'prior-auth', 0.77)], keep).tier, 'patterns');
+    const wider = semanticLookup(
+      [hit('pattern', 'smart-app', 0.57), hit('guide', 'hl7.fhir.uv.cardx-htn-mng', 0.59)],
+      keep,
+    );
+    assert.equal(wider.tier, 'wider');
+    assert.equal(semanticLookup([hit('pattern', 'payer-data', 0.35)], keep).tier, 'none');
+  });
+  it('finds the nearest by cosine', () => {
+    const vectors = {
+      dims: 2,
+      entries: [
+        ['guide', 'a'],
+        ['guide', 'b'],
+      ] as [Hit['kind'], string][],
+      values: new Int8Array([127, 0, 0, 127]),
+    };
+    assert.equal(nearest(vectors, [0, 1])[0].id, 'b');
   });
 });

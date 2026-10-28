@@ -6,8 +6,8 @@ kind: established
 title: Build an app that reads a patient's record
 ask: I want to build an app that reads a patient's record
 summary: >-
-  An app connects to a health system's FHIR server, the patient (or clinician) signs in and says
-  what it may read, and the app reads the record in a standard shape.
+  An app connects to a health system's FHIR server, the patient or clinician signs in, and the app
+  gets permission to read the record, in a standard shape.
 stack:
   moves:
     - guide: hl7.fhir.uv.smart-app-launch
@@ -17,8 +17,9 @@ stack:
       note: what the patient's data looks like
 resources: [Patient, Condition, Observation, AllergyIntolerance, MedicationRequest]
 why: >-
-  ONC's (g)(10) certification criterion requires certified EHRs to offer a FHIR API for
-  single-patient access, through SMART App Launch and US Core.
+  ONC's (g)(10) certification criterion requires certified health IT to offer a FHIR API for
+  single-patient access, through SMART App Launch and US Core. The versions it names are older
+  than the guides' current releases.
 drawing:
   kind: walkthrough
   scenario: A patient opens a health app and connects it to their hospital's records.
@@ -36,10 +37,10 @@ drawing:
       via: SMART App Launch
     - lane: patient
       title: Signs in and approves
-      text: chooses what the app may read
+      text: the access the app asks for
     - lane: ehr
       title: Issues an access token
-      text: limited to what the patient approved
+      text: limited to the access that was granted
       via: SMART App Launch
     - lane: app
       title: Reads the record
@@ -47,7 +48,7 @@ drawing:
       via: FHIR search, US Core
     - lane: patient
       title: Sees their data
-      text: in the app, in a shape every certified EHR shares
+      text: in the app, in the shape every EHR certified to (g)(10) supports
   takeaway: SMART App Launch decides who may read. US Core decides what the data looks like.
 readFirst:
   - title: SMART App Launch

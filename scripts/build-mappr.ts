@@ -11,6 +11,8 @@ import { parse } from 'yaml';
 import { RESOURCE_GROUPS } from '../src/app/browsr/resources-content.ts';
 import type { Dataset, Release as BrowsrRelease } from '../src/core/browsr/types.ts';
 import { isR4Resource } from '../src/core/mappr/release.ts';
+import type { VectorFile } from '../src/core/mappr/semantic.ts';
+import { embeddedTexts, textHash } from './lib/mappr-texts.ts';
 import type {
   MapprData,
   MapprGuide,
@@ -130,7 +132,20 @@ if (errors.length) {
 }
 
 const out: MapprData = { patterns, guides, resources };
+
+// The lookup's meaning-based fallback needs a vector for every text it searches, made from these
+// same texts by `npm run vectors`.
+const vectors = JSON.parse(readFileSync('data/mappr/vectors.json', 'utf8')) as VectorFile;
+if (vectors.textHash !== textHash(embeddedTexts(out))) {
+  console.error(
+    '[mappr] data/mappr/vectors.json is stale: a pattern, phrasing, guide or resource changed. ' +
+      'Run `npm run vectors` and commit the result.',
+  );
+  process.exit(1);
+}
+
 writeFileSync('public/data/mappr.json', JSON.stringify(out));
+writeFileSync('public/data/mappr-vectors.json', JSON.stringify(vectors));
 const phrasings = patterns.reduce((n, p) => n + p.phrasings.length, 0);
 console.log(
   `[mappr] mappr.json: ${patterns.length} patterns (${phrasings} phrasings), ` +

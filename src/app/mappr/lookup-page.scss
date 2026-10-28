@@ -70,6 +70,12 @@ h1 {
   }
 }
 
+.meaning {
+  margin: 22px 0 -12px;
+  color: var(--mb-faint);
+  font-size: 13px;
+}
+
 .hits {
   display: grid;
   gap: 12px;

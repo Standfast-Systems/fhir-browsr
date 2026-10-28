@@ -29,8 +29,10 @@ stack:
       note: shared Da Vinci pieces
 resources: [ServiceRequest, Coverage, Questionnaire, QuestionnaireResponse, Claim, ClaimResponse]
 why: >-
-  CMS-0057-F requires impacted payers to run a Prior Authorization API from January 1, 2027, and
-  ONC's HTI-4 rule adds certification criteria for the EHR side, (g)(31) to (g)(33).
+  CMS-0057-F requires impacted payers to run a Prior Authorization API for items and services
+  other than drugs, starting in 2027 (January 1, 2027 for Medicare Advantage); it recommends CRD,
+  DTR and PAS rather than requiring them. ONC's HTI-4 rule adds certification criteria for the EHR
+  side, (g)(31) to (g)(33).
 drawing:
   kind: walkthrough
   scenario: A clinician orders an MRI for a patient whose plan may need prior authorization.
@@ -44,7 +46,7 @@ drawing:
       text: in the EHR, as usual
     - lane: payer
       title: Is prior auth needed?
-      text: The EHR asks while the order is placed.
+      text: The EHR asks as the order is signed.
       via: CRD (CDS Hooks)
       result: "Card: yes, and documentation is needed"
     - lane: ehr
@@ -58,7 +60,7 @@ drawing:
       title: Gets the request
       text: with the documentation attached
       via: PAS
-      result: Approved, with an authorization number
+      result: "A decision: right away, or pended for review"
   takeaway: "Three guides, one job: CRD asks, DTR gathers, PAS submits."
 readFirst:
   - title: Da Vinci CRD

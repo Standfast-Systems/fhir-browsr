@@ -28,6 +28,9 @@
   }
 
   <div aria-live="polite">
+    @if (byMeaningShown()) {
+      <p class="meaning">No exact words matched, so this is matched by meaning.</p>
+    }
     @switch (result()?.tier) {
       @case ('patterns') {
         <p class="lead">{{ patterns().length === 1 ? 'A pattern fits' : 'These patterns fit' }}:</p>
@@ -105,7 +108,11 @@
         }
       }
       @case ('none') {
-        <p class="lead none">No good match.</p>
+        @if (thinking()) {
+          <p class="lead">Looking for a match by meaning…</p>
+        } @else {
+          <p class="lead none">No good match.</p>
+        }
       }
     }
   </div>
