@@ -27,104 +27,153 @@
     <p class="error" role="alert">{{ err }}</p>
   }
 
-  <div aria-live="polite">
-    @if (byMeaningShown()) {
-      <p class="meaning">No exact words matched, so this is matched by meaning.</p>
-    }
-    @switch (result()?.tier) {
-      @case ('patterns') {
-        <p class="lead">{{ patterns().length === 1 ? 'A pattern fits' : 'These patterns fit' }}:</p>
-        <ul class="hits">
-          @for (x of patterns(); track x.p.id) {
-            <li class="hit pattern">
-              <a routerLink="/mappr/patterns" [fragment]="x.p.id">
-                <span class="eyebrow">{{ x.label }}</span>
-                <h2>{{ x.p.title }}</h2>
-                <p>{{ x.p.summary }}</p>
-                @if (x.guides.length) {
-                  <p class="guides">{{ x.guides.join(' · ') }}</p>
-                }
-                <span class="go">See the pattern →</span>
-              </a>
-            </li>
-          }
-        </ul>
+  <div aria-live="polite" [attr.aria-busy]="matching()">
+    @if (matching()) {
+      <!-- Words found nothing yet: the meaning match (or the data) is on its way. -->
+      <p class="matching" role="status">
+        <span class="spinner" aria-hidden="true"></span>Matching…
+      </p>
+    } @else if (!tooShort()) {
+      @if (byMeaningShown()) {
+        <p class="meaning">No exact words matched, so this is matched by meaning.</p>
       }
-      @case ('wider') {
-        @if (wider(); as w) {
+      @switch (result()?.tier) {
+        @case ('patterns') {
           <p class="lead">
-            No pattern covers that yet. These match
-            @if (w.guides.length) {
-              ({{ w.guides.length }} {{ w.guides.length === 1 ? 'guide' : 'guides' }} published for
-              {{ releaseLabel() }}):
-            } @else {
-              (no guides published for {{ releaseLabel() }}):
-            }
+            {{ patterns().length === 1 ? 'A pattern fits' : 'These patterns fit' }}:
           </p>
-          <div class="wider">
-            @if (w.guides.length) {
-              <section>
-                <h2>Guides</h2>
-                <ul>
-                  @for (x of w.guides; track x.g.id) {
-                    <li>
-                      @if (x.g.inBrowsr) {
-                        <a routerLink="/browsr/guides" [queryParams]="{ guide: x.g.id }">{{
-                          x.g.name
-                        }}</a>
-                      } @else {
-                        <span>{{ x.g.name }}</span>
-                      }
-                      <a class="ext" [href]="x.g.url" target="_blank" rel="noopener"
-                        ><span class="visually-hidden">{{ x.g.name }}: the guide's own page</span
-                        >↗</a
-                      >
-                      <span class="blurb">{{ x.g.blurb }}</span>
-                      @for (p of x.in; track p.id) {
-                        <a class="in" routerLink="/mappr/patterns" [fragment]="p.id"
-                          >Part of: {{ p.title }}</a
-                        >
-                      }
-                    </li>
+          <ul class="hits">
+            @for (x of patterns(); track x.p.id) {
+              <li class="hit pattern">
+                <a class="head" routerLink="/mappr/patterns" [fragment]="x.p.id">
+                  <span class="eyebrow">{{ x.label }}</span>
+                  <h2>{{ x.p.title }}</h2>
+                  <p>{{ x.p.summary }}</p>
+                </a>
+                <!-- The pattern's pieces, each opening where Browsr explains it. -->
+                <dl class="pieces">
+                  @if (x.guides.length) {
+                    <div>
+                      <dt>Guides</dt>
+                      <dd>
+                        @for (g of x.guides; track g.id) {
+                          @if (g.inBrowsr) {
+                            <a routerLink="/browsr/guides" [queryParams]="{ guide: g.id }">{{
+                              g.name
+                            }}</a>
+                          } @else if (g.url) {
+                            <a [href]="g.url" target="_blank" rel="noopener">{{ g.name }} ↗</a>
+                          } @else {
+                            <span>{{ g.name }}</span>
+                          }
+                          @if (!$last) {
+                            <span class="sep" aria-hidden="true">&nbsp;· </span>
+                          }
+                        }
+                      </dd>
+                    </div>
                   }
-                </ul>
-              </section>
-            }
-            @if (w.resources.length) {
-              <section>
-                <h2>Resources</h2>
-                <ul>
-                  @for (x of w.resources; track x.r.name) {
-                    <li>
-                      <a routerLink="/browsr/resources" [fragment]="x.r.name" class="mono">{{
-                        x.r.name
-                      }}</a>
-                      @if (x.url) {
-                        <a class="ext" [href]="x.url" target="_blank" rel="noopener"
-                          >{{ x.here !== x.r.name ? x.here + ' in ' : '' }}{{ releaseLabel() }} spec
-                          ↗</a
-                        >
-                      } @else {
-                        <span class="ext gone">not in {{ releaseLabel() }}</span>
-                      }
-                      <span class="blurb">{{ x.r.blurb }}</span>
-                      @for (p of x.in; track p.id) {
-                        <a class="in" routerLink="/mappr/patterns" [fragment]="p.id"
-                          >Part of: {{ p.title }}</a
-                        >
-                      }
-                    </li>
+                  @if (x.resources.length) {
+                    <div>
+                      <dt>Resources</dt>
+                      <dd>
+                        @for (r of x.resources; track r.name) {
+                          @if (r.card) {
+                            <a class="mono" routerLink="/browsr/resources" [fragment]="r.name">{{
+                              r.name
+                            }}</a>
+                          } @else if (r.url) {
+                            <a class="mono" [href]="r.url" target="_blank" rel="noopener"
+                              >{{ r.name }} ↗</a
+                            >
+                          } @else {
+                            <span class="mono">{{ r.name }}</span>
+                          }
+                          @if (!$last) {
+                            <span class="sep" aria-hidden="true">&nbsp;· </span>
+                          }
+                        }
+                      </dd>
+                    </div>
                   }
-                </ul>
-              </section>
+                </dl>
+                <a class="go" routerLink="/mappr/patterns" [fragment]="x.p.id">See the pattern →</a>
+              </li>
             }
-          </div>
+          </ul>
         }
-      }
-      @case ('none') {
-        @if (thinking()) {
-          <p class="lead">Looking for a match by meaning…</p>
-        } @else {
+        @case ('wider') {
+          @if (wider(); as w) {
+            <p class="lead">
+              No pattern covers that yet. These match
+              @if (w.guides.length) {
+                ({{ w.guides.length }} {{ w.guides.length === 1 ? 'guide' : 'guides' }} published
+                for {{ releaseLabel() }}):
+              } @else {
+                (no guides published for {{ releaseLabel() }}):
+              }
+            </p>
+            <div class="wider">
+              @if (w.guides.length) {
+                <section>
+                  <h2>Guides</h2>
+                  <ul>
+                    @for (x of w.guides; track x.g.id) {
+                      <li>
+                        @if (x.g.inBrowsr) {
+                          <a routerLink="/browsr/guides" [queryParams]="{ guide: x.g.id }">{{
+                            x.g.name
+                          }}</a>
+                        } @else {
+                          <span>{{ x.g.name }}</span>
+                        }
+                        <a class="ext" [href]="x.g.url" target="_blank" rel="noopener"
+                          ><span class="visually-hidden">{{ x.g.name }}: the guide's own page</span
+                          >↗</a
+                        >
+                        <span class="blurb">{{ x.g.blurb }}</span>
+                        @for (p of x.in; track p.id) {
+                          <a class="in" routerLink="/mappr/patterns" [fragment]="p.id"
+                            >Part of: {{ p.title }}</a
+                          >
+                        }
+                      </li>
+                    }
+                  </ul>
+                </section>
+              }
+              @if (w.resources.length) {
+                <section>
+                  <h2>Resources</h2>
+                  <ul>
+                    @for (x of w.resources; track x.r.name) {
+                      <li>
+                        <a routerLink="/browsr/resources" [fragment]="x.r.name" class="mono">{{
+                          x.r.name
+                        }}</a>
+                        @if (x.url) {
+                          <a class="ext" [href]="x.url" target="_blank" rel="noopener"
+                            >{{ x.here !== x.r.name ? x.here + ' in ' : ''
+                            }}{{ releaseLabel() }} spec ↗</a
+                          >
+                        } @else {
+                          <span class="ext gone">not in {{ releaseLabel() }}</span>
+                        }
+                        <span class="blurb">{{ x.r.blurb }}</span>
+                        @for (p of x.in; track p.id) {
+                          <a class="in" routerLink="/mappr/patterns" [fragment]="p.id"
+                            >Part of: {{ p.title }}</a
+                          >
+                        }
+                      </li>
+                    }
+                  </ul>
+                </section>
+              }
+            </div>
+          }
+        }
+        @case ('none') {
           <p class="lead none">No good match.</p>
           <!-- Nothing fits the words or the meaning: a few questions (src/core/mappr/guide.ts)
                point to the right page in Browsr, Mappr or Initializr. -->
