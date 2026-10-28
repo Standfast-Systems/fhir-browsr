@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { paginate, type ScopedGuide, type SortKey } from '../core/scope';
-import { PARTIES, type Domain, type Family, type Party } from '../core/types';
+import { paginate, type ScopedGuide, type SortKey } from '../../core/browsr/scope';
+import { PARTIES, type Domain, type Family, type Party } from '../../core/browsr/types';
 
 const PAGE_SIZE = 12;
 const STATUS: Record<string, { text: string; tone: 'good' | 'ok' | 'warn' | 'plain' }> = {

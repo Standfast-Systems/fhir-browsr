@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import type { Dataset } from '../core/types';
+import type { Dataset } from '../../core/browsr/types';
 
 /**
  * The guide list (public/data/guides.json), loaded once for the whole app, so going to the FHIR

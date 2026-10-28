@@ -4,8 +4,8 @@
 // data/national-cores.yaml rather than from ig-map.yaml.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { parse } from 'yaml';
-import type { NationalCore, RegistryEntry } from '../src/core/national.ts';
-import { DEFAULT_SCOPE, REGIONS, applyScope, countByRegion } from '../src/core/scope.ts';
+import type { NationalCore, RegistryEntry } from '../src/core/browsr/national.ts';
+import { DEFAULT_SCOPE, REGIONS, applyScope, countByRegion } from '../src/core/browsr/scope.ts';
 import type {
   Bucket,
   Dataset,
@@ -16,7 +16,7 @@ import type {
   Party,
   Release,
   Use,
-} from '../src/core/types.ts';
+} from '../src/core/browsr/types.ts';
 
 interface MapGuide {
   npm: string;

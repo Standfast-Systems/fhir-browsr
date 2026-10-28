@@ -3,7 +3,7 @@
 //
 //   npm run resources
 //
-// For every resource in src/app/resources-content.ts:
+// For every resource in src/app/browsr/resources-content.ts:
 // - schema: every top-level field (housekeeping like meta and extension left out), with
 //   cardinality, type and the spec's own short description. The key fields, hand-picked below as
 //   what a newcomer meets first, are flagged: the page shows those and offers "show all fields".
@@ -12,7 +12,7 @@
 // - sample: the spec's official example with the narrative (text), meta and extensions dropped, so
 //   it matches the table. The page trims it to the key fields until "show all fields" is chosen.
 import { writeFileSync } from 'node:fs';
-import { RESOURCE_GROUPS } from '../src/app/resources-content.ts';
+import { RESOURCE_GROUPS } from '../src/app/browsr/resources-content.ts';
 
 const R4 = 'https://hl7.org/fhir/R4';
 

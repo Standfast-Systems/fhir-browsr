@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { REGIONS, type RegionKey } from '../core/scope';
-import type { Party } from '../core/types';
-import { vennLayout } from '../core/venn';
+import { REGIONS, type RegionKey } from '../../core/browsr/scope';
+import type { Party } from '../../core/browsr/types';
+import { vennLayout } from '../../core/browsr/venn';
 
 const PARTY_TEXT: Record<Party, { name: string; hint: string }> = {
   patient: { name: 'Patient', hint: 'apps people use for their own health' },

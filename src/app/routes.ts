@@ -1,6 +1,6 @@
 import type { Routes } from '@angular/router';
-import { GuidesPage } from './guides-page';
-import { ResourcesPage } from './resources-page';
+import { GuidesPage } from './browsr/guides-page';
+import { ResourcesPage } from './browsr/resources-page';
 
 // First the pieces, then the guides: the site opens on the FHIR Resources page.
 export const routes: Routes = [

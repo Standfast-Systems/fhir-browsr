@@ -7,8 +7,8 @@ import {
   type RegionKey,
   type SortKey,
   type ViewState,
-} from '../core/scope';
-import type { Country, Party, ScopeOptions } from '../core/types';
+} from '../../core/browsr/scope';
+import type { Country, Party, ScopeOptions } from '../../core/browsr/types';
 
 /**
  * What the visitor is looking at: US or International, the selected regions, the scope toggles,

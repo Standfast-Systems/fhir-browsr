@@ -10,7 +10,7 @@
 // back to the editions the registry itself lists, which carry no status or date.
 import { readFileSync, writeFileSync } from 'node:fs';
 import { parse } from 'yaml';
-import type { NationalCore, RegistryEntry } from '../src/core/national.ts';
+import type { NationalCore, RegistryEntry } from '../src/core/browsr/national.ts';
 
 const REGISTRY = 'https://raw.githubusercontent.com/FHIR/ig-registry/master/fhir-ig-list.json';
 const CONCURRENCY = 8;

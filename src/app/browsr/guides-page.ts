@@ -15,8 +15,8 @@ import {
   type Region,
   type RegionKey,
   type ScopedGuide,
-} from '../core/scope';
-import type { Domain, Family, ScopeOptions } from '../core/types';
+} from '../../core/browsr/scope';
+import type { Domain, Family, ScopeOptions } from '../../core/browsr/types';
 import { GuideData } from './guide-data';
 import { GuideTable } from './guide-table';
 import { Venn } from './venn';

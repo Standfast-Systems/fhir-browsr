@@ -13,9 +13,9 @@ import {
   pickRelease,
   regionOf,
   sortGuides,
-} from '../src/core/scope.ts';
-import { inside, vennLayout } from '../src/core/venn.ts';
-import type { Guide, Release } from '../src/core/types.ts';
+} from '../src/core/browsr/scope.ts';
+import { inside, vennLayout } from '../src/core/browsr/venn.ts';
+import type { Guide, Release } from '../src/core/browsr/types.ts';
 
 const rel = (version: string, status: string | null, fhir: Release['fhir'] = ['R4']): Release => ({
   version,
