@@ -112,6 +112,37 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
                   }
                 </div>
                 <div class="blurb">{{ g.blurb }}</div>
+                <!-- What this version's package depends on: another guide's row, where Browsr can
+                     show it. Reusing a package isn't the same as having to build to it. -->
+                @if (g.release.uses?.length) {
+                  <div
+                    class="uses"
+                    title="Guides whose profiles, extensions or value sets this guide's package reuses. Building to this guide doesn't mean building to all of them."
+                  >
+                    Its package uses:
+                    @for (id of g.release.uses; track id) {
+                      @if (guides().get(id); as d) {
+                        @if (d.linked) {
+                          <button
+                            type="button"
+                            class="dep"
+                            [attr.title]="'Show ' + d.name"
+                            (click)="guideOpen.emit(id)"
+                          >
+                            {{ d.name }}
+                          </button>
+                        } @else {
+                          <span class="dep plain">{{ d.name }}</span>
+                        }
+                      } @else {
+                        <code class="dep plain">{{ id }}</code>
+                      }
+                      @if (!$last) {
+                        <span class="sep" aria-hidden="true">·</span>
+                      }
+                    }
+                  </div>
+                }
               </td>
               <td class="parties">
                 @for (p of parties; track p) {
@@ -196,6 +227,10 @@ export class GuideTable {
   readonly domainChange = output<string>();
   /** The Mappr patterns each guide is part of. */
   readonly usedIn = input<PatternsByGuide>({});
+  /** Every guide's name, and whether its row can be shown (the "Its package uses" links). */
+  readonly guides = input<ReadonlyMap<string, { name: string; linked: boolean }>>(new Map());
+  /** A guide in a row's "Its package uses" line was clicked: show that guide's row. */
+  readonly guideOpen = output<string>();
 
   protected readonly parties = PARTIES;
   protected readonly partyName = PARTY_NAME;

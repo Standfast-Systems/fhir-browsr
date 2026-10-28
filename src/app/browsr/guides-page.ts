@@ -262,5 +262,20 @@ export class GuidesPage {
           `core guides, from HL7 and its national affiliates, IHE, WHO and national health authorities`;
   });
 
+  /** Names for the rows' "Its package uses" line, and which of those guides have a row to show. */
+  protected readonly guideNames = computed(
+    () =>
+      new Map(
+        (this.data()?.guides ?? []).map((g) => [g.id, { name: g.name, linked: !!viewFor(g) }]),
+      ),
+  );
+
+  /** Show one guide's row, as a link in from Mappr would. */
+  protected openGuide(id: string) {
+    const g = this.data()?.guides.find((x) => x.id === id);
+    const view = g && viewFor(g);
+    if (view) this.store.show(view);
+  }
+
   protected readonly snapshotDate = computed(() => this.data()?.snapshot.slice(0, 10) ?? '');
 }

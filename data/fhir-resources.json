@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-27T23:37:16.620Z",
+ "generated": "2026-10-28T18:04:56.866Z",
  "source": "https://hl7.org/fhir/R4",
  "resources": {
   "Patient": {
@@ -553,7 +553,86 @@
       }
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "The Resource SHALL NOT be used for persons involved without a formal responsibility like individuals taking care for friends, relatives or neighbors. These can be registered as a Patient's Contact. If performing some action or being referenced by another resource, use the "
+      },
+      {
+       "text": "RelatedPerson",
+       "href": "https://hl7.org/fhir/R4/relatedperson.html"
+      },
+      {
+       "text": " resource."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The primary distinction between a Practitioner and a RelatedPerson is based on whether:"
+      }
+     ]
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "The person/animal operates on behalf of the care delivery organization over multiple patients (Practitioner) or,"
+       }
+      ],
+      [
+       {
+        "text": "Where the person/animal is not associated with the organization, and instead is allocated tasks specifically for the RelatedPerson's Patient (RelatedPerson)."
+       }
+      ]
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "A standard extension "
+      },
+      {
+       "text": "animalSpecies",
+       "href": "https://hl7.org/fhir/R4/extension-practitioner-animalspecies.html"
+      },
+      {
+       "text": " can be used to indicate the species of a service animal."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The "
+      },
+      {
+       "text": "PractitionerRole",
+       "resource": "PractitionerRole"
+      },
+      {
+       "text": " resource provides the details of roles that the practitioner is approved to perform for which organizations (and at which locations, and optionally what services too)."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Practitioners are also often grouped into "
+      },
+      {
+       "text": "CareTeams",
+       "href": "https://hl7.org/fhir/R4/careteam.html"
+      },
+      {
+       "text": " independently of roles, where the CareTeam defines what specific role that they are fulfilling within the team, and might or might not have actual practitioner role resources created for the practitioner (and in the care team context, the organization the practitioner is representing)"
+      }
+     ]
+    }
+   ]
   },
   "PractitionerRole": {
    "spec": "https://hl7.org/fhir/R4/practitionerrole.html",
@@ -817,7 +896,37 @@
       "reference": "Endpoint/example"
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "Qualifications (from the Practitioner resource) do not imply a Role, but might be considered when an Organization allocates practitioners to roles within their organization, and could provide useful information (such as expiry information) which could need to be tracked in some situations to ensure they continue to be eligible for a specific role."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The "
+      },
+      {
+       "text": "CareTeam",
+       "href": "https://hl7.org/fhir/R4/careteam.html"
+      },
+      {
+       "text": " resource is also often used to provide details of a role that a practitioner is allocated to perform, but is usually scoped to a much finer granularity of care, and often within the specific context of a "
+      },
+      {
+       "text": "Patient",
+       "resource": "Patient"
+      },
+      {
+       "text": ", or functional role (e.g. Crisis planning team). In contrast the PractitionerRole is used in a more general sense to cover all the places that the practitioner is allocated to work (and specific details relevant to that role - such as a specific contact number, or electronic services endpoint)."
+      }
+     ]
+    }
+   ]
   },
   "Organization": {
    "spec": "https://hl7.org/fhir/R4/organization.html",
@@ -971,7 +1080,30 @@
       "reference": "Endpoint/example"
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "The Organization resource is used for collections of people that have come together to achieve an objective. The "
+      },
+      {
+       "text": "Group",
+       "href": "https://hl7.org/fhir/R4/group.html"
+      },
+      {
+       "text": " resource is used to identify a collection of people (or animals, devices, etc.) that are gathered for the purpose of analysis or acting upon, but are not expected to act themselves."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The Organization resource often exists as a hierarchy of organization resources, using the part-of property to provide the association of the child to its parent organization.  This organizational hierarchy helps communicate the conceptual structure, whereas the Location resource provides the physical representation of the hierarchy.  The linkage between Organization and Location is from each point in the location hierarchy to the appropriate level in the Organization hierarchy. These links don't all have to be to the top level Organization.  When populating the organization and location hierarchies there is often not a clear distinction between these 2, however to assist in making the decision, Locations are always used for recording where a service occurs, and hence where encounters and observations are associated. The Organization property on these resources might not be the location where the service took place."
+      }
+     ]
+    }
+   ]
   },
   "Location": {
    "spec": "https://hl7.org/fhir/R4/location.html",
@@ -1235,7 +1367,59 @@
       "reference": "Endpoint/example"
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "Locations and Organizations are very closely related resources and can often be mixed/matched/confused.  The Location is intended to describe the more physical structures managed/operated by an organization, whereas the Organization is intended to represent the more conceptual hierarchies, such as a ward."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "A Location is valid without an address in cases where it could be purely described by a geo-coded location in remote areas, or when recorded by a device. Locations with a mode = \"kind\" would also likely not have an address, as they are just a type of location, but could also have an address where they can be found at the address."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Another use of location could be for describing a Jurisdiction. This jurisdiction may be considered a classified boundary which could be a combination of a physical boundary, and some other discriminator(s):"
+      }
+     ]
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "Nation - Country-wide community or Federal Government (Ministry of Health)"
+       }
+      ],
+      [
+       {
+        "text": "Province or State (community or Government)"
+       }
+      ],
+      [
+       {
+        "text": "Business (throughout an enterprise)"
+       }
+      ],
+      [
+       {
+        "text": "Business scope (CDC/FDA)"
+       }
+      ],
+      [
+       {
+        "text": "Business segment (UK Pharmacy)"
+       }
+      ]
+     ]
+    }
+   ]
   },
   "Observation": {
    "spec": "https://hl7.org/fhir/R4/observation.html",
@@ -1568,7 +1752,128 @@
      "system": "http://unitsofmeasure.org",
      "code": "[lb_av]"
     }
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "At its core, Observation allows expressing a name-value pair or structured collection of name-value pairs. As such, it can support conveying any type of information desired. However, that is not its intent. Observation is intended for capturing measurements and subjective point-in-time assessments. It is not intended to be used for those specific contexts and use cases already covered by other FHIR resources. For example, the "
+      },
+      {
+       "text": "AllergyIntolerance",
+       "resource": "AllergyIntolerance"
+      },
+      {
+       "text": " resource represents a patient allergies, "
+      },
+      {
+       "text": "MedicationStatement",
+       "href": "https://hl7.org/fhir/R4/medicationstatement.html"
+      },
+      {
+       "text": " resource: medications taken by a patient, "
+      },
+      {
+       "text": " FamilyMemberHistory",
+       "href": "https://hl7.org/fhir/R4/familymemberhistory.html"
+      },
+      {
+       "text": " resource: a patient's family history, "
+      },
+      {
+       "text": "Procedure",
+       "resource": "Procedure"
+      },
+      {
+       "text": " resource: information about a procedure, and "
+      },
+      {
+       "text": "QuestionnaireResponse",
+       "resource": "QuestionnaireResponse"
+      },
+      {
+       "text": " resource: a set of answers to a set of questions. The Observation resource should not be used to record clinical diagnosis about a patient or subject that are typically captured in the "
+      },
+      {
+       "text": "Condition",
+       "resource": "Condition"
+      },
+      {
+       "text": " resource or the ClinicalImpression resource. The Observation resource is often referenced by the Condition resource to provide specific subjective and objective data to support its assertions. There will however be situations of overlap. For example, a response to a question of \"have you ever taken illicit drugs\" could in principle be represented using MedicationStatement, but most systems would treat such an assertion as an Observation. In some cases, such as when source data is coming from an "
+      },
+      {
+       "text": "HL7 v2 ",
+       "href": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=185"
+      },
+      {
+       "text": " feed, a system might not have information that allows it to distinguish diagnosis, allergy and other \"specialized\" types of observations from laboratory, vital sign and other observation types intended to be conveyed with this resource. In those circumstances, such specialized observations may also appear using this resource. Adhering to such convention is an appropriate use of Observation. If implementers are uncertain whether a proposed use of Observation is appropriate, they're encouraged to consult with implementers on "
+      },
+      {
+       "text": " chat.fhir.org implementer's stream ",
+       "href": "https://chat.fhir.org/"
+      },
+      {
+       "text": ""
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The "
+      },
+      {
+       "text": "Media",
+       "href": "https://hl7.org/fhir/R4/media.html"
+      },
+      {
+       "text": " resource captures a specific type of observation whose value is audio, video or image data. This resource is used instead of Observation to represent such forms of information as it exposes the metadata relevant for interpreting the information. See Media's "
+      },
+      {
+       "text": "boundaries section",
+       "href": "https://hl7.org/fhir/R4/media.html#bnr"
+      },
+      {
+       "text": " to see how Media (and Observation) differs from "
+      },
+      {
+       "text": "ImagingStudy",
+       "href": "https://hl7.org/fhir/R4/imagingstudy.html"
+      },
+      {
+       "text": " and "
+      },
+      {
+       "text": "DocumentReference",
+       "resource": "DocumentReference"
+      },
+      {
+       "text": "."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "In contrast to the Observation resource, the "
+      },
+      {
+       "text": "DiagnosticReport",
+       "resource": "DiagnosticReport"
+      },
+      {
+       "text": " resource typically includes additional clinical context and some mix of atomic results, images, imaging reports, textual and coded interpretation, and formatted representations. Laboratory reports, pathology reports, and imaging reports should be represented using the DiagnosticReport resource. The Observation resource is referenced by the DiagnosticReport to provide the atomic results for a particular investigation. \"Laboratories routinely have a variable that is summative across a series of discrete variables - these are usually called 'impressions' or 'interpretations'. Sometimes they are algorithmically specified and sometimes they have the imprimatur of pathologists and they are conveyed in Observation or DiagnosticReport instead of the "
+      },
+      {
+       "text": "Clinical Impression",
+       "href": "https://hl7.org/fhir/R4/clinicalimpression.html"
+      },
+      {
+       "text": " resource. The Observation resource should not be used to record clinical diagnosis about a patient or subject as discussed above."
+      }
+     ]
+    }
+   ]
   },
   "Condition": {
    "spec": "https://hl7.org/fhir/R4/condition.html",
@@ -1820,7 +2125,93 @@
      "reference": "Patient/example"
     },
     "onsetDateTime": "2012-05-24"
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "The condition resource may be referenced by other resources as \"reasons\" for an action (e.g. "
+      },
+      {
+       "text": "MedicationRequest",
+       "resource": "MedicationRequest"
+      },
+      {
+       "text": ", "
+      },
+      {
+       "text": "Procedure",
+       "resource": "Procedure"
+      },
+      {
+       "text": ", "
+      },
+      {
+       "text": "ServiceRequest",
+       "resource": "ServiceRequest"
+      },
+      {
+       "text": ", etc.)"
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "This resource is not typically used to record information about subjective and objective information that might lead to the recording of a Condition resource. Such signs and symptoms are typically captured using the "
+      },
+      {
+       "text": "Observation",
+       "resource": "Observation"
+      },
+      {
+       "text": " resource; although in some cases a persistent symptom, e.g. fever, headache may be captured as a condition before a definitive diagnosis can be discerned by a clinician. By contrast, headache may be captured as an Observation when it contributes to the establishment of a meningitis Condition."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Use the "
+      },
+      {
+       "text": "Observation",
+       "resource": "Observation"
+      },
+      {
+       "text": " resource when a symptom is resolved without long term management, tracking, or when a symptom contributes to the establishment of a condition."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Use Condition when a symptom requires long term management, tracking, or is used as a proxy for a diagnosis or problem that is not yet determined."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "When the diagnosis is related to an allergy or intolerance, the Condition and "
+      },
+      {
+       "text": "AllergyIntolerance",
+       "resource": "AllergyIntolerance"
+      },
+      {
+       "text": " resources can both be used. However, to be actionable for decision support, using Condition alone is not sufficient as the allergy or intolerance condition needs to be represented as an "
+      },
+      {
+       "text": "AllergyIntolerance",
+       "resource": "AllergyIntolerance"
+      },
+      {
+       "text": "."
+      }
+     ]
+    }
+   ]
   },
   "Procedure": {
    "spec": "https://hl7.org/fhir/R4/procedure.html",
@@ -2139,7 +2530,100 @@
       "text": "Routine Appendectomy. Appendix was inflamed and in retro-caecal position"
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "The Procedure resource should not be used to capture an event if a more specific resource already exists - i.e. "
+      },
+      {
+       "text": "immunizations",
+       "href": "https://hl7.org/fhir/R4/immunization.html"
+      },
+      {
+       "text": ", "
+      },
+      {
+       "text": "drug administrations",
+       "href": "https://hl7.org/fhir/R4/medicationadministration.html"
+      },
+      {
+       "text": " and "
+      },
+      {
+       "text": "communications",
+       "href": "https://hl7.org/fhir/R4/communication.html"
+      },
+      {
+       "text": ". The boundary between determining whether an action is a Procedure (training or counseling) as opposed to a Communication is based on whether there's a specific intent to change the mind-set of the patient. Mere disclosure of information would be considered a Communication. A process that involves verification of the patient's comprehension or to change the patient's mental state would be a Procedure."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Note that many diagnostic processes are procedures that generate "
+      },
+      {
+       "text": "Observations",
+       "resource": "Observation"
+      },
+      {
+       "text": " and "
+      },
+      {
+       "text": "DiagnosticReports",
+       "resource": "DiagnosticReport"
+      },
+      {
+       "text": ". In many cases, such an observation does not require an explicit representation of the procedure used to create the observation, but where there are details of interest about how the diagnostic procedure was performed, the Procedure resource is used to describe the activity."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Some diagnostic procedures might not have a Procedure record. The Procedure record is only necessary when there is a need to capture information about the physical intervention that was performed to capture the diagnostic information (e.g. anesthetic, incision, scope size, etc.)"
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "A "
+      },
+      {
+       "text": "Task",
+       "resource": "Task"
+      },
+      {
+       "text": " is a workflow step such as cancelling an order, fulfilling an order, signing an order, merging a set of records, admitting a patient. Procedures are actions that are intended to result in a physical or mental change to or for the subject (e.g. surgery, physiotherapy, training, counseling). A "
+      },
+      {
+       "text": "Task",
+       "resource": "Task"
+      },
+      {
+       "text": " resource often exists in parallel with clinical resources. For example, a "
+      },
+      {
+       "text": "Task",
+       "resource": "Task"
+      },
+      {
+       "text": " might request fulfillment of a "
+      },
+      {
+       "text": "ServiceRequest",
+       "resource": "ServiceRequest"
+      },
+      {
+       "text": " ordering a Procedure."
+      }
+     ]
+    }
+   ]
   },
   "AllergyIntolerance": {
    "spec": "https://hl7.org/fhir/R4/allergyintolerance.html",
@@ -2439,7 +2923,274 @@
       ]
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "This resource is used to provide a single place within the health record to document a range of clinical statements about adverse reactions to substances/products, including:"
+      }
+     ]
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "record a clinical assessment of the individual's propensity to a potential future reaction upon re-exposure"
+       }
+      ],
+      [
+       {
+        "text": "record cumulative information about the reaction to each exposure, including 'no reaction' if appropriate"
+       }
+      ]
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Use to record information about the positive presence of the risk of an adverse reaction:"
+      }
+     ]
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "to support direct clinical care of an individual"
+       }
+      ],
+      [
+       {
+        "text": "as part of a managed adverse reaction or allergy/intolerance list"
+       }
+      ],
+      [
+       {
+        "text": "to support exchange of information about the propensity and events related to adverse reactions"
+       }
+      ],
+      [
+       {
+        "text": "to inform adverse reaction reporting"
+       }
+      ],
+      [
+       {
+        "text": "to assist computerized knowledge-based activities such as clinical decision support and alerts"
+       }
+      ]
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Use to record information about adverse reactions to a broad range of substances, including: biological & blood products; incipients and excipients in medicinal preparations; foods; metal salts; and organic chemical compounds."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Adverse reactions may be:"
+      }
+     ]
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "an allergy (typically type I hypersensitivity, plus other \"allergy-like\" reactions, including pseudoallergy)"
+       }
+      ],
+      [
+       {
+        "text": "an intolerance (typically non-immune adverse reactions that are not determined or perceived to be allergic or \"allergy-like\", and are to some degree idiosyncratic and/or individually specific [i.e. are not a reaction that is expected to occur with most or all patients given similar circumstances])"
+       }
+      ]
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "In clinical practice distinguishing between allergy and intolerance is difficult and might not be practical. Often the term \"allergy\" is used rather generically and may overlap with \"intolerance\", and the boundaries between these concepts might not be well-defined or understood. As noted above, the term \"intolerance\" should generally be applied to a propensity for adverse reactions which is either determined (to the extent that is possible) or perceived to not be allergic or \"allergy-like\". If it is not possible to determine whether a particular propensity condition is an allergy or an intolerance, then the type element should be omitted from the resource. Identification of the type of reaction is not a proxy for seriousness or risk of harm to the patient, which is better expressed in the documentation of the clinical manifestation and the assessment of criticality."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The sensitivity in the case of either an allergy or intolerance is unique to the individual, and is distinguished from those reactions that are a property of the circumstance, such as toxicity of a food or drug, overdose, drug-drug, drug-food, or drug-disease interaction (which are reactions that would be expected to occur for any individual given the same circumstances)."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The risk of an adverse reaction event or manifestation should not be recorded without identifying a proposed causative substance (including pharmaceutical products) or class of substance. If there is uncertainty that a specific substance is the cause, this uncertainty can be recorded using the 'verificationStatus' data element. If there are multiple possible substances that may have caused a reaction/manifestation, each substance should be recorded using a separate instance of this resource with the 'verificationStatus' set to an initial state of 'unconfirmed' so that adverse reaction checking can be supported in clinical systems. If a substance, agent or class is later proven not to be the cause for a given reaction then the 'verificationStatus' can be modified to 'refuted'."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "This resource has been designed to allow recording of information about a specific substance (e.g., amoxicillin, oysters, or bee sting venom) or pharmaceutical product or, alternatively, a class of substance (e.g., penicillins). If a class of substance is recorded, then identification of the exact substance can be recorded on a per exposure basis."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The scope of this FHIR resource has deliberately focused on identifying a pragmatic data set that is used in most clinical systems or will be suitable for most common clinical scenarios; "
+      },
+      {
+       "text": "extensions can be used",
+       "href": "https://hl7.org/fhir/R4/extensibility.html"
+      },
+      {
+       "text": " to add additional detail if required. Examples of clinical situations where the extension may be required include: a detailed allergist/immunologist assessment, for reporting to regulatory bodies or use in a clinical trial."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The act of recording any adverse reaction in a health record involves the clinical assessment that a potential hazard exists for an individual if they are exposed to the same substance/product/class in the future - that is, a relative contraindication - and, in the absence of additional information indicating a higher level of potential risk, the default 'criticality' value should be set to 'Low Risk'. If a clinician considers that it is not safe for the individual to be deliberately re-exposed to the substance/product again, for example, following a manifestation of a life-threatening anaphylaxis, then the 'criticality' data element should be amended to 'High Risk'."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "A formal adverse event report to regulatory bodies is a document that will contain a broad range of information in addition to the specific details about the adverse reaction. The report could utilize parts of this resource plus include additional data as required per jurisdiction."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "An adverse reaction or allergy/intolerance list is a record of all identified propensities for an adverse reaction for the individual upon future exposure to the substance/product or class, plus provides potential access to the evidence provided by details about each reaction event, such as manifestation."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Valuable first-level information that could be presented to the clinician when they need to assess propensity for future reactions are:"
+      }
+     ]
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "statements about previous clinical manifestations following exposure"
+       }
+      ],
+      [
+       {
+        "text": "source of the information/reporter"
+       }
+      ],
+      [
+       {
+        "text": "the 'criticality' flag"
+       }
+      ]
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Second-level information can be drawn from each exposure event and links to additional detailed information such as history, examination and diagnoses stored elsewhere in the record, if it is available."
+      }
+     ]
+    },
+    {
+     "h": "AllergyIntolerance and RiskAssessment"
+    },
+    {
+     "p": [
+      {
+       "text": "AllergyIntolerance describes a specific type of risk - propensity to reaction to a substance/product while "
+      },
+      {
+       "text": "RiskAssessment",
+       "href": "https://hl7.org/fhir/R4/riskassessment.html"
+      },
+      {
+       "text": " describes general risks to a subject, not generally based on a reaction."
+      }
+     ]
+    },
+    {
+     "h": "AllergyIntolerance and Immunization.reaction"
+    },
+    {
+     "p": [
+      {
+       "text": "Immunization.reaction",
+       "href": "https://hl7.org/fhir/R4/immunization-definitions.html#Immunization.reaction"
+      },
+      {
+       "text": " may be an indication of an allergy or intolerance. If this is deemed to be the case, a separate AllergyIntolerance record should be created to indicate it, as most systems will not query against past immunization.reactions."
+      }
+     ]
+    },
+    {
+     "h": "Misuse"
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "The allergy/intolerance list exists as a patient safety tool to inform decision support around ordering of medications and nutrition and to guide clinical treatment. Other reactions triggered by physical stimuli -- light, heat, cold, pressure, vibration, which may mimic allergic or intolerance reactions, should be recorded as "
+       },
+       {
+        "text": "Condition",
+        "resource": "Condition"
+       },
+       {
+        "text": " on the problem list, not using AllergyIntolerance."
+       }
+      ],
+      [
+       {
+        "text": "Not to be used to record adverse events, including failures of clinical process, interventions or products. For example, abnormal use or mistakes/errors made in maladministration of an agent or substance, incorrect dosage, mislabeling, harm or injury caused by an intervention or procedure, overdose/poisoning, etc."
+       }
+      ],
+      [
+       {
+        "text": "Not to be used as a proxy for an adverse event report. See above for how it may be used as one component of an adverse event report."
+       }
+      ],
+      [
+       {
+        "text": "Not to be used for recording alerts. Alerts are handled using "
+       },
+       {
+        "text": "Flag",
+        "href": "https://hl7.org/fhir/R4/flag.html"
+       },
+       {
+        "text": " or - where event-specific, "
+       },
+       {
+        "text": "DetectedIssue",
+        "href": "https://hl7.org/fhir/R4/detectedissue.html"
+       },
+       {
+        "text": "."
+       }
+      ],
+      [
+       {
+        "text": "Not to be used for recording failed therapy."
+       }
+      ]
+     ]
+    }
+   ]
   },
   "MedicationRequest": {
    "spec": "https://hl7.org/fhir/R4/medicationrequest.html",
@@ -2997,7 +3748,76 @@
       "display": "Author's Signature"
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "The MedicationRequest resource is used to request or order medication for a subject. It may also be used to report a medication request or order from one organization or source to another. When requesting supplies or devices when there is a patient focus or instructions regarding their use, "
+      },
+      {
+       "text": "SupplyRequest",
+       "href": "https://hl7.org/fhir/R4/supplyrequest.html"
+      },
+      {
+       "text": " or "
+      },
+      {
+       "text": "DeviceRequest",
+       "href": "https://hl7.org/fhir/R4/devicerequest.html"
+      },
+      {
+       "text": " should be used instead. When reporting on the usage of a medication by a patient, the "
+      },
+      {
+       "text": "MedicationStatement",
+       "href": "https://hl7.org/fhir/R4/medicationStatement.html"
+      },
+      {
+       "text": "t resource should be used."
+      }
+     ]
+    },
+    {
+     "h": "The Medication domain includes a number of related resources"
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "MedicationRequest: An order for both supply of the medication and the instructions for administration of the medicine to a patient."
+       }
+      ],
+      [
+       {
+        "text": "MedicationDispense",
+        "href": "https://hl7.org/fhir/R4/medicationdispense.html"
+       },
+       {
+        "text": ": Provision of a supply of a medication with the intention that it is subsequently consumed by a patient (usually in response to a prescription)."
+       }
+      ],
+      [
+       {
+        "text": "MedicationAdministration",
+        "href": "https://hl7.org/fhir/R4/medicationadministration.html"
+       },
+       {
+        "text": ": When a patient actually consumes a medicine, or it is otherwise administered to them"
+       }
+      ],
+      [
+       {
+        "text": "MedicationStatement",
+        "href": "https://hl7.org/fhir/R4/medicationstatement.html"
+       },
+       {
+        "text": ": This is a record of medication being taken by a patient, or that the medication has been given to a patient where the record is the result of a report from the patient, or another clinician. A medication statement is not a part of the prescribe->dispense->administer sequence but is a report that such a sequence (or at least a part of it) did take place resulting in a belief that the patient has received a particular medication."
+       }
+      ]
+     ]
+    }
+   ]
   },
   "Encounter": {
    "spec": "https://hl7.org/fhir/R4/encounter.html",
@@ -3373,7 +4193,37 @@
     "subject": {
      "reference": "Patient/example"
     }
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "The Encounter resource is not to be used to store appointment information, the Appointment resource is intended to be used for that. Note that in many systems outpatient encounters (which are in scope for Encounter) and Appointment are used concurrently. In FHIR, Appointment is used for establishing a date for the encounter, while Encounter is applicable to information about the actual Encounter, i.e., the patient showing up.  As such, an encounter in the \"planned\" status is not identical to the appointment that scheduled it, but it is the encounter prior to its actual occurrence, with the expectation that encounter will be updated as it progresses to completion. Patient arrival at a location does not necessarily mean the start of the encounter (e.g. a patient arrives an hour earlier than he is actually seen by a practitioner)."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "An appointment is normally used for the planning stage of an appointment, searching, locating an available time, then making the appointment. Once this process is completed and the appointment is about to start, then the appointment will be marked as fulfilled, and linked to the newly created encounter.  This new encounter may start in an \"arrived\" status when they are admitted at a location of the facility, and then will move to the ward where another part-of encounter may begin."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Communication resources are used for a simultaneous interaction between a practitioner and a patient where there is no direct contact. Examples include a phone message, or transmission of some correspondence documentation.  There is no duration recorded for a communication resource, but it could contain sent and received times."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Standard Extension: Associated Encounter  This extension should be used to reference an encounter where there is no property that already defines this association on the resource."
+      }
+     ]
+    }
+   ]
   },
   "DiagnosticReport": {
    "spec": "https://hl7.org/fhir/R4/diagnosticreport.html",
@@ -3598,7 +4448,72 @@
       ]
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "Note that many diagnostic processes are procedures that generate observations and diagnostic reports. In many cases, such an observation does not require an explicit representation of the procedure used to create the observation, but where there are details of interest about how the diagnostic procedure was performed, the "
+      },
+      {
+       "text": "Procedure",
+       "resource": "Procedure"
+      },
+      {
+       "text": " resource is used to describe the activity."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "In contrast to the "
+      },
+      {
+       "text": "Observation",
+       "resource": "Observation"
+      },
+      {
+       "text": " resource, the DiagnosticReport resource typically includes additional clinical context and some mix of atomic results, images, imaging reports, textual and coded interpretation, and formatted representations. Laboratory reports, pathology reports, and imaging reports should be represented using the DiagnosticReport resource. The Observation resource is referenced by the DiagnosticReport to provide the atomic results for a particular investigation."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "If you have a highly structured report, then use DiagnosticReport - it has data and workflow support. Details about the request for a diagnostic investigation are captured in the various \"request\" resources (e.g., the "
+      },
+      {
+       "text": "ServiceRequest",
+       "resource": "ServiceRequest"
+      },
+      {
+       "text": ") and allow the report to connect to clinical workflows. For more narrative driven reports with less work flow (histology/mortuary, etc.), the "
+      },
+      {
+       "text": "Composition",
+       "href": "https://hl7.org/fhir/R4/composition.html"
+      },
+      {
+       "text": " resource would be more appropriate."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Image and media representations of the report and supporting images are referenced in the DiagnosticReport resource. The details and actual image instances can be referenced directly in Diagnostic report using the \"imaging\" element or by indirect reference through the "
+      },
+      {
+       "text": "ImagingStudy",
+       "href": "https://hl7.org/fhir/R4/imagingstudy.html"
+      },
+      {
+       "text": " resources which represent the content produced in a DICOM imaging study or set of DICOM Instances for a patient."
+      }
+     ]
+    }
+   ]
   },
   "DocumentReference": {
    "spec": "https://hl7.org/fhir/R4/documentreference.html",
@@ -3959,7 +4874,86 @@
       }
      ]
     }
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "FHIR defines both a "
+      },
+      {
+       "text": "document format",
+       "href": "https://hl7.org/fhir/R4/documents.html"
+      },
+      {
+       "text": " and this document reference. FHIR documents are for documents that are authored and assembled in FHIR. This resource is mainly intended for general references to assembled documents."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The document that is a target of the reference can be a reference to a FHIR document served by another server, or the target can be stored in the special "
+      },
+      {
+       "text": "FHIR Binary Resource",
+       "href": "https://hl7.org/fhir/R4/http.html#binary"
+      },
+      {
+       "text": ", or the target can be stored on some other server system. The document reference is also able to address documents that are retrieved by a service call such as an XDS.b RetrieveDocumentSet, or a DICOM exchange, or an "
+      },
+      {
+       "text": "HL7 v2 ",
+       "href": "http://www.hl7.org/implement/standards/product_brief.cfm?product_id=185"
+      },
+      {
+       "text": " message query - though the way each of these service calls works must be specified in some external standard or other documentation."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "A "
+      },
+      {
+       "text": "DocumentReference",
+       "code": true
+      },
+      {
+       "text": " describes some other document. This means that there are two sets of provenance information relevant here: the provenance of the document, and the provenance of the document reference. Sometimes, the provenance information is closely related, as when the document producer also produces the document reference, but in other workflows, the document reference is generated later by other actors. In the "
+      },
+      {
+       "text": "DocumentReference",
+       "code": true
+      },
+      {
+       "text": " resource, the "
+      },
+      {
+       "text": "meta",
+       "href": "https://hl7.org/fhir/R4/resource.html#Meta"
+      },
+      {
+       "text": " content refers to the provenance of the reference itself, while the content described below concerns the document it references. Like all resources, there is overlap between the information in the resource directly, and in the general "
+      },
+      {
+       "text": "Provenance",
+       "href": "https://hl7.org/fhir/R4/provenance.html"
+      },
+      {
+       "text": " resource. This is discussed as "
+      },
+      {
+       "text": "part of the description of the Provenance resource",
+       "href": "https://hl7.org/fhir/R4/provenance.html#overlap"
+      },
+      {
+       "text": "."
+      }
+     ]
+    }
+   ]
   },
   "Coverage": {
    "spec": "https://hl7.org/fhir/R4/coverage.html",
@@ -4349,7 +5343,39 @@
       "value": "9"
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "h": "The eClaim domain includes a number of related insurance resources"
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "Coverage: The Coverage resource is intended to provide the high-level identifiers and descriptors of a specific insurance plan for a specific individual - essentially the insurance card information. This may alternately provide the individual or organization, selfpay, which will pay for products and services rendered."
+       }
+      ],
+      [
+       {
+        "text": "Contract",
+        "href": "https://hl7.org/fhir/R4/contract.html"
+       },
+       {
+        "text": ": A Contract resource holds the references to parties who have entered into an agreement of some type, the parties who may sign or witness such an agreement, descriptors of the type of agreement and even the actual text or executable copy of the agreement. The agreement may be of a variety of types including service contracts, insurance contracts, directives, etc. The contract may be either definitional or actual instances."
+       }
+      ],
+      [
+       {
+        "text": "InsurancePlan",
+        "href": "https://hl7.org/fhir/R4/insuranceplan.html"
+       },
+       {
+        "text": ": The InsurancePlan resource holds the definition of an insurance plan which an insurer may offer to potential clients through insurance brokers or an online insurance marketplace. This is only the plan definition and does not contain or reference a list of individuals who have purchased the plan."
+       }
+      ]
+     ]
+    }
+   ]
   },
   "Claim": {
    "spec": "https://hl7.org/fhir/R4/claim.html",
@@ -5256,7 +6282,97 @@
       }
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "The Claim resource is used to request the adjudication and/or authorization of a set of healthcare-related goods and services for a patient against the patient's insurance coverages, or to request what the adjudication would be for a supplied set of goods or services should they be actually supplied to the patient."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "When requesting whether the patient's coverage is inforce, whether it is valid at this or a specified date, or requesting the benefit details or preauthorization requirements associated with a coverage, then "
+      },
+      {
+       "text": "CoverageEligibilityRequest",
+       "href": "https://hl7.org/fhir/R4/coverageeligibilityrequest.html"
+      },
+      {
+       "text": " should be used instead."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "When using the resources for reporting and transferring claims data, which may have originated in some standard other than FHIR, the Claim resource is useful if only the request side of the information exchange is of interest. If, however, both the request and the adjudication information is to be reported then the "
+      },
+      {
+       "text": "ExplanationOfBenefit",
+       "resource": "ExplanationOfBenefit"
+      },
+      {
+       "text": " should be used instead."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "For reporting out to patients or transferring data to patient centered applications, such as patient health Record (PHR) application, the "
+      },
+      {
+       "text": "ExplanationOfBenefit",
+       "resource": "ExplanationOfBenefit"
+      },
+      {
+       "text": " should be used instead of the Claim and ClaimResponse resources as those resources may contain provider and payer specific information which is not appropriate for sharing with the patient."
+      }
+     ]
+    },
+    {
+     "h": "The eClaim domain includes a number of related resources"
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "Claim: A suite of goods and services and insurances coverages under which adjudication or authorization is requested."
+       }
+      ],
+      [
+       {
+        "text": "CoverageEligibilityRequest",
+        "href": "https://hl7.org/fhir/R4/coverageeligibilityrequest.html"
+       },
+       {
+        "text": ": A request to a payor to: ascertain whether a coverage is in-force at the current or at a specified time; list the table of benefits; determine whether coverage is provided for specified categories or specific services; and whether preauthorization is required, and if so what supporting information would be required."
+       }
+      ],
+      [
+       {
+        "text": "ClaimResponse",
+        "resource": "ClaimResponse"
+       },
+       {
+        "text": ": A payor's adjudication and/or authorization response to the suite of services provided in a Claim. Typically the ClaimResponse references the Claim but does not duplicate the clinical or financial information provided in the claim."
+       }
+      ],
+      [
+       {
+        "text": "ExplanationOfBenefit",
+        "resource": "ExplanationOfBenefit"
+       },
+       {
+        "text": ": This resource combines the information from the Claim and the ClaimResponse, stripping out any provider or payor proprietary information, into a unified information model suitable for use for: patient reporting; transferring information to a Patient Health Record system; and, supporting complete claim and adjudication information exchange with regulatory and analytics organizations and other parts of the provider's organization."
+       }
+      ]
+     ]
+    }
+   ]
   },
   "ClaimResponse": {
    "spec": "https://hl7.org/fhir/R4/claimresponse.html",
@@ -6171,7 +7287,125 @@
       "value": "201408-2-1569478"
      }
     }
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "The ClaimResponse resource is used to provide the results of the adjudication and/or authorization of a set of healthcare-related products and services for a patient against the patient's insurance coverages, or to respond with what the adjudication would be for a supplied set of products or services should they be actually supplied to the patient."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The "
+      },
+      {
+       "text": "ExplanationOfBenefit",
+       "resource": "ExplanationOfBenefit"
+      },
+      {
+       "text": " resource is for reporting out to patients or transferring data to patient centered applications, such as patient health Record (PHR) application, the "
+      },
+      {
+       "text": "ExplanationOfBenefit",
+       "resource": "ExplanationOfBenefit"
+      },
+      {
+       "text": " should be used instead of the "
+      },
+      {
+       "text": "Claim",
+       "resource": "Claim"
+      },
+      {
+       "text": " and ClaimResponse resources as those resources may contain provider and payer specific information which is not appropriate for sharing with the patient."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "When using the resources for reporting and transferring claims data, which may have originated in some standard other than FHIR, the Claim resource is useful if only the request side of the information exchange is of interest. If, however, both the request and the adjudication information is to be reported then the "
+      },
+      {
+       "text": "ExplanationOfBenefit",
+       "resource": "ExplanationOfBenefit"
+      },
+      {
+       "text": " should be used instead."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "When responding whether the patient's coverage is inforce, whether it is valid at this or a specified date, or returning the benefit details or preauthorization requirements associated with a coverage "
+      },
+      {
+       "text": "CoverageEligibilityResponse",
+       "href": "https://hl7.org/fhir/R4/coverageeligibilityresponse.html"
+      },
+      {
+       "text": " should be used instead and be the response to a "
+      },
+      {
+       "text": "CoverageEligibilityRequest",
+       "href": "https://hl7.org/fhir/R4/coverageeligibilityrequest.html"
+      },
+      {
+       "text": "."
+      }
+     ]
+    },
+    {
+     "h": "The eClaim domain includes a number of related resources"
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "ClaimResponse: A payor's adjudication and/or authorization response to the suite of services provided in a Claim. Typically the ClaimResponse references the Claim but does not duplicate the clinical or financial information provided in the claim."
+       }
+      ],
+      [
+       {
+        "text": "ExplanationOfBenefit",
+        "resource": "ExplanationOfBenefit"
+       },
+       {
+        "text": ": This resource combines the information from the Claim and the ClaimResponse, stripping out any provider or payor proprietary information, into a unified information model suitable for use for: patient reporting; transferring information to a Patient Health Record system; and, supporting complete claim and adjudication information exchange with regulatory and analytics organizations and other parts of the provider's organization."
+       }
+      ],
+      [
+       {
+        "text": "Claim",
+        "resource": "Claim"
+       },
+       {
+        "text": ": A suite of goods and services and insurances coverages under which adjudication or authorization is requested."
+       }
+      ],
+      [
+       {
+        "text": "CoverageEligibilityResponse",
+        "href": "https://hl7.org/fhir/R4/coverageeligibilityresponse.html"
+       },
+       {
+        "text": ": The response to a request to a payor, a "
+       },
+       {
+        "text": "CoverageEligibilityRequest",
+        "href": "https://hl7.org/fhir/R4/coverageeligibilityrequest.html"
+       },
+       {
+        "text": ", to: ascertain whether a coverage is in-force at the current or at a specified time; list the table of benefits; determine whether coverage is provided for specified categories or specific services; and whether preauthorization is required, and if so what supporting information would be required."
+       }
+      ]
+     ]
+    }
+   ]
   },
   "ExplanationOfBenefit": {
    "spec": "https://hl7.org/fhir/R4/explanationofbenefit.html",
@@ -7882,7 +9116,104 @@
       }
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "The ExplanationOfBenefit resource is for reporting out to patients or transferring data to patient centered applications, such as patient health Record (PHR) application, the ExplanationOfBenefit should be used instead of the "
+      },
+      {
+       "text": "Claim",
+       "resource": "Claim"
+      },
+      {
+       "text": " and "
+      },
+      {
+       "text": "ClaimResponse",
+       "resource": "ClaimResponse"
+      },
+      {
+       "text": " resources as those resources may contain provider and payer specific information which is not appropriate for sharing with the patient."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "When using the resources for reporting and transferring claims data, which may have originated in some standard other than FHIR, the Claim resource is useful if only the request side of the information exchange is of interest. If, however, both the request and the adjudication information is to be reported then the ExplanationOfBenefit should be used instead."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "The "
+      },
+      {
+       "text": "Claim",
+       "resource": "Claim"
+      },
+      {
+       "text": " resource is used to request the adjudication and/or authorization of a set of healthcare-related goods and services for a patient against the patient's insurance coverages, or to request what the adjudication would be for a supplied set of goods or services should they be actually supplied to the patient."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "When requesting whether the patient's coverage is inforce, whether it is valid at this or a specified date, or requesting the benefit details or preauthorization requirements associated with a coverage "
+      },
+      {
+       "text": "CoverageEligibilityRequest",
+       "href": "https://hl7.org/fhir/R4/coverageeligibilityrequest.html"
+      },
+      {
+       "text": " should be used instead."
+      }
+     ]
+    },
+    {
+     "h": "The eClaim domain includes a number of related resources"
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "ExplanationOfBenefit: This resource combines the information from the Claim and the ClaimResponse, stripping out any provider or payor proprietary information, into a unified information model suitable for use for: patient reporting; transferring information to a Patient Health Record system; and, supporting complete claim and adjudication information exchange with regulatory and analytics organizations and other parts of the provider's organization."
+       }
+      ],
+      [
+       {
+        "text": "Claim",
+        "resource": "Claim"
+       },
+       {
+        "text": ": A suite of goods and services and insurances coverages under which adjudication or authorization is requested."
+       }
+      ],
+      [
+       {
+        "text": "ClaimResponse",
+        "resource": "ClaimResponse"
+       },
+       {
+        "text": ": A payor's adjudication and/or authorization response to the suite of services provided in a Claim. Typically the ClaimResponse references the Claim but does not duplicate the clinical or financial information provided in the claim."
+       }
+      ],
+      [
+       {
+        "text": "CoverageEligibilityRequest",
+        "href": "https://hl7.org/fhir/R4/coverageeligibilityrequest.html"
+       },
+       {
+        "text": ": A request to a payor to: ascertain whether a coverage is in-force at the current or at a specified time; list the table of benefits; determine whether coverage is provided for specified categories or specific services; and whether preauthorization is required, and if so what supporting information would be required."
+       }
+      ]
+     ]
+    }
+   ]
   },
   "Questionnaire": {
    "spec": "https://hl7.org/fhir/R4/questionnaire.html",
@@ -8380,7 +9711,65 @@
       ]
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "Questionnaires differ from "
+      },
+      {
+       "text": "Lists",
+       "href": "https://hl7.org/fhir/R4/list.html"
+      },
+      {
+       "text": " because "
+      },
+      {
+       "text": "Lists",
+       "href": "https://hl7.org/fhir/R4/list.html"
+      },
+      {
+       "text": " group existing resources, while Questionnaires group arbitrary questions. Questionnaires are distinct from "
+      },
+      {
+       "text": "Observations",
+       "resource": "Observation"
+      },
+      {
+       "text": " and "
+      },
+      {
+       "text": "DiagnosticReports",
+       "resource": "DiagnosticReport"
+      },
+      {
+       "text": " in that both of these resources are intended to capture only certain types of information (lab, imaging, vitals, etc.) and should not be used to capture the full breadth of healthcare information (allergies, medications, care plans, etc.), while Questionnaires are able to capture any information at all. More importantly, Observation and DiagnosticReport focus on capturing the discrete information in a standardized form so that the information can be used consistently regardless of where or how it is captured. Questionnaire focuses on information capture. The same information can be captured using a wide variety of questionnaires with differently phrased questions organized in different manners. As such, the Questionnaire resource provides a means to standardize the information gathering process (how information is captured), but not how data is interoperably compared, analyzed or computed upon (typically managed using Observation, DiagnosticReport as well as other resources)."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Questionnaire supports data-collection workflow to a limited extent, in that - once triggered - a Questionnaire can guide a user through a data collection process that ensures appropriate information is collected based on answers to particular questions. However, Questionnaire doesn't provide support for capturing sets of information at different times or highly interactive data capture. Broader workflow is typically managed using PlanDefinition and Task or using other mechanisms such as CDSHooks."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Questionnaires are similar to the notion of \"logical models\" supported by the "
+      },
+      {
+       "text": "StructureDefinition",
+       "href": "https://hl7.org/fhir/R4/structuredefinition.html"
+      },
+      {
+       "text": " resource. Both support the representation of a collection of data points with labels, data types and hierarchy. It will be common to find the two of them mapped together. The primary difference is that Questionnaire is focused on user-facing data collection. It describes specific questions and includes information such as what number/label should be displayed beside each question, conditions in which questions should be displayed (or not), what instructions should be provided to the user, etc. StructureDefinition, on the other hand, merely defines a data structure with no guidance on display or rules around capture mechanism, only what data should exist in the end. As well, logical models are not intended to capture data directly. Rather, they provide a basis for mapping between data capture structures."
+      }
+     ]
+    }
+   ]
   },
   "QuestionnaireResponse": {
    "spec": "https://hl7.org/fhir/R4/questionnaireresponse.html",
@@ -8617,7 +10006,79 @@
       ]
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "The QuestionnaireResponse resource captures the responses to a questionnaire, while "
+      },
+      {
+       "text": "Questionnaire",
+       "resource": "Questionnaire"
+      },
+      {
+       "text": " represents the definition of the questionnaire form, including what questions are asked, how they're organized and the constraints on the allowed answers."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "While "
+      },
+      {
+       "text": "Observation",
+       "resource": "Observation"
+      },
+      {
+       "text": ", with its nested "
+      },
+      {
+       "text": "relatedObservation",
+       "code": true
+      },
+      {
+       "text": " structure, can create complex hierarchies of questions and answers, the focus is different. First, "
+      },
+      {
+       "text": "Observation",
+       "resource": "Observation"
+      },
+      {
+       "text": " is used primarily for capturing data elements that are \"true\" observations - lab measurements, vital signs, social assessments, etc., while QuestionnaireResponse can be used to capture any types of data, including data that would typically map to other resources ("
+      },
+      {
+       "text": "Procedure",
+       "resource": "Procedure"
+      },
+      {
+       "text": ", "
+      },
+      {
+       "text": "Patient",
+       "resource": "Patient"
+      },
+      {
+       "text": ", "
+      },
+      {
+       "text": "MedicationStatement",
+       "href": "https://hl7.org/fhir/R4/medicationstatement.html"
+      },
+      {
+       "text": ", etc.). Second, the focus of QuestionnaireResponse includes the specific phrasing and organization of the questions. All data must be explicitly captured as a question. With "
+      },
+      {
+       "text": "Observation",
+       "resource": "Observation"
+      },
+      {
+       "text": ", the focus is only on the meaning of the answer, not what question was asked (assuming a question was even asked at all). Additional information such as normal ranges, interpretation, date, etc., may also be captured."
+      }
+     ]
+    }
+   ]
   },
   "ServiceRequest": {
    "spec": "https://hl7.org/fhir/R4/servicerequest.html",
@@ -8917,7 +10378,65 @@
     "subject": {
      "reference": "Patient/example"
     }
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "ServiceRequest is a record of a proposal/plan or order for a service to be performed that would result in a "
+      },
+      {
+       "text": "Procedure",
+       "resource": "Procedure"
+      },
+      {
+       "text": ", "
+      },
+      {
+       "text": "Observation",
+       "resource": "Observation"
+      },
+      {
+       "text": ", "
+      },
+      {
+       "text": "DiagnosticReport",
+       "resource": "DiagnosticReport"
+      },
+      {
+       "text": ", "
+      },
+      {
+       "text": "ImagingStudy",
+       "href": "https://hl7.org/fhir/R4/imagingstudy.html"
+      },
+      {
+       "text": " or similar resource. In contrast to ServiceRequest, "
+      },
+      {
+       "text": "Task",
+       "resource": "Task"
+      },
+      {
+       "text": " which spans both intent and event and tracks the execution through to completion and is intended for \"administrative\" actions like requesting and tracking things to be done to a record, or keeping track of a checklist of steps such to be performed as part of a fulfilment process. A ServiceRequest can be higher-level authorization that triggered the creation of Task, or it can be the \"request\" resource Task is seeking to fulfill."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "ServiceRequest and "
+      },
+      {
+       "text": "CommunicationRequest",
+       "href": "https://hl7.org/fhir/R4/communicationrequest.html"
+      },
+      {
+       "text": " are related. A CommunicationRequest is a request to merely disclose information. Whereas a ServiceRequest would be used to request information as part of training or counseling - i.e. when the process will involve verification of the patient's comprehension or an attempt to change the patient's mental state. In some workflows both may exist. For example, upon receiving a CommunicationRequest a practitioner might initiate a ServiceRequest."
+      }
+     ]
+    }
+   ]
   },
   "Task": {
    "spec": "https://hl7.org/fhir/R4/task.html",
@@ -9314,7 +10833,86 @@
       "end": "2016-11-02T09:45:05+10:00"
      }
     }
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "Task spans both intent and event and tracks the execution through to completion. A Task is a workflow step such as cancelling an order, fulfilling an order, signing an order, merging a set of records, admitting a patient. In contrast, "
+      },
+      {
+       "text": "Procedures",
+       "resource": "Procedure"
+      },
+      {
+       "text": " are actions that are intended to result in a physical or mental change to or for the subject (for example, surgery, physiotherapy, training, counseling). A Task resource often exists in parallel with clinical resources. For example, a Task could request fulfillment of a "
+      },
+      {
+       "text": "ServiceRequest",
+       "resource": "ServiceRequest"
+      },
+      {
+       "text": " ordering a Procedure that would result in a Procedure, "
+      },
+      {
+       "text": "Observation",
+       "resource": "Observation"
+      },
+      {
+       "text": ", "
+      },
+      {
+       "text": "DiagnosticReport",
+       "resource": "DiagnosticReport"
+      },
+      {
+       "text": ", "
+      },
+      {
+       "text": "ImagingStudy",
+       "href": "https://hl7.org/fhir/R4/imagingstudy.html"
+      },
+      {
+       "text": " or similar resource. Another example would be a Task that requests fulfillment of a "
+      },
+      {
+       "text": "CommunicationRequest",
+       "href": "https://hl7.org/fhir/R4/communicationrequest.html"
+      },
+      {
+       "text": " to be performed between various actors."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "As stated above, the task resource tracks the state of a task, enabling systems to ensure that tasks are completed. This information is kept separate from the operational details necessary to complete the task, as those details vary across and even within workflows. That detail is expected to be carried in the referenced `focus` of the task."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Tasks may have named inputs and outputs. Inputs represent information that may or must be present in order for a task to complete. Outputs represent intermediate or final results produced by a task. For example, in a task supporting reading of radiology image, the inputs might include both the imaging study to be read, as well as relevant prior images. Outputs could represent radiology measurements as well as the Radiologist's diagnostic report."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "Inputs and outputs are tracked by the task because workflow management activity may automate the transfer of outputs from one task to inputs to a subsequent task."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "To facilitate the integration of off the shelf workflow applications with FHIR, the task resource may reference a definition. This definition can represent a description of the workflow activity to be performed, using a standard workflow description language such as BPEL, BPMN, or XPDL, a workflow definition such as those defined in IHE profiles, or even simple written instructions explaining a process to be performed."
+      }
+     ]
+    }
+   ]
   },
   "Bundle": {
    "spec": "https://hl7.org/fhir/R4/bundle.html",
@@ -9589,7 +11187,102 @@
       }
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "There are two ways to collect resources together for transport and persistence purposes - "
+      },
+      {
+       "text": "contained resources",
+       "href": "https://hl7.org/fhir/R4/references.html#contained"
+      },
+      {
+       "text": ", and bundles. There is an important difference between the two:"
+      }
+     ]
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "Contained resources are \"in\" the container resource - they can only ever be interpreted and/or changed in the context of the container"
+       }
+      ],
+      [
+       {
+        "text": "A bundle is a collection of resources that can have an independent existence - for example, they might also be accessed directly using the "
+       },
+       {
+        "text": "RESTful API",
+        "href": "https://hl7.org/fhir/R4/http.html"
+       }
+      ]
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "In addition to these two technical mechanisms, there are three administrative and infrastructure resources which also support grouping of content. These resources do not contain resources directly, but instead use [Reference] to point to the grouped resources:"
+      }
+     ]
+    },
+    {
+     "ul": [
+      [
+       {
+        "text": "The "
+       },
+       {
+        "text": "List",
+        "href": "https://hl7.org/fhir/R4/list.html"
+       },
+       {
+        "text": " resource – Enumerates a flat collection of resources and provides features for managing the collection. While a particular List instance may represent a \"snapshot\", from a business process perspective the notion of \"List\" is dynamic – items are added and removed over time. The list resource references other resources. Lists may be curated and have specific business meaning."
+       }
+      ],
+      [
+       {
+        "text": "The "
+       },
+       {
+        "text": "Group",
+        "href": "https://hl7.org/fhir/R4/group.html"
+       },
+       {
+        "text": " resource – Defines a group of specific people, animals, devices, etc. by enumerating them, or by describing qualities that group members have. The group resource refers to other resources, possibly implicitly. Groups are intended to be acted upon or observed as a whole; e.g. performing therapy on a group, calculating risk for a group, etc. This resource will commonly be used for public health (e.g. describing an at-risk population), clinical trials (e.g. defining a test subject pool) and similar purposes."
+       }
+      ],
+      [
+       {
+        "text": "The "
+       },
+       {
+        "text": "Composition",
+        "href": "https://hl7.org/fhir/R4/composition.html"
+       },
+       {
+        "text": " resource – Defines a set of healthcare-related information that is assembled together into a single logical document that provides a single coherent statement of meaning, establishes its own context and that has clinical attestation with regard to who is making the statement. The composition resource provides the basic structure of a FHIR "
+       },
+       {
+        "text": "document",
+        "href": "https://hl7.org/fhir/R4/documents.html"
+       },
+       {
+        "text": ". The full content of the document is expressed using a Bundle. Compositions will often reference Lists as the focus of particular sections."
+       }
+      ]
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "These three resources represent meaningful groupings of the resources they refer to (e.g. a discharge medication List, a Group of participants for a clinical trial, a set of resources that form a signed document), while a Bundle is merely is a container for resources used for transfer and storage. This list is not exhaustive; other resources also provde grouping functionality."
+      }
+     ]
+    }
+   ]
   },
   "CapabilityStatement": {
    "spec": "https://hl7.org/fhir/R4/capabilitystatement.html",
@@ -10495,7 +12188,44 @@
       ]
      }
     ]
-   }
+   },
+   "relations": [
+    {
+     "p": [
+      {
+       "text": "This resource is not used for reporting clinical or workflow issues associated with a proposed or ongoing action; these would be handled using "
+      },
+      {
+       "text": "DetectedIssue",
+       "href": "https://hl7.org/fhir/R4/detectedissue.html"
+      },
+      {
+       "text": " or other resources. OperationOutcome is not designed to be persisted or referenced from other parts of the workflow."
+      }
+     ]
+    },
+    {
+     "p": [
+      {
+       "text": "It is possible to have both "
+      },
+      {
+       "text": "OperationOutcome",
+       "code": true
+      },
+      {
+       "text": " and "
+      },
+      {
+       "text": "DetectedIssue",
+       "href": "https://hl7.org/fhir/R4/detectedissue.html"
+      },
+      {
+       "text": " together, where the OperationOutcome might indicate that a requested action was rejected due to a clinical issue and the DetectedIssue provides the details of the issue."
+      }
+     ]
+    }
+   ]
   }
  }
 }
