@@ -16,6 +16,9 @@ import { REPO_URL } from '../repo';
 import { MapprStore } from './mappr-store';
 import { SemanticSearch } from './semantic-search';
 
+/** The shortest query worth matching by meaning; shorter ones only match by words. */
+const MIN_MEANING = 3;
+
 /** Ways in, for a visitor who doesn't know what to type. */
 const EXAMPLES = [
   'Mental health assessments',
@@ -70,8 +73,25 @@ export class LookupPage {
   private readonly semantic = inject(SemanticSearch);
   /** The meaning-based result for a query, once it arrives. */
   private readonly byMeaning = signal<{ query: string; result: LookupResult } | null>(null);
-  /** True while the meaning-based fallback runs (the first time, it loads the model). */
-  protected readonly thinking = signal(false);
+
+  /**
+   * True from the moment the words find nothing until the meaning-based fallback has answered for
+   * this exact query (the first time, it loads the model), and while the data loads. The page
+   * shows a spinner then, never a "No good match" that the next keystroke or the fallback undoes.
+   */
+  protected readonly matching = computed(() => {
+    const q = this.query().trim();
+    if (!q || this.store.error()) return false;
+    if (!this.store.data()) return true;
+    return (
+      this.byWords()?.tier === 'none' && q.length >= MIN_MEANING && this.byMeaning()?.query !== q
+    );
+  });
+
+  /** A query too short to match by meaning that the words don't match: wait for more. */
+  protected readonly tooShort = computed(
+    () => this.query().trim().length < MIN_MEANING && this.result()?.tier === 'none',
+  );
 
   /** What the page shows: the word match, or the fallback when the words found nothing. */
   protected readonly result = computed((): LookupResult | null => {
@@ -86,18 +106,30 @@ export class LookupPage {
     () => this.byWords()?.tier === 'none' && this.result()?.tier !== 'none',
   );
 
-  /** Pattern hits, with the guide names of their stacks. */
+  /**
+   * Pattern hits, each with its guides and resources as Browsr shows them: a guide links to its
+   * row, a resource to its card. Ones Browsr doesn't carry link to their own page instead.
+   */
   protected readonly patterns = computed(() => {
     const r = this.result();
     const d = this.store.data();
     if (r?.tier !== 'patterns' || !d) return [];
+    const release = this.store.release();
     return r.patterns.map((h) => {
       const p = d.patterns.find((x) => x.id === h.id)!;
       const type = TYPES.find((t) => t.id === p.type)!.label.replace(/s$/, '');
       return {
         p,
         label: p.kind === 'gap' ? `${type} · gap` : type,
-        guides: guidesOf(p).map((id) => d.guides[id]?.name ?? id),
+        guides: guidesOf(p).map((id) => {
+          const g = d.guides[id];
+          return { id, name: g?.name ?? id, inBrowsr: !!g?.inBrowsr, url: g?.url ?? null };
+        }),
+        resources: p.resources.map((name) => ({
+          name,
+          card: !!d.resources[name],
+          url: resourceSpecUrl(name, release),
+        })),
       };
     });
   });
@@ -131,17 +163,16 @@ export class LookupPage {
       const release = this.store.release();
       const data = this.store.data();
       clearTimeout(timer);
-      if (words?.tier !== 'none' || q.length < 3 || !data) return;
+      if (words?.tier !== 'none' || q.length < MIN_MEANING || !data) return;
       timer = setTimeout(async () => {
-        this.thinking.set(true);
         const hits = await this.semantic.search(q);
-        this.thinking.set(false);
-        if (!hits || q !== this.query().trim()) return;
+        if (q !== this.query().trim()) return;
         const keep = (id: string) => {
           const g = data.guides[id];
           return !g.withdrawn && g.fhir.includes(release);
         };
-        this.byMeaning.set({ query: q, result: semanticLookup(hits, keep) });
+        // No model (offline, blocked): the answer is the words' "none".
+        this.byMeaning.set({ query: q, result: hits ? semanticLookup(hits, keep) : words });
       }, 500);
     });
   }

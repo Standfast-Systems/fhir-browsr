@@ -84,18 +84,23 @@ h1 {
   list-style: none;
 }
 
-.hit a {
-  display: block;
+// A pattern hit: the pattern (one link), then its guides and resources, each a link into Browsr.
+.hit {
   padding: 16px 20px;
   border: 1px solid var(--mb-line);
   border-radius: 12px;
   background: var(--mb-panel);
-  color: var(--mb-text);
-  &:hover {
+  &:has(.head:hover) {
     border-color: var(--mb-lime-dim);
-    text-decoration: none;
-    .go {
-      text-decoration: underline;
+  }
+  .head {
+    display: block;
+    color: var(--mb-text);
+    &:hover {
+      text-decoration: none;
+      h2 {
+        color: var(--mb-lime);
+      }
     }
   }
   h2 {
@@ -107,9 +112,72 @@ h1 {
     margin: 0 0 6px;
     color: var(--mb-muted);
   }
-  .guides {
+}
+
+.pieces {
+  display: grid;
+  gap: 4px;
+  margin: 8px 0 10px;
+  font-size: 13px;
+  div {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 8px;
+  }
+  dt {
+    color: var(--mb-faint);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    line-height: 20px;
+    text-transform: uppercase;
+  }
+  dd {
+    margin: 0;
+    line-height: 20px;
+  }
+  a {
     color: var(--mb-text);
-    font-size: 13px;
+    &:hover {
+      color: var(--mb-lime);
+    }
+  }
+  .mono {
+    font-family: var(--mb-mono);
+    font-size: 12.5px;
+  }
+  // " · " with a no-break space before the dot: lines break after it, never before.
+  .sep {
+    color: var(--mb-faint);
+    white-space: pre-wrap;
+  }
+}
+
+.matching {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 10px;
+  color: var(--mb-muted);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--mb-line);
+  border-top-color: var(--mb-lime);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2.4s;
   }
 }
 
