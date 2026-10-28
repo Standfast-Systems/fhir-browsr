@@ -1,33 +1,25 @@
 <header class="top">
-  <div class="brand">
+  <a class="brand" routerLink="/">
     <img src="favicon.svg" alt="" width="28" height="28" />
-    <span>FHIR <b>Browsr</b></span>
-  </div>
+    <span>FHIR <b>Matchbook</b></span>
+  </a>
+
+  <!-- Discover, Map, Build. Mappr isn't built yet: shown, but not a link. -->
+  <nav class="sections" aria-label="Sections">
+    <ul>
+      <li>
+        <a routerLink="/browsr" routerLinkActive="active" [ariaCurrentWhenActive]="true">Browsr</a>
+      </li>
+      <li>
+        <span class="soon">Mappr <small>coming soon</small></span>
+      </li>
+      <li>
+        <a routerLink="/initializr" routerLinkActive="active" ariaCurrentWhenActive="page"
+          >Initializr <small class="beta">BETA</small></a
+        >
+      </li>
+    </ul>
+  </nav>
 </header>
 
-<!-- The page switch, centred at the top of every page. Full names, never abbreviated. A list, so a
-     third page ("Start here") can join later. -->
-<nav class="pages" aria-label="Pages">
-  <ul>
-    <li>
-      <a routerLink="/resources" routerLinkActive="active" ariaCurrentWhenActive="page"
-        >FHIR Resources</a
-      >
-    </li>
-    <li>
-      <a routerLink="/guides" routerLinkActive="active" ariaCurrentWhenActive="page"
-        >Implementation Guides</a
-      >
-    </li>
-  </ul>
-</nav>
-
-<main>
-  <router-outlet />
-</main>
-
-<footer>
-  <p>
-    FHIR® is the registered trademark of HL7. This site isn't affiliated with or endorsed by HL7.
-  </p>
-</footer>
+<router-outlet />

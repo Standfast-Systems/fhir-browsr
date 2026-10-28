@@ -16,14 +16,14 @@ import {
   publishedR4,
   resolve,
   validateKb,
-} from '../src/core/index.ts';
+} from '../src/core/initializr/index.ts';
 import type {
   KnowledgeBase,
   Manifest,
   PackageSnapshot,
   ProjectProfile,
   RegistrySnapshot,
-} from '../src/core/index.ts';
+} from '../src/core/initializr/index.ts';
 import { ICONS, iconsInTemplates } from '../scripts/icons.ts';
 import { loadKb, ROOT } from '../scripts/lib/kb-load.ts';
 
@@ -436,11 +436,11 @@ describe('profiles and emitters', () => {
     const terminology = hapi.match(/name: hl7\.terminology\.r4\n/g) ?? [];
     assert.equal(terminology.length, 1);
   });
-  it('stamps the same version the package declares', () => {
+  it('stamps the same version the package declares for Initializr', () => {
     const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
-    assert.equal(TOOL.version, pkg.version);
+    assert.equal(TOOL.version, pkg.initializrVersion);
     const m = scope({ asOf: '2027-01-01' });
-    assert.equal(m.tool.version, pkg.version);
+    assert.equal(m.tool.version, pkg.initializrVersion);
   });
   it('orders versions with pre-releases below their release', () => {
     assert.ok(compareVersions('9.0.0', '9.0.0-ballot') > 0);

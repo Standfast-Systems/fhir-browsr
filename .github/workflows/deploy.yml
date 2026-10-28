@@ -25,24 +25,18 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      # Joins data/ + snapshot/ into public/data/guides.json; fails on unknown ids or missing guides.
+      # Browsr: joins data/ + snapshot/ into public/data/guides.json, failing on unknown ids.
+      # Initializr: validates the KB against the snapshot and writes the rest of public/data.
       - run: npm run data
       - run: npm run typecheck
       - run: npm run test:core
       - run: npx ng build --base-href "/${{ github.event.repository.name }}/"
-      # GitHub Pages has no SPA fallback: give each route a real page (a 200, which link previews
-      # need) and serve the app for anything else via 404.html.
-      - run: |
-          cd dist/fhir-browsr/browser
-          mkdir -p resources guides
-          cp index.html resources/index.html
-          cp index.html guides/index.html
-          cp index.html 404.html
-          test -f resources/index.html && test -f guides/index.html && test -f 404.html
+      # Each section gets a real page with its own link-preview tags; anything else gets 404.html.
+      - run: node scripts/pages.ts dist/fhir-matchbook/browser
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main'
         with:
-          path: dist/fhir-browsr/browser
+          path: dist/fhir-matchbook/browser
 
   deploy:
     if: github.ref == 'refs/heads/main'

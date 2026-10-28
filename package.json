@@ -1,24 +1,32 @@
 {
-  "name": "fhir-browsr",
-  "version": "1.4.4",
+  "name": "fhir-matchbook",
+  "version": "2.0.0",
+  "initializrVersion": "0.2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "data": "node scripts/build-browsr.ts",
-    "prebuild": "node scripts/build-browsr.ts",
-    "prestart": "node scripts/build-browsr.ts",
-    "snapshot": "node scripts/snapshot-browsr.ts",
+    "watch": "ng build --watch --configuration development",
+    "data": "node scripts/build-browsr.ts && node scripts/build-initializr.ts",
+    "prebuild": "npm run data",
+    "prestart": "npm run data",
+    "snapshot": "node scripts/snapshot-browsr.ts && node scripts/snapshot-initializr.ts",
     "resources": "node scripts/resources.ts",
+    "initializr": "node cli/initializr.ts",
     "typecheck": "tsc -p tsconfig.node.json",
-    "test:core": "node --test \"test/*.test.ts\""
+    "test:core": "node --test \"test/*.test.ts\"",
+    "links": "node scripts/check-links.ts",
+    "icons": "node scripts/icons.ts"
   },
   "private": true,
   "packageManager": "npm@11.17.0",
   "dependencies": {
+    "@angular/cdk": "^22.2.3",
     "@angular/common": "^22.2.0",
     "@angular/compiler": "^22.2.0",
     "@angular/core": "^22.2.0",
+    "@angular/forms": "^22.2.0",
+    "@angular/material": "^22.2.3",
     "@angular/platform-browser": "^22.2.0",
     "@angular/router": "^22.2.3",
     "rxjs": "~7.8.0",
@@ -33,5 +41,8 @@
     "typescript": "~6.0.2",
     "yaml": "^2.9.1"
   },
-  "type": "module"
+  "type": "module",
+  "bin": {
+    "initializr": "cli/initializr.ts"
+  }
 }

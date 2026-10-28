@@ -1,4 +1,4 @@
-// Joins data/ig-map.yaml (party tags), data/notes.yaml (plain one-liners) and snapshot/registry.json
+// Joins data/ig-map.yaml (party tags), data/notes.yaml (plain one-liners) and snapshot/browsr-registry.json
 // (the official registry plus each guide's package-list.json, from `npm run snapshot`) into
 // public/data/guides.json for the browser. National and regional cores come from the hand-checked
 // data/national-cores.yaml rather than from ig-map.yaml.
@@ -64,7 +64,7 @@ const domainDefs = parse(readFileSync('data/domains.yaml', 'utf8')) as (Domain &
 const bucketDefs = parse(readFileSync('data/buckets.yaml', 'utf8')) as (Bucket & {
   groups: string[];
 })[];
-const snap = JSON.parse(readFileSync('snapshot/registry.json', 'utf8')) as {
+const snap = JSON.parse(readFileSync('snapshot/browsr-registry.json', 'utf8')) as {
   generated: string;
   registry: Record<string, RegistryEntry>;
   packages: Record<string, SnapPackage>;

@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import type { KnowledgeBase, PackageSnapshot, RegistrySnapshot } from '../core/index.ts';
+import type { KnowledgeBase, PackageSnapshot, RegistrySnapshot } from '../../core/initializr/index.ts';
 
 /**
  * The static data the app runs on: the compiled knowledge base and the registry snapshot, loaded

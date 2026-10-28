@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, signal } f
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EMITTERS } from '../core/index.ts';
-import type { Manifest, RegistrySnapshot } from '../core/index.ts';
+import { EMITTERS } from '../../core/initializr/index.ts';
+import type { Manifest, RegistrySnapshot } from '../../core/initializr/index.ts';
 import { download } from './zip';
 
 @Component({

@@ -6,7 +6,7 @@
 // SVAP list or agency page now accepts them. Catalog-only changes follow.
 
 import { readFileSync, writeFileSync } from 'node:fs';
-import type { RegistrySnapshot } from '../src/core/types.ts';
+import type { RegistrySnapshot } from '../src/core/initializr/types.ts';
 import { loadKb } from './lib/kb-load.ts';
 
 const [oldPath, newPath, outPath] = process.argv.slice(2);

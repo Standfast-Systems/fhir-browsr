@@ -7,8 +7,8 @@ import {
   driversNeedingSide,
   resolve,
   selectedComponents,
-} from '../core/index.ts';
-import type { Actor, KnowledgeBase, Manifest, ManifestIg, ProjectProfile } from '../core/index.ts';
+} from '../../core/initializr/index.ts';
+import type { Actor, KnowledgeBase, Manifest, ManifestIg, ProjectProfile } from '../../core/initializr/index.ts';
 import { DataStore } from './data-store';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;

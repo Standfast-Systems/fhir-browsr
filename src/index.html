@@ -2,43 +2,42 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>FHIR Browsr — FHIR resources and the guides that apply to you</title>
+    <title>FHIR Matchbook — Browsr, Mappr, Initializr. Discover, Map, Build.</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Learn the FHIR resources every implementation guide is built from, then find the guides that apply to you."
+      content="Find the FHIR implementation guides that apply to you, learn the resources they're built from, and get the exact guide versions your project needs."
     />
     <meta name="theme-color" content="#0a0a0b" />
 
-    <!-- Link previews (LinkedIn, Slack, X and others build their cards from these). -->
+    <!-- Link previews (LinkedIn, Slack, X and others build their cards from these). The deploy
+         writes a copy of this page for each section with its own title, description and URL
+         (scripts/pages.ts). -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="FHIR Browsr" />
-    <meta property="og:title" content="FHIR Browsr" />
+    <meta property="og:site_name" content="FHIR Matchbook" />
+    <meta property="og:title" content="FHIR Matchbook" />
     <meta
       property="og:description"
-      content="Learn the FHIR resources every implementation guide is built from, then find the guides that apply to you."
+      content="Find the FHIR implementation guides that apply to you, learn the resources they're built from, and get the exact guide versions your project needs."
     />
-    <meta property="og:url" content="https://standfast-systems.github.io/fhir-browsr/" />
+    <meta property="og:url" content="https://standfast-systems.github.io/fhir-matchbook/" />
     <meta
       property="og:image"
-      content="https://standfast-systems.github.io/fhir-browsr/og-image.png"
+      content="https://standfast-systems.github.io/fhir-matchbook/og-image.png"
     />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="FHIR Browsr: a three-circle diagram of Patient, Provider and Payer"
-    />
+    <meta property="og:image:alt" content="A three-circle diagram of Patient, Provider and Payer" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FHIR Browsr" />
+    <meta name="twitter:title" content="FHIR Matchbook" />
     <meta
       name="twitter:description"
-      content="Learn the FHIR resources every implementation guide is built from, then find the guides that apply to you."
+      content="Find the FHIR implementation guides that apply to you, learn the resources they're built from, and get the exact guide versions your project needs."
     />
     <meta
       name="twitter:image"
-      content="https://standfast-systems.github.io/fhir-browsr/og-image.png"
+      content="https://standfast-systems.github.io/fhir-matchbook/og-image.png"
     />
 
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -48,12 +47,37 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
       rel="stylesheet"
     />
+    <!-- Initializr's icons are self-hosted (scripts/icons.ts): locked-down networks block Google
+         Fonts, and a missing icon font shows every icon as its name. Text fonts fall back cleanly,
+         so they stay. -->
+    <style>
+      @font-face {
+        font-family: 'Material Symbols Outlined';
+        font-style: normal;
+        font-weight: 400;
+        font-display: block;
+        src: url('fonts/material-symbols-outlined.woff2') format('woff2');
+      }
+      .material-symbols-outlined {
+        font-family: 'Material Symbols Outlined';
+        font-weight: normal;
+        font-style: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-smoothing: antialiased;
+        font-feature-settings: 'liga';
+      }
+    </style>
   </head>
   <body>
     <app-root></app-root>
     <noscript
-      >FHIR Browsr runs in your browser and needs JavaScript. The data behind it is plain JSON at
-      data/guides.json.</noscript
+      >FHIR Matchbook runs in your browser and needs JavaScript. The data behind it is plain JSON in
+      data/.</noscript
     >
   </body>
 </html>

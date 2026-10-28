@@ -9,7 +9,7 @@
 
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import type { PackageSnapshot, RegistrySnapshot } from '../src/core/types.ts';
+import type { PackageSnapshot, RegistrySnapshot } from '../src/core/initializr/types.ts';
 import { loadKb, ROOT } from './lib/kb-load.ts';
 import { checkLink, pool } from './lib/net.ts';
 

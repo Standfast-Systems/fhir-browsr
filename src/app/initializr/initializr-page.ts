@@ -4,17 +4,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { EMITTERS, TOOL } from '../core/index.ts';
+import { EMITTERS, TOOL } from '../../core/initializr/index.ts';
 import { ProfilePanel } from './profile-panel';
 import { Results } from './results';
 import { DataStore } from './data-store';
 import { ProfileStore } from './profile-store';
 import { download, zip } from './zip';
 
-export const REPO_URL = 'https://github.com/Standfast-Systems/fhir-initializr';
+export const REPO_URL = 'https://github.com/Standfast-Systems/fhir-matchbook';
 
+/** The Initializr section: pick drivers, get the guides, download the files. */
 @Component({
-  selector: 'app-root',
+  selector: 'fi-initializr-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatButtonModule,
@@ -25,10 +26,10 @@ export const REPO_URL = 'https://github.com/Standfast-Systems/fhir-initializr';
     ProfilePanel,
     Results,
   ],
-  templateUrl: './app.html',
-  styleUrl: './app.scss',
+  templateUrl: './initializr-page.html',
+  styleUrl: './initializr-page.scss',
 })
-export class App {
+export class InitializrPage {
   protected readonly store = inject(ProfileStore);
   protected readonly data = inject(DataStore);
   private readonly snack = inject(MatSnackBar);

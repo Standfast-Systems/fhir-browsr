@@ -7,7 +7,7 @@ import type {
   CapStmtSummary,
   ProfileSummary,
   SurfaceResource,
-} from '../../src/core/types.ts';
+} from '../../src/core/initializr/types.ts';
 
 const EXPECTATION = 'http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation';
 const COMBINATION =

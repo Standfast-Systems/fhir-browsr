@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import type { ManifestIg, ManifestWarning, ResolvedCitation } from '../core/index.ts';
+import type { ManifestIg, ManifestWarning, ResolvedCitation } from '../../core/initializr/index.ts';
 import { FilesView } from './files-view';
 import { IgCard } from './ig-card';
 import { DataStore } from './data-store';

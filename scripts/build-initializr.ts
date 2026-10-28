@@ -20,8 +20,8 @@ import {
   writeFileSync,
 } from 'node:fs';
 import { join } from 'node:path';
-import { validateKb } from '../src/core/validate.ts';
-import type { RegistrySnapshot } from '../src/core/types.ts';
+import { validateKb } from '../src/core/initializr/validate.ts';
+import type { RegistrySnapshot } from '../src/core/initializr/types.ts';
 import { loadKb, ROOT } from './lib/kb-load.ts';
 
 const OUT = join(ROOT, 'public', 'data');
@@ -43,7 +43,9 @@ if (errors.length) {
   process.exit(1);
 }
 
-rmSync(OUT, { recursive: true, force: true });
+// public/data is shared with Browsr's build: clear only Initializr's own outputs.
+for (const f of ['kb.json', 'registry.json', 'index.json', 'pkg'])
+  rmSync(join(OUT, f), { recursive: true, force: true });
 mkdirSync(join(OUT, 'pkg'), { recursive: true });
 writeFileSync(join(OUT, 'kb.json'), JSON.stringify(kb));
 const pkgSrc = join(ROOT, 'snapshot', 'packages');

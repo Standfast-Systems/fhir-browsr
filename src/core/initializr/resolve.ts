@@ -38,7 +38,8 @@ import type {
 
 /**
  * The tool's identity, stamped on every manifest and generated file. Keep `version` equal to
- * package.json (a test checks); `stage` says how far from an MVP the tool is.
+ * `initializrVersion` in package.json (a test checks): Initializr keeps its own 0.x line inside
+ * FHIR Matchbook. `stage` says how far from an MVP the tool is.
  */
 export const TOOL = {
   name: 'FHIR Initializr',

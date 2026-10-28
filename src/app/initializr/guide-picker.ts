@@ -8,8 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { isR4, publishedR4, r4PackageFor } from '../core/index.ts';
-import type { CatalogGuide } from '../core/index.ts';
+import { isR4, publishedR4, r4PackageFor } from '../../core/initializr/index.ts';
+import type { CatalogGuide } from '../../core/initializr/index.ts';
 import { DataStore } from './data-store';
 import { ProfileStore } from './profile-store';
 

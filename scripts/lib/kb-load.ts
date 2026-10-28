@@ -12,10 +12,10 @@ import type {
   KnowledgeBase,
   Source,
   TestKit,
-} from '../../src/core/types.ts';
+} from '../../src/core/initializr/types.ts';
 
 export const ROOT = join(import.meta.dirname, '..', '..');
-export const KB_DIR = join(ROOT, 'kb');
+export const KB_DIR = join(ROOT, 'data', 'kb');
 
 function yaml<T>(file: string): T {
   // Keep dates as strings: the KB compares ISO dates lexically and must not shift time zones.

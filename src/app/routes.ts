@@ -1,11 +1,30 @@
 import type { Routes } from '@angular/router';
-import { GuidesPage } from './browsr/guides-page';
-import { ResourcesPage } from './browsr/resources-page';
 
-// First the pieces, then the guides: the site opens on the FHIR Resources page.
+// Each section loads on its own, so Initializr's Material code stays out of Browsr's pages.
+// Browsr opens on the FHIR Resources page: first the pieces, then the guides.
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'resources' },
-  { path: 'resources', component: ResourcesPage, title: 'FHIR Resources — FHIR Browsr' },
-  { path: 'guides', component: GuidesPage, title: 'Implementation Guides — FHIR Browsr' },
-  { path: '**', redirectTo: 'resources' },
+  { path: '', pathMatch: 'full', redirectTo: 'browsr' },
+  {
+    path: 'browsr',
+    loadComponent: () => import('./browsr/browsr-shell').then((m) => m.BrowsrShell),
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'resources' },
+      {
+        path: 'resources',
+        loadComponent: () => import('./browsr/resources-page').then((m) => m.ResourcesPage),
+        title: 'FHIR Resources — FHIR Browsr',
+      },
+      {
+        path: 'guides',
+        loadComponent: () => import('./browsr/guides-page').then((m) => m.GuidesPage),
+        title: 'Implementation Guides — FHIR Browsr',
+      },
+    ],
+  },
+  {
+    path: 'initializr',
+    loadComponent: () => import('./initializr/initializr-page').then((m) => m.InitializrPage),
+    title: 'FHIR Initializr — the FHIR IGs your project needs, pinned and cited',
+  },
+  { path: '**', redirectTo: '' },
 ];

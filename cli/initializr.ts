@@ -18,13 +18,13 @@ import {
   emitterById,
   resolve,
   validateKb,
-} from '../src/core/index.ts';
+} from '../src/core/initializr/index.ts';
 import type {
   Actor,
   PackageSnapshot,
   ProjectProfile,
   RegistrySnapshot,
-} from '../src/core/index.ts';
+} from '../src/core/initializr/index.ts';
 import { loadKb, ROOT } from '../scripts/lib/kb-load.ts';
 
 const HELP = `FHIR Initializr — which FHIR IGs and versions your project needs, with citations.

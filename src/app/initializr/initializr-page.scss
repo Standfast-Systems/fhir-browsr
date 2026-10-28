@@ -2,6 +2,7 @@
   display: block;
   min-height: 100vh;
   padding-bottom: 72px;
+  line-height: 1.45;
 }
 
 .top {
@@ -14,23 +15,14 @@
   background: var(--mat-sys-surface-container-lowest);
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--fi-text);
-  text-decoration: none;
-  .logo {
-    width: 34px;
-    height: 34px;
-  }
-  .name {
-    font-size: 20px;
-    letter-spacing: -0.01em;
-    strong {
-      color: var(--fi-lime);
-      font-weight: 700;
-    }
+.name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  strong {
+    color: var(--fi-lime);
+    font-weight: 700;
   }
 }
 

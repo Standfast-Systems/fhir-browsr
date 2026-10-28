@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import type { Reason } from '../core/index.ts';
+import type { Reason } from '../../core/initializr/index.ts';
 
 interface Row {
   version: string;

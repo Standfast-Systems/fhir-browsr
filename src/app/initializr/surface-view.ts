@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import type { ActorSurface, MergedResource } from '../core/index.ts';
+import type { ActorSurface, MergedResource } from '../../core/initializr/index.ts';
 
 @Component({
   selector: 'fi-surface-view',

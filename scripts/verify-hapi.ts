@@ -10,7 +10,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { parseArgs } from 'node:util';
-import type { Manifest } from '../src/core/types.ts';
+import type { Manifest } from '../src/core/initializr/types.ts';
 import { pool } from './lib/net.ts';
 
 const { values } = parseArgs({

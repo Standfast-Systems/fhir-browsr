@@ -16,14 +16,14 @@ import {
   isR4,
   matchesWildcard,
   normalizeFhirVersion,
-} from '../src/core/semver.ts';
+} from '../src/core/initializr/semver.ts';
 import type {
   Dependency,
   PackageSnapshot,
   RegistryPackage,
   RegistrySnapshot,
   RegistryVersion,
-} from '../src/core/types.ts';
+} from '../src/core/initializr/types.ts';
 import { summarizeCapStmt, summarizeStructureDefinition } from './lib/extract.ts';
 import { loadKb, ROOT } from './lib/kb-load.ts';
 import { getJson, getTarball, pool } from './lib/net.ts';
