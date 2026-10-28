@@ -182,6 +182,26 @@ h1 {
   color: var(--mb-faint);
 }
 
+.browse {
+  max-width: 720px;
+  padding: 14px 18px;
+  border: 1px solid var(--mb-line);
+  border-radius: 12px;
+  background: var(--mb-panel);
+  p {
+    margin: 0 0 6px;
+    color: var(--mb-muted);
+  }
+  ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--mb-muted);
+  }
+  li + li {
+    margin-top: 4px;
+  }
+}
+
 .feedback {
   margin: 24px 0 0;
   color: var(--mb-muted);
