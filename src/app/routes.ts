@@ -2,12 +2,10 @@ import type { Routes } from '@angular/router';
 import { GuidesPage } from './guides-page';
 import { ResourcesPage } from './resources-page';
 
+// First the pieces, then the guides: the site opens on the FHIR Resources page.
 export const routes: Routes = [
-  {
-    path: '',
-    component: GuidesPage,
-    title: 'FHIR Browsr — the FHIR implementation guides that apply to you',
-  },
+  { path: '', pathMatch: 'full', redirectTo: 'resources' },
   { path: 'resources', component: ResourcesPage, title: 'FHIR Resources — FHIR Browsr' },
-  { path: '**', redirectTo: '' },
+  { path: 'guides', component: GuidesPage, title: 'Implementation Guides — FHIR Browsr' },
+  { path: '**', redirectTo: 'resources' },
 ];

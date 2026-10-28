@@ -26,50 +26,306 @@ h1 {
   margin: 0 0 24px;
 }
 
-// Six groups as cards: two columns on wide screens, one on phones, reading top to bottom.
+// Desktop: the detail card on the left, sticky, and the groups in one column on the right.
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+// The detail card -------------------------------------------------------------------------------
+
+.card {
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  padding: 22px 24px;
+  background: var(--mb-panel);
+  border: 1px solid color-mix(in srgb, var(--mb-lime) 35%, var(--mb-line));
+  border-radius: 14px;
+}
+
+.group-name {
+  margin: 0 0 2px;
+  color: var(--mb-faint);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// The resource name, with the official spec page on the right (it wraps under on phones).
+.title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+  margin: 0 0 8px;
+  .spec {
+    margin-left: auto;
+    color: var(--mb-muted);
+    font-size: 13px;
+    white-space: nowrap;
+    &:hover {
+      color: var(--mb-lime);
+    }
+  }
+}
+
+h2 {
+  margin: 0;
+  font-family: var(--mb-mono);
+  font-size: 24px;
+  scroll-margin-top: 16px;
+}
+
+.sentence {
+  margin: 0 0 18px;
+  font-size: 15px;
+  max-width: 64ch;
+}
+
+// "Good to know": a few short notes between the sentence and the fields.
+.notes {
+  margin: 0 0 18px;
+  padding: 10px 14px 10px 16px;
+  border-left: 3px solid color-mix(in srgb, var(--mb-lime) 70%, transparent);
+  border-radius: 0 8px 8px 0;
+  background: var(--mb-panel-3);
+  .notes-title {
+    margin: 0 0 4px;
+    color: var(--mb-faint);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  ul {
+    margin: 0;
+    padding: 0 0 0 18px;
+    list-style: disc;
+  }
+  li {
+    margin: 2px 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--mb-text);
+  }
+  code {
+    font-family: var(--mb-mono);
+    font-size: 12.5px;
+    color: var(--mb-info);
+  }
+  a {
+    color: var(--mb-lime);
+  }
+}
+
+// Schema | Sample, styled like the site's other switches.
+.view-switch {
+  display: inline-flex;
+  padding: 3px;
+  margin-bottom: 14px;
+  border: 1px solid var(--mb-switch-edge);
+  border-radius: 999px;
+  background: var(--mb-switch-track);
+  button {
+    padding: 5px 16px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    color: var(--mb-text);
+    font-weight: 500;
+    cursor: pointer;
+    &.on {
+      background: var(--mb-lime);
+      color: var(--mb-bg);
+      font-weight: 600;
+    }
+  }
+}
+
+.fields-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.note {
+  margin: 0;
+  color: var(--mb-muted);
+  font-size: 13px;
+}
+
+.link {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--mb-lime);
+  font-size: 13px;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.schema {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  th {
+    text-align: left;
+    padding: 6px 10px;
+    color: var(--mb-faint);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--mb-line);
+    abbr {
+      text-decoration: none;
+      cursor: help;
+    }
+  }
+  td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--mb-line);
+    vertical-align: top;
+  }
+  tr.nested td {
+    background: color-mix(in srgb, var(--mb-panel-3) 60%, transparent);
+  }
+  .f-name {
+    white-space: nowrap;
+    code {
+      font-family: var(--mb-mono);
+      font-weight: 600;
+      color: var(--mb-text);
+    }
+  }
+  .f-type {
+    font-family: var(--mb-mono);
+    font-size: 12px;
+    color: var(--mb-info);
+    max-width: 16rem;
+  }
+  .f-card {
+    font-family: var(--mb-mono);
+    font-size: 12px;
+    color: var(--mb-muted);
+    white-space: nowrap;
+  }
+  tr.required .f-card {
+    color: var(--mb-lime);
+    font-weight: 600;
+  }
+  .f-what {
+    color: var(--mb-muted);
+  }
+}
+
+// Opens and closes a nested object's sub-fields.
+.caret {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin: 0 4px 0 -4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  vertical-align: -3px;
+  cursor: pointer;
+  &::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 3px;
+    border: 5px solid transparent;
+    border-left-color: var(--mb-lime);
+    transition: transform 120ms ease;
+    transform-origin: 2px 5px;
+  }
+  &.open::before {
+    transform: rotate(90deg);
+  }
+}
+
+.sample {
+  position: relative;
+  margin-bottom: 8px;
+  pre {
+    margin: 0;
+    max-height: 420px;
+    overflow: auto;
+    padding: 14px 16px;
+    background: var(--mb-bg);
+    border: 1px solid var(--mb-line);
+    border-radius: 10px;
+    font-family: var(--mb-mono);
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--mb-text);
+  }
+  .copy {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 3px 10px;
+    border: 1px solid var(--mb-switch-edge);
+    border-radius: 999px;
+    background: var(--mb-switch-track);
+    color: var(--mb-text);
+    font-size: 12px;
+    cursor: pointer;
+    &:hover {
+      border-color: color-mix(in srgb, var(--mb-lime) 60%, transparent);
+    }
+  }
+}
+
+// The groups --------------------------------------------------------------------------------------
+
 .groups {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-  align-items: start;
+  gap: 10px;
 }
 
 .group {
   background: var(--mb-panel);
   border: 1px solid var(--mb-line);
   border-radius: 12px;
-  &[open] {
-    border-color: color-mix(in srgb, var(--mb-lime) 35%, var(--mb-line));
-  }
 }
 
 summary {
   display: grid;
   gap: 2px;
-  padding: 14px 16px 14px 40px;
+  padding: 12px 14px 12px 36px;
   position: relative;
   cursor: pointer;
   list-style: none;
   &::-webkit-details-marker {
     display: none;
   }
-  // The open/closed arrow.
   &::before {
     content: '';
     position: absolute;
-    left: 18px;
-    top: 21px;
+    left: 16px;
+    top: 18px;
     border: 5px solid transparent;
     border-left-color: var(--mb-muted);
     transition: transform 120ms ease;
     transform-origin: 2px 5px;
   }
   .name {
-    font-size: 16px;
     font-weight: 600;
   }
   .line {
     color: var(--mb-muted);
+    font-size: 13px;
   }
 }
 
@@ -80,20 +336,41 @@ summary {
 
 ul {
   margin: 0;
-  padding: 0 16px 14px 40px;
+  padding: 0 8px 8px;
   list-style: none;
 }
 
-li {
-  padding: 8px 0;
-  border-top: 1px solid var(--mb-line);
-  color: var(--mb-muted);
-  a {
-    color: var(--mb-text);
+li button {
+  display: grid;
+  gap: 1px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  .r-name {
     font-family: var(--mb-mono);
     font-size: 13px;
     font-weight: 600;
-    &:hover {
+    color: var(--mb-text);
+  }
+  .r-line {
+    color: var(--mb-muted);
+    font-size: 12.5px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  &:hover {
+    background: var(--mb-panel-3);
+  }
+  &.on {
+    border-color: color-mix(in srgb, var(--mb-lime) 55%, transparent);
+    background: color-mix(in srgb, var(--mb-lime) 12%, transparent);
+    .r-name {
       color: var(--mb-lime);
     }
   }
@@ -103,11 +380,32 @@ li {
   margin: 24px 0 0;
 }
 
-@media (max-width: 720px) {
-  .groups {
+// Phones and narrow windows: one column, the card above the list (not sticky).
+@media (max-width: 900px) {
+  .layout {
     grid-template-columns: minmax(0, 1fr);
   }
+  .card {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    scroll-margin-top: 12px;
+  }
+}
+
+@media (max-width: 720px) {
   h1 {
     font-size: 24px;
+  }
+  .card {
+    padding: 16px;
+  }
+  // The table scrolls sideways inside the card rather than widening the page.
+  .schema {
+    display: block;
+    overflow-x: auto;
+  }
+  .schema .f-what {
+    min-width: 12rem;
   }
 }

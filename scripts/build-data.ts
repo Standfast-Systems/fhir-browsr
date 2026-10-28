@@ -291,6 +291,11 @@ const out: Dataset = {
 };
 mkdirSync('public/data', { recursive: true });
 writeFileSync('public/data/guides.json', JSON.stringify(out));
+// The FHIR Resources page's schemas and samples (from `npm run resources`), loaded only on that page.
+writeFileSync(
+  'public/data/fhir-resources.json',
+  JSON.stringify(JSON.parse(readFileSync('data/fhir-resources.json', 'utf8'))),
+);
 
 console.log(`guides.json: ${guides.length} guides`);
 for (const c of ['us', 'intl'] as const) {

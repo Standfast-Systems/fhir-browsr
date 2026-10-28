@@ -34,10 +34,11 @@ jobs:
       # need) and serve the app for anything else via 404.html.
       - run: |
           cd dist/fhir-browsr/browser
-          mkdir -p resources
+          mkdir -p resources guides
           cp index.html resources/index.html
+          cp index.html guides/index.html
           cp index.html 404.html
-          test -f resources/index.html && test -f 404.html
+          test -f resources/index.html && test -f guides/index.html && test -f 404.html
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main'
         with:
