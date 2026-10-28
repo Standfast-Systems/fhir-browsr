@@ -2,8 +2,10 @@
 // acceptance tests"), plus queries that must not match. Reads public/data/mappr.json, so run
 // `npm run data` first.
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { describe, it } from 'node:test';
+import { parse } from 'yaml';
+import { FIRST, QUESTIONS, type QuestionId } from '../src/core/mappr/guide.ts';
 import { buildIndex, lookup, stem, terms, type Hit } from '../src/core/mappr/lookup.ts';
 import { isR5OrLater, resourceIn, resourceSpecUrl } from '../src/core/mappr/release.ts';
 import { MODEL, nearest, semanticLookup, type VectorFile } from '../src/core/mappr/semantic.ts';
@@ -123,5 +125,47 @@ describe('lookup by meaning', () => {
       values: new Int8Array([127, 0, 0, 127]),
     };
     assert.equal(nearest(vectors, [0, 1])[0].id, 'b');
+  });
+});
+
+describe('the questions on "no good match"', () => {
+  const buckets = new Set(
+    (parse(readFileSync('data/buckets.yaml', 'utf8')) as { id: string }[]).map((b) => b.id),
+  );
+  const drivers = new Set(
+    readdirSync('data/kb/drivers').map(
+      (f) => (parse(readFileSync(`data/kb/drivers/${f}`, 'utf8')) as { id: string }).id,
+    ),
+  );
+  const patterns = new Set(data.patterns.map((p) => p.id));
+  const answers = Object.values(QUESTIONS).flatMap((q) => q.answers.map((a) => ({ q, a })));
+
+  it('point only at patterns, drivers, buckets and questions that exist', () => {
+    for (const { q, a } of answers) {
+      const t = a.to;
+      const where = `${q.id} → ${a.label}`;
+      if (t.kind === 'pattern') assert.ok(patterns.has(t.id), where);
+      if (t.kind === 'initializr') for (const d of t.drivers) assert.ok(drivers.has(d), where);
+      if (t.kind === 'browsr' && t.bucket) assert.ok(buckets.has(t.bucket), where);
+      if (t.kind === 'ask') assert.ok(QUESTIONS[t.next], where);
+    }
+  });
+  it('reach every question from the first', () => {
+    const seen = new Set<string>();
+    const walk = (id: QuestionId) => {
+      if (seen.has(id)) return;
+      seen.add(id);
+      for (const a of QUESTIONS[id].answers) if (a.to.kind === 'ask') walk(a.to.next);
+    };
+    walk(FIRST);
+    assert.deepEqual([...seen].sort(), Object.keys(QUESTIONS).sort());
+  });
+  it('give every question past the first a way out for "not sure"', () => {
+    for (const q of Object.values(QUESTIONS))
+      if (q.id !== FIRST)
+        assert.ok(
+          q.answers.some((a) => /not sure/i.test(a.label)),
+          q.id,
+        );
   });
 });

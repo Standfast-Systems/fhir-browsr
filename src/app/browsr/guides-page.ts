@@ -18,13 +18,20 @@ import {
   regionsWith,
   sortGuides,
   viewFor,
+  viewForParty,
   addedBy,
   type AddedBy,
   type Region,
   type RegionKey,
   type ScopedGuide,
 } from '../../core/browsr/scope';
-import type { Domain, Family, ScopeOptions } from '../../core/browsr/types';
+import {
+  PARTIES,
+  type Domain,
+  type Family,
+  type Party,
+  type ScopeOptions,
+} from '../../core/browsr/types';
 import { GuideData } from './guide-data';
 import { GuideTable } from './guide-table';
 import { Venn } from './venn';
@@ -48,10 +55,22 @@ export class GuidesPage {
   protected readonly selected = this.store.selected;
 
   constructor() {
+    const params = inject(ActivatedRoute).snapshot.queryParamMap;
+    // A link in to one party's circle (/browsr/guides?party=payer, or `all` for the whole
+    // diagram, from Mappr's questions) opens on it; `bucket` narrows a provider's circle to one
+    // "What are you working on?" chip.
+    const party = params.get('party');
+    if (party === 'all' || PARTIES.includes(party as Party)) {
+      this.store.show(viewForParty(party as Party | 'all', params.get('bucket')));
+      const url = new URL(location.href);
+      url.searchParams.delete('party');
+      url.searchParams.delete('bucket');
+      history.replaceState(history.state, '', url);
+    }
     // A link in to one guide (/browsr/guides?guide=hl7.fhir.us.core, from Mappr) shows its row:
     // its region, any toggle it needs, and a search for its name. Then the address goes back to
     // the plain page, so the view is the visitor's to change.
-    const wanted = inject(ActivatedRoute).snapshot.queryParamMap.get('guide');
+    const wanted = params.get('guide');
     if (wanted) {
       const once = effect(() => {
         const g = this.data()?.guides.find((x) => x.id === wanted);

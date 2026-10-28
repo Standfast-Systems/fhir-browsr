@@ -11,8 +11,10 @@ import {
   matches,
   paginate,
   pickRelease,
+  REGION_KEYS,
   regionOf,
   sortGuides,
+  viewForParty,
 } from '../src/core/browsr/scope.ts';
 import { inside, vennLayout } from '../src/core/browsr/venn.ts';
 import type { Guide, Release } from '../src/core/browsr/types.ts';
@@ -289,4 +291,13 @@ test('every Venn label sits inside its own region', () => {
     assert.deepEqual(got.sort(), [...want[r.key]].sort(), r.key);
     assert.match(r.path, /^M [-\d.]+ [-\d.]+ (A [^A]+){3}Z$/);
   }
+});
+
+test("a link in by party opens on that party's whole circle, or every region", () => {
+  assert.deepEqual(viewForParty('payer').regions.sort(), ['all', 'pr-py', 'pt-py', 'py'].sort());
+  assert.deepEqual(viewForParty('all').regions, [...REGION_KEYS]);
+  assert.equal(viewForParty('patient').country, 'us');
+  assert.deepEqual(viewForParty('provider').scope, DEFAULT_SCOPE);
+  assert.equal(viewForParty('provider', 'coverage').bucket, 'coverage');
+  assert.equal(viewForParty('payer').bucket, null);
 });

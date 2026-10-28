@@ -276,3 +276,16 @@ export function viewFor(g: Guide): ViewState | null {
     query: g.name,
   };
 }
+
+/**
+ * The view that opens on one party's whole circle (a link in that asks "whose system is it?"),
+ * or on the whole diagram for `all`, optionally narrowed to one "What are you working on?" bucket.
+ */
+export function viewForParty(party: Party | 'all', bucket: string | null = null): ViewState {
+  return {
+    ...DEFAULT_VIEW,
+    regions: party === 'all' ? [...REGION_KEYS] : regionsWith(party),
+    scope: { ...DEFAULT_SCOPE },
+    bucket,
+  };
+}
