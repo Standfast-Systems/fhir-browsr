@@ -4,6 +4,7 @@ type: workflow
 rank: 1
 kind: gap
 title: Send a referral and get the result back
+short: Referral gap
 ask: I want to send a referral and get the result back
 summary: >-
   A clinician refers a patient to another service, such as a community program or a dentist, and

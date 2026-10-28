@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { TYPES } from '../../core/mappr/library';
 import { isR5OrLater, resourceIn, resourceSpecUrl } from '../../core/mappr/release';
 import type { Pattern, StackGuide } from '../../core/mappr/types';
@@ -12,7 +13,7 @@ import { WalkthroughView } from './walkthrough';
  */
 @Component({
   selector: 'app-pattern-card',
-  imports: [WalkthroughView],
+  imports: [WalkthroughView, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './pattern-card.html',
   styleUrl: './pattern-card.scss',
@@ -56,7 +57,8 @@ export class PatternCard {
       name,
       here: resourceIn(name, release),
       url: resourceSpecUrl(name, release),
-      blurb: known[name]?.blurb ?? null,
+      /** Browsr's FHIR Resources page has an entry for it. */
+      inBrowsr: !!known[name],
     }));
   });
 

@@ -76,6 +76,20 @@ h1 {
   max-width: 52ch;
 }
 
+.next {
+  margin: -8px 0 20px;
+  color: var(--mb-muted);
+  max-width: 52ch;
+  .beta {
+    margin-left: 4px;
+    padding: 0 6px;
+    border: 1px solid color-mix(in srgb, var(--mb-warn) 45%, transparent);
+    border-radius: 999px;
+    color: var(--mb-warn);
+    font-size: 11px;
+  }
+}
+
 .scope {
   background: var(--mb-panel);
   border: 1px solid var(--mb-line);

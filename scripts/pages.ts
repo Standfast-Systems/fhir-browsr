@@ -16,6 +16,8 @@ type Page = { path: string; title: string; name: string; description: string };
 
 const BROWSR =
   'Learn the FHIR resources every implementation guide is built from, then find the guides that apply to you.';
+const MAPPR =
+  "Describe what you're trying to do and see the guides, resources and patterns that fit.";
 const INITIALIZR =
   'Start a FHIR project with the implementation guides it needs — pinned, cited, ready to load.';
 
@@ -32,6 +34,19 @@ const PAGES: Page[] = [
     title: 'Implementation Guides — FHIR Browsr',
     name: 'FHIR Browsr',
     description: BROWSR,
+  },
+  { path: 'mappr', title: 'FHIR Mappr', name: 'FHIR Mappr', description: MAPPR },
+  {
+    path: 'mappr/lookup',
+    title: 'Lookup — FHIR Mappr',
+    name: 'FHIR Mappr',
+    description: MAPPR,
+  },
+  {
+    path: 'mappr/patterns',
+    title: 'Patterns — FHIR Mappr',
+    name: 'FHIR Mappr',
+    description: MAPPR,
   },
   {
     path: 'initializr',

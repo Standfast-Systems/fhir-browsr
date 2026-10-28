@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { paginate, type ScopedGuide, type SortKey } from '../../core/browsr/scope';
 import { PARTIES, type Domain, type Family, type Party } from '../../core/browsr/types';
+import type { PatternsByGuide } from '../../core/mappr/types';
 
 const PAGE_SIZE = 12;
 const STATUS: Record<string, { text: string; tone: 'good' | 'ok' | 'warn' | 'plain' }> = {
@@ -26,6 +28,7 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 
 @Component({
   selector: 'app-guide-table',
+  imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (view().total) {
@@ -96,6 +99,16 @@ const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
                         >{{ d.label }}
                       </button>
                     }
+                  }
+                  <!-- Mappr patterns this guide is part of: how it fits with the others. -->
+                  @for (p of usedIn()[g.id] ?? []; track p.id) {
+                    <a
+                      class="tag pattern"
+                      routerLink="/mappr/patterns"
+                      [fragment]="p.id"
+                      [attr.title]="'See how ' + g.name + ' fits in the ' + p.short + ' pattern'"
+                      >Used in: {{ p.short }}</a
+                    >
                   }
                 </div>
                 <div class="blurb">{{ g.blurb }}</div>
@@ -181,6 +194,8 @@ export class GuideTable {
   readonly domains = input<ReadonlyMap<string, Domain>>(new Map());
   /** A row's domain tag was clicked: show every guide in that domain. */
   readonly domainChange = output<string>();
+  /** The Mappr patterns each guide is part of. */
+  readonly usedIn = input<PatternsByGuide>({});
 
   protected readonly parties = PARTIES;
   protected readonly partyName = PARTY_NAME;

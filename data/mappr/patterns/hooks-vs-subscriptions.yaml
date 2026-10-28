@@ -4,6 +4,7 @@ id: hooks-vs-subscriptions
 type: exchange
 rank: 1
 title: CDS Hooks vs. Subscriptions
+short: Hooks vs. Subscriptions
 ask: I want to know whether I need CDS Hooks or Subscriptions
 summary: >-
   Two ways for a system to react to something in the EHR. CDS Hooks asks a service while a user

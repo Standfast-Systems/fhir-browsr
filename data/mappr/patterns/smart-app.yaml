@@ -4,6 +4,7 @@ type: workflow
 rank: 1
 kind: established
 title: Build an app that reads a patient's record
+short: SMART app
 ask: I want to build an app that reads a patient's record
 summary: >-
   An app connects to a health system's FHIR server, the patient or clinician signs in, and the app

@@ -4,6 +4,7 @@ type: workflow
 rank: 5
 kind: established
 title: Check prior authorization from inside the EHR
+short: Prior auth
 ask: I want to check and request prior authorization from inside the EHR
 summary: >-
   While a clinician places an order, the EHR asks the payer whether prior authorization is

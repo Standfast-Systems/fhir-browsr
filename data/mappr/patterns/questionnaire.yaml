@@ -4,6 +4,7 @@ type: workflow
 rank: 8
 kind: established
 title: Send a questionnaire and store the answers as data
+short: Questionnaire
 ask: I want to send a questionnaire and keep the answers as data
 summary: >-
   A form (Questionnaire) is filled in, the completed form (QuestionnaireResponse) is saved, and

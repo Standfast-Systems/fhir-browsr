@@ -9,7 +9,9 @@ import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import { parse } from 'yaml';
 import { RESOURCE_GROUPS } from '../src/app/browsr/resources-content.ts';
+import { viewFor } from '../src/core/browsr/scope.ts';
 import type { Dataset, Release as BrowsrRelease } from '../src/core/browsr/types.ts';
+import { guidesOf } from '../src/core/mappr/library.ts';
 import { isR4Resource } from '../src/core/mappr/release.ts';
 import type { VectorFile } from '../src/core/mappr/semantic.ts';
 import { embeddedTexts, textHash } from './lib/mappr-texts.ts';
@@ -18,6 +20,7 @@ import type {
   MapprGuide,
   MapprResource,
   Pattern,
+  PatternsByGuide,
   Release,
   Walkthrough,
 } from '../src/core/mappr/types.ts';
@@ -63,6 +66,7 @@ for (const g of dataset.guides) {
     url: current?.url ?? `https://packages.fhir.org/${g.id}`,
     withdrawn: g.withdrawn,
     phrasings: wider[g.id] ?? [],
+    inBrowsr: viewFor(g) !== null,
   };
 }
 
@@ -92,7 +96,8 @@ for (const file of readdirSync(DIR)
   if (p.type === 'workflow' && p.kind !== 'established' && p.kind !== 'gap')
     err('a workflow needs kind: established or gap');
   if (p.kind === 'gap' && !p.gap) err('a gap needs gap: (thin, who, help)');
-  for (const field of ['title', 'ask', 'summary'] as const) if (!p[field]) err(`no ${field}`);
+  for (const field of ['title', 'short', 'ask', 'summary'] as const)
+    if (!p[field]) err(`no ${field}`);
   const named = [
     ...(p.stack ? [...p.stack.moves, ...p.stack.carries, ...(p.stack.builtOn ?? [])] : []).map(
       (s) => s.guide,
@@ -146,6 +151,12 @@ if (vectors.textHash !== textHash(embeddedTexts(out))) {
 
 writeFileSync('public/data/mappr.json', JSON.stringify(out));
 writeFileSync('public/data/mappr-vectors.json', JSON.stringify(vectors));
+
+// Browsr's rows say which patterns a guide is part of ("Used in: Prior auth").
+const byGuide: PatternsByGuide = {};
+for (const p of patterns)
+  for (const id of guidesOf(p)) (byGuide[id] ??= []).push({ id: p.id, short: p.short });
+writeFileSync('public/data/patterns-by-guide.json', JSON.stringify(byGuide));
 const phrasings = patterns.reduce((n, p) => n + p.phrasings.length, 0);
 console.log(
   `[mappr] mappr.json: ${patterns.length} patterns (${phrasings} phrasings), ` +

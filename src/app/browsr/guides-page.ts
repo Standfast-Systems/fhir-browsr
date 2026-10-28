@@ -1,5 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  untracked,
+} from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import {
   REGIONS,
   REGION_KEYS,
@@ -10,6 +17,7 @@ import {
   matches,
   regionsWith,
   sortGuides,
+  viewFor,
   addedBy,
   type AddedBy,
   type Region,
@@ -34,9 +42,29 @@ export class GuidesPage {
   private readonly guideData = inject(GuideData);
   protected readonly data = this.guideData.data;
   protected readonly error = this.guideData.error;
+  protected readonly usedIn = this.guideData.usedIn;
   protected readonly store = inject(ViewStore);
   protected readonly view = this.store.view;
   protected readonly selected = this.store.selected;
+
+  constructor() {
+    // A link in to one guide (/browsr/guides?guide=hl7.fhir.us.core, from Mappr) shows its row:
+    // its region, any toggle it needs, and a search for its name. Then the address goes back to
+    // the plain page, so the view is the visitor's to change.
+    const wanted = inject(ActivatedRoute).snapshot.queryParamMap.get('guide');
+    if (wanted) {
+      const once = effect(() => {
+        const g = this.data()?.guides.find((x) => x.id === wanted);
+        if (!this.data()) return;
+        const view = g && viewFor(g);
+        if (view) untracked(() => this.store.show(view));
+        const url = new URL(location.href);
+        url.searchParams.delete('guide');
+        history.replaceState(history.state, '', url);
+        once.destroy();
+      });
+    }
+  }
 
   protected readonly toggles: { key: keyof ScopeOptions; label: string; hint: string }[] = [
     {

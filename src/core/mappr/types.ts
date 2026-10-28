@@ -91,6 +91,8 @@ export interface Pattern {
   /** Order within its type (the spec's numbering for workflows). */
   rank: number;
   title: string;
+  /** A short name for chips and links: "Prior auth". */
+  short: string;
   /** The visitor's words: "I want to …". */
   ask: string;
   /** One or two plain sentences. */
@@ -127,6 +129,8 @@ export interface MapprGuide {
   withdrawn: boolean;
   /** Extra ways people ask for it (data/mappr/wider.yaml), for the lookup's wider tier. */
   phrasings: string[];
+  /** Whether Browsr can show its row (a known publisher, with a release some toggle allows). */
+  inBrowsr: boolean;
 }
 
 /** A FHIR resource as Mappr shows it: from Browsr's resource sentences. */
@@ -143,3 +147,6 @@ export interface MapprData {
   guides: Record<string, MapprGuide>;
   resources: Record<string, MapprResource>;
 }
+
+/** For Browsr's rows: the patterns each guide is part of (public/data/patterns-by-guide.json). */
+export type PatternsByGuide = Record<string, { id: string; short: string }[]>;

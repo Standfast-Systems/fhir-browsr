@@ -252,3 +252,27 @@ export const DEFAULT_VIEW: ViewState = {
   sort: 'start',
   page: 1,
 };
+
+/**
+ * The view that shows one guide's row (a link in from another section): its country and region,
+ * the scope toggle it needs if any, and a search for its name. Null when Browsr never lists it
+ * (withdrawn, or not from a known publisher).
+ */
+export function viewFor(g: Guide): ViewState | null {
+  if (g.withdrawn || !g.knownPublisher) return null;
+  const scopes: ScopeOptions[] = [
+    DEFAULT_SCOPE,
+    { drafts: true, r5: false },
+    { drafts: false, r5: true },
+    { drafts: true, r5: true },
+  ];
+  const scope = scopes.find((o) => pickRelease(g, o));
+  if (!scope) return null;
+  return {
+    ...DEFAULT_VIEW,
+    country: g.use === 'intl' ? 'intl' : 'us',
+    regions: [regionOf(g.parties)],
+    scope: { ...scope },
+    query: g.name,
+  };
+}

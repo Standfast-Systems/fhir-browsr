@@ -29,6 +29,12 @@
       have to build to it, as client or server. The overlaps are the guides you share with the other
       side.
     </p>
+    <!-- This page's next step: from the guides that apply to the versions to build with. -->
+    <p class="next">
+      Know which guides you need?
+      <a routerLink="/initializr">Get the exact versions and starter config in Initializr →</a>
+      <span class="beta">BETA</span>
+    </p>
   </div>
 
   <div class="controls">
@@ -265,6 +271,7 @@
       [sort]="view().sort"
       [families]="families()"
       [domains]="domains()"
+      [usedIn]="usedIn()"
       (familyChange)="store.setFamily($event)"
       (domainChange)="store.setDomain($event)"
       (pageChange)="store.setPage($event)"

@@ -30,7 +30,14 @@
             @for (i of l.items; track i.guide) {
               <li>
                 @if (i.g; as g) {
-                  <a [href]="g.url" target="_blank" rel="noopener">{{ g.name }}</a>
+                  @if (g.inBrowsr) {
+                    <a routerLink="/browsr/guides" [queryParams]="{ guide: g.id }">{{ g.name }}</a>
+                  } @else {
+                    <span>{{ g.name }}</span>
+                  }
+                  <a class="ext" [href]="g.url" target="_blank" rel="noopener"
+                    ><span class="visually-hidden">{{ g.name }}: the guide's own page</span>↗</a
+                  >
                 } @else {
                   <span>{{ i.guide }}</span>
                 }
@@ -48,7 +55,14 @@
     <ul class="plain">
       @for (g of others(); track g.id) {
         <li>
-          <a [href]="g.url" target="_blank" rel="noopener">{{ g.name }}</a>
+          @if (g.inBrowsr) {
+            <a routerLink="/browsr/guides" [queryParams]="{ guide: g.id }">{{ g.name }}</a>
+          } @else {
+            <span>{{ g.name }}</span>
+          }
+          <a class="ext" [href]="g.url" target="_blank" rel="noopener"
+            ><span class="visually-hidden">{{ g.name }}: the guide's own page</span>↗</a
+          >
           <span class="note">{{ g.blurb }}</span>
         </li>
       }
@@ -97,17 +111,17 @@
     <ul class="resources">
       @for (r of resources(); track r.name) {
         <li>
-          @if (r.url) {
-            <a [href]="r.url" target="_blank" rel="noopener"
-              >{{ r.here }}
-              @if (r.here !== r.name) {
-                <span class="was"> (R4: {{ r.name }})</span>
-              }
-            </a>
+          @if (r.inBrowsr) {
+            <a routerLink="/browsr/resources" [fragment]="r.name">{{ r.name }}</a>
           } @else {
-            <span class="gone"
-              >{{ r.name }} <span class="was">(not in {{ store.release() }})</span></span
+            <span class="name">{{ r.name }}</span>
+          }
+          @if (r.url) {
+            <a class="spec" [href]="r.url" target="_blank" rel="noopener"
+              >{{ r.here !== r.name ? r.here + ' in ' : '' }}{{ store.release() }} spec ↗</a
             >
+          } @else {
+            <span class="spec gone">not in {{ store.release() }}</span>
           }
         </li>
       }
@@ -117,6 +131,17 @@
   @if (p.why) {
     <h3>Why it's solid</h3>
     <p>{{ p.why }}</p>
+  }
+
+  @if (p.initializr; as i) {
+    <!-- Version pins, required vs. optional and config live in Initializr: a workflow tells it enough. -->
+    <p class="deeper">
+      <a routerLink="/initializr" [queryParams]="{ driver: i.drivers }"
+        >Open in Initializr, set up for {{ i.label }} →</a
+      >
+      <span class="beta">BETA</span>
+      <span class="why">for the exact guide versions, what's required, and starter config</span>
+    </p>
   }
 
   <h3>Read first</h3>

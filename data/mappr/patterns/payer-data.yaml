@@ -4,6 +4,7 @@ type: workflow
 rank: 2
 kind: established
 title: Share payer data with members, providers and the next plan
+short: Payer data
 ask: I want to share a health plan's data with members, providers and the next plan
 summary: >-
   One set of health plan data, three audiences. Members connect an app and get the most, including
