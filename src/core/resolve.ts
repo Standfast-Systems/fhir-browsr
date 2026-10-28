@@ -42,7 +42,7 @@ import type {
  */
 export const TOOL = {
   name: 'FHIR Initializr',
-  version: '0.1.0',
+  version: '0.2.0',
   stage: 'pre-MVP preview, under construction',
 };
 
@@ -106,10 +106,15 @@ function intersect(sets: string[][]): string[] {
   return sets.reduce((acc, s) => acc.filter((v) => s.includes(v)));
 }
 
-/** Published (non-pre-release) R4 versions, newest first. */
+/**
+ * Published (non-pre-release) R4 versions, newest first. The publisher's current release counts
+ * even when its version list marks every entry "draft" (Chile's does).
+ */
 export function publishedR4(p: RegistryPackage | undefined): string[] {
   if (!p) return [];
-  return p.versions.filter((v) => !v.prerelease && v.fhir.some(isR4)).map((v) => v.version);
+  return p.versions
+    .filter((v) => (!v.prerelease || v.version === p.current) && v.fhir.some(isR4))
+    .map((v) => v.version);
 }
 
 /** The R4 flavour of a catalog guide: the guide itself, or its ".r4" sibling package. */
@@ -485,7 +490,11 @@ export function resolve(
   warnings.push(...unique);
 
   const severityRank = { error: 0, warn: 1, info: 2 };
-  warnings.sort((a, b) => severityRank[a.severity] - severityRank[b.severity]);
+  for (const w of warnings) w.action = needsAction(w);
+  warnings.sort(
+    (a, b) =>
+      Number(b.action) - Number(a.action) || severityRank[a.severity] - severityRank[b.severity],
+  );
 
   const selectedDrivers = kb.drivers.filter((d) => profile.drivers.some((x) => x.id === d.id));
   return {
@@ -507,6 +516,28 @@ export function resolve(
       (d.notes ?? []).map((note) => ({ driver: d.short, note })),
     ),
   };
+}
+
+/**
+ * Whether a warning needs the user to act, or is a heads-up. Untestable versions and shared
+ * dependency versions are worth knowing but don't block anything; a scope that conflicts, uses a
+ * version that doesn't qualify, or lacks something required does.
+ */
+export function needsAction(w: ManifestWarning): boolean {
+  switch (w.kind) {
+    case 'conflict':
+    case 'side-missing':
+    case 'realm-mismatch':
+      return true;
+    case 'no-version':
+    case 'expired-choice':
+    case 'choice-not-accepted':
+      return w.severity !== 'info';
+    case 'removed':
+      return w.severity === 'warn';
+    default:
+      return false;
+  }
 }
 
 /**
@@ -673,14 +704,19 @@ function pickVersion(
   ig.allowed = candidates;
   const publishedPreferred = preferred.filter((v) => published.includes(v));
   const publishedCandidates = candidates.filter((v) => published.includes(v));
-  const pick = publishedPreferred[0] ?? publishedCandidates[0] ?? candidates[0] ?? null;
+  // The release the publisher calls current, when it's among the preferred; else the newest.
+  const current = pkg?.current && publishedPreferred.includes(pkg.current) ? pkg.current : null;
+  const pick = current ?? publishedPreferred[0] ?? publishedCandidates[0] ?? candidates[0] ?? null;
   const chosen = profile.pins?.[name];
   if (!chosen) {
     ig.pin = pick;
+    const which = current ? "The publisher's current release" : 'The newest release';
     if (followsRecommendation && ig.pin === publishedPreferred[0])
       ig.pinNote = `Follows the recommendation (${recommended.map((r) => label(r)).join('; ')}); ${candidates[0]} is also accepted.`;
     else if (!ig.pinNote && !rules.length && publishedCandidates.length > 1)
-      ig.pinNote = `The newest release: nothing in scope narrows the choice, so any of ${publishedCandidates.length} published versions will do.`;
+      ig.pinNote = `${which}: nothing in scope narrows the choice, so any of ${publishedCandidates.length} published versions will do.`;
+    else if (!ig.pinNote && current && current !== publishedPreferred[0])
+      ig.pinNote = `The publisher's current release; ${publishedPreferred[0]} is newer and also accepted.`;
     return false;
   }
 

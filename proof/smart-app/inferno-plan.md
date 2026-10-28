@@ -1,6 +1,6 @@
 # Inferno test plan
 
-Target date 2027-01-01 · KB as of 2026-10-21 · FHIR Initializr 0.1.0
+Target date 2027-01-01 · KB as of 2026-10-21 · FHIR Initializr 0.2.0
 
 ## US Core Test Kit
 

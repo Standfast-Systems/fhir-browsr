@@ -12,16 +12,12 @@
       type="button"
       class="stat sev"
       (click)="tab.set(1)"
-      [class.has-error]="counts().error"
+      [class.has-error]="counts().action"
       [attr.aria-label]="'Show warnings'"
     >
-      @if (counts().error) {
-        <span class="num sev-error">{{ counts().error }}</span
-        ><span class="lbl">errors</span>
-      }
-      <span class="num sev-warn">{{ counts().warn }}</span
-      ><span class="lbl">warnings</span> <span class="num sev-info">{{ counts().info }}</span
-      ><span class="lbl">notes</span>
+      <span class="num" [class.sev-error]="counts().action">{{ counts().action }}</span
+      ><span class="lbl">need action</span> <span class="num sev-info">{{ counts().headsUp }}</span
+      ><span class="lbl">heads-up{{ counts().headsUp === 1 ? '' : 's' }}</span>
     </button>
     <div class="stat date">
       <span class="lbl">compliant as of</span>
@@ -101,16 +97,21 @@
     <mat-tab>
       <ng-template mat-tab-label>
         Warnings
-        <span class="badge" [class.err]="counts().error">{{ counts().error + counts().warn }}</span>
+        @if (counts().action) {
+          <span class="badge err">{{ counts().action }}</span>
+        }
       </ng-template>
       <div class="pane">
-        @for (g of warningGroups(); track g.severity) {
-          <h3 class="wh" [class]="'sev-' + g.severity">
-            {{ g.severity === 'error' ? 'Errors' : g.severity === 'warn' ? 'Warnings' : 'Notes' }}
+        @for (g of warningGroups(); track g.id) {
+          <h3 class="wh" [class]="g.id">
+            {{ g.title }} <span class="faint">· {{ g.items.length }}</span>
           </h3>
+          @if (!g.items.length) {
+            <p class="muted">{{ g.id === 'action' ? 'Nothing needs fixing.' : 'None.' }}</p>
+          }
           <ul class="warnings">
             @for (w of g.items; track $index) {
-              <li [class]="g.severity">
+              <li [class]="w.severity">
                 <mat-icon fontSet="material-symbols-outlined" [class]="'sev-' + w.severity">{{
                   icon(w)
                 }}</mat-icon>
@@ -130,8 +131,6 @@
               </li>
             }
           </ul>
-        } @empty {
-          <p class="muted">No warnings.</p>
         }
       </div>
     </mat-tab>

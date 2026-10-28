@@ -77,17 +77,18 @@ export class Results {
   protected readonly counts = computed(() => {
     const w = this.m()?.warnings ?? [];
     return {
-      error: w.filter((x) => x.severity === 'error').length,
-      warn: w.filter((x) => x.severity === 'warn').length,
-      info: w.filter((x) => x.severity === 'info').length,
+      action: w.filter((x) => x.action).length,
+      headsUp: w.filter((x) => !x.action).length,
     };
   });
 
+  /** "Needs action" always shows, empty or not; heads-ups follow. */
   protected readonly warningGroups = computed(() => {
     const w = this.m()?.warnings ?? [];
-    return (['error', 'warn', 'info'] as const)
-      .map((s) => ({ severity: s, items: w.filter((x) => x.severity === s) }))
-      .filter((g) => g.items.length);
+    return [
+      { id: 'action', title: 'Needs action', items: w.filter((x) => x.action) },
+      { id: 'heads-up', title: 'Heads-ups', items: w.filter((x) => !x.action) },
+    ];
   });
 
   protected readonly multi = computed(() => {

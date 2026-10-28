@@ -4,14 +4,14 @@
 
 **Live:** https://standfast-systems.github.io/fhir-initializr/
 
-> **Under construction: v0.1.0, a pre-MVP preview.** The knowledge base is young and the outputs haven't been checked by implementers yet. Use it to explore, not to make compliance or architecture decisions. Corrections are welcome as [issues](https://github.com/Standfast-Systems/fhir-initializr/issues).
+> **Under construction: v0.2.0, a pre-MVP preview.** The knowledge base is young and the outputs haven't been checked by implementers yet. Use it to explore, not to make compliance or architecture decisions. Corrections are welcome as [issues](https://github.com/Standfast-Systems/fhir-initializr/issues).
 
 Package tools (SUSHI, Firely Terminal, the FHIR Package Loader) resolve a dependency tree once you know the root IG and version. Nothing tells you which IGs you need in the first place, or which versions a regulation accepts on the date you have to comply. FHIR Initializr does that part, the way [start.spring.io](https://start.spring.io) sets up a Spring project.
 
 Tell it **where** the project is (the US, a country, or nowhere in particular) and **what drives it** (ONC (g)(10), CMS-0057-F, HTI-4 prior authorization…). Where a regulation asks different things of each party, it asks **which side your system is on** (for CMS-0057-F: the payer's APIs, a provider system that calls them, or a member app). Then it asks whether you're building a **FHIR server, client or both** and the **target date**, and returns a scope manifest:
 
 - **IG set:** every guide in scope with its accepted versions on that date, a recommended pin, the requirement strength (required, recommended or optional, never collapsed) and the citation for each.
-- **Warnings:** conflicts between drivers (reported with both citations, never silently resolved), versions that expire soon after your date, multi-version dependencies, FHIR-version mismatches, pins no Inferno suite can test yet, and versions a *proposed* rule would require.
+- **Warnings,** split in two. *Needs action:* conflicts between drivers (reported with both citations, never silently resolved), a version choice that doesn't qualify, a removed requirement, a driver without its side. *Heads-ups:* versions that expire soon after your date, multi-version dependencies, FHIR-version mismatches, pins no Inferno suite can test yet, and versions a *proposed* rule would require. Cards show the first in full and fold the second into one line.
 - **Functional surface:** resources, interactions, search parameters and operations at SHALL/SHOULD, merged from each IG's own CapabilityStatements for your side of the exchange. Where a guide publishes none, it says "narrative only" instead of guessing.
 - **Test plan:** the Inferno kits and suites that exercise the scope, and whether they support your pinned versions.
 - **Files:** `package.json`, a `sushi-config.yaml` dependencies block, the HAPI JPA Starter `implementationguides` block, a draft CapabilityStatement, an Inferno plan, a Markdown report and the JSON manifest.
@@ -85,7 +85,7 @@ There is no backend. The site serves the compiled knowledge base and registry sn
 
 ### How a version gets picked
 
-For each IG, every applicable rule contributes the versions it accepts on the target date (or on its in-force date, for obligations that start later). Required rules are intersected; an empty intersection is a conflict, reported with every citation and no pin. Recommended rules narrow the preference without shrinking what's accepted. The pin is the newest published R4 release left, with two exceptions, both shown on the card:
+For each IG, every applicable rule contributes the versions it accepts on the target date (or on its in-force date, for obligations that start later). Required rules are intersected; an empty intersection is a conflict, reported with every citation and no pin. Recommended rules narrow the preference without shrinking what's accepted. The pin is the release the publisher marks current in its `package-list.json`, if that's still accepted, and otherwise the newest published R4 release left. Two exceptions, both shown on the card:
 
 - a version you choose on the card wins, even outside the accepted versions (a warning says so, as an error if it's a requirement), so it also covers a version you already run;
 - if other IGs in the set depend on an accepted version, Initializr pins that one so the project loads one version instead of two (US Core 7.0.0 rather than 9.0.0 for a CMS-0057-F payer, because PDex, CRD, DTR and PAS depend on 7.0.0).
@@ -130,6 +130,6 @@ Proof of done for each driver: generate the HAPI config, boot the server, load t
 
 ## License
 
-Code under the Apache License 2.0 ([LICENSE](LICENSE)). FHIR® is the registered trademark of HL7 and is used with permission. This tool is not endorsed by HL7, ONC or CMS.
+Code under the Apache License 2.0 ([LICENSE](LICENSE)). FHIR® is the registered trademark of HL7. This tool isn't affiliated with or endorsed by HL7, ONC or CMS.
 
 A free tool by [Standfast Systems](https://standfastsystems.com).

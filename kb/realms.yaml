@@ -10,7 +10,8 @@
 # Germany's entry is the STU3 package; Japan's id doesn't exist on packages.fhir.org; France Core
 # and Brazil Core aren't listed at all), so every entry is judged by hand. A base only counts if a
 # published R4 release is on packages.fhir.org, since package tools can't fetch it otherwise.
-# "version" pins the publisher's current release where the newest published one isn't it.
+# Pins follow the release each publisher marks current in its package-list.json (the snapshot
+# records it). "version" is a hand pin, kept only where a publisher has no version list.
 
 realms:
   - id: intl
@@ -68,8 +69,7 @@ realms:
     packages:
       - ig: hl7.fhir.cl.clcore
         kind: core
-        version: "1.9.3"
-        note: "1.9.3 is the official release; 1.9.4 is a draft even though packages.fhir.org lists it as latest."
+        note: "Its version list marks 1.9.3 current (and every entry draft); 1.9.4 on packages.fhir.org is a draft."
     cite: {source: national-igs, pin: "CL Core", url: "https://hl7chile.cl/fhir/ig/clcore"}
   - id: cz
     name: "Czechia"
@@ -102,7 +102,7 @@ realms:
       - ig: fhir.r4.ukcore.stu2
         kind: core
         version: "2.0.2"
-        note: "UK Core STU2; package 2.1.0 is deprecated."
+        note: "UK Core STU2; package 2.1.0 is deprecated. Hand-pinned: NHS England publishes no package-list.json."
     cite: {source: national-igs, pin: "UK Core", url: "https://simplifier.net/guide/ukcoreversionhistory"}
   - id: il
     name: "Israel"
@@ -122,7 +122,7 @@ realms:
   - id: kr
     name: "South Korea"
     packages:
-      - {ig: hl7.fhir.kr.core, kind: core, note: "KR Core 2.0.0 (STU2) is current but not on packages.fhir.org yet; this pins the newest there."}
+      - {ig: hl7.fhir.kr.core, kind: core, note: "KR Core 2.0.0 (STU2, August 2025) is the current release but isn't on packages.fhir.org (checked 2026-10-21), so package tools can't fetch it; 1.0.2 is the newest there."}
     cite: {source: national-igs, pin: "KR Core", url: "http://www.hl7korea.or.kr/fhir/krcore"}
   - id: "no"
     name: "Norway"

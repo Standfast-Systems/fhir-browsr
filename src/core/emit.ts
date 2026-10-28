@@ -405,12 +405,17 @@ const report: Emitter = {
       );
     }
 
-    out.push('', '## Warnings', '');
-    if (!m.warnings.length) out.push('None.');
-    for (const w of m.warnings) {
-      out.push(`- **${w.severity.toUpperCase()} · ${w.kind}** — ${w.title}. ${w.detail}`);
-      for (const c of w.cites) out.push(`  - ${c.title}${c.pin ? ` ${c.pin}` : ''}: ${c.url}`);
-    }
+    const warningList = (ws: typeof m.warnings) => {
+      if (!ws.length) out.push('None.');
+      for (const w of ws) {
+        out.push(`- **${w.severity.toUpperCase()} · ${w.kind}** — ${w.title}. ${w.detail}`);
+        for (const c of w.cites) out.push(`  - ${c.title}${c.pin ? ` ${c.pin}` : ''}: ${c.url}`);
+      }
+    };
+    out.push('', '## Needs action', '');
+    warningList(m.warnings.filter((w) => w.action));
+    out.push('', '## Heads-ups', '');
+    warningList(m.warnings.filter((w) => !w.action));
 
     out.push('', '## Why each IG is in scope', '');
     for (const ig of m.igs) {

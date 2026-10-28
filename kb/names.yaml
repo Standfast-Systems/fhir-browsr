@@ -1,0 +1,736 @@
+# FHIR Initializr knowledge base: display names and one-liners for catalog guides.
+#
+# Copied 2026-10-21 from FHIR Matchbook's hand-written data/notes.yaml (commit cdb18e6), which
+# covers the same 277 guides. The apps aren't linked: edit here, and copy again by hand if
+# Matchbook's wording improves. Curated short names in igs.yaml still win, so a guide reads the
+# same in the picker and on its card.
+#   name:  display name (registry titles are often clumsy)
+#   blurb: one plain sentence about what the guide is for
+
+names:
+  hl7.fhir.us.core:
+    name: "US Core"
+    blurb: "The baseline US profiles for patient data (problems, meds, allergies, labs, notes). Almost every US guide builds on it."
+  hl7.fhir.uv.ipa:
+    name: "International Patient Access (IPA)"
+    blurb: "The minimum a server must offer so a patient's app can read their own record. The non-US counterpart to US Core."
+  hl7.fhir.uv.ips:
+    name: "International Patient Summary (IPS)"
+    blurb: "A short, portable summary of a patient (problems, meds, allergies) that any clinician can read, across borders."
+  fhir.cqf.common:
+    name: "CQF Common Assets"
+    blurb: "Shared libraries (FHIRHelpers, model info) used by CQL-based measures and decision support."
+  hl7.fhir.us.cql:
+    name: "Common CQL Assets (US)"
+    blurb: "Shared CQL libraries reused by US quality measures and decision support."
+  hl7.fhir.us.davinci-hrex:
+    name: "Da Vinci HRex"
+    blurb: "Shared building blocks reused by the other Da Vinci guides. Read it alongside CDex, PDex or PAS."
+  hl7.fhir.us.ph-library:
+    name: "US Public Health Profiles Library"
+    blurb: "Shared profiles reused by the US public health reporting guides."
+  hl7.fhir.us.vr-common-library:
+    name: "Vital Records Common Library"
+    blurb: "Shared profiles reused by the birth, death and fetal death reporting guides."
+  hl7.fhir.uv.crmi:
+    name: "Canonical Resource Management (CRMI)"
+    blurb: "How to author, version, package and publish knowledge artifacts such as measures, value sets and rules."
+  hl7.cql:
+    name: "Clinical Quality Language (CQL)"
+    blurb: "The language that quality measures and decision-support rules are written in."
+  hl7.fhir.uv.extensions:
+    name: "FHIR Extensions Pack"
+    blurb: "The official catalog of extensions shared across guides. You rarely read it directly, but nearly every guide pulls it in."
+  hl7.fhirpath:
+    name: "FHIRPath"
+    blurb: "The small expression language FHIR uses for validation rules, search parameters and form logic."
+  hl7.xprod.uv.gender-harmony:
+    name: "Gender Harmony"
+    blurb: "How to record sex and gender consistently: gender identity, pronouns, name to use, and sex for clinical use."
+  hl7.terminology:
+    name: "HL7 Terminology (THO)"
+    blurb: "The official home of the HL7 code systems and value sets that guides point to."
+  hl7.fhir.uv.tools:
+    name: "HL7 Tools Extensions"
+    blurb: "Extensions used by the guide-publishing tools. Only matters if you write guides yourself."
+  ihe.formatcode.fhir:
+    name: "IHE FormatCode"
+    blurb: "Codes that identify document formats in IHE document sharing."
+  smart.who.int.base:
+    name: "WHO SMART Base"
+    blurb: "Shared building blocks for all WHO SMART Guidelines."
+  smart.who.int.base-clinical:
+    name: "WHO SMART Base Clinical"
+    blurb: "Shared clinical profiles reused across WHO SMART Guidelines."
+  hl7.xprod.uv.termfundamentals:
+    name: "Terminology Fundamentals"
+    blurb: "How code systems, value sets and concept maps work, explained once for all HL7 standards."
+  hl7.fhir.uv.cql:
+    name: "Using CQL with FHIR"
+    blurb: "How CQL logic is packaged in FHIR and run against FHIR data."
+  hl7.fhir.us.carin-bb:
+    name: "CARIN Blue Button"
+    blurb: "Lets a member's app pull their claims and explanation-of-benefits data from their health plan."
+  hl7.fhir.us.insurance-card:
+    name: "CARIN Digital Insurance Card"
+    blurb: "The member's insurance card as data an app can show and share."
+  hl7.fhir.us.carin-rtpbc:
+    name: "CARIN Real-time Pharmacy Benefit Check"
+    blurb: "Lets a member see what a prescription will cost under their plan before they fill it."
+  hl7.fhir.us.davinci-drug-formulary:
+    name: "US Drug Formulary"
+    blurb: "A health plan's covered drugs, tiers and restrictions, published for apps to read."
+  hl7.fhir.uv.mhealth-framework:
+    name: "Mobile Health App Framework"
+    blurb: "Functional requirements and an assessment framework for mobile health apps that exchange data."
+  hl7.fhir.uv.patient-corrections:
+    name: "Patient Request for Corrections"
+    blurb: "Lets a patient ask a provider to fix something in their record, and track the request."
+  hl7.fhir.uv.phr:
+    name: "Personal Health Record"
+    blurb: "Functional requirements for personal health record systems."
+  hl7.fhir.us.davinci-crd:
+    name: "Da Vinci Coverage Requirements (CRD)"
+    blurb: "Tells the clinician, while ordering, whether the payer needs prior authorization or extra documentation."
+  hl7.fhir.us.davinci-pas:
+    name: "Da Vinci Prior Authorization Support (PAS)"
+    blurb: "Sends a prior authorization request from the EHR to the payer and brings the decision back."
+  hl7.fhir.us.davinci-dtr:
+    name: "Da Vinci Documentation Templates (DTR)"
+    blurb: "Fills in the payer's documentation questionnaire inside the EHR, pre-populated from the chart."
+  hl7.fhir.us.davinci-cdex:
+    name: "Da Vinci Clinical Data Exchange (CDex)"
+    blurb: "How payers ask providers for clinical records (for claims, audits or quality) and get them back."
+  hl7.fhir.us.davinci-pcde:
+    name: "Da Vinci Coverage Decision Exchange (PCDE)"
+    blurb: "When a member switches plans, the old payer sends active treatments and prior-auth history to the new one."
+  hl7.fhir.us.davinci-pdex:
+    name: "Da Vinci Payer Data Exchange (PDex)"
+    blurb: "Payers sharing a member's clinical and claims data with the member, their providers, and their next health plan."
+  hl7.fhir.us.davinci-pct:
+    name: "Da Vinci Patient Cost Transparency"
+    blurb: "Good-faith cost estimates: the provider sends an estimate, and the payer returns what the patient is likely to owe."
+  hl7.fhir.us.davinci-ra:
+    name: "Da Vinci Risk Adjustment"
+    blurb: "Exchanging risk-adjustment coding gaps and supporting evidence between payers and providers."
+  hl7.fhir.us.davinci-vbpr:
+    name: "Da Vinci Value-Based Performance Reporting"
+    blurb: "Payers reporting to providers how they're doing under value-based contracts."
+  hl7.fhir.us.davinci-pr:
+    name: "Da Vinci Postable Remittance"
+    blurb: "Lets a provider fetch payment remittance (what was paid and why) from the payer on demand."
+  hl7.fhir.us.davinci-atr:
+    name: "Da Vinci Member Attribution"
+    blurb: "The list of which members are attributed to which provider under a value-based contract."
+  ihe.iti.fais:
+    name: "IHE Finance and Insurance Services"
+    blurb: "IHE's service for storing and managing claims and finance data across a health network."
+  hl7.fhir.us.davinci-alerts:
+    name: "Da Vinci Unsolicited Notifications"
+    blurb: "Push notices about admissions, discharges and transfers to a patient's providers and payer."
+  hl7.fhir.us.eltss:
+    name: "Long-Term Services & Supports (eLTSS)"
+    blurb: "Sharing a person's home- and community-based services plan across providers and agencies."
+  hl7.fhir.us.mcc:
+    name: "Multiple Chronic Conditions eCare Plan"
+    blurb: "A shared care plan for people living with several chronic conditions."
+  hl7.fhir.us.pacio-adi:
+    name: "PACIO Advance Directives"
+    blurb: "Sharing a person's advance directive and care wishes across care settings."
+  hl7.fhir.us.pacio-toc:
+    name: "PACIO Transitions of Care"
+    blurb: "What a post-acute facility sends when a patient moves to another care setting."
+  hl7.fhir.us.phcp:
+    name: "Pharmacist Care Plan"
+    blurb: "A pharmacist's care plan shared with the patient's other providers."
+  hl7.fhir.us.sdoh-clinicalcare:
+    name: "SDOH Clinical Care"
+    blurb: "Screening for social needs (food, housing, transport), then goals, referrals and follow-up."
+  hl7.fhir.us.pcs:
+    name: "US Patient Care Summary"
+    blurb: "A FHIR document with the key facts a receiving clinician needs when a patient changes care settings."
+  ihe.pcc.dcp:
+    name: "IHE Dynamic Care Planning"
+    blurb: "Keeping a shared care plan in sync as care team members update it."
+  ihe.pcc.dctm:
+    name: "IHE Dynamic Care Team Management"
+    blurb: "Keeping track of who is on a patient's care team."
+  ihe.pcc.pcs:
+    name: "IHE Paramedicine Care Summary"
+    blurb: "What EMS sends the receiving hospital about the patient they brought in."
+  ihe.pcc.recon:
+    name: "IHE Reconciliation (RECON)"
+    blurb: "Merging meds, problems and allergies from several sources into one reconciled list."
+  hl7.fhir.us.bser:
+    name: "Bidirectional Services eReferrals (BSeR)"
+    blurb: "Sending a referral to a community program (such as diabetes prevention) and getting status and results back."
+  hl7.fhir.us.dental-data-exchange:
+    name: "Dental Data Exchange"
+    blurb: "Referrals and consult notes between medical and dental providers."
+  hl7.fhir.us.dme-orders:
+    name: "Post-Acute Orders"
+    blurb: "Ordering home health services and medical equipment electronically."
+  hl7.fhir.us.specialty-rx:
+    name: "Specialty Medication Enrollment"
+    blurb: "Enrolling a patient with a specialty pharmacy, along with the clinical data it needs."
+  hl7.fhir.us.medication-rems:
+    name: "Medication REMS"
+    blurb: "Checking and meeting FDA safety-program (REMS) requirements when prescribing certain drugs."
+  hl7.fhir.uv.cow:
+    name: "Clinical Order Workflows"
+    blurb: "Common patterns for placing, tracking and fulfilling orders between systems."
+  ihe.pcc.ript:
+    name: "IHE Interfacility Patient Transport"
+    blurb: "Requesting and coordinating routine transport of a patient between facilities."
+  hl7.fhir.uv.order-catalog:
+    name: "Order Catalog"
+    blurb: "Publishing a catalog of orderable tests and services, such as a lab's test menu."
+  hl7.fhir.us.ph-bulk-data:
+    name: "Bulk Public Health Data"
+    blurb: "Public health agencies pulling bulk data from providers."
+  hl7.fhir.us.ecr:
+    name: "Electronic Case Reporting (eCR)"
+    blurb: "Automatically reporting reportable conditions from the EHR to public health."
+  hl7.fhir.us.hai-ltcf:
+    name: "Infection Reporting from Long-Term Care"
+    blurb: "Reporting healthcare-associated infections from long-term care facilities to CDC's NHSN."
+  fhir.hrsa.uds-plus:
+    name: "HRSA UDS+"
+    blurb: "Health centers submitting patient-level data to HRSA's Uniform Data System."
+  hl7.fhir.us.covid19library:
+    name: "COVID-19 Profile Library"
+    blurb: "Shared COVID-19 profiles from the pandemic response."
+  hl7.fhir.us.medmorph:
+    name: "MedMorph"
+    blurb: "A reusable way to send EHR data to public health and research when a trigger fires."
+  hl7.fhir.us.central-cancer-registry-reporting:
+    name: "Central Cancer Registry Reporting"
+    blurb: "Reporting cancer cases from the EHR to a central cancer registry."
+  hl7.fhir.us.health-care-surveys-reporting:
+    name: "Health Care Surveys Reporting"
+    blurb: "Sending visit data to CDC's National Health Care Surveys."
+  hl7.fhir.us.fhir-medmorph:
+    name: "MedMorph Reference Architecture"
+    blurb: "The shared architecture that lets public health and research pull EHR data without extra work for providers."
+  hl7.fhir.us.nhsn-dqm:
+    name: "NHSN Digital Quality Measure Reporting"
+    blurb: "Hospitals reporting digital quality measures to CDC's NHSN."
+  gov.cdc.nhsn.dqm:
+    name: "NHSN dQM Content"
+    blurb: "The measure logic and value sets behind NHSN digital reporting."
+  hl7.fhir.us.nhsn-ade:
+    name: "NHSN Adverse Drug Events (Hypoglycemia)"
+    blurb: "Reporting medication-related hypoglycemia events to CDC's NHSN."
+  hl7.fhir.us.nhsn-med-admin:
+    name: "NHSN Medication Administration"
+    blurb: "Reporting inpatient medication administration data to CDC's NHSN."
+  gov.cdc.nhsn.safr:
+    name: "NHSN Situational Awareness (SAFR)"
+    blurb: "Reporting hospital capacity and situational-awareness data to CDC's NHSN."
+  hl7.fhir.us.ph-query:
+    name: "Public Health Query & Response"
+    blurb: "Public health asking a provider for more data about a case."
+  hl7.fhir.us.resp-net:
+    name: "RESP-NET"
+    blurb: "Reporting respiratory virus hospitalizations to CDC's surveillance network."
+  hl7.fhir.us.cancer-reporting:
+    name: "Cancer Pathology Reports to the EHR"
+    blurb: "Sending structured cancer pathology reports (CAP checklists) from the lab to the EHR."
+  hl7.fhir.us.hai:
+    name: "Healthcare-Associated Infections (HAI)"
+    blurb: "Reporting healthcare-associated infections to CDC's NHSN."
+  hl7.fhir.us.pdmp:
+    name: "Prescription Drug Monitoring (PDMP)"
+    blurb: "Checking a patient's controlled-substance prescription history from inside the EHR."
+  hl7.fhir.us.safr:
+    name: "US Situational Awareness (SAFR)"
+    blurb: "Reporting capacity and supply data to public health."
+  ihe.qrph.madx:
+    name: "IHE Aggregate Data Exchange (mADX)"
+    blurb: "Sending aggregate counts rather than patient-level data, such as monthly program statistics."
+  hl7.fhir.uv.saner:
+    name: "SANER (Epidemic Response)"
+    blurb: "Reporting hospital capacity and resources to public health during an emergency."
+  hl7.fhir.us.mdi:
+    name: "Medicolegal Death Investigation"
+    blurb: "Data exchange between medical examiners, coroners and vital records offices."
+  hl7.fhir.us.bfdr:
+    name: "Birth & Fetal Death Reporting"
+    blurb: "Reporting births and fetal deaths from the EHR to vital records."
+  hl7.fhir.us.vrdr:
+    name: "Death Reporting (VRDR)"
+    blurb: "Reporting deaths and causes of death to vital records and CDC."
+  ihe.pcc.bfde:
+    name: "IHE Birth & Fetal Death Reporting"
+    blurb: "IHE's workflow for reporting births and fetal deaths."
+  ihe.qrph.vrdr:
+    name: "IHE Death Reporting"
+    blurb: "IHE's workflow for reporting deaths to vital records."
+  hl7.fhir.us.davinci-deqm:
+    name: "Da Vinci Quality Measures (DEQM)"
+    blurb: "Sending the data behind quality measures, and gaps-in-care reports, between providers and payers."
+  hl7.fhir.us.qicore:
+    name: "QI-Core"
+    blurb: "The profiles that US quality measures and decision-support rules are written against."
+  hl7.fhir.us.cqfmeasures:
+    name: "Quality Measures (US)"
+    blurb: "How to write and package FHIR-based quality measures."
+  fhir.onc.us-quality-core:
+    name: "US Quality Core (ONC)"
+    blurb: "A newer, shared profile set for US digital quality measures."
+  hl7.fhir.us.quality-core:
+    name: "US Quality Core"
+    blurb: "A newer, shared profile set for US digital quality measures."
+  hl7.fhir.uv.deqm:
+    name: "Quality Measure Data Exchange (DEQM, international)"
+    blurb: "The international edition of exchanging quality-measure data and reports."
+  hl7.fhir.uv.ichom-breast-cancer:
+    name: "ICHOM Breast Cancer Outcomes"
+    blurb: "The ICHOM patient-centered outcome measures for breast cancer, in FHIR."
+  ihe.qrph.qore:
+    name: "IHE EMS Quality Outcome Reporting"
+    blurb: "Sending EMS clinical data for calculating emergency medical services quality measures."
+  hl7.fhir.uv.cqm:
+    name: "Quality Measures (international)"
+    blurb: "How to write and package FHIR-based quality measures, outside the US."
+  fhir.cdc.opioid-cds:
+    name: "CDC Opioid Prescribing Guideline"
+    blurb: "The CDC opioid prescribing guideline as computable decision support."
+  fhir.cdc.opioid-mme-r4:
+    name: "CDC Opioid MME Calculator"
+    blurb: "Computes morphine milligram equivalents from a patient's opioid prescriptions."
+  hl7.fhir.us.cdc-opioid-cpg:
+    name: "CDC Opioid Guideline Data Profiles"
+    blurb: "The data the computable CDC opioid guideline needs from the EHR."
+  hl7.fhir.us.immds:
+    name: "Immunization Decision Support"
+    blurb: "Asking a forecasting service which vaccines a patient is due for."
+  hl7.fhir.uv.cds-hooks-library:
+    name: "CDS Hooks Library"
+    blurb: "The standard list of moments (hooks) a decision-support service can listen for, such as patient-view and order-sign."
+  hl7.fhir.uv.cds-hooks:
+    name: "CDS Hooks"
+    blurb: "Lets the EHR call outside decision-support services at set moments (opening a chart, signing an order) and show their advice."
+  ihe.qrph.ccg:
+    name: "IHE Computable Care Guidelines"
+    blurb: "Expressing care recommendations so systems can evaluate them for each patient."
+  hl7.fhir.uv.ebm:
+    name: "Evidence-Based Medicine on FHIR"
+    blurb: "Representing research evidence, citations and study results."
+  hl7.fhir.uv.cpg:
+    name: "Clinical Practice Guidelines (CPG)"
+    blurb: "Turning a clinical guideline into computable, executable logic."
+  hl7.fhir.uv.immds:
+    name: "Immunization Decision Support (international)"
+    blurb: "Asking a forecasting service which vaccines a patient is due for."
+  hl7.fhir.uv.pddi:
+    name: "Drug-Drug Interaction Alerts"
+    blurb: "Decision support that warns about potential drug-drug interactions."
+  hl7.fhir.us.cdmh:
+    name: "Common Data Models Harmonization"
+    blurb: "Moving data between research data models (PCORnet, OMOP, i2b2, Sentinel) through FHIR."
+  hl7.fhir.us.medmorph-research-dex:
+    name: "MedMorph Research Data Exchange"
+    blurb: "Sending EHR data to research data marts using MedMorph."
+  hl7.fhir.us.mihr:
+    name: "Maternal & Infant Health Research"
+    blurb: "Linking mother and infant records for research."
+  hl7.fhir.us.registry-protocols:
+    name: "Clinical Registry Submission (CREDS)"
+    blurb: "Extracting EHR data and submitting it to clinical registries."
+  hl7.fhir.us.sirb:
+    name: "Single IRB"
+    blurb: "Exchanging study documents between institutions that share a single review board."
+  hl7.fhir.uv.ae-research-ig:
+    name: "Adverse Events in Clinical Research"
+    blurb: "Reporting adverse events that happen during clinical trials."
+  hl7.fhir.uv.ae-research-backport-ig:
+    name: "Adverse Events in Clinical Research (R4 backport)"
+    blurb: "The R4 edition of reporting adverse events that happen during clinical trials."
+  hl7.fhir.uv.vulcan-schedule:
+    name: "Clinical Study Schedule of Activities"
+    blurb: "A trial's schedule of visits and procedures, in a form trial systems and EHRs can share."
+  hl7.fhir.uv.fhir-for-fair:
+    name: "FHIR for FAIR"
+    blurb: "Using FHIR to make research data findable, accessible, interoperable and reusable."
+  hl7.fhir.uv.pharmaceutical-research-protocol:
+    name: "Pharmaceutical Clinical Trial Protocols"
+    blurb: "A clinical trial protocol in structured form, for sponsors and regulators."
+  hl7.fhir.uv.clinical-study-protocol:
+    name: "Clinical Study Protocols"
+    blurb: "A clinical trial protocol in structured form, for sponsors and regulators."
+  hl7.fhir.uv.phenomics-exchange:
+    name: "Phenomics Exchange"
+    blurb: "Sharing a patient's observed traits (phenotype) for rare disease diagnosis and research."
+  hl7.fhir.uv.vulcan-rwd:
+    name: "Real-World Data for Research"
+    blurb: "Pulling EHR data into clinical research studies."
+  hl7.fhir.us.davinci-pdex-plan-net:
+    name: "Da Vinci Plan-Net (provider networks)"
+    blurb: "A health plan's provider network (who's in network, where, accepting new patients), published for apps to read."
+  hl7.fhir.us.hsds:
+    name: "Human Services Directory"
+    blurb: "A directory of community services (food banks, shelters, programs) to refer people to."
+  hl7.fhir.us.ndh:
+    name: "National Directory (NDH)"
+    blurb: "A national US directory of providers, organizations and their FHIR endpoints, for payers and providers to read from."
+  hl7.fhir.us.directory-attestation:
+    name: "National Directory Attestation"
+    blurb: "How providers and organizations submit and confirm their own directory entries."
+  hl7.fhir.us.directory-exchange:
+    name: "National Directory Exchange"
+    blurb: "How data flows from the national directory into local directories."
+  hl7.fhir.us.directory-query:
+    name: "National Directory Query"
+    blurb: "How local systems search a directory for providers and endpoints."
+  ihe.iti.scheduling:
+    name: "IHE Scheduling"
+    blurb: "Find open appointment slots, then book, reschedule or cancel."
+  ihe.iti.mcsd:
+    name: "IHE Care Services Directory (mCSD)"
+    blurb: "IHE's directory of facilities, organizations, practitioners and the services they offer."
+  hl7.fhir.uv.smart-scheduling-links:
+    name: "SMART Scheduling Links"
+    blurb: "Publish open appointment slots in bulk so other sites can send patients straight to booking."
+  hl7.fhir.uv.vhdir:
+    name: "Validated Healthcare Directory"
+    blurb: "An earlier model for a validated provider directory; NDH took it forward in the US."
+  hl7.fhir.us.pq-cmc-fda:
+    name: "PQ-CMC Submissions to FDA"
+    blurb: "Drug manufacturers' chemistry, manufacturing and controls data submitted to the FDA."
+  hl7.fhir.us.icsr-ae-reporting:
+    name: "ICSR Adverse Event Reporting"
+    blurb: "Detecting transfusion and vaccine adverse events and reporting them to the FDA."
+  hl7.fhir.uv.emedicinal-product-info:
+    name: "Electronic Product Information (ePI)"
+    blurb: "A medicine's label and package leaflet as structured data."
+  hl7.fhir.uv.pharm-quality:
+    name: "Pharmaceutical Quality (Industry)"
+    blurb: "Drug product quality data exchanged within the pharmaceutical industry."
+  ihe.iti.dsubm:
+    name: "IHE Document Subscription (DSUBm)"
+    blurb: "Subscribing to be notified when new documents appear for a patient."
+  hl7.fhir.uv.fhir-clinical-document:
+    name: "FHIR Clinical Documents"
+    blurb: "How to build signed, persistent clinical documents (such as discharge summaries) out of FHIR resources."
+  ihe.iti.mhd:
+    name: "IHE Mobile Health Documents (MHD)"
+    blurb: "Publishing and fetching clinical documents on a document-sharing network through FHIR."
+  ihe.iti.mxde:
+    name: "IHE Data Element Extraction (mXDE)"
+    blurb: "Pulling individual data elements out of shared documents while keeping track of where they came from."
+  ihe.iti.mhds:
+    name: "IHE Health Document Sharing (MHDS)"
+    blurb: "A complete document-sharing network (registry, repository, patient identity) built on FHIR."
+  ihe.iti.npfs:
+    name: "IHE Non-Patient File Sharing"
+    blurb: "Sharing files that aren't about a patient, such as policies, templates and stylesheets."
+  ihe.pcc.qedm:
+    name: "IHE Query for Existing Data (QEDm)"
+    blurb: "Querying for a patient's discrete clinical data: meds, problems, allergies, results."
+  ihe.iti.sips:
+    name: "IHE Sharing of IPS (sIPS)"
+    blurb: "Sharing International Patient Summaries over IHE document-sharing networks."
+  smart.who.int.ra:
+    name: "WHO SMART Reference Architecture"
+    blurb: "WHO's reference architecture for digital health systems that use SMART Guidelines."
+  smart.who.int.dak-bds:
+    name: "WHO Birth Defects Surveillance Adaptation Kit"
+    blurb: "WHO's digital adaptation kit for birth defects surveillance."
+  smart.who.int.dak-ccc:
+    name: "WHO Clinical Care in Crises Adaptation Kit"
+    blurb: "WHO's digital adaptation kit for clinical care in humanitarian crises."
+  smart.who.int.dak-immz:
+    name: "WHO Immunizations Adaptation Kit"
+    blurb: "WHO's digital adaptation kit for immunizations: data, workflows and decision rules."
+  smart.who.int.dak-pnc:
+    name: "WHO Postnatal Care Adaptation Kit"
+    blurb: "WHO's digital adaptation kit for postnatal care."
+  smart.who.int.dak-smbp:
+    name: "WHO Blood Pressure in Pregnancy Adaptation Kit"
+    blurb: "WHO's digital adaptation kit for self-monitoring of blood pressure in pregnancy."
+  smart.who.int.dak-srv:
+    name: "WHO Surveillance Adaptation Kit"
+    blurb: "WHO's digital adaptation kit for disease surveillance."
+  smart.who.int.dak-tb:
+    name: "WHO Tuberculosis Adaptation Kit"
+    blurb: "WHO's digital adaptation kit for tuberculosis care."
+  smart.who.int.immunizations:
+    name: "WHO SMART Immunizations"
+    blurb: "WHO's computable immunization guidelines: schedules, data dictionary and decision support."
+  smart.who.int.anc:
+    name: "WHO SMART Antenatal Care"
+    blurb: "WHO's computable antenatal care guidelines."
+  smart.who.int.hiv:
+    name: "WHO SMART HIV"
+    blurb: "WHO's computable HIV guidelines: data, workflows, decision support and indicators."
+  ihe.pcc.fiio:
+    name: "IHE International Patient Summary Options (FIPS)"
+    blurb: "Extra options and testing requirements for implementing the International Patient Summary."
+  hl7.fhir.uv.smart-health-cards-and-links:
+    name: "SMART Health Cards & Links"
+    blurb: "Signed, verifiable health records in a QR code or link that a patient can carry and share (vaccines, summaries)."
+  hl7.fhir.uv.shc-vaccination:
+    name: "SMART Health Cards for Vaccination & Testing"
+    blurb: "What goes inside a SMART Health Card for vaccinations and lab test results."
+  smart.who.int.icvp:
+    name: "WHO SMART ICVP"
+    blurb: "WHO's digital International Certificate of Vaccination or Prophylaxis (the yellow card)."
+  smart.who.int.ph4h:
+    name: "WHO SMART PH4H"
+    blurb: "Cross-border record exchange for the Americas (PAHO's Pan-American Highway for Digital Health)."
+  smart.who.int.trust:
+    name: "WHO SMART Trust"
+    blurb: "WHO's trust network for verifying signed digital health documents across countries."
+  smart.who.int.trust-phw:
+    name: "WHO SMART Trust for Health Wallets"
+    blurb: "Using personal health wallets with WHO's global trust network."
+  smart.who.int.ts:
+    name: "WHO SMART Terminology"
+    blurb: "The shared code systems and value sets used across all WHO SMART Guidelines."
+  smart.who.int.ips-pilgrimage:
+    name: "WHO Verifiable IPS for Pilgrimage"
+    blurb: "A signed patient summary that pilgrims carry, built on the International Patient Summary."
+  ihe.iti.vhl:
+    name: "IHE Verifiable Health Links"
+    blurb: "Share health documents through a signed link or QR code that the receiver can verify."
+  who.ddcc:
+    name: "WHO COVID-19 Certificates (DDCC)"
+    blurb: "WHO's format for digital COVID-19 vaccination and test certificates."
+  hl7.fhir.us.exchange-routing:
+    name: "Hybrid / Intermediary Exchange"
+    blurb: "How FHIR requests are routed through intermediaries such as HIEs or clearinghouses."
+  hl7.fhir.uv.application-feature:
+    name: "Application Feature Framework"
+    blurb: "A way for servers and apps to say which optional features they support."
+  hl7.fhir.uv.fhircast:
+    name: "FHIRcast"
+    blurb: "Keeps several apps on a clinician's desktop in sync on the same patient, for example during radiology reporting."
+  hl7.fhir.uv.smart-app-launch:
+    name: "SMART App Launch"
+    blurb: "How an app signs in to a FHIR server and gets the patient's or user's permission, on its own or launched from inside the EHR."
+  hl7.fhir.uv.smart-web-messaging:
+    name: "SMART Web Messaging"
+    blurb: "Lets an embedded SMART app talk back to the EHR, for example to draft an order or a note."
+  hl7.fhir.us.udap-security:
+    name: "UDAP Security (FAST)"
+    blurb: "Certificate-based app registration and sign-in, so apps don't have to register by hand with every server."
+  hl7.fhir.uv.fast-security:
+    name: "UDAP Security (international)"
+    blurb: "The international edition of certificate-based app registration and authorization."
+  hl7.fhir.us.identity-matching:
+    name: "Identity & Patient Matching"
+    blurb: "How to verify who someone is and match their record across organizations with enough confidence."
+  ihe.iti.pdqm:
+    name: "IHE Patient Demographics Query (PDQm)"
+    blurb: "Searching for a patient by name, birth date and other demographics across a network."
+  ihe.iti.pixm:
+    name: "IHE Patient Identifier Cross-referencing (PIXm)"
+    blurb: "Looking up the same patient's identifiers in other systems."
+  ihe.iti.pmir:
+    name: "IHE Patient Master Identity Registry"
+    blurb: "A shared master patient index that systems feed and query."
+  hl7.fhir.us.darts:
+    name: "De-identification Services (DARTS)"
+    blurb: "Services that de-identify, anonymize and redact FHIR data."
+  hl7.fhir.us.dapl:
+    name: "De-identified Profiles (DAPL)"
+    blurb: "Profiles describing what de-identified FHIR data looks like."
+  hl7.fhir.us.consent-management:
+    name: "Scalable Consent Management"
+    blurb: "Recording a patient's consent and enforcing it when their data is shared."
+  ihe.iti.deid:
+    name: "IHE De-Identification Handbook"
+    blurb: "Guidance for de-identifying health data."
+  hl7.fhir.uv.security-label-ds4p:
+    name: "Data Segmentation for Privacy (DS4P)"
+    blurb: "Security labels that mark sensitive data (substance use, mental health, and so on) so systems can restrict it."
+  ihe.iti.pcf:
+    name: "IHE Privacy Consent on FHIR"
+    blurb: "Capturing a patient's privacy consent and enforcing it when data is accessed."
+  hl7.fhir.uv.aitransparency:
+    name: "AI Transparency on FHIR"
+    blurb: "How to record that AI produced or changed data, and which model and inputs were involved."
+  hl7.fhir.uv.ehrs-rle:
+    name: "EHR Record Lifecycle Events"
+    blurb: "Recording what happens to a record over its life (created, amended, archived) for audit."
+  ihe.iti.balp:
+    name: "IHE Basic Audit Log Patterns"
+    blurb: "Standard AuditEvent shapes for logging who accessed what."
+  ihe.iti.atna:
+    name: "IHE Audit Events (ATNA on FHIR)"
+    blurb: "Sending and searching audit events with FHIR in the IHE audit framework."
+  ihe.rad.sole:
+    name: "IHE Operational Log of Events (SOLE)"
+    blurb: "Logging operational events, such as imaging department workflow, for analysis."
+  ihe.iti.macm:
+    name: "IHE Alert Communication (mACM)"
+    blurb: "Sending alerts to people's phones or pagers and tracking acknowledgements."
+  hl7.fhir.uv.subscriptions-backport:
+    name: "Subscriptions (R5 Backport)"
+    blurb: "Get notified when data changes instead of polling. Brings R5-style subscriptions to R4 servers."
+  hl7.fhir.uv.bulkdata:
+    name: "Bulk Data Access"
+    blurb: "Export data for many patients at once, as files, for analytics, reporting or payer exchange."
+  org.sql-on-fhir.ig:
+    name: "SQL on FHIR"
+    blurb: "Define flat, tabular views of FHIR data so analysts can query it with SQL."
+  hl7.fhir.uv.sql-on-fhir:
+    name: "SQL on FHIR"
+    blurb: "Define flat, tabular views of FHIR data so analysts can query it with SQL."
+  ihe.iti.acdc:
+    name: "IHE Assessment Curation and Data Collection"
+    blurb: "Distributing assessment instruments to providers and collecting the completed assessments."
+  ihe.qrph.mrfd:
+    name: "IHE Retrieve Form for Data Capture (mRFD)"
+    blurb: "Fetching an outside system's form and filling it in from inside your own application."
+  hl7.fhir.uv.sdc:
+    name: "Structured Data Capture (SDC)"
+    blurb: "Forms and questionnaires: how they're defined, filled in, pre-populated from the record, and turned into structured data."
+  hl7.fhir.uv.tx-ecosystem:
+    name: "Terminology Ecosystem"
+    blurb: "How terminology servers work together to answer code lookups and validation for the FHIR community."
+  ihe.iti.svcm:
+    name: "IHE Sharing Valuesets, Codes and Maps (SVCM)"
+    blurb: "IHE's profile for publishing and querying code systems, value sets and maps on a terminology server."
+  hl7.fhir.uv.termchangeset:
+    name: "Terminology Change Set Exchange"
+    blurb: "A format for sending a batch of terminology changes from one system to another."
+  hl7.fhir.us.ccda:
+    name: "C-CDA on FHIR"
+    blurb: "The common clinical documents (CCD, discharge summary, referral note) as FHIR documents."
+  hl7.fhir.uv.cdisc-mapping:
+    name: "CDISC Mapping"
+    blurb: "Mapping FHIR data to the CDISC formats used in clinical trial submissions."
+  hl7.fhir.uv.dicom-sr:
+    name: "DICOM SR to FHIR"
+    blurb: "Mapping DICOM structured reports, such as imaging measurements, into FHIR."
+  hl7.fhir.uv.v2mappings:
+    name: "HL7 v2 to FHIR"
+    blurb: "Mappings for converting HL7 v2 messages (ADT, ORU, VXU and others) into FHIR."
+  hl7.fhir.uv.omop:
+    name: "FHIR to OMOP"
+    blurb: "Mapping FHIR data into the OMOP research data model."
+  hl7.fhir.us.breast-radiology:
+    name: "Breast Radiology Report"
+    blurb: "Structured breast imaging reports, including findings and BI-RADS assessments."
+  hl7.fhir.us.codex-radiation-therapy:
+    name: "CodeX Radiation Therapy"
+    blurb: "Radiation therapy plans and treatment summaries, building on mCODE."
+  hl7.fhir.us.mcode:
+    name: "mCODE (Oncology)"
+    blurb: "The core data for cancer patients: diagnosis, staging, treatments and outcomes."
+  hl7.fhir.uv.ihe-sdc-ecc:
+    name: "Cancer Checklists on FHIR (SDC/eCC)"
+    blurb: "CAP cancer pathology checklists as FHIR forms and results."
+  hl7.fhir.uv.cardx-cied:
+    name: "CardX Implanted Cardiac Devices"
+    blurb: "Data from pacemakers and other implanted cardiac devices."
+  hl7.fhir.uv.cardx-htn-mng:
+    name: "CardX Hypertension Management"
+    blurb: "Home blood pressure readings and hypertension care management."
+  fhir.astp.bhp:
+    name: "US Behavioral Health Profiles"
+    blurb: "US profiles for behavioral health data."
+  hl7.fhir.us.pacio-cs:
+    name: "PACIO Cognitive Status"
+    blurb: "Sharing cognitive status assessments across post-acute care settings."
+  hl7.fhir.us.pacio-fs:
+    name: "PACIO Functional Status"
+    blurb: "Sharing functional status (mobility, self-care) across post-acute care settings."
+  hl7.fhir.us.pacio-pfe:
+    name: "PACIO Personal Functioning & Engagement"
+    blurb: "Assessments of functioning, disability and engagement, shared across care settings."
+  hl7.fhir.us.pacio-rt:
+    name: "PACIO Re-Assessment Timepoints"
+    blurb: "Tracking when assessments were repeated during a post-acute stay."
+  hl7.fhir.us.pco:
+    name: "Person-Centered Outcomes"
+    blurb: "Goals the patient sets for themselves, and their progress toward them."
+  ihe.pcc.maps.us:
+    name: "IHE Mobile Antepartum Summary (US)"
+    blurb: "A pregnancy summary shared with the hospital where the baby will be delivered."
+  ihe.pcc.maps:
+    name: "IHE Mobile Antepartum Summary"
+    blurb: "A pregnancy summary shared with the hospital where the baby will be delivered."
+  hl7.fhir.us.home-lab-report:
+    name: "At-Home Test Reports"
+    blurb: "Results of at-home tests, such as COVID-19 antigen tests, sent to public health or a provider."
+  hl7.fhir.uv.cdisc-lab:
+    name: "CDISC Lab Semantics"
+    blurb: "Lab data in FHIR, mapped to CDISC for clinical trials."
+  hl7.fhir.uv.genomics-reporting:
+    name: "Genomics Reporting"
+    blurb: "Genetic test results: variants, interpretations and recommendations."
+  hl7.fhir.uv.lab-report:
+    name: "HL7 Laboratory Report"
+    blurb: "The international lab report: results, specimens and the report itself."
+  hl7.fhir.uv.livd:
+    name: "LOINC to Lab Device Mapping (LIVD)"
+    blurb: "Maps lab instruments' test codes to LOINC."
+  hl7.fhir.uv.eyecare:
+    name: "Ophthalmology Retinal Imaging"
+    blurb: "Retinal imaging results, such as diabetic eye disease screening."
+  ihe.rad.imr:
+    name: "IHE Interactive Multimedia Report"
+    blurb: "Radiology reports with linked images and measurements."
+  ihe.rad.ira:
+    name: "IHE Integrated Reporting Applications"
+    blurb: "Keeping radiology reporting apps in sync, built on FHIRcast."
+  ihe.rad.mado:
+    name: "IHE Manifest-based DICOM Access (MADO)"
+    blurb: "Manifests that point to imaging studies so others can retrieve the images."
+  hl7.fhir.uv.radiation-dose-summary:
+    name: "Radiation Dose Summary"
+    blurb: "Summarizing the radiation dose from imaging procedures."
+  hl7.fhir.us.smp:
+    name: "US Standardized Medication Profile"
+    blurb: "A standard medication list for sharing across care settings."
+  ihe.pharm.mma:
+    name: "IHE Mobile Medication Administration"
+    blurb: "Recording medication given at the bedside."
+  ihe.pharm.meow:
+    name: "IHE Medication Overview"
+    blurb: "One overview of a patient's medications, gathered from several sources."
+  ihe.pharm.ubp:
+    name: "IHE Uniform Barcode Processing"
+    blurb: "Reading medication barcodes the same way everywhere."
+  ihe.pharm.mpd:
+    name: "IHE Medication Prescription & Dispense"
+    blurb: "Prescribing and dispensing medications."
+  hl7.fhir.uv.cgm:
+    name: "Continuous Glucose Monitoring"
+    blurb: "Sending CGM readings and summary reports from a patient's device or app to their care team."
+  ihe.pcc.rpm:
+    name: "IHE Remote Patient Monitoring"
+    blurb: "Moving readings from home devices to the care team that watches them."
+  hl7.fhir.uv.phd:
+    name: "Personal Health Devices"
+    blurb: "How readings from personal devices (blood pressure cuffs, scales, pulse oximeters) become FHIR Observations."
+  hl7.fhir.uv.pocd:
+    name: "Point-of-Care Devices"
+    blurb: "Data from bedside devices such as monitors and pumps."
+  ihe.pcc.pmdt:
+    name: "IHE Point-of-Care Device Tracking"
+    blurb: "Tracking which devices were used on a patient, such as implants."
+  hl7.fhir.uv.rtls:
+    name: "Real-Time Location Services"
+    blurb: "Tracking where people and equipment are inside a facility."
+  hl7.fhir.us.military-service:
+    name: "Military Service History"
+    blurb: "A person's military service history and status, for care and benefits."
+  hl7.fhir.us.odh:
+    name: "Occupational Data for Health"
+    blurb: "A patient's job, industry and work history, for clinical care."
+  ihe.pcc.odh:
+    name: "IHE Occupational Data for Health"
+    blurb: "The international edition of a patient's job and work history."
+  hl7.fhir.us.physical-activity:
+    name: "Physical Activity"
+    blurb: "Exercise as a vital sign, plus activity goals and referrals, shared between patient apps and clinicians."
+  hl7.fhir.us.vitals:
+    name: "Vital Signs"
+    blurb: "Detailed vital-sign profiles, including device-measured and series values, beyond the FHIR base."
+  hl7.fhir.uv.symptoms:
+    name: "Symptoms"
+    blurb: "Recording a patient's symptoms consistently."
