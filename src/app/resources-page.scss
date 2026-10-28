@@ -71,6 +71,10 @@ h1 {
       color: var(--mb-lime);
     }
   }
+  // The Example's spec link has nowhere to go: its tooltip says what it does on a real card.
+  span.spec {
+    cursor: help;
+  }
 }
 
 h2 {
@@ -84,6 +88,53 @@ h2 {
   margin: 0 0 18px;
   font-size: 15px;
   max-width: 64ch;
+}
+
+// The welcome card: how the page works, then the made-up Example.
+.welcome-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+  margin: 0 0 10px;
+  // Only where the list is below the card (see the 900px breakpoint).
+  .jump {
+    display: none;
+    margin-left: auto;
+    white-space: nowrap;
+  }
+}
+
+.welcome-title {
+  margin: 0;
+  font-family: inherit;
+  font-size: 22px;
+}
+
+.steps {
+  margin: 0 0 20px;
+  padding-left: 22px;
+  max-width: 66ch;
+  li {
+    margin: 6px 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  code {
+    font-family: var(--mb-mono);
+    font-size: 13px;
+    color: var(--mb-info);
+  }
+  .tri {
+    color: var(--mb-lime);
+  }
+}
+
+.example {
+  padding: 18px 20px;
+  border: 1px dashed var(--mb-switch-edge);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--mb-bg) 45%, var(--mb-panel));
 }
 
 // "Good to know": a few short notes between the sentence and the fields.
@@ -294,6 +345,26 @@ h2 {
   gap: 10px;
 }
 
+// Back to the welcome card; lit while it's showing.
+.how {
+  padding: 12px 16px;
+  border: 1px solid var(--mb-line);
+  border-radius: 12px;
+  background: var(--mb-panel);
+  color: var(--mb-text);
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  &:hover {
+    border-color: color-mix(in srgb, var(--mb-lime) 40%, var(--mb-line));
+  }
+  &.on {
+    border-color: color-mix(in srgb, var(--mb-lime) 55%, transparent);
+    background: color-mix(in srgb, var(--mb-lime) 12%, var(--mb-panel));
+    color: var(--mb-lime);
+  }
+}
+
 .group {
   background: var(--mb-panel);
   border: 1px solid var(--mb-line);
@@ -389,6 +460,12 @@ li button {
     position: static;
     max-height: none;
     overflow: visible;
+    scroll-margin-top: 12px;
+  }
+  .welcome-head .jump {
+    display: inline;
+  }
+  .groups {
     scroll-margin-top: 12px;
   }
 }

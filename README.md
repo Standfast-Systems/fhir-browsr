@@ -4,7 +4,7 @@
 
 A way into FHIR for people who are new to it: first the pieces, then the guides.
 
-It opens on **FHIR Resources** (`/resources`), the building blocks every guide is made of: 24 resources a newcomer meets first, in six groups. Selecting one opens a card with one plain sentence, its key fields (with every field and the collapsed nested objects a click away), a trimmed official example, and links to the FHIR R4 spec. Each resource has an anchor by its type name (`/resources#ExplanationOfBenefit`). The names, groups and sentences live in `src/app/resources-content.ts`.
+It opens on **FHIR Resources** (`/resources`), the building blocks every guide is made of: 24 resources a newcomer meets first, in six groups. Until one is picked, the card explains how the page works, with a made-up Example resource (`src/app/resource-example.ts`) showing each part of a card. Selecting one opens a card with one plain sentence, its key fields (with every field and the collapsed nested objects a click away), a trimmed official example, and links to the FHIR R4 spec. Each resource has an anchor by its type name (`/resources#ExplanationOfBenefit`). The names, groups and sentences live in `src/app/resources-content.ts`.
 
 **Implementation Guides** (`/guides`) is the way into FHIR's implementation guides. Pick **Patient**, **Provider** or **Payer** on a three-circle diagram and get a table of the guides that side has to build to, with the overlaps you share with the other sides. Each guide gets one plain sentence, its maturity, and a link to its current published page.
 

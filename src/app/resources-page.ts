@@ -12,22 +12,47 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ResourceData, type SchemaRow } from './resource-data';
+import { ResourceData, type ResourceDetail, type SchemaRow } from './resource-data';
+import { EXAMPLE_BLURB, EXAMPLE_DETAIL, EXAMPLE_NAME, EXAMPLE_NOTES } from './resource-example';
 import {
   RESOURCE_GROUPS,
   RESOURCE_LIST_URL,
   RESOURCE_NOTES,
   noteParts,
   specUrl,
+  type NotePart,
   type ResourceGroup,
 } from './resources-content';
 
 type View = 'schema' | 'sample';
 
+/** What the detail card shows: a real resource, or the made-up Example on the welcome card. */
+interface CardContent {
+  name: string;
+  /** The group's name; null for the Example. */
+  group: string | null;
+  blurb: string;
+  /** The R4 spec page; null for the Example, which has none. */
+  spec: string | null;
+  notes: NotePart[][];
+  /** Null while the data loads. */
+  detail: ResourceDetail | null;
+}
+
+const EXAMPLE: CardContent = {
+  name: EXAMPLE_NAME,
+  group: null,
+  blurb: EXAMPLE_BLURB,
+  spec: null,
+  notes: EXAMPLE_NOTES.map(noteParts),
+  detail: EXAMPLE_DETAIL,
+};
+
 /**
- * The FHIR Resources page: the six groups of resources in one column, and a large card for the
- * selected resource. The card is a choose-your-own-adventure: the plain sentence, then its key
- * fields (Schema) or a trimmed official example (Sample), with "show all fields" and collapsed
+ * The FHIR Resources page: the six groups of resources in one column, and a large card beside
+ * them. It opens on a welcome card that explains the page, with a made-up Example resource showing
+ * every part of a card. Selecting a resource fills the card: the plain sentence, notes, then its
+ * key fields (Schema) or a trimmed official example (Sample), with "show all fields" and collapsed
  * nested objects for anyone who wants more. The full spec is one small link away.
  */
 @Component({
@@ -41,41 +66,52 @@ export class ResourcesPage {
   private readonly data = inject(ResourceData);
   protected readonly groups = RESOURCE_GROUPS;
   protected readonly listUrl = RESOURCE_LIST_URL;
-  protected readonly specUrl = specUrl;
   protected readonly loadError = this.data.error;
 
-  protected readonly selected = signal('Patient');
+  /** The selected resource; null shows the welcome card. */
+  protected readonly selected = signal<string | null>(null);
   protected readonly view = signal<View>('schema');
   protected readonly showAll = signal(false);
   /** Nested objects opened in the schema, by path (e.g. "item", "item.enableWhen"). */
   protected readonly expanded = signal<ReadonlySet<string>>(new Set());
-  protected readonly openGroups = signal<ReadonlySet<string>>(new Set());
+  protected readonly openGroups = signal<ReadonlySet<string>>(
+    new Set(RESOURCE_GROUPS.map((g) => g.id)),
+  );
   protected readonly copied = signal(false);
 
   private readonly card = viewChild<ElementRef<HTMLElement>>('card');
+  private readonly list = viewChild<ElementRef<HTMLElement>>('list');
 
-  protected readonly current = computed(() => {
+  /** The selected resource's card, or null on the welcome card. */
+  protected readonly current = computed<CardContent | null>(() => {
     const name = this.selected();
-    for (const group of RESOURCE_GROUPS) {
-      const entry = group.resources.find((r) => r.name === name);
-      if (entry) return { group, entry };
-    }
-    return null;
+    const group = name ? this.groupOf(name) : undefined;
+    const entry = group?.resources.find((r) => r.name === name);
+    if (!name || !group || !entry) return null;
+    return {
+      name,
+      group: group.name,
+      blurb: entry.blurb,
+      spec: specUrl(name),
+      notes: (RESOURCE_NOTES[name] ?? []).map(noteParts),
+      detail: this.data.details()?.[name] ?? null,
+    };
   });
-  protected readonly detail = computed(() => this.data.details()?.[this.selected()] ?? null);
-  protected readonly notes = computed(() => (RESOURCE_NOTES[this.selected()] ?? []).map(noteParts));
+  protected readonly example = EXAMPLE;
+  /** Whatever card is on screen; the switches and buttons below act on it. */
+  private readonly shown = computed(() => this.current() ?? EXAMPLE);
 
   protected readonly keyCount = computed(
-    () => this.detail()?.schema.filter((r) => r.key).length ?? 0,
+    () => this.shown().detail?.schema.filter((r) => r.key).length ?? 0,
   );
   protected readonly rows = computed(() => {
-    const schema = this.detail()?.schema ?? [];
+    const schema = this.shown().detail?.schema ?? [];
     return this.showAll() ? schema : schema.filter((r) => r.key);
   });
 
-  /** The official example, trimmed to the key fields unless all fields are shown. */
+  /** The sample, trimmed to the key fields unless all fields are shown. */
   protected readonly sampleJson = computed(() => {
-    const d = this.detail();
+    const d = this.shown().detail;
     if (!d) return '';
     if (this.showAll()) return JSON.stringify(d.sample, null, 2);
     const keys = d.schema.filter((r) => r.key).map((r) => r.name);
@@ -99,7 +135,6 @@ export class ResourcesPage {
         untracked(() => this.select(name, false));
       }
     });
-    untracked(() => this.openGroups.set(new Set([this.groupOf(this.selected())?.id ?? ''])));
   }
 
   private groupOf(name: string): ResourceGroup | undefined {
@@ -111,17 +146,33 @@ export class ResourcesPage {
     const group = this.groupOf(name);
     if (!group) return;
     this.selected.set(name);
+    this.reset();
+    this.openGroups.update((s) => new Set([...s, group.id]));
+    // Keep the address shareable without adding a history entry for every click.
+    if (fromList) this.showCard(`#${name}`);
+  }
+
+  /** Back to the welcome card. */
+  protected welcome() {
+    this.selected.set(null);
+    this.reset();
+    this.showCard('');
+  }
+
+  protected jumpToList() {
+    this.list()?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  private reset() {
     this.showAll.set(false);
     this.expanded.set(new Set());
-    // A link opens just its group; a click in the list keeps whatever the reader has open.
-    this.openGroups.update((s) => (fromList ? new Set([...s, group.id]) : new Set([group.id])));
-    if (fromList) {
-      // Keep the address shareable without adding a history entry for every click.
-      history.replaceState(history.state, '', `${location.pathname}${location.search}#${name}`);
-      // On phones the card sits above the list: bring it into view.
-      if (matchMedia('(max-width: 900px)').matches) {
-        this.card()?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+  }
+
+  private showCard(hash: string) {
+    history.replaceState(history.state, '', `${location.pathname}${location.search}${hash}`);
+    // On phones the card sits above the list: bring it into view.
+    if (matchMedia('(max-width: 900px)').matches) {
+      this.card()?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 
