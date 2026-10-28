@@ -1,6 +1,6 @@
 {
   "name": "fhir-browsr",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,6 +9,7 @@
     "prebuild": "node scripts/build-data.ts",
     "prestart": "node scripts/build-data.ts",
     "snapshot": "node scripts/snapshot.ts",
+    "resources": "node scripts/resources.ts",
     "typecheck": "tsc -p tsconfig.node.json",
     "test:core": "node --test \"test/*.test.ts\""
   },
