@@ -58,6 +58,9 @@ describe('lookup: no wrong answers', () => {
   it('"share a care plan" is not the payer data pattern', () =>
     assert.notEqual(patternFor('share a care plan'), 'payer-data'));
   it('forgives a typo', () => assert.equal(patternFor('prior authorisaton'), 'prior-auth'));
+  it("doesn't let a typo change a word's first letter", () =>
+    // One letter from "resource", but the wrong first letter: no match.
+    assert.equal(lookup(index, 'tesource').tier, 'none'));
   it('finds a pattern by an instrument name', () =>
     assert.equal(patternFor('GAD-7'), 'questionnaire'));
 });

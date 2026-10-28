@@ -68,7 +68,9 @@ function wordMatch(q: string, d: string): number {
   if (q === d) return 1;
   const short = Math.min(q.length, d.length);
   if (short >= 4 && (d.startsWith(q) || q.startsWith(d))) return 0.85;
-  if (short >= 5 && oneEdit(q, d)) return 0.8;
+  // A typo keeps the first letter: people rarely mistype it, and allowing it turns other words
+  // into common ones ("esource" into "source").
+  if (short >= 5 && q[0] === d[0] && oneEdit(q, d)) return 0.8;
   return 0;
 }
 
