@@ -1,4 +1,5 @@
-// Load the curated YAML knowledge base from kb/ into the KnowledgeBase shape.
+// Load the curated YAML knowledge base from data/kb/ into the KnowledgeBase shape. The guide
+// catalog and the display names are Matchbook's shared files: data/ig-map.yaml and data/notes.yaml.
 
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -16,6 +17,7 @@ import type {
 
 export const ROOT = join(import.meta.dirname, '..', '..');
 export const KB_DIR = join(ROOT, 'data', 'kb');
+const DATA_DIR = join(ROOT, 'data');
 
 function yaml<T>(file: string): T {
   // Keep dates as strings: the KB compares ISO dates lexically and must not shift time zones.
@@ -33,7 +35,7 @@ export function loadKb(dir = KB_DIR): KnowledgeBase {
   const sources =
     yaml<{ sources: Record<string, Omit<Source, 'id'>> }>(join(dir, 'sources.yaml')).sources ?? {};
   const catalog = yaml<{ groups: Record<string, CatalogGroup>; guides: CatalogGuide[] }>(
-    join(dir, 'catalog.yaml'),
+    join(DATA_DIR, 'ig-map.yaml'),
   );
   const testkits = yaml<{ testkits: TestKit[] }>(join(dir, 'testkits.yaml')).testkits ?? [];
   const realms = yaml<{ realms: RealmDef[] }>(join(dir, 'realms.yaml')).realms ?? [];
@@ -42,9 +44,10 @@ export function loadKb(dir = KB_DIR): KnowledgeBase {
   );
   const igList = igFile.igs ?? [];
   const shortNames = new Map(igList.map((i) => [i.ig, i.short]));
+  // Only catalog guides look names up, so notes.yaml's national-core entries don't reach the KB.
   const names =
-    yaml<{ names?: Record<string, { name?: string; blurb?: string }> }>(join(dir, 'names.yaml'))
-      .names ?? {};
+    yaml<Record<string, { name?: string; blurb?: string }> | null>(join(DATA_DIR, 'notes.yaml')) ??
+    {};
   const drivers = readdirSync(join(dir, 'drivers'))
     .filter((f) => f.endsWith('.yaml'))
     .sort()

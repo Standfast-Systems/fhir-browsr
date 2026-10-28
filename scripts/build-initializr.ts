@@ -34,6 +34,10 @@ if (!existsSync(regPath)) {
 const reg = JSON.parse(readFileSync(regPath, 'utf8')) as RegistrySnapshot;
 const deadPath = join(ROOT, 'snapshot', 'dead-links.json');
 if (existsSync(deadPath)) reg.deadLinks = JSON.parse(readFileSync(deadPath, 'utf8'));
+// The snapshot is shared with Browsr; its registry index and publishers' release lists are
+// Browsr's, so they stay out of Initializr's published data.
+delete reg.registry;
+for (const p of Object.values(reg.packages)) delete p.published;
 
 const findings = validateKb(kb, reg);
 for (const f of findings) console.log(`[kb] ${f.level.toUpperCase()} ${f.where}: ${f.message}`);

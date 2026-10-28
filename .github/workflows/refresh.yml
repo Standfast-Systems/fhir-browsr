@@ -3,11 +3,9 @@ name: Refresh registry snapshot
 # Weekly: re-read packages.fhir.org, the IG registry and each IG's package-list.json, re-check links,
 # and open a PR listing new versions. The KB itself only changes through curator review.
 
-# The weekly schedule is off until Browsr and Initializr share one snapshot; until then this
-# refreshes only Initializr's snapshot/registry.json. Restore it with:
-#   schedule:
-#     - cron: '17 6 * * 1'
 on:
+  schedule:
+    - cron: '17 6 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -30,7 +28,7 @@ jobs:
           key: fhir-packages-${{ github.run_id }}
           restore-keys: fhir-packages-
       - run: cp snapshot/registry.json "$RUNNER_TEMP/registry.before.json"
-      - run: node scripts/snapshot-initializr.ts --fresh
+      - run: npm run snapshot -- --fresh
       - run: npm run links
       - run: node scripts/registry-diff.ts "$RUNNER_TEMP/registry.before.json" snapshot/registry.json "$RUNNER_TEMP/body.md"
       # Fails the job (and so the PR checks) if a KB-cited version disappeared from the registry.

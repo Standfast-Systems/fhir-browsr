@@ -1,10 +1,10 @@
-// Joins data/ig-map.yaml (party tags), data/notes.yaml (plain one-liners) and snapshot/browsr-registry.json
+// Joins data/ig-map.yaml (party tags), data/notes.yaml (plain one-liners) and snapshot/registry.json
 // (the official registry plus each guide's package-list.json, from `npm run snapshot`) into
 // public/data/guides.json for the browser. National and regional cores come from the hand-checked
 // data/national-cores.yaml rather than from ig-map.yaml.
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { parse } from 'yaml';
-import type { NationalCore, RegistryEntry } from '../src/core/browsr/national.ts';
+import type { NationalCore } from '../src/core/browsr/national.ts';
 import { DEFAULT_SCOPE, REGIONS, applyScope, countByRegion } from '../src/core/browsr/scope.ts';
 import type {
   Bucket,
@@ -17,6 +17,8 @@ import type {
   Release,
   Use,
 } from '../src/core/browsr/types.ts';
+import type { RegistrySnapshot } from '../src/core/initializr/types.ts';
+import type { PublishedRelease } from '../src/core/registry.ts';
 
 interface MapGuide {
   npm: string;
@@ -32,15 +34,7 @@ interface Note {
   /** Universal-realm guide meant strictly for outside the US. */
   intl?: boolean;
 }
-interface SnapVersion {
-  version: string;
-  fhir: string[];
-  date?: string;
-  status?: string;
-  sequence?: string;
-  path?: string;
-  current?: boolean;
-}
+type SnapVersion = PublishedRelease;
 interface SnapPackage {
   title?: string;
   description?: string;
@@ -64,10 +58,26 @@ const domainDefs = parse(readFileSync('data/domains.yaml', 'utf8')) as (Domain &
 const bucketDefs = parse(readFileSync('data/buckets.yaml', 'utf8')) as (Bucket & {
   groups: string[];
 })[];
-const snap = JSON.parse(readFileSync('snapshot/browsr-registry.json', 'utf8')) as {
-  generated: string;
-  registry: Record<string, RegistryEntry>;
-  packages: Record<string, SnapPackage>;
+// The shared snapshot carries Initializr's installable versions too; Browsr shows the releases
+// each publisher lists.
+const shared = JSON.parse(readFileSync('snapshot/registry.json', 'utf8')) as RegistrySnapshot;
+const snap = {
+  generated: shared.generated,
+  registry: shared.registry ?? {},
+  packages: Object.fromEntries(
+    Object.values(shared.packages)
+      .filter((p) => p.published)
+      .map((p): [string, SnapPackage] => [
+        p.name,
+        {
+          title: p.title,
+          description: p.description,
+          canonical: p.canonical,
+          packageList: p.published!.packageList,
+          versions: p.published!.releases,
+        },
+      ]),
+  ),
 };
 const national = parse(readFileSync('data/national-cores.yaml', 'utf8')) as NationalCore[];
 

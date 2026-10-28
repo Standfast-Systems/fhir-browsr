@@ -1,52 +1,52 @@
 # Curating the knowledge base
 
-The knowledge base in [kb/](../kb/) is the part of Initializr nobody else has. It is hand-curated YAML, reviewed through pull requests, and every claim carries a primary-source citation.
+The knowledge base in [data/kb/](../data/kb/) is the part of Initializr nobody else has. It is hand-curated YAML, reviewed through pull requests, and every claim carries a primary-source citation.
 
 ## Files
 
-| File | What it holds |
-|---|---|
-| `meta.yaml` | KB version, **as-of date**, disclaimer |
-| `sources.yaml` | Every source a rule can cite: title, publisher, URL, publication date, the date a curator last **checked** it, and its kind |
-| `drivers/*.yaml` | One file per driver (regulation, program or profile), each scoped to the realms where it applies |
-| `realms.yaml` | "Where is the project?": each country's national foundation IGs, plus the international defaults |
-| `testkits.yaml` | Inferno kits: which IG versions each tests, per actor, and suite ids |
-| `igs.yaml` | Short names and chat.fhir.org streams |
-| `names.yaml` | Display names and one-line blurbs for catalog guides (copied from FHIR Matchbook) |
-| `catalog.yaml` | The 277-guide classification into layers and groups, synced from the `ig-map.yaml` that FHIR Matchbook also reads |
+| File             | What it holds                                                                                                               |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `meta.yaml`      | KB version, **as-of date**, disclaimer                                                                                      |
+| `sources.yaml`   | Every source a rule can cite: title, publisher, URL, publication date, the date a curator last **checked** it, and its kind |
+| `drivers/*.yaml` | One file per driver (regulation, program or profile), each scoped to the realms where it applies                            |
+| `realms.yaml`    | "Where is the project?": each country's national foundation IGs, plus the international defaults                            |
+| `testkits.yaml`  | Inferno kits: which IG versions each tests, per actor, and suite ids                                                        |
+| `igs.yaml`       | Short names and chat.fhir.org streams                                                                                       |
+| `../notes.yaml`  | Display names and one-line blurbs for catalog guides, shared with Browsr                                                    |
+| `../ig-map.yaml` | The 277-guide classification into layers and groups, shared with Browsr                                                     |
 
 ## A driver
 
 ```yaml
 id: onc-g10
-name: "ONC certification — §170.315(g)(10) Standardized API"
-short: "ONC (g)(10)"
-kind: regulation            # regulation | program | profile
-authority: "ONC (HHS)"
-sides: [...]                # optional: see "Sides" below
-cite: {source: ecfr-170-315, pin: "(g)(10)", url: "...#p-170.315(g)(10)"}
-components:                 # selectable parts, each with its own in-force window
+name: 'ONC certification — §170.315(g)(10) Standardized API'
+short: 'ONC (g)(10)'
+kind: regulation # regulation | program | profile
+authority: 'ONC (HHS)'
+sides: [...] # optional: see "Sides" below
+cite: { source: ecfr-170-315, pin: '(g)(10)', url: '...#p-170.315(g)(10)' }
+components: # selectable parts, each with its own in-force window
   - id: population
     name: Multiple-patient API (Bulk Data)
-    in_force: {from: "2027-01-01"}   # omit for "already in force"
-    cite: {...}
+    in_force: { from: '2027-01-01' } # omit for "already in force"
+    cite: { ... }
 rules:
   - id: g10-us-core
-    ig: hl7.fhir.us.core    # npm package id
-    actor: server           # the project's actor, not its counterparty's
-    strength: required      # required | recommended | optional — never collapse these
-    components: [...]       # optional: only for these components
-    side: payer             # required when the driver has sides
-    capstmts: [...]         # CapabilityStatement canonicals for the project's part in this IG
-    cite: {...}             # why the IG is in scope at all
-    versions:               # version windows
-      - version: "6.1.0"    # always quote versions
-        basis: adopted      # see below
-        from: "2024-02-08"  # inclusive
-        expires: "2026-01-01" # exclusive, mirroring "expires on" in the CFR
-        cite: {source: ecfr-170-215, pin: "(b)(1)(ii)", url: "...", quote: "..."}
+    ig: hl7.fhir.us.core # npm package id
+    actor: server # the project's actor, not its counterparty's
+    strength: required # required | recommended | optional — never collapse these
+    components: [...] # optional: only for these components
+    side: payer # required when the driver has sides
+    capstmts: [...] # CapabilityStatement canonicals for the project's part in this IG
+    cite: { ... } # why the IG is in scope at all
+    versions: # version windows
+      - version: '6.1.0' # always quote versions
+        basis: adopted # see below
+        from: '2024-02-08' # inclusive
+        expires: '2026-01-01' # exclusive, mirroring "expires on" in the CFR
+        cite: { source: ecfr-170-215, pin: '(b)(1)(ii)', url: '...', quote: '...' }
         note: optional curator note shown with the window
-notes: [...]                # caveats shown with every manifest using this driver
+notes: [...] # caveats shown with every manifest using this driver
 ```
 
 ### Sides
@@ -63,7 +63,7 @@ sides:
     summary: An EHR or provider system that pulls member data and requests prior authorization.
 components:
   - id: prior-auth
-    sides: [payer, provider]  # which sides take part; absent: every side
+    sides: [payer, provider] # which sides take part; absent: every side
 ```
 
 Every rule of a driver with sides names its `side`; the driver resolves nothing until a side is chosen. The bound side gets the `required` and `recommended` rules. The other sides get `optional` client rules at the versions the bound party is asked to run, so a provider system calling CMS-0057-F's APIs gets PDex, Bulk Data, CRD, DTR and PAS. When another driver requires a different version of the same guide, the manifest warns (`optional-outside-required`) that the other side may be on other versions.
@@ -72,29 +72,29 @@ FHIR server and client are not curated per driver: the app presets them from the
 
 ### Version bases
 
-| Basis | Meaning | Counts as accepted? |
-|---|---|---|
-| `adopted` | Named in regulation text | yes |
-| `svap` | Approved through ONC's Standards Version Advancement Process | yes |
-| `permitted-update` | A newer version the regulation's own flexibility clause allows (e.g. 42 CFR 422.119(c)(4)) | yes |
-| `enforcement-discretion` | The agency said it won't enforce against it for a period | yes, inside the window |
-| `recommended` | Agency guidance, not regulation | yes, for a `recommended` rule |
-| `profile` | A non-regulatory profile's choice | yes |
-| `proposed` | In a proposed rule only | **no**: shown and warned about, never accepted |
+| Basis                    | Meaning                                                                                    | Counts as accepted?                            |
+| ------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------- |
+| `adopted`                | Named in regulation text                                                                   | yes                                            |
+| `svap`                   | Approved through ONC's Standards Version Advancement Process                               | yes                                            |
+| `permitted-update`       | A newer version the regulation's own flexibility clause allows (e.g. 42 CFR 422.119(c)(4)) | yes                                            |
+| `enforcement-discretion` | The agency said it won't enforce against it for a period                                   | yes, inside the window                         |
+| `recommended`            | Agency guidance, not regulation                                                            | yes, for a `recommended` rule                  |
+| `profile`                | A non-regulatory profile's choice                                                          | yes                                            |
+| `proposed`               | In a proposed rule only                                                                    | **no**: shown and warned about, never accepted |
 
 ## A realm
 
 ```yaml
-- id: au                    # ISO 3166-1 alpha-2, lowercase, as in the IG registry
+- id: au # ISO 3166-1 alpha-2, lowercase, as in the IG registry
   name: Australia
-  packages:                 # base before core; empty means "use the intl defaults"
+  packages: # base before core; empty means "use the intl defaults"
     - ig: hl7.fhir.au.base
-      kind: base            # extensions, identifiers, naming systems; few mandatory constraints
+      kind: base # extensions, identifiers, naming systems; few mandatory constraints
     - ig: hl7.fhir.au.core
-      kind: core            # must-support constraints, usually with CapabilityStatements
-      version: "2.0.2"      # hand pin: only when the publisher has no package-list.json
+      kind: core # must-support constraints, usually with CapabilityStatements
+      version: '2.0.2' # hand pin: only when the publisher has no package-list.json
   note: shown when the realm has no usable published base
-  cite: {source: ..., url: ...}
+  cite: { source: ..., url: ... }
 ```
 
 The realm with id `intl` holds the international defaults (IPA + IPS). A country whose only national guides are drafts, ballots or R5-only gets an entry with no packages and a `note` saying what exists, so the tool can explain why it fell back. Every driver lists its `realms`; a driver selected for a project elsewhere is ignored with a warning.
@@ -105,7 +105,7 @@ Pins follow the release each publisher marks `"current": true` in its `package-l
 
 ## Guide names
 
-`names.yaml` gives catalog guides a display name and a one-line blurb. It was copied from FHIR Matchbook's `data/notes.yaml`; the apps aren't linked, so edit it here. A curated `short` name in `igs.yaml` wins, so a guide reads the same in the picker and on its card; guides with neither show the registry title without its "FHIR Implementation Guide" tail.
+`data/notes.yaml` gives catalog guides a display name and a one-line blurb; Browsr reads the same file. A curated `short` name in `igs.yaml` wins, so a guide reads the same in the picker and on its card; guides with neither show the registry title without its "FHIR Implementation Guide" tail.
 
 ## Rules of thumb
 
