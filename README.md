@@ -160,7 +160,7 @@ npm run resources
 ```
 
 - `npm run snapshot` re-reads the IG registry, packages.fhir.org and each guide's `package-list.json`, and each package's own manifest and CapabilityStatements. `npm run links` re-checks every link the snapshot holds. `npm run resources` refreshes `data/fhir-resources.json` from the FHIR R4 spec.
-- A weekly workflow ([.github/workflows/refresh.yml](.github/workflows/refresh.yml)) runs the snapshot and the link check and opens a PR listing new versions of the guides the KB cites. A curator decides whether a regulation, SVAP list or agency page accepts them.
+- The data is refreshed by hand. A manual workflow ([.github/workflows/refresh.yml](.github/workflows/refresh.yml)) runs the snapshot and the link check and opens a PR listing new versions of the guides the KB cites; a curator decides whether a regulation, SVAP list or agency page accepts them. To open that PR it needs Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests".
 - Initializr's KB carries an as-of date, every source a `checked` date, and every version window its own `from`/`expires` dates. Review it at least quarterly against new regulations, approved-version lists and IG releases.
 
 ## Develop
@@ -195,7 +195,7 @@ FHIR Matchbook 2.0.0 (2026-10-28) brings Browsr (last standalone release v1.4.4)
 
 - **FHIR Mappr.** Not built yet; it shows as "coming soon" in the header and on the home page.
 - **Home page copy.** A draft, to be replaced by the review thread's wording.
-- **Weekly refresh.** Before its first run, enable Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests"; without it the run refreshes the snapshot but can't open its PR.
+- **Keeping the data in sync.** Snapshot refreshes are by hand for now (`npm run snapshot`, or the manual refresh workflow); a schedule may come back later.
 - **Links between guides and resources, both ways.** Every resource keeps an anchor by its type name (`/browsr/resources#ExplanationOfBenefit`) for this.
 - **A new link-preview image.** `public/og-image.png` still shows Browsr's three-circle diagram.
 - **Trademark wording.** Once HL7 grants permission for the name, change the footers and the license line to HL7's attribution: "FHIR® is the registered trademark of HL7 and is used with the permission of HL7."
