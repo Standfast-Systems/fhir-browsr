@@ -1,7 +1,12 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { RESOURCE_GROUPS, RESOURCE_NOTES, noteParts } from '../src/app/browsr/resources-content.ts';
+import {
+  RESOURCE_GROUPS,
+  RESOURCE_NOTES,
+  RESOURCE_RELATIONS,
+  noteParts,
+} from '../src/app/browsr/resources-content.ts';
 
 interface Row {
   name: string;
@@ -104,4 +109,36 @@ test('relations: card links name real cards, other links are absolute, no markup
   // The financial resources' comparison table becomes a list whose names link to their cards.
   const eob = resources['ExplanationOfBenefit'].relations!.flatMap((b) => b.ul ?? []);
   assert.ok(eob.some((item) => item[0].resource === 'Claim' && item[1].text.startsWith(': ')));
+});
+
+test("how it relates: a summary for each card with a relations section, and only those", () => {
+  const withSection = names.filter((n) => resources[n].relations);
+  assert.deepEqual(Object.keys(RESOURCE_RELATIONS).sort(), withSection.sort());
+});
+
+test('how it relates: 1 to 4 lines, each naming resources the spec relates to this one', () => {
+  const text = (name: string) =>
+    (resources[name]?.relations ?? [])
+      .flatMap((b) => [...(b.p ?? []), ...(b.ul ?? []).flat(), ...(b.h ? [{ text: b.h }] : [])])
+      .map((p) => p.text)
+      .join('');
+  const mentions = (name: string, other: string) => new RegExp(`\\b${other}`).test(text(name));
+  for (const [name, lines] of Object.entries(RESOURCE_RELATIONS)) {
+    assert.ok(lines.length >= 1 && lines.length <= 4, `${name}: ${lines.length} lines`);
+    for (const { to, how } of lines) {
+      assert.ok(to.length >= 1, `${name}: a line names no resource`);
+      for (const other of to) {
+        assert.notEqual(other, name, `${name}: relates to itself`);
+        // In this resource's section, or this resource is in the other's.
+        assert.ok(
+          mentions(name, other) || mentions(other, name),
+          `${name} -> ${other}: not in either spec section`,
+        );
+      }
+      assert.match(how, /^[a-z].*\.$/, `${name}: "${how}" should read on from the names`);
+      for (const part of noteParts(how)) {
+        if (part.href) assert.match(part.href, /^https:\/\//, `${name}: ${part.href}`);
+      }
+    }
+  }
 });
