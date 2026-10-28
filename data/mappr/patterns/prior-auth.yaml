@@ -1,0 +1,114 @@
+# FHIR Mappr pattern. Format: src/core/mappr/types.ts (Pattern). Checked claims: see the PR.
+id: prior-auth
+type: workflow
+rank: 5
+kind: established
+title: Check prior authorization from inside the EHR
+short: Prior auth
+ask: I want to check and request prior authorization from inside the EHR
+summary: >-
+  While a clinician places an order, the EHR asks the payer whether prior authorization is
+  needed, gathers the documentation the payer asks for, and submits the request, all without
+  leaving the chart.
+stack:
+  moves:
+    - guide: hl7.fhir.us.davinci-crd
+      note: asks whether prior authorization is needed
+    - guide: hl7.fhir.us.davinci-dtr
+      note: gathers the payer's documentation
+    - guide: hl7.fhir.us.davinci-pas
+      note: submits the request and gets the answer
+  carries:
+    - guide: hl7.fhir.us.core
+      note: clinical data
+    - guide: hl7.fhir.uv.sdc
+      note: the payer's questionnaires
+  builtOn:
+    - guide: hl7.fhir.uv.cds-hooks
+      note: how CRD reaches the payer while the order is placed
+    - guide: hl7.fhir.us.davinci-hrex
+      note: shared Da Vinci pieces
+resources: [ServiceRequest, Coverage, Questionnaire, QuestionnaireResponse, Claim, ClaimResponse]
+why: >-
+  CMS-0057-F requires impacted payers to run a Prior Authorization API for items and services
+  other than drugs, starting in 2027 (January 1, 2027 for Medicare Advantage); it recommends CRD,
+  DTR and PAS rather than requiring them. ONC's HTI-4 rule adds certification criteria for the EHR
+  side, (g)(31) to (g)(33).
+drawing:
+  kind: walkthrough
+  scenario: A clinician orders an MRI for a patient whose plan may need prior authorization.
+  lanes:
+    - { id: clinician, label: Clinician, kind: staff }
+    - { id: ehr, label: EHR, kind: system }
+    - { id: payer, label: Payer, kind: system }
+  steps:
+    - lane: clinician
+      title: Orders an MRI
+      text: in the EHR, as usual
+    - lane: payer
+      title: Is prior auth needed?
+      text: The EHR asks as the order is signed.
+      via: CRD (CDS Hooks)
+      result: "Card: yes, and documentation is needed"
+    - lane: ehr
+      title: Fills in the payer's questions
+      text: pre-filled from the chart
+      via: DTR
+    - lane: clinician
+      title: Completes what's left
+      text: and signs
+    - lane: payer
+      title: Gets the request
+      text: with the documentation attached
+      via: PAS
+      result: "A decision: right away, or pended for review"
+  takeaway: "Three guides, one job: CRD asks, DTR gathers, PAS submits."
+readFirst:
+  - title: Da Vinci CRD
+    url: https://hl7.org/fhir/us/davinci-crd/
+  - title: Da Vinci DTR
+    url: https://hl7.org/fhir/us/davinci-dtr/
+  - title: Da Vinci PAS
+    url: https://hl7.org/fhir/us/davinci-pas/
+initializr:
+  drivers: [onc-epa, cms-0057-f@provider]
+  label: "ONC (g)(31)–(33) and CMS-0057-F, the provider's side"
+phrasings:
+  - prior authorization
+  - prior auth
+  - prior authorisation
+  - preauthorization
+  - pre-authorization
+  - pre-auth
+  - electronic prior authorization
+  - ePA
+  - check if prior auth is needed
+  - does this order need prior auth
+  - coverage requirements
+  - coverage requirements discovery
+  - CRD
+  - DTR
+  - PAS
+  - documentation templates and rules
+  - submit prior auth request
+  - prior auth status
+  - prior authorization API
+  - burden reduction
+  - Da Vinci burden reduction
+  - CMS-0057-F prior authorization
+  - HTI-4
+  - (g)(31)
+  - X12 278
+  - 278 replacement
+  - utilization management
+  - payer rules in the EHR
+  - order sign hook prior auth
+  - medical necessity documentation
+  - request approval from insurance
+  - insurance approval for a procedure
+  - approval for an MRI
+  - authorize a service
+  - payer questionnaire in the EHR
+  - real-time prior auth
+  - automate prior authorization
+  - gold carding

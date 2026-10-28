@@ -124,4 +124,9 @@ export class ViewStore {
   setPage(page: number) {
     this.state.update((v) => ({ ...v, page }));
   }
+
+  /** Jump to a view built elsewhere (a link in to one guide's row). */
+  show(view: ViewState) {
+    this.state.set({ ...view, regions: [...view.regions], scope: { ...view.scope } });
+  }
 }

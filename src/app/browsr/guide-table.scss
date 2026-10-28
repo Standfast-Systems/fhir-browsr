@@ -73,6 +73,16 @@ tbody tr:hover {
   color: var(--mb-text);
 }
 
+// Pattern tag: a Mappr pattern this guide is part of; a link there.
+.tag.pattern {
+  color: var(--mb-lime);
+  border-color: color-mix(in srgb, var(--mb-lime) 40%, transparent);
+  &:hover {
+    background: color-mix(in srgb, var(--mb-lime) 12%, transparent);
+    text-decoration: none;
+  }
+}
+
 // Domain tag: a clinical area; like the family tag, clicking it shows all of it.
 .tag.domain {
   font: inherit;

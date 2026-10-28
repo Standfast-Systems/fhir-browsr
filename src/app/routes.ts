@@ -27,6 +27,23 @@ export const routes: Routes = [
     ],
   },
   {
+    path: 'mappr',
+    loadComponent: () => import('./mappr/mappr-shell').then((m) => m.MapprShell),
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: 'lookup' },
+      {
+        path: 'lookup',
+        loadComponent: () => import('./mappr/lookup-page').then((m) => m.LookupPage),
+        title: 'Lookup — FHIR Mappr',
+      },
+      {
+        path: 'patterns',
+        loadComponent: () => import('./mappr/patterns-page').then((m) => m.PatternsPage),
+        title: 'Patterns — FHIR Mappr',
+      },
+    ],
+  },
+  {
     path: 'initializr',
     loadComponent: () => import('./initializr/initializr-page').then((m) => m.InitializrPage),
     title: 'FHIR Initializr — the FHIR IGs your project needs, pinned and cited',

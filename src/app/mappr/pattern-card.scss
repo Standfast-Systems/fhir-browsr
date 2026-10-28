@@ -1,0 +1,244 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.card {
+  padding: 22px 24px 26px;
+  border: 1px solid var(--mb-line);
+  border-radius: 14px;
+  background: var(--mb-panel);
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--mb-lime);
+  font-family: var(--mb-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  &.gap {
+    color: var(--mb-warn);
+  }
+}
+
+h2 {
+  margin: 4px 0 6px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.ask {
+  margin: 0 0 8px;
+  color: var(--mb-muted);
+  font-style: italic;
+}
+
+.summary {
+  margin: 0;
+}
+
+h3 {
+  margin: 26px 0 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+h4 {
+  margin: 0 0 6px;
+  color: var(--mb-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.r5 {
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  border: 1px solid color-mix(in srgb, var(--mb-info) 40%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--mb-info) 8%, var(--mb-panel));
+  b {
+    color: var(--mb-info);
+  }
+}
+
+.gapbox {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  border: 1px solid color-mix(in srgb, var(--mb-warn) 40%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--mb-warn) 6%, var(--mb-panel));
+  dt {
+    color: var(--mb-warn);
+    font-weight: 600;
+  }
+  dd {
+    margin: 0 0 8px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// The stack's levels side by side; one column on narrow screens.
+.stack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  section {
+    padding: 12px 14px;
+    border: 1px solid var(--mb-line);
+    border-radius: 10px;
+    background: var(--mb-panel-2);
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  li + li {
+    margin-top: 8px;
+  }
+}
+
+.note {
+  display: block;
+  color: var(--mb-muted);
+  font-size: 13px;
+}
+
+.plain {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li + li {
+    margin-top: 8px;
+  }
+}
+
+.scenario {
+  margin: 0 0 6px;
+  color: var(--mb-muted);
+}
+
+.side {
+  margin: 18px 0 8px;
+  color: var(--mb-text);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+  span {
+    color: var(--mb-muted);
+    font-weight: 400;
+  }
+}
+
+.table-wrap {
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  th,
+  td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--mb-line);
+    text-align: left;
+    vertical-align: top;
+  }
+  thead th {
+    color: var(--mb-muted);
+    font-weight: 600;
+  }
+  tbody th {
+    color: var(--mb-muted);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+}
+
+.takeaway {
+  margin: 12px 0 0;
+  padding-left: 12px;
+  border-left: 3px solid var(--mb-lime);
+  font-weight: 600;
+}
+
+.resources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    display: inline-flex;
+    gap: 8px;
+    align-items: baseline;
+    padding: 3px 10px;
+    border: 1px solid var(--mb-line);
+    border-radius: 999px;
+  }
+  a:first-child,
+  .name {
+    font-family: var(--mb-mono);
+    font-size: 12.5px;
+  }
+  .spec {
+    color: var(--mb-muted);
+    font-size: 11.5px;
+  }
+  .gone {
+    color: var(--mb-faint);
+  }
+}
+
+// A guide's own page, beside its name (which opens its row in Browsr).
+.ext {
+  margin-left: 4px;
+  color: var(--mb-muted);
+  font-size: 12px;
+}
+
+.deeper {
+  margin: 22px 0 0;
+  padding: 12px 16px;
+  border: 1px solid var(--mb-lime-dim);
+  border-radius: 10px;
+  a {
+    font-weight: 600;
+  }
+  .beta {
+    margin-left: 6px;
+    padding: 0 6px;
+    border: 1px solid color-mix(in srgb, var(--mb-warn) 45%, transparent);
+    border-radius: 999px;
+    color: var(--mb-warn);
+    font-size: 11px;
+  }
+  .why {
+    display: block;
+    color: var(--mb-muted);
+    font-size: 13px;
+  }
+}
+
+.read {
+  margin: 0;
+  padding-left: 20px;
+  li + li {
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 520px) {
+  .card {
+    padding: 18px 16px 20px;
+  }
+}

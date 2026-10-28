@@ -1,17 +1,24 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  untracked,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActivatedRoute } from '@angular/router';
 import { EMITTERS, TOOL } from '../../core/initializr/index.ts';
 import { ProfilePanel } from './profile-panel';
 import { Results } from './results';
 import { DataStore } from './data-store';
 import { ProfileStore } from './profile-store';
+import { REPO_URL } from '../repo';
 import { download, zip } from './zip';
-
-export const REPO_URL = 'https://github.com/Standfast-Systems/fhir-matchbook';
 
 /** The Initializr section: pick drivers, get the guides, download the files. */
 @Component({
@@ -35,6 +42,31 @@ export class InitializrPage {
   private readonly snack = inject(MatSnackBar);
   protected readonly repo = REPO_URL;
   protected readonly tool = TOOL;
+
+  constructor() {
+    // A link in can pick drivers, as the CLI writes them: /initializr?driver=cms-0057-f@payer
+    // (from a Mappr workflow). They're picked once the knowledge base loads, the way a click would
+    // pick them; then the address goes back to the plain page.
+    const wanted = inject(ActivatedRoute).snapshot.queryParamMap.getAll('driver');
+    if (wanted.length) {
+      const once = effect(() => {
+        const kb = this.data.kb();
+        if (!kb || !this.store.profile()) return;
+        untracked(() => {
+          for (const w of wanted) {
+            const [id, side] = w.split('@');
+            if (!this.store.drivers().some((d) => d.id === id)) continue;
+            this.store.setDriver(id, true);
+            if (side) this.store.setSide(id, side);
+          }
+        });
+        const url = new URL(location.href);
+        url.searchParams.delete('driver');
+        history.replaceState(history.state, '', url);
+        once.destroy();
+      });
+    }
+  }
 
   protected readonly cli = computed(() => {
     const p = this.store.profile();

@@ -1,0 +1,104 @@
+# FHIR Mappr pattern. Format: src/core/mappr/types.ts (Pattern). Checked claims: see the PR.
+id: referral
+type: workflow
+rank: 1
+kind: gap
+title: Send a referral and get the result back
+short: Referral gap
+ask: I want to send a referral and get the result back
+summary: >-
+  A clinician refers a patient to another service, such as a community program or a dentist, and
+  needs to hear what happened. Guides exist for both directions; what's thin is using them end to
+  end.
+stack:
+  moves:
+    - guide: hl7.fhir.us.bser
+      note: the referral, and the feedback that comes back
+  carries:
+    - guide: hl7.fhir.us.sdoh-clinicalcare
+      note: referrals for social needs
+    - guide: hl7.fhir.us.dental-data-exchange
+      note: medical-to-dental referrals and consult notes
+resources: [ServiceRequest, Task, Patient, DocumentReference]
+gap:
+  thin: >-
+    Adoption is uneven. In practice, many referrals still go by fax or phone, and the loop often
+    isn't closed.
+  who: >-
+    HL7 work groups maintain each guide, listed on its home page, and the Gravity Project works on
+    social care referrals.
+  help: >-
+    Try a referral end to end at a FHIR Connectathon, or bring the use case to the work group
+    that owns the guide.
+drawing:
+  kind: walkthrough
+  scenario: A clinician refers a patient with diabetes to a community program.
+  lanes:
+    - { id: clinician, label: Clinician, kind: staff }
+    - { id: ehr, label: EHR, kind: system }
+    - { id: program, label: Community program, kind: system }
+    - { id: patient, label: Patient, kind: person }
+  steps:
+    - lane: clinician
+      title: Refers the patient
+      text: to a diabetes prevention program
+    - lane: program
+      title: Gets the referral
+      text: with the details it needs
+      via: BSeR
+    - lane: patient
+      title: Joins the program
+      text: and attends sessions
+    - lane: program
+      title: Reports back
+      text: attendance and progress
+    - lane: ehr
+      title: Gets the feedback
+      text: and shows it to the clinician
+      via: BSeR
+      result: The step that's most often missing
+  takeaway: The guides cover both directions. What's thin is using them end to end.
+readFirst:
+  - title: BSeR
+    url: https://hl7.org/fhir/us/bser/
+  - title: SDOH Clinical Care
+    url: https://hl7.org/fhir/us/sdoh-clinicalcare/
+  - title: Dental Data Exchange
+    url: https://hl7.org/fhir/us/dental-data-exchange/
+phrasings:
+  - send a referral
+  - refer a patient
+  - closed-loop referral
+  - closed loop referral
+  - referral feedback
+  - get the result back from a referral
+  - referral to a specialist
+  - refer a patient to a dentist
+  - dental referral
+  - medical to dental referral
+  - dental consult note
+  - referral to a community program
+  - community-based organization referral
+  - CBO referral
+  - social care referral
+  - social needs referral
+  - SDOH referral
+  - food insecurity referral
+  - housing referral
+  - diabetes prevention program referral
+  - tobacco cessation referral
+  - quitline referral
+  - weight management referral
+  - eReferral
+  - e-referral
+  - electronic referral
+  - BSeR
+  - bidirectional referral
+  - referral tracking
+  - referral status
+  - did the patient go to the referral
+  - fax referral replacement
+  - Gravity Project
+  - SDOH Clinical Care
+  - referral loop
+  - send a patient to another provider

@@ -35,8 +35,7 @@
   list-style: none;
 }
 
-.sections a,
-.soon {
+.sections a {
   display: inline-flex;
   gap: 6px;
   align-items: baseline;
@@ -56,11 +55,6 @@
     border-bottom-color: var(--mb-lime);
     color: var(--mb-text);
   }
-}
-
-.soon {
-  color: var(--mb-faint);
-  cursor: default;
 }
 
 small {

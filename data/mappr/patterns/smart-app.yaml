@@ -1,0 +1,104 @@
+# FHIR Mappr pattern. Format: src/core/mappr/types.ts (Pattern). Checked claims: see the PR.
+id: smart-app
+type: workflow
+rank: 1
+kind: established
+title: Build an app that reads a patient's record
+short: SMART app
+ask: I want to build an app that reads a patient's record
+summary: >-
+  An app connects to a health system's FHIR server, the patient or clinician signs in, and the app
+  gets permission to read the record, in a standard shape.
+stack:
+  moves:
+    - guide: hl7.fhir.uv.smart-app-launch
+      note: how the app signs in and gets permission
+  carries:
+    - guide: hl7.fhir.us.core
+      note: what the patient's data looks like
+resources: [Patient, Condition, Observation, AllergyIntolerance, MedicationRequest]
+why: >-
+  ONC's (g)(10) certification criterion requires certified health IT to offer a FHIR API for
+  single-patient access, through SMART App Launch and US Core. The versions it names are older
+  than the guides' current releases.
+drawing:
+  kind: walkthrough
+  scenario: A patient opens a health app and connects it to their hospital's records.
+  lanes:
+    - { id: patient, label: Patient, kind: person }
+    - { id: app, label: The app, kind: system }
+    - { id: ehr, label: "Hospital's EHR", kind: system }
+  steps:
+    - lane: patient
+      title: Opens the app
+      text: and picks their hospital
+    - lane: ehr
+      title: Sign-in page
+      text: The app sends the patient to the hospital's own sign-in.
+      via: SMART App Launch
+    - lane: patient
+      title: Signs in and approves
+      text: the access the app asks for
+    - lane: ehr
+      title: Issues an access token
+      text: limited to the access that was granted
+      via: SMART App Launch
+    - lane: app
+      title: Reads the record
+      text: Patient, conditions, labs, allergies, medications
+      via: FHIR search, US Core
+    - lane: patient
+      title: Sees their data
+      text: in the app, in the shape every EHR certified to (g)(10) supports
+  takeaway: SMART App Launch decides who may read. US Core decides what the data looks like.
+readFirst:
+  - title: SMART App Launch
+    url: https://hl7.org/fhir/smart-app-launch/
+  - title: "SMART App Launch: launch and authorization"
+    url: https://hl7.org/fhir/smart-app-launch/app-launch.html
+  - title: US Core
+    url: https://hl7.org/fhir/us/core/
+initializr:
+  drivers: [smart-app-us-core]
+  label: SMART app + US Core
+phrasings:
+  - build an app that reads a patient's record
+  - patient-facing app
+  - app that pulls data from the EHR
+  - read data from Epic
+  - read data from Cerner
+  - connect an app to a hospital
+  - third-party app access
+  - patient access app
+  - personal health record app
+  - PHR app
+  - health app connect to medical records
+  - let patients see their records in an app
+  - SMART on FHIR app
+  - SMART on FHIR
+  - SMART app launch
+  - OAuth for FHIR
+  - OAuth2 health app
+  - app authorization EHR
+  - sign in to EHR from an app
+  - EHR launch
+  - standalone launch
+  - launch an app from inside the EHR
+  - clinician app inside the EHR
+  - read medications and allergies from the chart
+  - read lab results from the EHR
+  - get vitals from the EHR API
+  - certified API
+  - (g)(10)
+  - g10 API
+  - ONC API
+  - 21st Century Cures API
+  - information blocking API access
+  - US Core API
+  - read patient demographics
+  - access token for patient data
+  - mobile app medical records
+  - consumer app health data
+  - apple health records
+  - pull the chart into my app
+  - chart reader app
