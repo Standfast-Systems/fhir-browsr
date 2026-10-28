@@ -62,7 +62,7 @@ The two pages are Angular routes (`src/app/routes.ts`); the bare address redirec
 
 ## Status
 
-v1.4.4 (2026-10-28) is the last planned release of FHIR Browsr as a standalone app. These pieces are meant to carry over as they are:
+v1.4.4 (2026-10-28) is the last planned release of FHIR Browsr on its own: it is being brought together with other Standfast apps into one. These pieces carry over as they are:
 
 - **FHIR Resources:**
   - the welcome card with its made-up Example;
