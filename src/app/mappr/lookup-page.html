@@ -126,20 +126,67 @@
           <p class="lead">Looking for a match by meaning…</p>
         } @else {
           <p class="lead none">No good match.</p>
-          <!-- Nothing fits the words or the meaning: browse instead of guessing. -->
-          <div class="browse">
-            <p>Browse instead:</p>
-            <ul>
-              <li>
-                <a routerLink="/browsr/guides">Implementation guides</a>, by who has to build to
-                them: patients, providers or payers
-              </li>
-              <li>
-                <a routerLink="/browsr/resources">FHIR resources</a>, the building blocks every
-                guide uses
-              </li>
-              <li><a routerLink="/mappr/patterns">Mappr's patterns</a>, by type</li>
-            </ul>
+          <!-- Nothing fits the words or the meaning: a few questions (src/core/mappr/guide.ts)
+               point to the right page in Browsr, Mappr or Initializr. -->
+          <div class="guide">
+            @let q = question();
+            <p class="q" [id]="'q-' + q.id">{{ q.text }}</p>
+            <div class="answers" role="group" [attr.aria-labelledby]="'q-' + q.id">
+              @for (a of q.answers; track a.label) {
+                @switch (a.to.kind) {
+                  @case ('ask') {
+                    <button type="button" class="answer" (click)="answer(a)">
+                      <b>{{ a.label }}</b>
+                      <span>{{ a.hint }}</span>
+                    </button>
+                  }
+                  @case ('resources') {
+                    <a class="answer" routerLink="/browsr/resources">
+                      <b>{{ a.label }}</b>
+                      <span>{{ a.hint }}</span>
+                    </a>
+                  }
+                  @case ('browsr') {
+                    @if (a.to.kind === 'browsr') {
+                      <a
+                        class="answer"
+                        routerLink="/browsr/guides"
+                        [queryParams]="{ party: a.to.party, bucket: a.to.bucket ?? null }"
+                      >
+                        <b>{{ a.label }}</b>
+                        <span>{{ a.hint }}</span>
+                      </a>
+                    }
+                  }
+                  @case ('pattern') {
+                    @if (a.to.kind === 'pattern') {
+                      <a class="answer" routerLink="/mappr/patterns" [fragment]="a.to.id">
+                        <b>{{ a.label }}</b>
+                        <span>{{ a.hint }}</span>
+                      </a>
+                    }
+                  }
+                  @case ('initializr') {
+                    @if (a.to.kind === 'initializr') {
+                      <a
+                        class="answer"
+                        routerLink="/initializr"
+                        [queryParams]="{ driver: a.to.drivers }"
+                      >
+                        <b>{{ a.label }}</b>
+                        <span>{{ a.hint }}</span>
+                      </a>
+                    }
+                  }
+                }
+              }
+            </div>
+            @if (trail().length) {
+              <button type="button" class="link back" (click)="back()">← Back</button>
+            }
+            <p class="also">
+              Or browse <a routerLink="/mappr/patterns">Mappr's patterns</a> by type.
+            </p>
           </div>
         }
       }

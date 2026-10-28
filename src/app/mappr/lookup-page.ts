@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FIRST, QUESTIONS, type Answer, type QuestionId } from '../../core/mappr/guide';
 import { TYPES, guidesOf } from '../../core/mappr/library';
 import { buildIndex, lookup, patternsWith, type LookupResult } from '../../core/mappr/lookup';
 import { RELEASES, resourceIn, resourceSpecUrl } from '../../core/mappr/release';
@@ -38,6 +39,15 @@ const EXAMPLES = [
 export class LookupPage {
   protected readonly store = inject(MapprStore);
   protected readonly examples = EXAMPLES;
+  /**
+   * On "no good match": the questions answered so far, oldest first. The last answer that asks
+   * another question decides which question shows.
+   */
+  protected readonly trail = signal<{ question: QuestionId; answer: Answer }[]>([]);
+  protected readonly question = computed(() => {
+    const last = this.trail().at(-1);
+    return QUESTIONS[last && last.answer.to.kind === 'ask' ? last.answer.to.next : FIRST];
+  });
   protected readonly query = signal(inject(ActivatedRoute).snapshot.queryParamMap.get('q') ?? '');
 
   private readonly index = computed(() => {
@@ -140,8 +150,10 @@ export class LookupPage {
   protected readonly feedbackUrl = computed(() => {
     const q = this.query().trim();
     const title = `Mappr lookup: "${q}"`;
+    const answered = this.trail().map((t) => t.answer.label);
     const body =
       `I searched FHIR Mappr's lookup for:\n\n> ${q}\n\n` +
+      (answered.length ? `Then I answered: ${answered.join(' → ')}\n\n` : '') +
       `What I was trying to do (optional):\n\n`;
     return (
       `${REPO_URL}/issues/new?labels=phrasing` +
@@ -151,10 +163,20 @@ export class LookupPage {
 
   protected search(q: string) {
     this.query.set(q);
+    this.trail.set([]);
     // Keep the address shareable without a history entry per keystroke.
     const url = new URL(location.href);
     if (q.trim()) url.searchParams.set('q', q);
     else url.searchParams.delete('q');
     history.replaceState(history.state, '', url);
+  }
+
+  /** An answer that asks another question. Answers that go somewhere are links. */
+  protected answer(a: Answer) {
+    this.trail.update((t) => [...t, { question: this.question().id, answer: a }]);
+  }
+
+  protected back() {
+    this.trail.update((t) => t.slice(0, -1));
   }
 }
