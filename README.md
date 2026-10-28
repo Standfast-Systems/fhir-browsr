@@ -60,6 +60,25 @@ The app is Angular with signals and no UI library. `src/core` is plain TypeScrip
 
 The two pages are Angular routes (`src/app/routes.ts`); the bare address redirects to `/resources`. GitHub Pages has no fallback for single-page apps, so the deploy copies `index.html` to `resources/index.html` and `guides/index.html` (so those URLs load directly) and to `404.html`. `public/og-image.png` is the link-preview card.
 
+## Status
+
+v1.4.4 (2026-10-28) is the last planned release of FHIR Browsr as a standalone app. These pieces are meant to carry over as they are:
+
+- **FHIR Resources:**
+  - the welcome card with its made-up Example;
+  - the list and detail card with key fields, all fields and nested groups;
+  - the official R4 samples;
+  - the "Good to know" notes, each checked against the FHIR R4 spec or the named guide's own pages.
+- **Implementation Guides:** the three-circle diagram, the US/International switch, the scope toggles, and the domain and program filters.
+- **Data:** `npm run snapshot` (the official IG registry) and `npm run resources` (the R4 definitions and examples), plus the hand-curated files in `data/`.
+
+Open items, never built:
+
+- **Scheduled data refresh.** The snapshot and resource data are refreshed by hand today.
+- **Links between guides and resources, both ways.** Every resource keeps an anchor by its type name (`/resources#ExplanationOfBenefit`) for this.
+- **A new link-preview image.** `public/og-image.png` still shows the three-circle diagram, from when Implementation Guides was the landing page.
+- **An HL7 trademark attribution line**, pending permission.
+
 ## License
 
 Apache 2.0. FHIR® is the registered trademark of HL7. This project isn't affiliated with or endorsed by HL7.
