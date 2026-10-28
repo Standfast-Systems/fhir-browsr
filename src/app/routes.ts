@@ -3,7 +3,12 @@ import type { Routes } from '@angular/router';
 // Each section loads on its own, so Initializr's Material code stays out of Browsr's pages.
 // Browsr opens on the FHIR Resources page: first the pieces, then the guides.
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'browsr' },
+  {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./landing/landing-page').then((m) => m.LandingPage),
+    title: 'FHIR Matchbook — Browsr, Mappr, Initializr. Discover, Map, Build.',
+  },
   {
     path: 'browsr',
     loadComponent: () => import('./browsr/browsr-shell').then((m) => m.BrowsrShell),
