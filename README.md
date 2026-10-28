@@ -1,12 +1,16 @@
-# FHIR Browsr
+# FHIR Matchbook
 
-**https://standfast-systems.github.io/fhir-browsr/**
+**https://standfast-systems.github.io/fhir-matchbook/**
+
+**Browsr, Mappr, Initializr. Discover, Map, Build.** One app with three sections: **FHIR Browsr** (`/browsr`, below), **FHIR Mappr** (coming soon) and **FHIR Initializr** (`/initializr`, BETA), which picks the exact guide versions and starter config for a project. Initializr came from [Standfast-Systems/fhir-initializr](https://github.com/Standfast-Systems/fhir-initializr) with its history (tag `initializr-v0.2.0`); its knowledge base is in `data/kb/`, its command-line tool in `cli/`, and its docs in `docs/kb.md`.
+
+## FHIR Browsr
 
 A way into FHIR for people who are new to it: first the pieces, then the guides.
 
-It opens on **FHIR Resources** (`/resources`), the building blocks every guide is made of: 24 resources a newcomer meets first, in six groups. Until one is picked, the card explains how the page works, with a made-up Example resource (`src/app/resource-example.ts`) showing each part of a card. Selecting one opens a card with one plain sentence, its key fields (with every field and the collapsed nested objects a click away), a trimmed official example, and links to the FHIR R4 spec. Each resource has an anchor by its type name (`/resources#ExplanationOfBenefit`). The names, groups and sentences live in `src/app/resources-content.ts`.
+It opens on **FHIR Resources** (`/browsr/resources`), the building blocks every guide is made of: 24 resources a newcomer meets first, in six groups. Until one is picked, the card explains how the page works, with a made-up Example resource (`src/app/browsr/resource-example.ts`) showing each part of a card. Selecting one opens a card with one plain sentence, its key fields (with every field and the collapsed nested objects a click away), a trimmed official example, and links to the FHIR R4 spec. Each resource has an anchor by its type name (`/browsr/resources#ExplanationOfBenefit`). The names, groups and sentences live in `src/app/browsr/resources-content.ts`.
 
-**Implementation Guides** (`/guides`) is the way into FHIR's implementation guides. Pick **Patient**, **Provider** or **Payer** on a three-circle diagram and get a table of the guides that side has to build to, with the overlaps you share with the other sides. Each guide gets one plain sentence, its maturity, and a link to its current published page.
+**Implementation Guides** (`/browsr/guides`) is the way into FHIR's implementation guides. Pick **Patient**, **Provider** or **Payer** on a three-circle diagram and get a table of the guides that side has to build to, with the overlaps you share with the other sides. Each guide gets one plain sentence, its maturity, and a link to its current published page.
 
 It opens on the center of the diagram, the foundation every side shares, with US Core first.
 
@@ -31,21 +35,21 @@ Each guide links to the release its publisher marks current in `package-list.jso
 
 ## Data
 
-| File                           | What it is                                                                                                                                                                                                                               |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data/ig-map.yaml`             | The 277 US and universal-realm guides, their group, and the `parties` tags. Hidden groups (legacy, non-FHIR, tooling, unofficial, withdrawn) are dropped.                                                                                |
-| `data/notes.yaml`              | Hand-written display names and one-liners, plus `start` ranks for the good first guides. This is the curation file.                                                                                                                      |
-| `data/families.yaml`           | Program families (Da Vinci, CARIN, SMART, IHE, ...): the chip label, the one-line header used when the table is grouped by family, and members in reading order.                                                                         |
-| `data/domains.yaml`            | The 12 clinical domains and the guides in each, hand-assigned (a guide can be in several; most are in none). Transcribed from `matchbook-domain-tags.md`, the product decision.                                                          |
-| `data/national-cores.yaml`     | The hand-checked national and regional core guides for the International view, with their country labels.                                                                                                                                |
-| `src/app/resources-content.ts` | The FHIR Resources page: six groups and their 24 resources, with one sentence each.                                                                                                                                                      |
-| `data/fhir-resources.json`     | Each resource's fields (from its FHIR R4 definition), which ones are key, and its official R4 example. Generated by `npm run resources`; the key fields are picked in `scripts/resources.ts`.                                            |
-| `data/buckets.yaml`            | The "What are you working on?" chips shown with Provider-only selected. Every ig-map group sits in exactly one bucket.                                                                                                                   |
-| `snapshot/registry.json`       | The official FHIR IG registry's index, plus each listed guide's releases from its own `package-list.json` (status, date, FHIR version, page). Guides with no reachable `package-list.json` fall back to the editions the registry lists. |
+| File                                  | What it is                                                                                                                                                                                                                               |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data/ig-map.yaml`                    | The 277 US and universal-realm guides, their group, and the `parties` tags. Hidden groups (legacy, non-FHIR, tooling, unofficial, withdrawn) are dropped.                                                                                |
+| `data/notes.yaml`                     | Hand-written display names and one-liners, plus `start` ranks for the good first guides. This is the curation file.                                                                                                                      |
+| `data/families.yaml`                  | Program families (Da Vinci, CARIN, SMART, IHE, ...): the chip label, the one-line header used when the table is grouped by family, and members in reading order.                                                                         |
+| `data/domains.yaml`                   | The 12 clinical domains and the guides in each, hand-assigned (a guide can be in several; most are in none). Transcribed from `matchbook-domain-tags.md`, the product decision.                                                          |
+| `data/national-cores.yaml`            | The hand-checked national and regional core guides for the International view, with their country labels.                                                                                                                                |
+| `src/app/browsr/resources-content.ts` | The FHIR Resources page: six groups and their 24 resources, with one sentence each.                                                                                                                                                      |
+| `data/fhir-resources.json`            | Each resource's fields (from its FHIR R4 definition), which ones are key, and its official R4 example. Generated by `npm run resources`; the key fields are picked in `scripts/resources.ts`.                                            |
+| `data/buckets.yaml`                   | The "What are you working on?" chips shown with Provider-only selected. Every ig-map group sits in exactly one bucket.                                                                                                                   |
+| `snapshot/browsr-registry.json`       | The official FHIR IG registry's index, plus each listed guide's releases from its own `package-list.json` (status, date, FHIR version, page). Guides with no reachable `package-list.json` fall back to the editions the registry lists. |
 
-`npm run data` joins them into `public/data/guides.json`. It fails on a note for an unknown guide, and skips (with a warning) any guide the registry no longer lists: the registry is the only source of guides.
+`npm run data` joins them into `public/data/guides.json` (and builds Initializr's data next to it). It fails on a note for an unknown guide, and skips (with a warning) any guide the registry no longer lists: the registry is the only source of guides.
 
-`npm run snapshot` refreshes the snapshot straight from the registry. `npm run resources` refreshes `data/fhir-resources.json` from the FHIR R4 spec.
+`npm run snapshot` refreshes the snapshot straight from the registry (Browsr's and Initializr's, until they share one). `npm run resources` refreshes `data/fhir-resources.json` from the FHIR R4 spec.
 
 ## Develop
 
@@ -56,9 +60,9 @@ npm run test:core  # scope rules, sorting, diagram geometry, resource data
 npm run typecheck
 ```
 
-The app is Angular with signals and no UI library. `src/core` is plain TypeScript, shared by the build script, the tests and the browser. View state (US/International, selected regions, toggles, search, sort, page) lives in a signal-based store, `src/app/view-store.ts`. It is held in memory, so a reload starts from the default view; moving between the two pages keeps it.
+The app is Angular with signals; Browsr uses no UI library, Initializr uses Angular Material. `src/core/browsr` and `src/core/initializr` are plain TypeScript, shared by the build scripts, the tests and the browser. Browsr's view state (US/International, selected regions, toggles, search, sort, page) lives in a signal-based store, `src/app/browsr/view-store.ts`. It is held in memory, so a reload starts from the default view; moving between the two pages keeps it.
 
-The two pages are Angular routes (`src/app/routes.ts`); the bare address redirects to `/resources`. GitHub Pages has no fallback for single-page apps, so the deploy copies `index.html` to `resources/index.html` and `guides/index.html` (so those URLs load directly) and to `404.html`. `public/og-image.png` is the link-preview card.
+The sections and pages are lazy-loaded Angular routes (`src/app/routes.ts`); for now the bare address redirects to `/browsr/resources`. GitHub Pages has no fallback for single-page apps, so after the build `scripts/pages.ts` writes a copy of `index.html` for each section page (so those URLs load directly, each with its own link-preview tags) and `404.html`. `public/og-image.png` is the link-preview card.
 
 ## License
 

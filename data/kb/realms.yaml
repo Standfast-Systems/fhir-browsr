@@ -1,0 +1,221 @@
+# FHIR Initializr knowledge base: realms ("Where is the project?").
+#
+# Each realm names the national foundation IGs a new FHIR R4 project there should start from:
+# a "base" (extensions, identifiers, naming systems; few mandatory constraints) and/or a "core"
+# (must-support constraints, usually with CapabilityStatements). A realm with no packages has no
+# usable published national base, and gets the "intl" defaults (IPA + IPS) instead.
+#
+# Curated 2026-10-21 from each IG's own site and package-list.json, packages.fhir.org and the IG
+# registry. The registry's "National Base" category is unreliable (Belgium tags 18 guides with it;
+# Germany's entry is the STU3 package; Japan's id doesn't exist on packages.fhir.org; France Core
+# and Brazil Core aren't listed at all), so every entry is judged by hand. A base only counts if a
+# published R4 release is on packages.fhir.org, since package tools can't fetch it otherwise.
+# Pins follow the release each publisher marks current in its package-list.json (the snapshot
+# records it). "version" is a hand pin, kept only where a publisher has no version list.
+
+realms:
+  - id: intl
+    name: "No particular country"
+    packages:
+      - ig: hl7.fhir.uv.ipa
+        kind: core
+        note: Patient access to a FHIR server, the international counterpart of US Core's read API.
+      - ig: hl7.fhir.uv.ips
+        kind: core
+        note: The patient summary document most national and cross-border programs build on.
+    cite: {source: national-igs, pin: "IPA, IPS", url: "http://hl7.org/fhir/uv/ipa"}
+
+  - id: us
+    name: "United States"
+    packages:
+      - {ig: hl7.fhir.us.core, kind: core}
+    cite: {source: ig-us-core}
+
+  # --- Countries with a published R4 national foundation ----------------------------------------
+
+  - id: at
+    name: "Austria"
+    packages:
+      - {ig: hl7.at.fhir.core.r4, kind: core, note: "HL7 Austria's core profiles (light, base-like)."}
+    cite: {source: national-igs, pin: "HL7 AT Core R4", url: "https://fhir.hl7.at/HL7-AT-FHIR-Core-R4/"}
+  - id: au
+    name: "Australia"
+    packages:
+      - {ig: hl7.fhir.au.base, kind: base}
+      - {ig: hl7.fhir.au.core, kind: core, note: "AU Core builds on AU Base."}
+    cite: {source: national-igs, pin: "AU Base, AU Core", url: "http://hl7.org.au/fhir/core"}
+  - id: bd
+    name: "Bangladesh"
+    packages:
+      - {ig: bd.fhir.core, kind: core, note: "Published by DGHS as trial use, but still 0.x with frequent releases; expect breaking changes."}
+    cite: {source: national-igs, pin: "BD Core", url: "https://fhir.dghs.gov.bd/core"}
+  - id: be
+    name: "Belgium"
+    packages:
+      - {ig: hl7.fhir.be.core, kind: core, note: "The federal base profiles. Belgium's core-clinical IG and domain IGs build on it."}
+    cite: {source: national-igs, pin: "BE Core", url: "https://www.ehealth.fgov.be/standards/fhir/core"}
+  - id: ca
+    name: "Canada"
+    packages:
+      - {ig: hl7.fhir.ca.baseline, kind: base, note: "CA Core+ exists only as drafts so far."}
+    cite: {source: national-igs, pin: "CA Baseline", url: "https://simplifier.net/packages/hl7.fhir.ca.baseline"}
+  - id: ch
+    name: "Switzerland"
+    packages:
+      - {ig: ch.fhir.ig.ch-core, kind: core}
+    cite: {source: national-igs, pin: "CH Core", url: "http://fhir.ch/ig/ch-core"}
+  - id: cl
+    name: "Chile"
+    packages:
+      - ig: hl7.fhir.cl.clcore
+        kind: core
+        note: "Its version list marks 1.9.3 current (and every entry draft); 1.9.4 on packages.fhir.org is a draft."
+    cite: {source: national-igs, pin: "CL Core", url: "https://hl7chile.cl/fhir/ig/clcore"}
+  - id: cz
+    name: "Czechia"
+    packages:
+      - {ig: hl7.fhir.cz.core, kind: core, note: "Czech national base and core in one package."}
+    cite: {source: national-igs, pin: "CZ Core", url: "https://hl7.cz/fhir/core"}
+  - id: de
+    name: "Germany"
+    packages:
+      - {ig: de.basisprofil.r4, kind: base, note: "There is no national core; sector layers (KBV, gematik ISiK, MII) build on the base."}
+    cite: {source: national-igs, pin: "Basisprofil DE", url: "https://ig.fhir.de/basisprofile-de/"}
+  - id: dk
+    name: "Denmark"
+    packages:
+      - {ig: hl7.fhir.dk.core, kind: core}
+    cite: {source: national-igs, pin: "DK Core", url: "http://hl7.dk/fhir/core"}
+  - id: fi
+    name: "Finland"
+    packages:
+      - {ig: hl7.fhir.fi.base, kind: base}
+    cite: {source: national-igs, pin: "Finnish Base Profiles", url: "https://hl7.fi/fhir/finnish-base-profiles"}
+  - id: fr
+    name: "France"
+    packages:
+      - {ig: hl7.fhir.fr.core, kind: core}
+    cite: {source: national-igs, pin: "FR Core", url: "https://hl7.fr/ig/fhir/core"}
+  - id: gb
+    name: "United Kingdom"
+    packages:
+      - ig: fhir.r4.ukcore.stu2
+        kind: core
+        version: "2.0.2"
+        note: "UK Core STU2; package 2.1.0 is deprecated. Hand-pinned: NHS England publishes no package-list.json."
+    cite: {source: national-igs, pin: "UK Core", url: "https://simplifier.net/guide/ukcoreversionhistory"}
+  - id: il
+    name: "Israel"
+    packages:
+      - {ig: il.core.fhir.r4, kind: core, note: "Ministry of Health's IL Core; widely used, but still 0.x with no formal STU."}
+    cite: {source: national-igs, pin: "IL Core", url: "https://simplifier.net/ILCore"}
+  - id: in
+    name: "India"
+    packages:
+      - {ig: ndhm.in, kind: core, note: "ABDM's national exchange profiles (NRCeS)."}
+    cite: {source: national-igs, pin: "ABDM / NDHM", url: "https://nrces.in/ndhm/fhir/r4"}
+  - id: jp
+    name: "Japan"
+    packages:
+      - {ig: jp-core.r4, kind: core, note: "JP Core 1.2.0 is current but only on jpfhir.jp; packages.fhir.org has 1.1.0."}
+    cite: {source: national-igs, pin: "JP Core", url: "https://jpfhir.jp/fhir/core/"}
+  - id: kr
+    name: "South Korea"
+    packages:
+      - {ig: hl7.fhir.kr.core, kind: core, note: "KR Core 2.0.0 (STU2, August 2025) is the current release but isn't on packages.fhir.org (checked 2026-10-21), so package tools can't fetch it; 1.0.2 is the newest there."}
+    cite: {source: national-igs, pin: "KR Core", url: "http://www.hl7korea.or.kr/fhir/krcore"}
+  - id: "no"
+    name: "Norway"
+    packages:
+      - {ig: hl7.fhir.no.basis, kind: base}
+    cite: {source: national-igs, pin: "HL7 Norway basis", url: "https://simplifier.net/hl7norwayno-basis"}
+  - id: nz
+    name: "New Zealand"
+    packages:
+      - {ig: fhir.org.nz.ig.base, kind: base, note: "There is no national core; platform IGs build on the base."}
+    cite: {source: national-igs, pin: "NZ Base", url: "http://fhir.org.nz/ig/base"}
+  - id: se
+    name: "Sweden"
+    packages:
+      - {ig: hl7se.fhir.base, kind: base}
+    cite: {source: national-igs, pin: "HL7 Sweden base", url: "http://hl7.se/fhir/ig/base"}
+  - id: tw
+    name: "Taiwan"
+    packages:
+      - {ig: tw.gov.mohw.twcore, kind: core}
+    cite: {source: national-igs, pin: "TW Core", url: "https://twcore.mohw.gov.tw/ig/twcore"}
+
+  # --- No usable published R4 national base: IPA + IPS apply ---------------------------------------
+  # EU members here can also consider the HL7 Europe base (hl7.fhir.eu.base) for EHDS-aligned or
+  # cross-border work; it doesn't replace a national base and isn't added automatically.
+
+  - id: br
+    name: "Brazil"
+    packages: []
+    note: "Core do Brasil (br.gov.saude.br-core.fhir) is published at hl7.org.br but isn't on packages.fhir.org yet"
+    cite: {source: national-igs, pin: "Core do Brasil", url: "https://hl7.org.br/fhir/core/"}
+  - id: cr
+    name: "Costa Rica"
+    packages: []
+    note: "only an R5 draft exists"
+    cite: {source: national-igs, url: "https://build.fhir.org/ig/HIE-cr/core-ig/"}
+  - id: ee
+    name: "Estonia"
+    packages: []
+    note: "the Estonian base is published for R5 only; the HL7 Europe base is an EU option"
+    cite: {source: national-igs, url: "https://fhir.ee/base"}
+  - id: es
+    name: "Spain"
+    packages: []
+    note: "none is published; the HL7 Europe base is an EU option"
+    cite: {source: national-igs}
+  - id: ie
+    name: "Ireland"
+    packages: []
+    note: "none is published (an unofficial 'IE core' concept is not one); the HL7 Europe base is an EU option"
+    cite: {source: national-igs}
+  - id: it
+    name: "Italy"
+    packages: []
+    note: "HL7 Italia's core is still a draft and not on packages.fhir.org; the HL7 Europe base is an EU option"
+    cite: {source: national-igs, url: "https://www.hl7.it/fhir/core/"}
+  - id: lt
+    name: "Lithuania"
+    packages: []
+    note: "only R5 drafts exist; the HL7 Europe base is an EU option"
+    cite: {source: national-igs, url: "https://hl7.lt/fhir/base/"}
+  - id: nl
+    name: "Netherlands"
+    packages: []
+    note: "the R4 nl-core is beta (production is STU3 zib2017); the HL7 Europe base is an EU option"
+    cite: {source: national-igs, url: "https://simplifier.net/packages/nictiz.fhir.nl.r4.nl-core"}
+  - id: ph
+    name: "Philippines"
+    packages: []
+    note: "PH Core is a draft and not on packages.fhir.org"
+    cite: {source: national-igs, url: "https://fhir.doh.gov.ph/phcore"}
+  - id: pl
+    name: "Poland"
+    packages: []
+    note: "the Polish base is published for R5 only; the HL7 Europe base is an EU option"
+    cite: {source: national-igs}
+  - id: sa
+    name: "Saudi Arabia"
+    packages: []
+    note: "none is published; NPHIES IGs cover claims only"
+    cite: {source: national-igs}
+  - id: sg
+    name: "Singapore"
+    packages: []
+    note: "Singapore's core data profiles are published for R5 only"
+    cite: {source: national-igs}
+  - id: uz
+    name: "Uzbekistan"
+    packages: []
+    note: "only R5 drafts exist"
+    cite: {source: national-igs, url: "https://dhp.uz/fhir/core/"}
+  - id: za
+    name: "South Africa"
+    packages: []
+    note: "none is published"
+    cite: {source: national-igs}

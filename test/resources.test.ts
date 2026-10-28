@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { RESOURCE_GROUPS, RESOURCE_NOTES, noteParts } from '../src/app/resources-content.ts';
+import { RESOURCE_GROUPS, RESOURCE_NOTES, noteParts } from '../src/app/browsr/resources-content.ts';
 
 interface Row {
   name: string;

@@ -1,0 +1,4566 @@
+{
+  "tool": {
+    "name": "FHIR Initializr",
+    "version": "0.2.0",
+    "stage": "pre-MVP preview, under construction"
+  },
+  "kbVersion": "0.2.0",
+  "kbAsOf": "2026-10-21",
+  "snapshotAsOf": "2026-10-26T15:46:30.360Z",
+  "generated": "2026-10-20T00:00:00Z",
+  "disclaimer": "Scoping guidance with citations, not a compliance determination. Check every requirement against the cited source and your own counsel before relying on it.",
+  "profile": {
+    "realm": "us",
+    "actors": [
+      "client"
+    ],
+    "drivers": [
+      {
+        "id": "smart-app-us-core"
+      }
+    ],
+    "asOf": "2027-01-01",
+    "fhir": "4.0.1",
+    "pins": {},
+    "removed": [],
+    "extras": [],
+    "projectName": "smart-app"
+  },
+  "realm": {
+    "id": "us",
+    "name": "United States",
+    "fallback": false
+  },
+  "igs": [
+    {
+      "package": "hl7.fhir.us.core",
+      "title": "US Core",
+      "layer": "auto",
+      "group": "foundation",
+      "groupLabel": "Foundation (base data model + API)",
+      "pin": "6.1.0",
+      "allowed": [
+        "6.1.0"
+      ],
+      "strength": "recommended",
+      "actors": [
+        "client"
+      ],
+      "fhir": [
+        "4.0.1"
+      ],
+      "reasons": [
+        {
+          "kind": "rule",
+          "driver": "smart-app-us-core",
+          "driverName": "SMART app + US Core",
+          "component": "standalone",
+          "componentName": "Standalone launch (patient-facing), EHR launch (clinician-facing)",
+          "ruleId": "app-us-core",
+          "strength": "recommended",
+          "actor": "client",
+          "accepts": [
+            "6.1.0"
+          ],
+          "windows": [
+            {
+              "version": "3.1.1",
+              "basis": "profile",
+              "expires": "2026-01-01",
+              "active": false,
+              "cite": {
+                "title": "45 CFR 170.215 — Application Programming Interface Standards",
+                "publisher": "eCFR (National Archives)",
+                "url": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(b)(1)(i)",
+                "pin": "(b)(1)(i)",
+                "kind": "regulation"
+              }
+            },
+            {
+              "version": "6.1.0",
+              "basis": "profile",
+              "from": "2024-02-08",
+              "active": true,
+              "cite": {
+                "title": "45 CFR 170.215 — Application Programming Interface Standards",
+                "publisher": "eCFR (National Archives)",
+                "url": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(b)(1)(ii)",
+                "pin": "(b)(1)(ii)",
+                "kind": "regulation"
+              }
+            }
+          ],
+          "status": "in-force",
+          "text": "Build to the oldest version certified servers must still serve. Servers may also offer SVAP versions (US Core 7.0.0–9.0.0); test against the versions your target EHRs actually run.",
+          "cite": {
+            "title": "HL7 FHIR US Core Implementation Guide",
+            "publisher": "HL7 International",
+            "url": "https://hl7.org/fhir/us/core/history.html",
+            "kind": "ig"
+          }
+        },
+        {
+          "kind": "realm",
+          "strength": "recommended",
+          "accepts": [
+            "9.0.0",
+            "8.0.1",
+            "8.0.0",
+            "7.0.0",
+            "6.1.0",
+            "6.0.0",
+            "5.0.1",
+            "5.0.0",
+            "4.0.0",
+            "3.1.1",
+            "3.1.0",
+            "3.0.0"
+          ],
+          "attested": false,
+          "windows": [],
+          "status": "in-force",
+          "text": "National core for United States.",
+          "cite": {
+            "title": "HL7 FHIR US Core Implementation Guide",
+            "publisher": "HL7 International",
+            "url": "https://hl7.org/fhir/us/core/history.html",
+            "kind": "ig"
+          }
+        }
+      ],
+      "links": {
+        "home": "http://hl7.org/fhir/us/core/STU6.1/",
+        "history": "http://hl7.org/fhir/us/core/history.html",
+        "capstmts": [
+          {
+            "actor": "client",
+            "title": "US Core Client CapabilityStatement",
+            "url": "http://hl7.org/fhir/us/core/STU6.1/CapabilityStatement-us-core-client.html"
+          },
+          {
+            "actor": "server",
+            "title": "US Core Server CapabilityStatement",
+            "url": "http://hl7.org/fhir/us/core/STU6.1/CapabilityStatement-us-core-server.html"
+          }
+        ],
+        "profiles": "http://hl7.org/fhir/us/core/STU6.1/artifacts.html",
+        "chat": {
+          "stream": "argonaut",
+          "url": "https://chat.fhir.org/#narrow/channel/179175-argonaut"
+        },
+        "testkits": [
+          {
+            "title": "ONC Certification (g)(10) Standardized API Test Kit",
+            "url": "https://inferno.healthit.gov/test-kits/onc-certification-g10/"
+          },
+          {
+            "title": "US Core Test Kit",
+            "url": "https://inferno.healthit.gov/test-kits/us-core/"
+          }
+        ]
+      }
+    },
+    {
+      "package": "hl7.fhir.uv.smart-app-launch",
+      "title": "SMART App Launch",
+      "layer": "capability",
+      "group": "cap-app",
+      "groupLabel": "App integration & launch",
+      "pin": "2.0.0",
+      "allowed": [
+        "2.0.0"
+      ],
+      "strength": "recommended",
+      "actors": [
+        "client"
+      ],
+      "fhir": [
+        "4.0.1"
+      ],
+      "reasons": [
+        {
+          "kind": "rule",
+          "driver": "smart-app-us-core",
+          "driverName": "SMART app + US Core",
+          "component": "standalone",
+          "componentName": "Standalone launch (patient-facing), EHR launch (clinician-facing)",
+          "ruleId": "app-smart",
+          "strength": "recommended",
+          "actor": "client",
+          "accepts": [
+            "2.0.0"
+          ],
+          "windows": [
+            {
+              "version": "1.0.0",
+              "basis": "profile",
+              "expires": "2026-01-01",
+              "active": false,
+              "cite": {
+                "title": "45 CFR 170.215 — Application Programming Interface Standards",
+                "publisher": "eCFR (National Archives)",
+                "url": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(c)(1)",
+                "pin": "(c)(1)",
+                "kind": "regulation"
+              }
+            },
+            {
+              "version": "2.0.0",
+              "basis": "profile",
+              "from": "2024-02-08",
+              "active": true,
+              "cite": {
+                "title": "45 CFR 170.215 — Application Programming Interface Standards",
+                "publisher": "eCFR (National Archives)",
+                "url": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215#p-170.215(c)(2)",
+                "pin": "(c)(2)",
+                "kind": "regulation"
+              }
+            }
+          ],
+          "status": "in-force",
+          "text": "SMART 2.0.0 is the version certified servers must support; 2.2.0 servers remain compatible for typical launches.",
+          "cite": {
+            "title": "HL7 SMART App Launch Implementation Guide",
+            "publisher": "HL7 International",
+            "url": "https://hl7.org/fhir/smart-app-launch/history.html",
+            "kind": "ig"
+          }
+        }
+      ],
+      "links": {
+        "home": "http://hl7.org/fhir/smart-app-launch/STU2/",
+        "history": "http://hl7.org/fhir/smart-app-launch/history.html",
+        "capstmts": [],
+        "profiles": "http://hl7.org/fhir/smart-app-launch/STU2/artifacts.html",
+        "chat": {
+          "stream": "smart",
+          "url": "https://chat.fhir.org/#narrow/channel/179170-smart"
+        },
+        "testkits": [
+          {
+            "title": "ONC Certification (g)(10) Standardized API Test Kit",
+            "url": "https://inferno.healthit.gov/test-kits/onc-certification-g10/"
+          },
+          {
+            "title": "SMART App Launch Test Kit",
+            "url": "https://inferno.healthit.gov/test-kits/smart-app-launch/"
+          }
+        ]
+      }
+    }
+  ],
+  "removed": [],
+  "dependencies": [
+    {
+      "name": "hl7.fhir.r4.core",
+      "version": "4.0.1",
+      "aliases": [],
+      "requiredBy": [
+        "hl7.fhir.us.core@6.1.0",
+        "hl7.fhir.uv.smart-app-launch@2.0.0",
+        "hl7.terminology.r4@5.0.0",
+        "hl7.fhir.uv.extensions.r4@1.0.0",
+        "hl7.fhir.uv.bulkdata@2.0.0",
+        "hl7.fhir.uv.smart-app-launch@2.1.0",
+        "us.nlm.vsac@0.11.0",
+        "hl7.fhir.uv.sdc@3.0.0",
+        "us.cdc.phinvads@0.12.0",
+        "ihe.formatcode.fhir@1.1.0"
+      ],
+      "topLevel": false
+    },
+    {
+      "name": "hl7.fhir.r4.examples",
+      "version": "4.0.1",
+      "aliases": [],
+      "requiredBy": [
+        "hl7.fhir.uv.sdc@3.0.0"
+      ],
+      "topLevel": false
+    },
+    {
+      "name": "hl7.fhir.us.core",
+      "version": "6.1.0",
+      "aliases": [],
+      "requiredBy": [],
+      "topLevel": true
+    },
+    {
+      "name": "hl7.fhir.uv.bulkdata",
+      "version": "2.0.0",
+      "aliases": [],
+      "requiredBy": [
+        "hl7.fhir.us.core@6.1.0"
+      ],
+      "topLevel": false
+    },
+    {
+      "name": "hl7.fhir.uv.extensions.r4",
+      "version": "1.0.0",
+      "aliases": [],
+      "requiredBy": [
+        "hl7.fhir.us.core@6.1.0"
+      ],
+      "topLevel": false
+    },
+    {
+      "name": "hl7.fhir.uv.sdc",
+      "version": "3.0.0",
+      "aliases": [],
+      "requiredBy": [
+        "hl7.fhir.us.core@6.1.0"
+      ],
+      "topLevel": false
+    },
+    {
+      "name": "hl7.fhir.uv.smart-app-launch",
+      "version": "2.1.0",
+      "aliases": [],
+      "requiredBy": [
+        "hl7.fhir.us.core@6.1.0"
+      ],
+      "topLevel": false
+    },
+    {
+      "name": "hl7.fhir.uv.smart-app-launch",
+      "version": "2.0.0",
+      "aliases": [],
+      "requiredBy": [],
+      "topLevel": true
+    },
+    {
+      "name": "hl7.terminology.r4",
+      "version": "5.0.0",
+      "aliases": [],
+      "requiredBy": [
+        "hl7.fhir.us.core@6.1.0",
+        "hl7.fhir.uv.smart-app-launch@2.1.0"
+      ],
+      "topLevel": false
+    },
+    {
+      "name": "ihe.formatcode.fhir",
+      "version": "1.1.0",
+      "aliases": [],
+      "requiredBy": [
+        "hl7.fhir.us.core@6.1.0"
+      ],
+      "topLevel": false
+    },
+    {
+      "name": "us.cdc.phinvads",
+      "version": "0.12.0",
+      "aliases": [],
+      "requiredBy": [
+        "hl7.fhir.us.core@6.1.0"
+      ],
+      "topLevel": false
+    },
+    {
+      "name": "us.nlm.vsac",
+      "version": "0.11.0",
+      "aliases": [],
+      "requiredBy": [
+        "hl7.fhir.us.core@6.1.0"
+      ],
+      "topLevel": false
+    }
+  ],
+  "surface": [
+    {
+      "actor": "client",
+      "resources": [
+        {
+          "type": "AllergyIntolerance",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance",
+              "title": "US Core AllergyIntolerance Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-allergyintolerance.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "clinical-status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "clinical-status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "CarePlan",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan",
+              "title": "US Core CarePlan Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-careplan.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "category",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "category"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "category",
+                "status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "category",
+                "status",
+                "date"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "category",
+                "date"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "CareTeam",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam",
+              "title": "US Core CareTeam Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-careteam.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "role",
+              "type": "token",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "status"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "role"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Condition",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-encounter-diagnosis",
+              "title": "US Core Condition Encounter Diagnosis Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-condition-encounter-diagnosis.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns",
+              "title": "US Core Condition Problems and Health Concerns Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-condition-problems-health-concerns.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "abatement-date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "asserted-date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "category",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "clinical-status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "code",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "encounter",
+              "type": "reference",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "onset-date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "recorded-date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "category"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "recorded-date"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "asserted-date"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "category",
+                "clinical-status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "onset-date"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "abatement-date"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "clinical-status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "category",
+                "encounter"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "code"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Coverage",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-coverage",
+              "title": "US Core Coverage Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-coverage.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Device",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device",
+              "title": "US Core Implantable Device Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-implantable-device.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "type",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "type"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "DiagnosticReport",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note",
+              "title": "US Core DiagnosticReport Profile for Report and Note Exchange",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-diagnosticreport-note.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab",
+              "title": "US Core DiagnosticReport Profile for Laboratory Results Reporting",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-diagnosticreport-lab.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "create",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "category",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "code",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "category",
+                "date"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "category"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "code"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "code",
+                "date"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "DocumentReference",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference",
+              "title": "US Core DocumentReference Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-documentreference.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "create",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "_id",
+              "type": "token",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "category",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "period",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "type",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "type"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "category",
+                "date"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "category"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "type",
+                "period"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [
+            {
+              "name": "docref",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Encounter",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter",
+              "title": "US Core Encounter Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-encounter.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "_id",
+              "type": "token",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "identifier",
+              "type": "token",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "class",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "discharge-disposition",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "location",
+              "type": "reference",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "type",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "date",
+                "patient"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "type"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "class",
+                "patient"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "location"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "discharge-disposition"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Endpoint",
+          "profiles": [],
+          "interactions": [
+            {
+              "code": "read",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "search-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [],
+          "combinations": [],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Goal",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-goal",
+              "title": "US Core Goal Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-goal.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "description",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "lifecycle-status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "target-date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "target-date"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "description"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "lifecycle-status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Immunization",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization",
+              "title": "US Core Immunization Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-immunization.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "date"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Location",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-location",
+              "title": "US Core Location Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-location.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "address",
+              "type": "string",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "address-city",
+              "type": "string",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "address-postalcode",
+              "type": "string",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "address-state",
+              "type": "string",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Media",
+          "profiles": [],
+          "interactions": [
+            {
+              "code": "read",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "search-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [],
+          "combinations": [],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Medication",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication",
+              "title": "US Core Medication Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-medication.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "search-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [],
+          "combinations": [],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "MedicationDispense",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense",
+              "title": "US Core MedicationDispense Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-medicationdispense.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "type",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "status",
+                "type"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "MedicationRequest",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest",
+              "title": "US Core MedicationRequest Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-medicationrequest.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "authoredon",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "encounter",
+              "type": "reference",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "intent",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "intent",
+                "status"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "intent"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "intent",
+                "encounter"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "intent",
+                "authoredon"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Observation",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab",
+              "title": "US Core Laboratory Result Observation Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-lab.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancystatus",
+              "title": "US Core Observation Pregnancy Status Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-pregnancystatus.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancyintent",
+              "title": "US Core Observation Pregnancy Intent Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-pregnancyintent.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-occupation",
+              "title": "US Core Observation Occupation Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-occupation.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-respiratory-rate",
+              "title": "US Core Respiratory Rate Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-respiratory-rate.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-simple-observation",
+              "title": "US Core Simple Observation Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-simple-observation.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-heart-rate",
+              "title": "US Core Heart Rate Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-heart-rate.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-temperature",
+              "title": "US Core Body Temperature Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-body-temperature.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-weight-for-height",
+              "title": "US Core Pediatric Weight for Height Observation Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-pediatric-weight-for-height.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry",
+              "title": "US Core Pulse Oximetry Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-pulse-oximetry.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus",
+              "title": "US Core Smoking Status Observation Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-smokingstatus.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sexual-orientation",
+              "title": "US Core Observation Sexual Orientation Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-sexual-orientation.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-head-circumference",
+              "title": "US Core Head Circumference Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-head-circumference.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-height",
+              "title": "US Core Body Height Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-body-height.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-bmi",
+              "title": "US Core BMI Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-bmi.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment",
+              "title": "US Core Observation Screening Assessment Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-screening-assessment.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-blood-pressure",
+              "title": "US Core Blood Pressure Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-blood-pressure.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result",
+              "title": "US Core Observation Clinical Result Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-observation-clinical-result.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age",
+              "title": "US Core Pediatric BMI for Age Observation Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-pediatric-bmi-for-age.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile",
+              "title": "US Core Pediatric Head Occipital Frontal Circumference Percentile Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-head-occipital-frontal-circumference-percentile.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-body-weight",
+              "title": "US Core Body Weight Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-body-weight.html",
+              "from": "US Core 6.1.0"
+            },
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-vital-signs",
+              "title": "US Core Vital Signs Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-vital-signs.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "category",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "code",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "category",
+                "date"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "category"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "code"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "code",
+                "date"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "category",
+                "status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Organization",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
+              "title": "US Core Organization Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-organization.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "address",
+              "type": "string",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Patient",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
+              "title": "US Core Patient Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-patient.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "_id",
+              "type": "token",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "identifier",
+              "type": "token",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "birthdate",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "death-date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "family",
+              "type": "string",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "gender",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "given",
+              "type": "string",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "birthdate",
+                "name"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "gender",
+                "name"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "birthdate",
+                "family"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "family",
+                "gender"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "death-date",
+                "family"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Practitioner",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
+              "title": "US Core Practitioner Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-practitioner.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "identifier",
+              "type": "token",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "_id",
+              "type": "token",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "PractitionerRole",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+              "title": "US Core PractitionerRole Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-practitionerrole.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "practitioner",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "specialty",
+              "type": "token",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Procedure",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure",
+              "title": "US Core Procedure Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-procedure.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "code",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "date",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "date"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "code",
+                "date"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Provenance",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance",
+              "title": "US Core Provenance Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-provenance.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "search-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [],
+          "combinations": [],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Questionnaire",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/uv/sdc/StructureDefinition/sdc-questionnaire",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "read",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "search-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [],
+          "combinations": [],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "QuestionnaireResponse",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-questionnaireresponse",
+              "title": "US Core QuestionnaireResponse Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-questionnaireresponse.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "_id",
+              "type": "token",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "authored",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "questionnaire",
+              "type": "reference",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "questionnaire"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "authored"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "RelatedPerson",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson",
+              "title": "US Core RelatedPerson Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-relatedperson.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "_id",
+              "type": "token",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "name"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "ServiceRequest",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest",
+              "title": "US Core ServiceRequest Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-servicerequest.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "search-type",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "_id",
+              "type": "token",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "authored",
+              "type": "date",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "category",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "code",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "status",
+              "type": "token",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [
+            {
+              "params": [
+                "patient",
+                "category",
+                "authored"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "category"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "code"
+              ],
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "status"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "params": [
+                "patient",
+                "code",
+                "authored"
+              ],
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "Specimen",
+          "profiles": [
+            {
+              "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-specimen",
+              "title": "US Core Specimen Profile",
+              "page": "http://hl7.org/fhir/us/core/STU6.1/StructureDefinition-us-core-specimen.html",
+              "from": "US Core 6.1.0"
+            }
+          ],
+          "interactions": [
+            {
+              "code": "read",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "search-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [
+            {
+              "name": "_id",
+              "type": "token",
+              "level": "SHALL",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "name": "patient",
+              "type": "reference",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "combinations": [],
+          "operations": [],
+          "level": "SHOULD"
+        },
+        {
+          "type": "ValueSet",
+          "profiles": [],
+          "interactions": [],
+          "searchParams": [],
+          "combinations": [],
+          "operations": [
+            {
+              "name": "expand",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "level": "SHOULD"
+        },
+        {
+          "type": "HealthcareService",
+          "profiles": [],
+          "interactions": [
+            {
+              "code": "read",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "vread",
+              "level": "SHOULD",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "create",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "search-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "update",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "patch",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "delete",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-instance",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            },
+            {
+              "code": "history-type",
+              "level": "MAY",
+              "from": [
+                "US Core 6.1.0"
+              ]
+            }
+          ],
+          "searchParams": [],
+          "combinations": [],
+          "operations": [],
+          "level": "MAY"
+        }
+      ],
+      "systemOperations": [],
+      "sources": [
+        {
+          "ig": "hl7.fhir.us.core",
+          "version": "6.1.0",
+          "title": "US Core Client CapabilityStatement",
+          "url": "http://hl7.org/fhir/us/core/CapabilityStatement/us-core-client"
+        }
+      ],
+      "narrativeOnly": []
+    }
+  ],
+  "warnings": [
+    {
+      "kind": "multi-version",
+      "severity": "warn",
+      "package": "hl7.fhir.uv.smart-app-launch",
+      "title": "hl7.fhir.uv.smart-app-launch is needed at 2 versions: 2.1.0, 2.0.0",
+      "detail": "2.1.0 ← hl7.fhir.us.core@6.1.0; 2.0.0 ← this project. Tools that load one version per package id need an alias (e.g. \"v311@npm:hl7.fhir.us.core\") or a separate install.",
+      "cites": [],
+      "action": false
+    },
+    {
+      "kind": "untested",
+      "severity": "warn",
+      "package": "hl7.fhir.uv.smart-app-launch",
+      "title": "No Inferno suite tests SMART App Launch 2.0.0 yet",
+      "detail": "SMART App Launch Test Kit tests 2.2.0 for the client role. Test against the guide by hand, or wait for the kit to catch up.",
+      "cites": [],
+      "action": false
+    },
+    {
+      "kind": "newer-available",
+      "severity": "info",
+      "package": "hl7.fhir.us.core",
+      "title": "US Core 9.0.0 is published but not accepted here",
+      "detail": "Newer releases (9.0.0, 8.0.1, 8.0.0, 7.0.0) exist, but SMART app + US Core accepts at most 6.1.0 on this date.",
+      "cites": [],
+      "action": false
+    },
+    {
+      "kind": "newer-available",
+      "severity": "info",
+      "package": "hl7.fhir.uv.smart-app-launch",
+      "title": "SMART App Launch 2.2.0 is published but not accepted here",
+      "detail": "Newer releases (2.2.0, 2.1.0) exist, but SMART app + US Core accepts at most 2.0.0 on this date.",
+      "cites": [],
+      "action": false
+    }
+  ],
+  "tests": [
+    {
+      "kit": "us-core",
+      "title": "US Core Test Kit",
+      "url": "https://inferno.healthit.gov/test-kits/us-core/",
+      "repo": "https://github.com/inferno-framework/us-core-test-kit",
+      "igs": [
+        {
+          "ig": "hl7.fhir.us.core",
+          "version": "6.1.0",
+          "supported": true
+        }
+      ],
+      "suites": [
+        {
+          "id": "us_core_client_v610",
+          "title": "US Core Client v6.1.0",
+          "actor": "client",
+          "igVersion": "6.1.0"
+        }
+      ],
+      "note": "v1.1.6. No US Core 8.0.1 or 9.0.0 suite yet."
+    },
+    {
+      "kit": "smart-app-launch",
+      "title": "SMART App Launch Test Kit",
+      "url": "https://inferno.healthit.gov/test-kits/smart-app-launch/",
+      "repo": "https://github.com/inferno-framework/smart-app-launch-test-kit",
+      "igs": [
+        {
+          "ig": "hl7.fhir.uv.smart-app-launch",
+          "version": "2.0.0",
+          "supported": false
+        }
+      ],
+      "suites": [],
+      "note": "v1.0.3. Server suites for STU1, STU2 and STU2.2; the client suite targets STU2.2."
+    }
+  ],
+  "driverNotes": [
+    {
+      "driver": "SMART app + US Core",
+      "note": "This profile is not a regulation. It exists as a sanity check and as the default for app developers."
+    }
+  ]
+}

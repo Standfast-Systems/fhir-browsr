@@ -1,0 +1,75 @@
+:host {
+  display: block;
+}
+
+// The page switch, centred under the header and styled like the US/International switch: one
+// rounded control, the current page filled lime. Each side is a real link to its page.
+nav.pages {
+  display: flex;
+  justify-content: center;
+  padding: 20px 24px 0;
+}
+
+nav ul {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  margin: 0;
+  padding: 3px;
+  border: 1px solid var(--mb-switch-edge);
+  border-radius: 999px;
+  background: var(--mb-switch-track);
+  list-style: none;
+  a {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    color: var(--mb-text);
+    font-weight: 500;
+    transition:
+      background 120ms ease,
+      color 120ms ease;
+    &:hover {
+      color: var(--mb-text);
+      text-decoration: none;
+    }
+    &.active {
+      background: var(--mb-lime);
+      color: var(--mb-bg);
+      font-weight: 600;
+    }
+  }
+}
+
+main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+footer {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 8px 24px 48px;
+  p {
+    margin: 0;
+    color: var(--mb-faint);
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  main,
+  footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  // Keep the page switch on one line on narrow phones.
+  nav.pages {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  nav ul a {
+    padding: 6px 13px;
+    font-size: 13.5px;
+  }
+}

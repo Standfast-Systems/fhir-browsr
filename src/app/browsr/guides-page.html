@@ -1,0 +1,301 @@
+<section class="hero">
+  <div class="diagram">
+    <app-venn
+      [counts]="vennCounts()"
+      [selected]="vennSelected()"
+      (toggle)="store.toggleRegion($event)"
+      (party)="store.selectParty($event)"
+    />
+    <!-- Under the diagram, away from the page switch at the top. -->
+    <button
+      type="button"
+      class="country"
+      [attr.aria-label]="
+        view().country === 'us'
+          ? 'Showing US guides. Switch to International'
+          : 'Showing International guides. Switch to US'
+      "
+      (click)="store.toggleCountry()"
+    >
+      <span [class.on]="view().country === 'us'">US</span>
+      <span [class.on]="view().country === 'intl'">International</span>
+    </button>
+  </div>
+
+  <div class="intro">
+    <h1>Which FHIR guides does your side build to?</h1>
+    <p class="lede">
+      Click a circle, an overlap, or a party's name. Each guide sits in every circle whose systems
+      have to build to it, as client or server. The overlaps are the guides you share with the other
+      side.
+    </p>
+  </div>
+
+  <div class="controls">
+    <div class="scope">
+      <p class="scope-line">
+        Counting <b>{{ scoped().length }}</b> {{ scopeLine() }}.
+      </p>
+      @for (t of toggles; track t.key) {
+        <label class="switch">
+          <input
+            type="checkbox"
+            role="switch"
+            [checked]="view().scope[t.key]"
+            (change)="store.setScope(t.key, $any($event.target).checked)"
+          />
+          <span class="track" aria-hidden="true"></span>
+          <span class="text">
+            {{ t.label }}
+            <span class="hint">{{ t.hint }}</span>
+          </span>
+        </label>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="results">
+  <!-- The filter bar replaces a visible heading; screen readers still get one that mirrors it. -->
+  <h2 class="visually-hidden" aria-live="polite">{{ heading() }}</h2>
+
+  <!-- Everything that narrows the table, in one bar directly above it. -->
+  <div class="filters">
+    <div class="filter-row">
+      <span class="sel-label">Showing</span>
+      @if (focused()) {
+        <!-- A Program or Domain pick replaces the region chips; both can apply at once. -->
+        @if (activeFamily(); as f) {
+          <button
+            type="button"
+            class="chip on"
+            (click)="store.setFamily(null)"
+            [attr.aria-label]="'Stop showing all ' + f.label + ' guides'"
+          >
+            {{ f.label }} <b>{{ f.count }}</b> <span aria-hidden="true">×</span>
+          </button>
+        }
+        @if (activeDomain(); as d) {
+          <button
+            type="button"
+            class="chip on"
+            (click)="store.setDomain(null)"
+            [attr.aria-label]="'Stop showing all ' + d.label + ' guides'"
+          >
+            {{ d.label }} <b>{{ d.count }}</b> <span aria-hidden="true">×</span>
+          </button>
+        }
+      } @else if (everyRegion()) {
+        <button
+          type="button"
+          class="chip on"
+          (click)="store.clear()"
+          aria-label="Clear every region"
+        >
+          Every region <span aria-hidden="true">×</span>
+        </button>
+      } @else {
+        @for (r of regions; track r.key) {
+          @if (selected().has(r.key)) {
+            <button
+              type="button"
+              [attr.class]="'chip on c-' + r.key"
+              (click)="store.toggleRegion(r.key)"
+              [attr.aria-label]="'Remove ' + chipLabel(r)"
+            >
+              <span class="swatch" aria-hidden="true"></span>
+              {{ chipLabel(r) }} <b>{{ counts()[r.key] }}</b> <span aria-hidden="true">×</span>
+            </button>
+          }
+        }
+        @if (!view().regions.length) {
+          <span class="none"
+            >Click a circle above, or
+            <a routerLink="/browsr/resources"
+              >start with the FHIR resources every guide is built from →</a
+            ></span
+          >
+        }
+      }
+      <span class="sel-actions">
+        <button type="button" class="link" (click)="store.selectAll()">Select all</button>
+        <button type="button" class="link" (click)="store.clear()">Clear</button>
+      </span>
+    </div>
+
+    <!-- Filtering is by circles and overlaps or by a domain/program pick, never both: say which. -->
+    @if (activeDomain() ?? activeFamily(); as pick) {
+      <p class="mode-note">
+        <b>Filtering by {{ activeDomain() ? 'domain' : 'program' }}:</b> every
+        {{ pick.label }} guide, across the whole diagram. Click a circle or overlap to filter by
+        that instead.
+      </p>
+    }
+
+    @if (bucketChips(); as bc) {
+      <div class="filter-row" role="group" aria-label="What are you working on?">
+        <span class="sel-label">What are you working on?</span>
+        <button
+          type="button"
+          class="chip"
+          [class.on]="!view().bucket"
+          [attr.aria-pressed]="!view().bucket"
+          (click)="store.setBucket(null)"
+        >
+          All <b>{{ bc.all }}</b>
+        </button>
+        @for (b of bc.chips; track b.id) {
+          <button
+            type="button"
+            class="chip"
+            [class.on]="view().bucket === b.id"
+            [attr.aria-pressed]="view().bucket === b.id"
+            (click)="store.setBucket(b.id)"
+          >
+            {{ b.label }} <b>{{ b.count }}</b>
+          </button>
+        }
+      </div>
+    }
+
+    @if (addedChips(); as ac) {
+      <div class="filter-row" role="group" aria-label="Added by toggle">
+        <span class="sel-label">Added by toggle</span>
+        <button
+          type="button"
+          class="chip"
+          [class.on]="!view().added"
+          [attr.aria-pressed]="!view().added"
+          (click)="store.setAdded(null)"
+        >
+          All <b>{{ ac.all }}</b>
+        </button>
+        @for (c of ac.chips; track c.id) {
+          <button
+            type="button"
+            class="chip"
+            [class.on]="view().added === c.id"
+            [attr.aria-pressed]="view().added === c.id"
+            (click)="store.setAdded(c.id)"
+          >
+            {{ c.label }} <b>{{ c.count }}</b>
+          </button>
+        }
+      </div>
+    }
+
+    <!-- These filter the table, so like the table they only show once something is selected. -->
+    @if (hasSelection()) {
+      <div class="filter-row search-sort">
+        <label class="search">
+          <span class="visually-hidden">Search guides</span>
+          <input
+            type="search"
+            placeholder="Search names and descriptions"
+            [value]="view().query"
+            (input)="store.setQuery($any($event.target).value)"
+          />
+        </label>
+        <!-- One pick at a time: choosing in one dropdown disables the other. -->
+        <label class="pick">
+          Domain
+          <select
+            [disabled]="!!view().family"
+            (change)="store.setDomain($any($event.target).value || null)"
+          >
+            <option value="" [selected]="!view().domain">Any</option>
+            @for (d of domainOptions(); track d.id) {
+              <option
+                [value]="d.id"
+                [selected]="d.id === view().domain"
+                [disabled]="!d.count && d.id !== view().domain"
+              >
+                {{ d.label }} ({{ d.count }})
+              </option>
+            }
+          </select>
+        </label>
+        <label class="pick">
+          Program
+          <select
+            [disabled]="!!view().domain"
+            (change)="store.setFamily($any($event.target).value || null)"
+          >
+            <option value="" [selected]="!view().family">Any</option>
+            @for (f of programOptions(); track f.id) {
+              <option
+                [value]="f.id"
+                [selected]="f.id === view().family"
+                [disabled]="!f.count && f.id !== view().family"
+              >
+                {{ f.label }} ({{ f.count }})
+              </option>
+            }
+          </select>
+        </label>
+        <label class="pick">
+          Sort
+          <select (change)="store.setSort($any($event.target).value)">
+            <option value="start" [selected]="view().sort === 'start'">Start here first</option>
+            <option value="name" [selected]="view().sort === 'name'">Name</option>
+            <option value="date" [selected]="view().sort === 'date'">Newest release</option>
+            <option value="family" [selected]="view().sort === 'family'">Group by family</option>
+          </select>
+        </label>
+      </div>
+    }
+  </div>
+
+  @if (!focused() && view().regions.length === 1 && view().regions[0] === 'py') {
+    <p class="region-note">
+      Why only one? Handing a member's coverage history to their next health plan is the one
+      exchange where payers build both ends. Every other payer guide has a provider or a patient app
+      on the other side.
+    </p>
+  }
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (!data()) {
+    <p class="loading">Loading guides…</p>
+  } @else if (hasSelection()) {
+    <app-guide-table
+      [rows]="rows()"
+      [page]="view().page"
+      [sort]="view().sort"
+      [families]="families()"
+      [domains]="domains()"
+      (familyChange)="store.setFamily($event)"
+      (domainChange)="store.setDomain($event)"
+      (pageChange)="store.setPage($event)"
+    >
+      @if (view().query.trim()) {
+        Nothing matches “{{ view().query }}” here. Try clearing the search or selecting more
+        regions.
+      } @else if (view().regions.length === 1 && view().regions[0] === 'pt') {
+        No guide is for patients alone: a patient app always talks to a provider's or payer's
+        server, so all {{ patientTotal() }} patient guides sit in the overlaps.
+        <button type="button" class="link" (click)="store.selectParty('patient')">
+          Show the whole Patient circle
+        </button>
+      } @else {
+        No guides here with the current scope. Try the toggles above.
+      }
+    </app-guide-table>
+  }
+  <p class="registry">
+    <a href="https://fhir.org/guides/registry/" target="_blank" rel="noopener"
+      >Can't find what you're looking for? Browse every guide in the official FHIR registry ↗</a
+    >
+  </p>
+</section>
+
+<p class="data-note">
+  Party tags are hand-curated: a guide is tagged with every party that has to build to it, not every
+  party that benefits. Versions, status and links come from each guide's
+  <code>package-list.json</code>
+  @if (snapshotDate()) {
+    (snapshot {{ snapshotDate() }})
+  }
+  and point at the current published R4 release, never a CI build or a newer ballot.
+</p>

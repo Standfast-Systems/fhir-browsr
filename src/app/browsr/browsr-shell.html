@@ -1,0 +1,25 @@
+<!-- Browsr's page switch, centred under the Matchbook header. Full names, never abbreviated. -->
+<nav class="pages" aria-label="Browsr pages">
+  <ul>
+    <li>
+      <a routerLink="resources" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >FHIR Resources</a
+      >
+    </li>
+    <li>
+      <a routerLink="guides" routerLinkActive="active" ariaCurrentWhenActive="page"
+        >Implementation Guides</a
+      >
+    </li>
+  </ul>
+</nav>
+
+<main>
+  <router-outlet />
+</main>
+
+<footer>
+  <p>
+    FHIR® is the registered trademark of HL7. This site isn't affiliated with or endorsed by HL7.
+  </p>
+</footer>

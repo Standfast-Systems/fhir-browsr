@@ -1,0 +1,278 @@
+# FHIR Initializr knowledge base: sources.
+#
+# Every rule and version window cites one of these by key. `checked` is the date a curator last
+# confirmed the source still says what the KB claims. Primary sources only (regulation text,
+# Federal Register, agency pages, the IGs themselves); no vendor summaries.
+
+sources:
+  # --- Regulation text (eCFR) -------------------------------------------------------------------
+  ecfr-170-215:
+    title: "45 CFR 170.215 — Application Programming Interface Standards"
+    publisher: eCFR (National Archives)
+    url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.215
+    date: "2026-10-16"
+    checked: "2026-10-20"
+    kind: regulation
+  ecfr-170-213:
+    title: "45 CFR 170.213 — United States Core Data for Interoperability"
+    publisher: eCFR (National Archives)
+    url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-B/section-170.213
+    date: "2026-10-16"
+    checked: "2026-10-20"
+    kind: regulation
+  ecfr-170-315:
+    title: "45 CFR 170.315 — 2015 Edition health IT certification criteria"
+    publisher: eCFR (National Archives)
+    url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-D/part-170/subpart-C/section-170.315
+    date: "2026-10-16"
+    checked: "2026-10-20"
+    kind: regulation
+
+  # --- Federal Register rules -------------------------------------------------------------------
+  fr-hti-1:
+    title: "HTI-1 Final Rule: Certification Program Updates, Algorithm Transparency, and Information Sharing (89 FR 1192)"
+    publisher: Federal Register
+    url: https://www.federalregister.gov/documents/2024/01/09/2023-28857/health-data-technology-and-interoperability-certification-program-updates-algorithm-transparency-and
+    date: "2024-01-09"
+    checked: "2026-10-20"
+    kind: final-rule
+  fr-hti-4:
+    title: "FY2026 IPPS/LTCH PPS Final Rule, incl. HTI-4 electronic prior authorization criteria (90 FR 36536)"
+    publisher: Federal Register
+    url: https://www.federalregister.gov/documents/2025/08/04/2025-14681/medicare-program-hospital-inpatient-prospective-payment-systems-for-acute-care-hospitals-ipps-and
+    date: "2025-08-04"
+    checked: "2026-10-20"
+    kind: final-rule
+  fr-fy2027-ipps:
+    title: "FY2027 IPPS/LTCH PPS Final Rule and Adoption of Updated Versions of Certain Health IT Standards (91 FR 49570)"
+    publisher: Federal Register
+    url: https://www.federalregister.gov/documents/2026/08/04/2026-15833/medicare-program-hospital-inpatient-prospective-payment-systems-for-acute-care-hospitals-ipps-and
+    date: "2026-08-04"
+    checked: "2026-10-20"
+    kind: final-rule
+  fr-hti-5-proposed:
+    title: "HTI-5 Proposed Rule: ASTP/ONC Deregulatory Actions To Unleash Prosperity (90 FR 60970) — PROPOSED"
+    publisher: Federal Register
+    url: https://www.federalregister.gov/documents/2025/12/29/2025-23896/health-data-technology-and-interoperability-astponc-deregulatory-actions-to-unleash-prosperity
+    date: "2025-12-29"
+    checked: "2026-10-20"
+    kind: proposed-rule
+
+  # --- ONC guidance and approved lists ------------------------------------------------------------
+  onc-svap:
+    title: "Standards Version Advancement Process (SVAP)"
+    publisher: ONC (healthit.gov)
+    url: https://healthit.gov/certification-health-it/certification-criteria/standards-version-advancement-process-svap/
+    date: "2026-10-01"
+    checked: "2026-10-20"
+    kind: approved-list
+  svap-2022:
+    title: "SVAP Approved Standards 2022"
+    publisher: ONC (healthit.gov)
+    url: https://healthit.gov/wp-content/uploads/2025/02/SVAP_Approved_Standards_2022.pdf
+    date: "2022-06-30"
+    checked: "2026-10-20"
+    kind: approved-list
+  svap-2023:
+    title: "SVAP Approved Standards 2023"
+    publisher: ONC (healthit.gov)
+    url: https://isp.healthit.gov/sites/default/files/2023-07/svap_standards_document_2023_508.pdf
+    date: "2023-07-01"
+    checked: "2026-10-20"
+    kind: approved-list
+  svap-2024:
+    title: "SVAP Approved Standards 2024"
+    publisher: ONC (healthit.gov)
+    url: https://isp.healthit.gov/sites/default/files/2024-06/SVAP_Standards_Document_2024_508.pdf
+    date: "2024-06-20"
+    checked: "2026-10-20"
+    kind: approved-list
+  svap-2025:
+    title: "SVAP Approved Standards 2025"
+    publisher: ONC (healthit.gov)
+    url: https://isp.healthit.gov/sites/default/files/2025-06/SVAP_Standards_Document_2025_508.pdf
+    date: "2025-06-30"
+    checked: "2026-10-20"
+    kind: approved-list
+  svap-2026:
+    title: "SVAP Standards for Approval 2026"
+    publisher: ONC (healthit.gov)
+    url: https://isp.healthit.gov/sites/default/files/2026-06/20260611_2026%20Standards%20for%20Approval_508.pdf
+    date: "2026-06-30"
+    checked: "2026-10-20"
+    kind: approved-list
+  svap-2026-factsheet:
+    title: "2026 SVAP Fact Sheet (multi-cycle availability)"
+    publisher: ONC (healthit.gov)
+    url: https://healthit.gov/wp-content/uploads/2026/06/2026-SVAP-Fact-sheet.pdf
+    date: "2026-06-30"
+    checked: "2026-10-20"
+    kind: guidance
+  onc-edn:
+    title: "ONC Enforcement Discretion Notices"
+    publisher: ONC (healthit.gov)
+    url: https://healthit.gov/certification-health-it/enforcement-discretion-notices/
+    date: "2025-11-24"
+    checked: "2026-10-20"
+    kind: guidance
+  onc-ccg-g10:
+    title: "Certification Companion Guide and Test Method: §170.315(g)(10) Standardized API"
+    publisher: ONC (healthit.gov)
+    url: https://healthit.gov/test-method/standardized-api-for-patient-and-population-services-acb-atl/
+    checked: "2026-10-20"
+    kind: guidance
+
+  # --- Implementation guides (for non-regulatory profiles) ----------------------------------------
+  ig-us-core:
+    title: "HL7 FHIR US Core Implementation Guide"
+    publisher: HL7 International
+    url: https://hl7.org/fhir/us/core/history.html
+    checked: "2026-10-20"
+    kind: ig
+  ig-smart-app-launch:
+    title: "HL7 SMART App Launch Implementation Guide"
+    publisher: HL7 International
+    url: https://hl7.org/fhir/smart-app-launch/history.html
+    checked: "2026-10-20"
+    kind: ig
+
+  # --- CMS: regulation text -----------------------------------------------------------------------
+  ecfr-42-422-119:
+    title: "42 CFR 422.119 — Access to and exchange of health data and plan information (MA Patient Access API)"
+    publisher: eCFR (National Archives)
+    url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.119
+    date: "2026-10-16"
+    checked: "2026-10-20"
+    kind: regulation
+  ecfr-42-422-120:
+    title: "42 CFR 422.120 — Access to published provider directory information (MA Provider Directory API)"
+    publisher: eCFR (National Archives)
+    url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.120
+    date: "2026-10-16"
+    checked: "2026-10-20"
+    kind: regulation
+  ecfr-42-422-121:
+    title: "42 CFR 422.121 — Access to and exchange of health data to providers and payers (MA Provider Access and Payer-to-Payer APIs)"
+    publisher: eCFR (National Archives)
+    url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.121
+    date: "2026-10-16"
+    checked: "2026-10-20"
+    kind: regulation
+  ecfr-42-422-122:
+    title: "42 CFR 422.122 — Prior authorization requirements (MA Prior Authorization API)"
+    publisher: eCFR (National Archives)
+    url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-B/part-422/subpart-C/section-422.122
+    date: "2026-10-16"
+    checked: "2026-10-20"
+    kind: regulation
+
+  # --- CMS: rules -------------------------------------------------------------------------------
+  fr-cms-0057-f:
+    title: "CMS-0057-F Interoperability and Prior Authorization Final Rule (89 FR 8758)"
+    publisher: Federal Register
+    url: https://www.federalregister.gov/documents/2024/02/08/2024-00895/medicare-and-medicaid-programs-patient-protection-and-affordable-care-act-advancing-interoperability
+    date: "2024-02-08"
+    checked: "2026-10-20"
+    kind: final-rule
+  fr-cms-9115-f:
+    title: "CMS-9115-F Interoperability and Patient Access Final Rule (85 FR 25510)"
+    publisher: Federal Register
+    url: https://www.federalregister.gov/documents/2020/05/01/2020-05050/medicare-and-medicaid-programs-patient-protection-and-affordable-care-act-interoperability-and
+    date: "2020-05-01"
+    checked: "2026-10-20"
+    kind: final-rule
+  fr-cms-0062-p:
+    title: "CMS-0062-P 2026 Interoperability Standards and Prior Authorization for Drugs (91 FR 19890) — PROPOSED"
+    publisher: Federal Register
+    url: https://www.federalregister.gov/documents/2026/04/14/2026-07205/medicare-and-medicaid-programs-patient-protection-and-affordable-care-act-interoperability-standards
+    date: "2026-04-14"
+    checked: "2026-10-20"
+    kind: proposed-rule
+
+  # --- CMS: guidance ------------------------------------------------------------------------------
+  cms-recommended-igs:
+    title: "CMS: APIs, relevant standards and recommended implementation guides"
+    publisher: CMS (cms.gov)
+    url: https://www.cms.gov/initiatives/burden-reduction/overview/interoperability/implementation-guides-standards/application-programming-interfaces-apis-relevant-standards-implementation-guides-igs
+    date: "2026-08-31"
+    checked: "2026-10-20"
+    kind: guidance
+  cms-faq-standards:
+    title: "CMS Interoperability FAQs: Standards and Implementation Guides"
+    publisher: CMS (cms.gov)
+    url: https://www.cms.gov/initiatives/burden-reduction/overview/interoperability/frequently-asked-questions/standards-implementation-guides
+    date: "2026-09-01"
+    checked: "2026-10-20"
+    kind: guidance
+  cms-epa-overview:
+    title: "CMS Electronic Prior Authorization overview"
+    publisher: CMS (cms.gov)
+    url: https://www.cms.gov/priorities/electronic-prior-authorization/overview
+    date: "2026-09-14"
+    checked: "2026-10-20"
+    kind: guidance
+
+  # --- Realms -----------------------------------------------------------------------------------
+  ig-registry:
+    title: "HL7 FHIR Implementation Guide Registry (fhir-ig-list.json)"
+    publisher: HL7 International
+    url: https://github.com/FHIR/ig-registry/blob/master/fhir-ig-list.json
+    checked: "2026-10-21"
+    kind: approved-list
+
+  # --- TEFCA (The Sequoia Project, Recognized Coordinating Entity) ---------------------------------
+  rce-qtf-2-1:
+    title: "TEFCA QHIN Technical Framework (QTF) v2.1"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2025/12/QTF-2.1-Draft-12.04.25-clean1.pdf
+    date: "2025-12-04"
+    checked: "2026-10-21"
+    kind: program
+  rce-sop-ffhir-2:
+    title: "TEFCA SOP: Facilitated FHIR Implementation v2.0"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2026/02/SOP-Facilitated-FHIR-Implementation-2.0-Draft-508.pdf
+    date: "2026-03-08"
+    checked: "2026-10-21"
+    kind: program
+  rce-sop-ffhir-1:
+    title: "TEFCA SOP: Facilitated FHIR Implementation v1.0 (superseded)"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2024/07/SOP-Facilitated-FHIR-Implementation_508.pdf
+    date: "2024-07-01"
+    checked: "2026-10-21"
+    kind: program
+  rce-sop-public-health:
+    title: "TEFCA SOP: Public Health Exchange Purpose Implementation v1.1"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2025/04/XP-Implementation-SOP-Public-Health-v1.1_April-2025_508.pdf
+    date: "2025-04-25"
+    checked: "2026-10-21"
+    kind: program
+  rce-sop-ias:
+    title: "TEFCA SOP: Individual Access Services Exchange Purpose Implementation v3.0"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2026/07/SOP-IAS-XP-v3_June2026_Clean_-5081.pdf
+    date: "2026-08-03"
+    checked: "2026-10-21"
+    kind: program
+  rce-directory-ig:
+    title: "RCE Directory Service Implementation Guide 1.15.0 (sequoia.fhir.us.rce)"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/RCEIG/output/index.html
+    date: "2026-06-07"
+    checked: "2026-10-21"
+    kind: program
+  rce-fhir-roadmap:
+    title: "FHIR Roadmap for TEFCA Exchange, Version 2"
+    publisher: The Sequoia Project (TEFCA RCE)
+    url: https://rce.sequoiaproject.org/wp-content/uploads/2023/12/FHIR-Roadmap-for-TEFCA-Exchange.pdf
+    date: "2023-12-01"
+    checked: "2026-10-21"
+    kind: guidance
+  national-igs:
+    title: "National FHIR base and core implementation guides"
+    publisher: HL7 affiliates and national health authorities
+    url: https://github.com/FHIR/ig-registry/blob/master/fhir-ig-list.json
+    checked: "2026-10-21"
+    kind: ig

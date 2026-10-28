@@ -1,0 +1,161 @@
+// Initializr's look: the Material theme (global, because Material's overlays render at <body>),
+// its tokens, and the small shared classes its components use. Matchbook's base rules live in
+// src/styles.scss.
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$chartreuse-palette,
+        theme-type: dark,
+      ),
+      typography: (
+        plain-family: 'Inter, Roboto, system-ui, sans-serif',
+        brand-family: 'Inter, Roboto, system-ui, sans-serif',
+      ),
+      density: -1,
+    )
+  );
+
+  // Standfast brand: near-black surfaces with a lime green accent.
+  --mat-sys-primary: #a3e635;
+  --mat-sys-on-primary: #0a0a0b;
+  --mat-sys-primary-container: #3f6212;
+  --mat-sys-on-primary-container: #ecfccb;
+  --mat-sys-background: #0a0a0b;
+  --mat-sys-on-background: #eff1e9;
+  --mat-sys-surface: #0a0a0b;
+  --mat-sys-on-surface: #eff1e9;
+  --mat-sys-surface-container-lowest: #060607;
+  --mat-sys-surface-container-low: #141517;
+  --mat-sys-surface-container: #18191c;
+  --mat-sys-surface-container-high: #1e2023;
+  --mat-sys-surface-container-highest: #24262a;
+  --mat-sys-surface-variant: #1e2023;
+  --mat-sys-on-surface-variant: #a9ad9f;
+  --mat-sys-outline: #565a4c;
+  --mat-sys-outline-variant: #2b2d31;
+
+  // Initializr semantic colours.
+  --fi-lime: #a3e635;
+  --fi-lime-dim: #3f6212;
+  --fi-text: #eff1e9;
+  --fi-muted: #a9ad9f;
+  --fi-faint: #6b6f63;
+  --fi-line: #2b2d31;
+  --fi-panel: #141517;
+  --fi-panel-2: #18191c;
+  --fi-panel-3: #1e2023;
+  --fi-error: #f87171;
+  --fi-warn: #fbbf24;
+  --fi-info: #7dd3fc;
+  --fi-required: #a3e635;
+  --fi-recommended: #7dd3fc;
+  --fi-optional: #a9ad9f;
+  // Version-window bases (timeline bars).
+  --fi-basis-adopted: #a3e635;
+  --fi-basis-program: #f9a8d4;
+  --fi-basis-svap: #34d399;
+  --fi-basis-permitted-update: #2dd4bf;
+  --fi-basis-recommended: #7dd3fc;
+  --fi-basis-enforcement-discretion: #fbbf24;
+  --fi-basis-proposed: #c4b5fd;
+  --fi-basis-profile: #94a3b8;
+  --fi-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  @include mat.tabs-overrides(
+    (
+      active-indicator-color: var(--fi-lime),
+      active-label-text-color: var(--fi-text),
+      active-focus-label-text-color: var(--fi-text),
+      active-hover-label-text-color: var(--fi-text),
+      inactive-label-text-color: var(--fi-muted),
+    )
+  );
+}
+
+code,
+.mono {
+  font-family: var(--fi-mono);
+  font-size: 0.92em;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 20;
+}
+
+// Small shared pieces ------------------------------------------------------------------------
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--fi-line);
+  font-size: 12px;
+  line-height: 18px;
+  white-space: nowrap;
+  color: var(--fi-muted);
+  &.required {
+    color: var(--fi-required);
+    border-color: color-mix(in srgb, var(--fi-required) 45%, transparent);
+  }
+  &.recommended {
+    color: var(--fi-recommended);
+    border-color: color-mix(in srgb, var(--fi-recommended) 45%, transparent);
+  }
+  &.optional {
+    color: var(--fi-optional);
+  }
+  &.error {
+    color: var(--fi-error);
+    border-color: color-mix(in srgb, var(--fi-error) 45%, transparent);
+  }
+  &.warn {
+    color: var(--fi-warn);
+    border-color: color-mix(in srgb, var(--fi-warn) 45%, transparent);
+  }
+  &.info {
+    color: var(--fi-info);
+    border-color: color-mix(in srgb, var(--fi-info) 40%, transparent);
+  }
+}
+
+.pin {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 6px;
+  background: var(--fi-lime);
+  color: #0a0a0b;
+  font-family: var(--fi-mono);
+  font-weight: 600;
+  font-size: 13px;
+  &.none {
+    background: transparent;
+    color: var(--fi-error);
+    border: 1px solid var(--fi-error);
+  }
+}
+
+.muted {
+  color: var(--fi-muted);
+}
+.faint {
+  color: var(--fi-faint);
+}
+
+.sev-error {
+  color: var(--fi-error);
+}
+.sev-warn {
+  color: var(--fi-warn);
+}
+.sev-info {
+  color: var(--fi-info);
+}

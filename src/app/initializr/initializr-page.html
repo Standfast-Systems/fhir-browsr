@@ -1,0 +1,86 @@
+<div class="top">
+  <h1 class="name">FHIR <strong>Initializr</strong></h1>
+  <span class="release">
+    <span class="version mono">v{{ tool.version }}</span>
+  </span>
+  <p class="tagline">
+    Start a FHIR project with the implementation guides it needs — pinned, cited, ready to load.
+  </p>
+  <nav class="toplinks">
+    @if (data.kb(); as kb) {
+      <span
+        class="kbdate"
+        matTooltip="When curators last checked every regulation and source in the knowledge base"
+        >KB as of {{ kb.kbAsOf }}</span
+      >
+    }
+    <a [href]="repo" target="_blank" rel="noopener">GitHub</a>
+    <a
+      href="data/index.json"
+      target="_blank"
+      rel="noopener"
+      matTooltip="The knowledge base and registry snapshot are plain JSON"
+      >Data</a
+    >
+  </nav>
+</div>
+
+<div class="construction" role="note">
+  <mat-icon fontSet="material-symbols-outlined" aria-hidden="true">construction</mat-icon>
+  <p>
+    <strong>Under construction.</strong> FHIR Initializr v{{ tool.version }} is a pre-MVP preview:
+    the knowledge base is young and the outputs haven't been checked by implementers yet. Use it to
+    explore, not to make compliance or architecture decisions.
+    <a [href]="repo + '/issues'" target="_blank" rel="noopener">Tell us what's wrong</a>.
+  </p>
+</div>
+
+@if (data.error(); as err) {
+  <div class="error" role="alert">{{ err }}</div>
+}
+@if (!data.kb() && !data.error()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+<main class="layout">
+  <aside class="config" aria-label="Project">
+    <fi-profile-panel />
+  </aside>
+  <section class="results" aria-label="Scope">
+    <fi-results />
+  </section>
+</main>
+
+<footer class="foot">
+  @if (data.kb(); as kb) {
+    <p class="disclaimer">{{ kb.disclaimer }}</p>
+    <p class="faint">
+      Knowledge base v{{ kb.kbVersion }} as of {{ kb.kbAsOf }} · registry snapshot
+      {{ data.registry()?.generated?.slice(0, 10) }} · {{ kb.drivers.length }} drivers ·
+      {{ kb.catalog.length }} guides classified · FHIR® is the registered trademark of HL7. This
+      tool isn't affiliated with or endorsed by HL7, ONC or CMS.
+    </p>
+  }
+  <p class="faint">
+    FHIR Initializr v{{ tool.version }} ({{ tool.stage }}). A free tool by
+    <a href="https://standfastsystems.com" target="_blank" rel="noopener">Standfast Systems</a>.
+    Corrections welcome on <a [href]="repo + '/issues'" target="_blank" rel="noopener">GitHub</a>.
+  </p>
+</footer>
+
+@if (store.manifest(); as m) {
+  <div class="actionbar" role="toolbar" aria-label="Actions">
+    <div class="inner">
+      <span class="sum">
+        <strong>{{ m.igs.length }}</strong> IG{{ m.igs.length === 1 ? '' : 's' }} ·
+        <span class="mono">{{ m.profile.asOf }}</span>
+      </span>
+      <button mat-flat-button type="button" (click)="downloadAll()" [disabled]="!m.igs.length">
+        <mat-icon fontSet="material-symbols-outlined">folder_zip</mat-icon> Download ZIP
+      </button>
+      <button mat-stroked-button type="button" (click)="copyCli()" [matTooltip]="cli()">
+        <mat-icon fontSet="material-symbols-outlined">terminal</mat-icon> Copy CLI command
+      </button>
+    </div>
+  </div>
+}

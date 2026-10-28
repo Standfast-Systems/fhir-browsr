@@ -1,0 +1,69 @@
+# Per-IG extras the registry can't tell us: short names and chat.fhir.org streams.
+# Stream ids verified through chat.fhir.org's public API on 2026-10-20. Zulip resolves streams by id;
+# the slug after the id is cosmetic.
+
+igs:
+  - ig: hl7.fhir.us.core
+    short: US Core
+    chat: {stream: argonaut, url: "https://chat.fhir.org/#narrow/channel/179175-argonaut"}
+  - ig: hl7.fhir.uv.smart-app-launch
+    short: SMART App Launch
+    chat: {stream: smart, url: "https://chat.fhir.org/#narrow/channel/179170-smart"}
+  - ig: hl7.fhir.uv.bulkdata
+    short: Bulk Data
+    chat: {stream: bulk data, url: "https://chat.fhir.org/#narrow/channel/179250-bulk-data"}
+  - ig: hl7.fhir.uv.cds-hooks
+    short: CDS Hooks
+  - ig: hl7.fhir.uv.subscriptions-backport.r4
+    short: Subscriptions R5 Backport (R4)
+    chat: {stream: subscriptions, url: "https://chat.fhir.org/#narrow/channel/179229-subscriptions"}
+  - ig: hl7.fhir.uv.subscriptions-backport
+    short: Subscriptions R5 Backport
+    chat: {stream: subscriptions, url: "https://chat.fhir.org/#narrow/channel/179229-subscriptions"}
+  - ig: hl7.fhir.us.davinci-crd
+    short: Da Vinci CRD
+    chat: {stream: Da Vinci CRD, url: "https://chat.fhir.org/#narrow/channel/180803-Da-Vinci-CRD"}
+  - ig: hl7.fhir.us.davinci-dtr
+    short: Da Vinci DTR
+    chat: {stream: Da Vinci DTR, url: "https://chat.fhir.org/#narrow/channel/197320-Da-Vinci-DTR"}
+  - ig: hl7.fhir.us.davinci-pas
+    short: Da Vinci PAS
+    chat: {stream: Da Vinci PAS, url: "https://chat.fhir.org/#narrow/channel/208874-Da-Vinci-PAS"}
+  - ig: hl7.fhir.us.davinci-pdex
+    short: Da Vinci PDex
+    chat: {stream: Da Vinci PDex, url: "https://chat.fhir.org/#narrow/channel/235286-Da-Vinci-PDex"}
+  - ig: hl7.fhir.us.davinci-pdex-plan-net
+    short: PDex Plan-Net
+    chat: {stream: Da Vinci PDex Plan-Net, url: "https://chat.fhir.org/#narrow/channel/229922-Da-Vinci-PDex-Plan-Net"}
+  - ig: hl7.fhir.us.davinci-drug-formulary
+    short: PDex US Drug Formulary
+    chat: {stream: Da Vinci PDex Drug Formulary, url: "https://chat.fhir.org/#narrow/channel/197730-Da-Vinci-PDex-Drug-Formulary"}
+  - ig: hl7.fhir.us.davinci-cdex
+    short: Da Vinci CDex
+    chat: {stream: Da Vinci CDex, url: "https://chat.fhir.org/#narrow/channel/180805-Da-Vinci-CDex"}
+  - ig: hl7.fhir.us.davinci-hrex
+    short: Da Vinci HRex
+    chat: {stream: Da Vinci HRex, url: "https://chat.fhir.org/#narrow/channel/433432-Da-Vinci-HRex"}
+  - ig: hl7.fhir.us.carin-bb
+    short: CARIN Blue Button
+    chat: {stream: CARIN IG for Blue Button, url: "https://chat.fhir.org/#narrow/channel/204607-CARIN-IG-for-Blue-Button"}
+  - ig: hl7.fhir.uv.ipa
+    short: IPA
+    chat: {stream: IPA, url: "https://chat.fhir.org/#narrow/channel/261969-IPA"}
+  - ig: hl7.fhir.uv.ips
+    short: IPS
+    chat: {stream: IPS, url: "https://chat.fhir.org/#narrow/channel/207835-IPS"}
+  - ig: hl7.fhir.uv.sdc
+    short: SDC
+    chat: {stream: questionnaire, url: "https://chat.fhir.org/#narrow/channel/179255-questionnaire"}
+  - ig: hl7.fhir.us.udap-security
+    short: UDAP Security
+  - ig: hl7.fhir.r4.core
+    short: FHIR R4 core
+
+# Fallbacks by package-id prefix, checked in order.
+chat_defaults:
+  - {prefix: "hl7.fhir.us.davinci-", stream: Da Vinci, url: "https://chat.fhir.org/#narrow/channel/179283-Da-Vinci"}
+  - {prefix: "ihe.", stream: ihe, url: "https://chat.fhir.org/#narrow/channel/179223-ihe"}
+  - {prefix: "hl7.fhir.us.", stream: united states, url: "https://chat.fhir.org/#narrow/channel/179190-united-states"}
+  - {prefix: "", stream: implementers, url: "https://chat.fhir.org/#narrow/channel/179166-implementers"}

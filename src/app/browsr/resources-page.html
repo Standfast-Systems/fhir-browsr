@@ -1,0 +1,245 @@
+<section class="resources">
+  <h1>FHIR Resources</h1>
+  <p class="intro">
+    Every implementation guide is built from the same building blocks, called resources. FHIR R4
+    defines about 150 of them. These are the ones you'll meet first.
+  </p>
+  <p class="back">
+    Implementation guides add rules on top of these resources.
+    <a routerLink="/browsr/guides">See which guides apply to you →</a>
+  </p>
+
+  <div class="layout">
+    <!-- The selected resource in detail; until one is picked, how the page works. -->
+    <article class="card" #card aria-live="polite">
+      @if (current(); as c) {
+        <ng-container *ngTemplateOutlet="cardBody; context: { $implicit: c }" />
+      } @else {
+        <div class="welcome-head">
+          <h2 class="welcome-title">How this page works</h2>
+          <!-- Phones only: there the list sits below this card and its example. -->
+          <button type="button" class="link jump" (click)="jumpToList()">Jump to the list ↓</button>
+        </div>
+        <ol class="steps">
+          <li>
+            Pick a resource from the list. Each one is a kind of record FHIR defines, like a
+            patient, a lab result or a claim.
+          </li>
+          <li>
+            Its card starts with one plain sentence and, where it helps, a few things that are good
+            to know.
+          </li>
+          <li>
+            <b>Schema</b> shows its key fields: the field's name, its type, how many there can be
+            (<code>0..1</code> optional, <code>1..1</code> required, <code>0..*</code> a list) and
+            what it holds. <b>Show all fields</b> reveals the rest, and <span class="tri">▸</span>
+            opens a group of nested fields.
+          </li>
+          <li>
+            <b>Sample</b> shows the official FHIR example in JSON, trimmed to the same fields.
+          </li>
+        </ol>
+        <div class="example">
+          <ng-container *ngTemplateOutlet="cardBody; context: { $implicit: example }" />
+        </div>
+      }
+    </article>
+
+    <!-- The six groups, all in one column; selecting a resource fills the card. -->
+    <div class="groups" #list>
+      <button
+        type="button"
+        class="how"
+        [class.on]="!selected()"
+        [attr.aria-current]="!selected() ? 'true' : null"
+        (click)="welcome()"
+      >
+        How this page works
+      </button>
+      @for (g of groups; track g.id) {
+        <details
+          class="group"
+          [open]="openGroups().has(g.id)"
+          (toggle)="groupToggled(g.id, $event)"
+        >
+          <summary>
+            <span class="name">{{ g.name }}</span>
+            <span class="line">{{ g.blurb }}</span>
+          </summary>
+          <ul>
+            @for (r of g.resources; track r.name) {
+              <li>
+                <button
+                  type="button"
+                  [id]="'row-' + r.name"
+                  [class.on]="selected() === r.name"
+                  [attr.aria-current]="selected() === r.name ? 'true' : null"
+                  (click)="select(r.name)"
+                >
+                  <span class="r-name">{{ r.name }}</span>
+                  <span class="r-line">{{ sentence(r.blurb) }}</span>
+                </button>
+              </li>
+            }
+          </ul>
+        </details>
+      }
+    </div>
+  </div>
+
+  <p class="all">
+    <a [href]="listUrl" target="_blank" rel="noopener"
+      >See every resource in the FHIR R4 specification ↗</a
+    >
+  </p>
+</section>
+
+<!-- One resource's card: a real one, or the made-up Example on the welcome card. -->
+<ng-template #cardBody let-c>
+  <p class="group-name">{{ c.group ?? 'Example · not a real resource' }}</p>
+  <div class="title-row">
+    <!-- The id is the resource type, so links like /resources#ExplanationOfBenefit land here. -->
+    <h2 [id]="c.name">{{ c.name }}</h2>
+    @if (c.spec) {
+      <a class="spec" [href]="c.spec" target="_blank" rel="noopener">FHIR R4 spec ↗</a>
+    } @else {
+      <span class="spec" title="On a real resource, this opens its page in the FHIR R4 spec."
+        >FHIR R4 spec ↗</span
+      >
+    }
+  </div>
+  <p class="sentence">{{ sentence(c.blurb) }}</p>
+
+  @if (c.notes.length) {
+    <div class="notes">
+      <p class="notes-title">Good to know</p>
+      <ul>
+        @for (note of c.notes; track $index) {
+          <li>
+            @for (part of note; track $index) {
+              @if (part.code) {
+                <code>{{ part.text }}</code>
+              } @else if (part.href) {
+                <a [href]="part.href" target="_blank" rel="noopener">{{ part.text }}</a>
+              } @else {
+                {{ part.text }}
+              }
+            }
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
+  <div class="view-switch" role="group" aria-label="Show">
+    <button
+      type="button"
+      [class.on]="view() === 'schema'"
+      [attr.aria-pressed]="view() === 'schema'"
+      (click)="view.set('schema')"
+    >
+      Schema
+    </button>
+    <button
+      type="button"
+      [class.on]="view() === 'sample'"
+      [attr.aria-pressed]="view() === 'sample'"
+      (click)="view.set('sample')"
+    >
+      Sample
+    </button>
+  </div>
+
+  @if (c.detail; as d) {
+    <div class="fields-bar">
+      <span class="note">
+        @if (showAll()) {
+          All {{ d.schema.length }} fields
+        } @else {
+          Key fields: {{ keyCount() }} of {{ d.schema.length }}
+        }
+      </span>
+      @if (d.schema.length > keyCount()) {
+        <button type="button" class="link" (click)="showAll.set(!showAll())">
+          {{ showAll() ? 'Show key fields only' : 'Show all ' + d.schema.length + ' fields' }}
+        </button>
+      }
+    </div>
+
+    @if (view() === 'schema') {
+      <table class="schema">
+        <thead>
+          <tr>
+            <th scope="col">Field</th>
+            <th scope="col">Type</th>
+            <th scope="col">
+              <abbr title="How many: 0..1 optional, 1..1 required, 0..* a list">Card.</abbr>
+            </th>
+            <th scope="col">What it is</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container
+            *ngTemplateOutlet="fieldRows; context: { $implicit: rows(), depth: 0, prefix: '' }"
+          />
+        </tbody>
+      </table>
+    } @else {
+      <div class="sample">
+        <button type="button" class="copy" (click)="copy()">
+          {{ copied() ? 'Copied' : 'Copy' }}
+        </button>
+        <pre><code>{{ sampleJson() }}</code></pre>
+      </div>
+      <p class="note">
+        @if (d.example) {
+          From the official FHIR R4 example.
+          <a [href]="d.example" target="_blank" rel="noopener">See it in the spec ↗</a>
+        } @else {
+          Made up, like the rest of this example.
+        }
+      </p>
+    }
+
+    <!-- v1.5: "Guides that profile this" goes here. -->
+  } @else if (loadError()) {
+    <p class="note">{{ loadError() }}</p>
+  } @else {
+    <p class="note">Loading…</p>
+  }
+</ng-template>
+
+<!-- Schema rows, recursive: a nested object's sub-fields appear under it once it's opened. -->
+<ng-template #fieldRows let-rows let-depth="depth" let-prefix="prefix">
+  @for (row of rows; track row.name) {
+    @let path = prefix ? prefix + '.' + row.name : row.name;
+    <tr [class.required]="row.required" [class.nested]="depth > 0">
+      <td class="f-name" [style.padding-left.px]="10 + depth * 18">
+        @if (row.children) {
+          <button
+            type="button"
+            class="caret"
+            [class.open]="expanded().has(path)"
+            [attr.aria-expanded]="expanded().has(path)"
+            [attr.aria-label]="
+              (expanded().has(path) ? 'Hide ' : 'Show ') + 'the fields of ' + row.name
+            "
+            (click)="toggleRow(path)"
+          ></button>
+        }
+        <code>{{ row.name }}</code>
+      </td>
+      <td class="f-type">{{ typeText(row) }}</td>
+      <td class="f-card">{{ row.card }}</td>
+      <td class="f-what">{{ row.short }}</td>
+    </tr>
+    @if (row.children && expanded().has(path)) {
+      <ng-container
+        *ngTemplateOutlet="
+          fieldRows;
+          context: { $implicit: row.children, depth: depth + 1, prefix: path }
+        "
+      />
+    }
+  }
+</ng-template>
