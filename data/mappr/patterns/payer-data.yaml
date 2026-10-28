@@ -1,0 +1,117 @@
+# FHIR Mappr pattern. Format: src/core/mappr/types.ts (Pattern). Checked claims: see the PR.
+id: payer-data
+type: workflow
+rank: 2
+kind: established
+title: Share payer data with members, providers and the next plan
+ask: I want to share a health plan's data with members, providers and the next plan
+summary: >-
+  One set of health plan data, three audiences. Members connect an app and get their claims and
+  clinical data. Providers and a member's next plan get it too, without the payment details.
+stack:
+  moves:
+    - guide: hl7.fhir.uv.smart-app-launch
+      note: members' apps
+    - guide: hl7.fhir.us.davinci-pdex
+      note: providers and the next plan
+    - guide: hl7.fhir.uv.bulkdata
+      note: many members at once
+    - guide: hl7.fhir.us.davinci-atr
+      note: which members a provider gets
+  carries:
+    - guide: hl7.fhir.us.core
+      note: clinical data
+    - guide: hl7.fhir.us.carin-bb
+      note: claims
+  builtOn:
+    - guide: hl7.fhir.us.davinci-hrex
+      note: shared Da Vinci pieces, such as matching a member across plans
+resources: [Patient, Coverage, ExplanationOfBenefit, Condition, Observation, Group]
+why: >-
+  CMS has required a Patient Access API since 2021, and CMS-0057-F adds Provider Access and
+  Payer-to-Payer APIs from January 1, 2027.
+drawing:
+  kind: walkthrough
+  scenario: A health plan shares one member's data three ways.
+  lanes:
+    - { id: member, label: Member, kind: person }
+    - { id: app, label: "Member's app", kind: system }
+    - { id: plan, label: Health plan, kind: system }
+    - { id: provider, label: "Provider's system", kind: system }
+    - { id: next, label: Next health plan, kind: system }
+  steps:
+    - lane: member
+      title: Connects an app
+      text: and signs in to their health plan
+    - lane: app
+      title: Gets everything
+      text: claims with costs, and clinical data
+      via: SMART App Launch
+    - lane: provider
+      title: Asks for its patients
+      text: the members attributed to it
+      via: PDex, Bulk Data, ATR
+    - lane: plan
+      title: Sends their data
+      text: clinical data, and claims without the payment details
+    - lane: next
+      title: Asks for a new member's history
+      text: after the member joins and agrees
+      via: PDex
+    - lane: plan
+      title: Sends the history
+      text: the same data, without the payment details
+  takeaway: >-
+    One set of data, three audiences: members see everything; providers and the next plan get it
+    without the payment details.
+readFirst:
+  - title: CARIN Blue Button
+    url: https://hl7.org/fhir/us/carin-bb/
+  - title: Da Vinci PDex
+    url: https://hl7.org/fhir/us/davinci-pdex/
+  - title: US Core
+    url: https://hl7.org/fhir/us/core/
+initializr:
+  drivers: [cms-0057-f@payer]
+  label: CMS-0057-F, the payer's APIs
+phrasings:
+  - share payer data with members
+  - show patients their claims
+  - show members their claims
+  - claims data for members
+  - member access to claims
+  - explanation of benefits app
+  - EOB data
+  - EOB API
+  - patient access API
+  - CMS patient access
+  - CMS interoperability rule
+  - CMS-9115
+  - CMS-0057
+  - CMS-0057-F
+  - provider access API
+  - payer to payer
+  - payer-to-payer exchange
+  - send member data to the new health plan
+  - health plan data exchange
+  - payer data exchange
+  - PDex
+  - CARIN Blue Button
+  - C4BB
+  - Blue Button
+  - Blue Button 2.0
+  - consumer-directed payer data
+  - insurance claims history
+  - give providers claims history
+  - claims and clinical data from the payer
+  - member attribution
+  - attribution list
+  - which patients belong to a provider
+  - value-based care data from the payer
+  - bulk export for payers
+  - Medicare Advantage API
+  - Medicaid API
+  - health insurance data sharing
+  - insurer data to doctors
+  - plan data for a new member
+  - share data when a member changes plans

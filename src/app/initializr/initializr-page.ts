@@ -10,8 +10,8 @@ import { Results } from './results';
 import { DataStore } from './data-store';
 import { ProfileStore } from './profile-store';
 import { download, zip } from './zip';
+import { REPO_URL } from '../repo';
 
-export const REPO_URL = 'https://github.com/Standfast-Systems/fhir-matchbook';
 
 /** The Initializr section: pick drivers, get the guides, download the files. */
 @Component({

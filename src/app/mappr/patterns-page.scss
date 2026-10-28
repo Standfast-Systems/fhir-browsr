@@ -1,0 +1,96 @@
+:host {
+  display: block;
+}
+
+h1 {
+  margin: 20px 0 4px;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.intro {
+  margin: 0 0 20px;
+  color: var(--mb-muted);
+}
+
+.error {
+  color: #f87171;
+}
+
+// The library on the left, the selected pattern beside it; stacked on narrow screens.
+.layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.library {
+  position: sticky;
+  top: 12px;
+}
+
+.shelf + .shelf {
+  margin-top: 18px;
+}
+
+h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.answers {
+  margin: 2px 0 6px;
+  color: var(--mb-faint);
+  font-size: 12.5px;
+}
+
+h3 {
+  margin: 8px 0 2px;
+  color: var(--mb-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+li a {
+  display: block;
+  padding: 5px 10px;
+  border-left: 2px solid var(--mb-line);
+  color: var(--mb-text);
+  font-size: 13.5px;
+  &:hover {
+    border-left-color: var(--mb-muted);
+    text-decoration: none;
+  }
+  &.on {
+    border-left-color: var(--mb-lime);
+    background: var(--mb-panel);
+    color: var(--mb-lime);
+  }
+}
+
+.none {
+  margin: 0;
+  padding-left: 12px;
+  color: var(--mb-faint);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .library {
+    position: static;
+  }
+}

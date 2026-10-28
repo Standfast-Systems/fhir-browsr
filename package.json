@@ -7,7 +7,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "data": "node scripts/build-browsr.ts && node scripts/build-initializr.ts",
+    "data": "node scripts/build-browsr.ts && node scripts/build-initializr.ts && node scripts/build-mappr.ts",
     "prebuild": "npm run data",
     "prestart": "npm run data",
     "snapshot": "node scripts/snapshot.ts",

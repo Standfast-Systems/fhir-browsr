@@ -1,0 +1,31 @@
+# FHIR Mappr: extra phrasings for the lookup's wider tier, by guide package id or R4 resource
+# name. The guide's name and Browsr's one-liner (data/notes.yaml) are searched too, so these only
+# add the words people use that those don't: plain terms, clinical terms, acronyms. Drafted from
+# the approved one-liners; spot-checked rather than reviewed line by line.
+
+hl7.fhir.us.vrdr:
+  - report a death
+  - report a death to the state
+  - death certificate
+  - death reporting
+  - cause of death
+  - mortality reporting
+  - vital records
+  - state vital records office
+  - NCHS death data
+
+hl7.fhir.us.mdi:
+  - death investigation
+  - medical examiner
+  - coroner
+  - autopsy report
+  - toxicology for a death investigation
+  - report a death to the state
+
+AllergyIntolerance:
+  - record a patient's allergies
+  - allergy list
+  - drug allergy
+  - food allergy
+  - adverse reaction
+  - intolerance

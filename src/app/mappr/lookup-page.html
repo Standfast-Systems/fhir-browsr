@@ -1,0 +1,119 @@
+<section>
+  <h1>Lookup</h1>
+  <p class="intro">Describe what you're trying to do, in your own words.</p>
+
+  <form class="search" role="search" (submit)="$event.preventDefault()">
+    <label for="mappr-q" class="visually-hidden">What are you trying to do?</label>
+    <input
+      id="mappr-q"
+      type="search"
+      autocomplete="off"
+      placeholder="e.g. send a questionnaire and keep the answers"
+      [value]="query()"
+      (input)="search($any($event.target).value)"
+    />
+  </form>
+
+  @if (!query().trim()) {
+    <p class="examples">
+      Try:
+      @for (e of examples; track e) {
+        <button type="button" class="chip" (click)="search(e)">{{ e }}</button>
+      }
+    </p>
+  }
+
+  @if (store.error(); as err) {
+    <p class="error" role="alert">{{ err }}</p>
+  }
+
+  <div aria-live="polite">
+    @switch (result()?.tier) {
+      @case ('patterns') {
+        <p class="lead">{{ patterns().length === 1 ? 'A pattern fits' : 'These patterns fit' }}:</p>
+        <ul class="hits">
+          @for (x of patterns(); track x.p.id) {
+            <li class="hit pattern">
+              <a routerLink="/mappr/patterns" [fragment]="x.p.id">
+                <span class="eyebrow">{{ x.label }}</span>
+                <h2>{{ x.p.title }}</h2>
+                <p>{{ x.p.summary }}</p>
+                @if (x.guides.length) {
+                  <p class="guides">{{ x.guides.join(' · ') }}</p>
+                }
+                <span class="go">See the pattern →</span>
+              </a>
+            </li>
+          }
+        </ul>
+      }
+      @case ('wider') {
+        @if (wider(); as w) {
+          <p class="lead">
+            No pattern covers that yet. These match
+            @if (w.guides.length) {
+              ({{ w.guides.length }} {{ w.guides.length === 1 ? 'guide' : 'guides' }} published for
+              {{ releaseLabel() }}):
+            } @else {
+              (no guides published for {{ releaseLabel() }}):
+            }
+          </p>
+          <div class="wider">
+            @if (w.guides.length) {
+              <section>
+                <h2>Guides</h2>
+                <ul>
+                  @for (x of w.guides; track x.g.id) {
+                    <li>
+                      <a [href]="x.g.url" target="_blank" rel="noopener">{{ x.g.name }}</a>
+                      <span class="blurb">{{ x.g.blurb }}</span>
+                      @for (p of x.in; track p.id) {
+                        <a class="in" routerLink="/mappr/patterns" [fragment]="p.id"
+                          >Part of: {{ p.title }}</a
+                        >
+                      }
+                    </li>
+                  }
+                </ul>
+              </section>
+            }
+            @if (w.resources.length) {
+              <section>
+                <h2>Resources</h2>
+                <ul>
+                  @for (x of w.resources; track x.r.name) {
+                    <li>
+                      @if (x.url) {
+                        <a [href]="x.url" target="_blank" rel="noopener" class="mono">{{
+                          x.here
+                        }}</a>
+                      } @else {
+                        <span class="mono gone">{{ x.r.name }} (not in {{ releaseLabel() }})</span>
+                      }
+                      <span class="blurb">{{ x.r.blurb }}</span>
+                      @for (p of x.in; track p.id) {
+                        <a class="in" routerLink="/mappr/patterns" [fragment]="p.id"
+                          >Part of: {{ p.title }}</a
+                        >
+                      }
+                    </li>
+                  }
+                </ul>
+              </section>
+            }
+          </div>
+        }
+      }
+      @case ('none') {
+        <p class="lead none">No good match.</p>
+      }
+    }
+  </div>
+
+  @if (query().trim()) {
+    <p class="feedback">
+      Didn't find it?
+      <a [href]="feedbackUrl()" target="_blank" rel="noopener">Tell us what you searched for</a>.
+    </p>
+  }
+</section>

@@ -1,0 +1,118 @@
+# FHIR Mappr pattern. Format: src/core/mappr/types.ts (Pattern). Redrawn from
+# learning/hooks-vs-subscriptions.svg. Checked claims: see the PR.
+id: hooks-vs-subscriptions
+type: exchange
+rank: 1
+title: CDS Hooks vs. Subscriptions
+ask: I want to know whether I need CDS Hooks or Subscriptions
+summary: >-
+  Two ways for a system to react to something in the EHR. CDS Hooks asks a service while a user
+  is working and waits for an answer. Subscriptions send a notice when data changes, and nobody
+  waits.
+guides: [hl7.fhir.uv.cds-hooks, hl7.fhir.uv.subscriptions-backport]
+resources: [QuestionnaireResponse, Subscription, Task]
+inR5: >-
+  Subscriptions are built into R5, with topics defined as SubscriptionTopic resources. In R4 the
+  same model comes from the Subscriptions R5 Backport guide.
+drawing:
+  kind: contrast
+  scenario: The same PHQ-9 depression screener, completed two ways.
+  sides:
+    - title: CDS Hooks
+      tagline: action-driven, patient in the room
+      walkthrough:
+        scenario: The patient completes the PHQ-9 in the exam room.
+        lanes:
+          - { id: patient, label: Patient, kind: person }
+          - { id: provider, label: Provider, kind: staff }
+          - { id: ehr, label: EHR + CDS service, kind: system }
+        steps:
+          - lane: patient
+            title: Completes the PHQ-9
+            text: on the exam-room tablet
+          - lane: provider
+            title: Reviews and submits
+            text: with the patient
+          - lane: ehr
+            title: Hook fires
+            text: sends the context and waits
+            via: CDS Hooks
+          - lane: ehr
+            title: Service scores it
+            text: and answers with a card
+            result: "Card: safety plan now"
+          - lane: provider
+            title: Acts right away
+            text: with the patient still there
+    - title: Subscriptions
+      tagline: data-driven, patient at home
+      walkthrough:
+        scenario: The patient completes the PHQ-9 at home in an app.
+        lanes:
+          - { id: patient, label: Patient (at home), kind: person }
+          - { id: server, label: FHIR server + service, kind: system }
+          - { id: team, label: Care team, kind: staff }
+        steps:
+          - lane: patient
+            title: Completes the PHQ-9
+            text: in the app, in the evening
+          - lane: server
+            title: Response saved
+            text: as a QuestionnaireResponse
+          - lane: server
+            title: Notification sent
+            text: a topic matches; the notice can carry just the id
+            via: Subscriptions
+          - lane: server
+            title: Service follows up
+            text: fetches the response, scores it
+            result: A Task for the care team
+          - lane: team
+            title: Picks it up
+            text: the next morning
+  table:
+    - aspect: What starts it
+      cells: [A user's action in the EHR, Data that changes on the server]
+    - aspect: Who waits
+      cells: [The EHR waits for the answer, Nobody waits]
+    - aspect: What comes back
+      cells: [Cards shown to the user, A notification; the service fetches the rest]
+    - aspect: Good for
+      cells: [Advice in the moment, Follow-up after the fact]
+  takeaway: Hooks are action-driven. Subscriptions are data-driven.
+readFirst:
+  - title: CDS Hooks
+    url: https://cds-hooks.hl7.org/
+  - title: Subscriptions R5 Backport
+    url: https://hl7.org/fhir/uv/subscriptions-backport/
+phrasings:
+  - CDS Hooks vs Subscriptions
+  - hooks or subscriptions
+  - CDS Hooks
+  - Subscriptions
+  - FHIR subscriptions
+  - subscriptions backport
+  - event notification
+  - notify when data changes
+  - get notified of new results
+  - real-time alerts
+  - push notifications from the EHR
+  - webhook
+  - FHIR webhook
+  - clinical decision support
+  - decision support card
+  - alert the clinician during the visit
+  - trigger on order sign
+  - event-driven FHIR
+  - topic-based subscription
+  - SubscriptionTopic
+  - polling vs notifications
+  - react to new data
+  - when to use CDS Hooks
+  - follow up on a patient's answers
+  - asynchronous vs synchronous
+  - in the moment vs after the fact
+  - care gap alert
+  - patient admitted notification
+  - ADT notification
+  - encounter notification

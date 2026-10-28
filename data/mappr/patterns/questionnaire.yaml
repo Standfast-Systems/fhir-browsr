@@ -1,0 +1,100 @@
+# FHIR Mappr pattern. Format: src/core/mappr/types.ts (Pattern). Checked claims: see the PR.
+id: questionnaire
+type: workflow
+rank: 8
+kind: established
+title: Send a questionnaire and store the answers as data
+ask: I want to send a questionnaire and keep the answers as data
+summary: >-
+  A form (Questionnaire) is filled in, the completed form (QuestionnaireResponse) is saved, and
+  the answers that matter, such as a score, become Observations you can search and trend.
+stack:
+  moves:
+    - guide: hl7.fhir.uv.sdc
+      note: how forms are defined, filled in and turned into data
+  carries:
+    - guide: hl7.fhir.us.core
+      note: the completed form, and screening and assessment results
+    - guide: fhir.astp.bhp
+      note: behavioral health data
+resources: [Questionnaire, QuestionnaireResponse, Observation, Task]
+why: >-
+  Free, open-source form renderers exist, such as NLM's LHC-Forms and CSIRO's Smart Forms, and US
+  Core profiles both the completed form and the screening results.
+drawing:
+  kind: walkthrough
+  scenario: A patient fills in a PHQ-9 depression screener before a visit.
+  lanes:
+    - { id: patient, label: Patient, kind: person }
+    - { id: system, label: "EHR or app", kind: system }
+    - { id: clinician, label: Clinician, kind: staff }
+  steps:
+    - lane: clinician
+      title: Assigns a PHQ-9
+      text: before the visit
+    - lane: patient
+      title: Fills it in
+      text: in a portal or app that shows the form
+      via: Questionnaire
+    - lane: system
+      title: Saves the answers
+      text: the completed form, as asked and answered
+      via: QuestionnaireResponse
+    - lane: system
+      title: Pulls out the score
+      text: key answers become Observations
+      via: SDC extraction
+    - lane: clinician
+      title: Sees the score and trend
+      text: alongside earlier results
+  takeaway: >-
+    The QuestionnaireResponse is the record of what was asked and answered; Observations are what
+    you search and trend.
+readFirst:
+  - title: "FHIR R4: Questionnaire"
+    url: https://hl7.org/fhir/R4/questionnaire.html
+  - title: Structured Data Capture (SDC)
+    url: https://hl7.org/fhir/uv/sdc/
+  - title: "US Core: Screening and Assessments"
+    url: https://hl7.org/fhir/us/core/screening-and-assessments.html
+phrasings:
+  - send a questionnaire and store the answers
+  - mental health assessments
+  - mental health screening
+  - behavioral health assessment
+  - behavioral health screening
+  - depression screening
+  - PHQ-9
+  - PHQ9
+  - PHQ-2
+  - GAD-7
+  - anxiety screening
+  - patient reported outcomes
+  - PROMs
+  - patient questionnaire
+  - patient intake form
+  - intake questionnaire
+  - digital forms
+  - online forms for patients
+  - survey
+  - patient survey
+  - screening tool
+  - assessment instrument
+  - standardized assessment
+  - SDOH screening
+  - social needs screening
+  - questionnaire to observation
+  - questionnaire response
+  - store answers as observations
+  - extract data from a form
+  - form scoring
+  - score a questionnaire
+  - structured data capture
+  - SDC
+  - LHC-Forms
+  - Smart Forms
+  - form renderer
+  - measurement-based care
+  - collaborative care screening
+  - suicide risk screening
+  - track symptoms over time
