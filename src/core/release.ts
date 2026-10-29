@@ -95,3 +95,27 @@ export function resourceSpecUrl(name: string, release: Release): string | null {
   const base = RELEASES.find((r) => r.id === release)!.base;
   return here ? `${base}${here.toLowerCase()}.html` : null;
 }
+
+/** A second page for a resource in a release, where a guide changes how it's used there. */
+export interface ResourceAlso {
+  label: string;
+  url: string;
+}
+
+/**
+ * R4's Subscription is the older, query-based design (R4B's is identical). Topic-based
+ * subscriptions, the kind Mappr's patterns describe, come to R4 from the Subscriptions R5 Backport
+ * guide, which has a section for R4. R5's own Subscription is topic-based. (Checked 2026-10-29.)
+ */
+const ALSO: Partial<Record<Release, Readonly<Record<string, ResourceAlso>>>> = {
+  R4: {
+    Subscription: {
+      label: 'topic-based: R5 Backport',
+      url: 'https://hl7.org/fhir/uv/subscriptions-backport/#topic-based-subscriptions---fhir-r4',
+    },
+  },
+};
+
+export function resourceAlso(name: string, release: Release): ResourceAlso | null {
+  return ALSO[release]?.[name] ?? null;
+}

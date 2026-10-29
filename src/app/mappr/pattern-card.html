@@ -123,6 +123,9 @@
           } @else {
             <span class="spec gone">not in {{ store.release() }}</span>
           }
+          @if (r.also; as also) {
+            <a class="spec" [href]="also.url" target="_blank" rel="noopener">{{ also.label }} ↗</a>
+          }
         </li>
       }
     </ul>
