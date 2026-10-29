@@ -3,8 +3,9 @@
 //
 //   npm run resources            R4, into data/fhir-resources.json
 //   npm run resources -- R5      R5, into data/fhir-resources-r5.json
-//   npm run resources -- R4B     writes nothing: checks that R4B can reuse R4's cards, failing if
-//                                any key field differs between the two
+//   npm run resources -- R4B     checks R4B against data/r4b-differences.json, which lists where
+//                                its elements differ from R4's (R4B shows R4's cards); add --write
+//                                to rewrite that file
 //
 // For every resource in src/app/browsr/resources-content.ts:
 // - schema: every top-level field (housekeeping like meta and extension left out), with
@@ -17,7 +18,7 @@
 // - relations: the resource page's "Boundaries and Relationships" section, as paragraphs and lists
 //   of plain text, `code` and links. Links to resources with a card on the page name that resource;
 //   other links point into the spec. Patient and CapabilityStatement have no such section in R4.
-import { writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { RESOURCE_GROUPS } from '../src/app/browsr/resources-content.ts';
 
 const BASE: Record<string, string> = {
@@ -490,61 +491,101 @@ async function schemaOf(base: string, name: string, keys: string[], label: strin
     .map((e): SchemaRow => ({ ...row(e, all), key: keys.includes(e.path.split('.')[1]) }));
 }
 
-/** A schema as one line per field, nested ones included: path, cardinality and type. */
-const lines = (rows: SchemaRow[], at: string): string[] =>
-  rows.flatMap((r) => [
-    `${at}.${r.name} ${r.card} ${r.type}${r.sameAs ? ` (as ${r.sameAs})` : ''}`,
-    ...lines(r.children ?? [], `${at}.${r.name}`),
-  ]);
+/** One way an element differs between R4 and R4B. */
+interface Difference {
+  path: string;
+  kind: 'added' | 'removed' | 'changed';
+  /** Reference targets R4B adds or drops, when that's the whole change. */
+  added?: string[];
+  removed?: string[];
+  /** Otherwise, the element in each: cardinality and type. */
+  r4?: string;
+  r4b?: string;
+}
 
-// The key fields R4B changed, found by the check below (2026-10-29): R4B widens subject on
-// Observation and DiagnosticReport to five more targets. R4B's cards have to note or patch these.
-const R4B_KNOWN: Record<string, string> = {
-  'Observation.subject':
-    'Reference(Patient | Group | Device | Location | Organization | Procedure | Practitioner | Medication | Substance)',
-  'DiagnosticReport.subject':
-    'Reference(Patient | Group | Device | Location | Organization | Procedure | Practitioner | Medication | Substance)',
-};
+/** A resource's elements by path, the housekeeping ones left out as on the cards. */
+async function elements(base: string, name: string) {
+  const sd = await getJson<{ snapshot: { element: ElementDefinition[] } }>(
+    `${base}/${name.toLowerCase()}.profile.json`,
+  );
+  return new Map(
+    sd.snapshot.element
+      .filter((e) => {
+        const at = e.path.split('.');
+        return (
+          at.length > 1 && !(at.length === 2 ? TOP_HOUSEKEEPING : HOUSEKEEPING).has(at.at(-1)!)
+        );
+      })
+      .map((e) => [e.path, e]),
+  );
+}
 
-// R4B shows R4's cards. That holds only while every key field (and everything nested in one)
-// reads the same in both, apart from R4B_KNOWN; other differences are listed for whoever reads
-// the run.
+const describe = (e: ElementDefinition) =>
+  `${e.min ?? 0}..${e.max ?? '*'} ${e.contentReference ?? (e.type ?? []).map(typeLabel).join(' | ')}`;
+const targets = (e: ElementDefinition) =>
+  (e.type ?? []).flatMap((t) => (t.targetProfile ?? []).map((p) => p.split('/').pop()!));
+
+function differences(r4: Map<string, ElementDefinition>, r4b: Map<string, ElementDefinition>) {
+  const out: Difference[] = [];
+  for (const [path, e] of r4) {
+    const b = r4b.get(path);
+    if (!b) out.push({ path, kind: 'removed', r4: describe(e) });
+    else if (describe(e) !== describe(b)) {
+      const was = targets(e);
+      const now = targets(b);
+      const sameShape =
+        `${e.min}..${e.max}` === `${b.min}..${b.max}` &&
+        JSON.stringify((e.type ?? []).map((t) => t.code)) ===
+          JSON.stringify((b.type ?? []).map((t) => t.code));
+      if (sameShape && (was.length || now.length)) {
+        const added = now.filter((t) => !was.includes(t));
+        const removed = was.filter((t) => !now.includes(t));
+        out.push({
+          path,
+          kind: 'changed',
+          ...(added.length ? { added } : {}),
+          ...(removed.length ? { removed } : {}),
+        });
+      } else out.push({ path, kind: 'changed', r4: describe(e), r4b: describe(b) });
+    }
+  }
+  for (const [path, b] of r4b)
+    if (!r4.has(path)) out.push({ path, kind: 'added', r4b: describe(b) });
+  return out;
+}
+
+// R4B shows R4's cards, so the site calls out where R4B differs. data/r4b-differences.json lists
+// every element that does (path, cardinality or type), and this run fails if the spec no longer
+// matches that list, so a new difference can't slip through. After checking a reported change,
+// `npm run resources -- R4B --write` rewrites the file.
 if (RELEASE === 'R4B') {
+  const FILE = 'data/r4b-differences.json';
+  const found: Record<string, Difference[]> = {};
   for (const name of names) {
-    const keys = KEY_FIELDS[name];
-    const [r4, r4b] = await Promise.all([
-      schemaOf(BASE['R4'], name, keys, 'R4'),
-      schemaOf(BASE['R4B'], name, keys, 'R4B'),
-    ]);
-    const was = new Set(lines(r4, name));
-    const now = new Set(lines(r4b, name));
-    const changed = [
-      ...[...was].filter((l) => !now.has(l)).map((l) => `- ${l}`),
-      ...[...now].filter((l) => !was.has(l)).map((l) => `+ ${l}`),
-    ];
-    const field = (l: string) => l.slice(2).split(/[. ]/)[1];
-    const isKey = (l: string) => keys.includes(field(l));
-    for (const l of changed.filter(isKey)) {
-      const known = R4B_KNOWN[`${name}.${field(l)}`];
-      // A known change shows as the R4 line going and the R4B line, with the recorded type, coming.
-      if (known && (l.startsWith('- ') || l.endsWith(` ${known}`))) continue;
-      errors.push(`${name}: key field differs in R4B: ${l}`);
+    const [r4, r4b] = await Promise.all([elements(BASE['R4'], name), elements(BASE['R4B'], name)]);
+    const diff = differences(r4, r4b);
+    console.log(`${name.padEnd(22)} ${diff.length ? `${diff.length} differences` : 'same as R4'}`);
+    for (const d of diff) {
+      const what =
+        d.added || d.removed
+          ? [d.added && `adds ${d.added.join(', ')}`, d.removed && `drops ${d.removed.join(', ')}`]
+              .filter(Boolean)
+              .join('; ')
+          : `${d.r4 ?? '(none)'} -> ${d.r4b ?? '(none)'}`;
+      console.log(`  ${d.kind} ${d.path}: ${what}`);
     }
-    for (const at of Object.keys(R4B_KNOWN).filter((k) => k.startsWith(`${name}.`))) {
-      if (!changed.some((l) => l.startsWith('+ ') && `${name}.${field(l)}` === at))
-        errors.push(`${at}: listed in R4B_KNOWN, but R4B no longer differs there`);
-    }
-    const others = changed.filter((l) => !isKey(l));
-    const keyText = changed.some(isKey) ? 'key fields differ (see R4B_KNOWN)' : 'key fields same';
-    const otherText = others.length ? 'other fields differ' : 'other fields same';
-    console.log(`${name.padEnd(22)} ${keyText}, ${otherText}`);
-    for (const l of others) console.log(`  ${l}`);
+    if (diff.length) found[name] = diff;
   }
-  if (errors.length) {
-    console.error(errors.join('\n'));
+  const text = JSON.stringify(found, null, 1) + '\n';
+  if (process.argv.includes('--write')) {
+    writeFileSync(FILE, text);
+    console.log(`${FILE}: ${Object.keys(found).length} resources differ`);
+  } else if (!existsSync(FILE) || readFileSync(FILE, 'utf8') !== text) {
+    console.error(
+      `R4B no longer matches ${FILE}. Check the differences above, then rerun with --write.`,
+    );
     process.exit(1);
-  }
-  console.log("R4B: every key field matches R4 apart from R4B_KNOWN, so R4B can show R4's cards.");
+  } else console.log(`R4B matches ${FILE}.`);
   process.exit(0);
 }
 

@@ -165,6 +165,37 @@ test("R5 how it relates: 1 to 4 lines, each naming resources R5's spec relates t
   }
 });
 
+test("R4B: its differences from R4, which R4B's (R4) cards call out, name real elements", () => {
+  const diffs = JSON.parse(readFileSync('data/r4b-differences.json', 'utf8')) as Record<
+    string,
+    {
+      path: string;
+      kind: string;
+      added?: string[];
+      removed?: string[];
+      r4?: string;
+      r4b?: string;
+    }[]
+  >;
+  for (const [name, list] of Object.entries(diffs)) {
+    assert.ok(names.includes(name), `differences for unknown resource ${name}`);
+    for (const d of list) {
+      assert.ok(d.path.startsWith(`${name}.`), d.path);
+      assert.ok(['added', 'removed', 'changed'].includes(d.kind), `${d.path}: ${d.kind}`);
+      if (d.kind === 'changed') assert.ok(d.added || d.removed || (d.r4 && d.r4b), d.path);
+    }
+  }
+  // Checked 2026-10-29: R4B widens subject on these two, and nothing else on the cards differs.
+  assert.deepEqual(Object.keys(diffs).sort(), ['DiagnosticReport', 'Observation']);
+  assert.deepEqual(diffs['Observation'][0].added, [
+    'Organization',
+    'Procedure',
+    'Practitioner',
+    'Medication',
+    'Substance',
+  ]);
+});
+
 test("R5: Media is gone, so Observation's image, audio and video line names DocumentReference", () => {
   const to = RESOURCE_RELATIONS_R5['Observation'].flatMap((l) => l.to);
   assert.ok(!to.includes('Media') && to.includes('DocumentReference'));
