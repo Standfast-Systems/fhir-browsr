@@ -1,0 +1,28 @@
+{
+ "Observation": [
+  {
+   "path": "Observation.subject",
+   "kind": "changed",
+   "added": [
+    "Organization",
+    "Procedure",
+    "Practitioner",
+    "Medication",
+    "Substance"
+   ]
+  }
+ ],
+ "DiagnosticReport": [
+  {
+   "path": "DiagnosticReport.subject",
+   "kind": "changed",
+   "added": [
+    "Organization",
+    "Procedure",
+    "Practitioner",
+    "Medication",
+    "Substance"
+   ]
+  }
+ ]
+}
