@@ -159,6 +159,11 @@
                         } @else {
                           <span class="ext gone">not in {{ releaseLabel() }}</span>
                         }
+                        @if (x.also; as also) {
+                          <a class="ext" [href]="also.url" target="_blank" rel="noopener"
+                            >{{ also.label }} ↗</a
+                          >
+                        }
                         <span class="blurb">{{ x.r.blurb }}</span>
                         @for (p of x.in; track p.id) {
                           <a class="in" routerLink="/mappr/patterns" [fragment]="p.id"

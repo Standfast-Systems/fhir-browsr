@@ -10,7 +10,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FIRST, QUESTIONS, type Answer, type QuestionId } from '../../core/mappr/guide';
 import { TYPES, guidesOf } from '../../core/mappr/library';
 import { buildIndex, lookup, patternsWith, type LookupResult } from '../../core/mappr/lookup';
-import { fitsRelease, releaseLabel, resourceIn, resourceSpecUrl } from '../../core/release';
+import {
+  fitsRelease,
+  releaseLabel,
+  resourceAlso,
+  resourceIn,
+  resourceSpecUrl,
+} from '../../core/release';
 import { semanticLookup } from '../../core/mappr/semantic';
 import { REPO_URL } from '../repo';
 import { MapprStore } from './mappr-store';
@@ -58,9 +64,7 @@ export class LookupPage {
     return d ? buildIndex(d) : null;
   });
 
-  protected readonly releaseLabel = computed(
-    () => releaseLabel(this.store.release()),
-  );
+  protected readonly releaseLabel = computed(() => releaseLabel(this.store.release()));
 
   /** The word match: patterns, then guides and resources, then none. */
   private readonly byWords = computed(() => {
@@ -149,6 +153,7 @@ export class LookupPage {
         r: d.resources[h.id],
         here: resourceIn(h.id, release),
         url: resourceSpecUrl(h.id, release),
+        also: resourceAlso(h.id, release),
         in: patternsWith(d, 'resource', h.id),
       })),
     };
