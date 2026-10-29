@@ -7,7 +7,7 @@ export const routes: Routes = [
     path: '',
     pathMatch: 'full',
     loadComponent: () => import('./landing/landing-page').then((m) => m.LandingPage),
-    title: 'FHIR Matchbook — Browsr, Mappr, Initializr. Discover, Map, Build.',
+    title: 'FHIR Matchbook — Browsr, Mappr, Initializr. Discover, Connect, Build.',
   },
   {
     path: 'browsr',

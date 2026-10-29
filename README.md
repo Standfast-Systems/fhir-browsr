@@ -2,7 +2,7 @@
 
 **https://standfast-systems.github.io/fhir-matchbook/**
 
-**Browsr, Mappr, Initializr. Discover, Map, Build.** One app with three sections, each one usable on its own:
+**Browsr, Mappr, Initializr. Discover, Connect, Build.** One app with three sections, each one usable on its own:
 
 - **[FHIR Browsr](#fhir-browsr)** (`/browsr`): discover the implementation guides that apply to you, by Patient, Provider or Payer, and the FHIR resources they're built from.
 - **[FHIR Mappr](#fhir-mappr)** (`/mappr`): describe what you're trying to do and see the guides, resources and patterns that fit.
