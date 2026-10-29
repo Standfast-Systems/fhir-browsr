@@ -67,10 +67,10 @@ drawing:
           - lane: server
             title: Service follows up
             text: fetches the response, scores it
-            result: A Task for the care team
+            result: "A Task: urgent or routine, by the score"
           - lane: team
-            title: Picks it up
-            text: the next morning
+            title: Acts by priority
+            text: urgent ones now, by whoever is on call; routine ones the next morning, so not every form pages someone
   table:
     - aspect: What starts it
       cells: [A user's action in the EHR, Data that changes on the server]
