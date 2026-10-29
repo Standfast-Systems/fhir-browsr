@@ -131,17 +131,6 @@
       >
     }
   </div>
-  <!-- Until the R5 cards land, an R5 visitor is told plainly that this card is R4. -->
-  @if (cardsAreR4Only()) {
-    <p class="r4-only" role="note">
-      This card shows FHIR R4; R5 cards are on the way.
-      @if (c.spec) {
-        <a [href]="releaseSpec(c.name)" target="_blank" rel="noopener"
-          >Open {{ c.name }} in the {{ releaseLabel() }} spec ↗</a
-        >
-      }
-    </p>
-  }
   <p class="sentence">{{ sentence(c.blurb) }}</p>
 
   @if (c.notes.length || c.relations.length) {
@@ -252,7 +241,7 @@
       </div>
       <p class="note">
         @if (d.example) {
-          From the official FHIR R4 example.
+          From the official FHIR {{ cardSet() }} example.
           <a [href]="d.example" target="_blank" rel="noopener">See it in the spec ↗</a>
         } @else {
           Made up, like the rest of this example.

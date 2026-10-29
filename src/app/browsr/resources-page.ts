@@ -14,7 +14,15 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RELEASES, releaseLabel, resourceSpecUrl } from '../../core/release';
 import { ReleaseStore } from '../release-store';
-import { ResourceData, type ResourceDetail, type SchemaRow } from './resource-data';
+import {
+  ResourceData,
+  cardSetFor,
+  type CardSet,
+  type R4bDifference,
+  type ResourceDetail,
+  type SchemaRow,
+} from './resource-data';
+import { RESOURCE_NOTES_R5, RESOURCE_RELATIONS_R5 } from './resources-content-r5';
 import {
   EXAMPLE_BLURB,
   EXAMPLE_DETAIL,
@@ -41,7 +49,7 @@ interface CardContent {
   /** The group's name; null for the Example. */
   group: string | null;
   blurb: string;
-  /** The R4 spec page the card's content comes from; null for the Example, which has none. */
+  /** The spec page the card's content comes from; null for the Example, which has none. */
   spec: string | null;
   notes: NotePart[][];
   /** "How it relates": each line's resources (a card here, else the spec page), then how. */
@@ -52,11 +60,38 @@ interface CardContent {
 
 const CARDS = new Set(RESOURCE_GROUPS.flatMap((g) => g.resources.map((r) => r.name)));
 
-const relationLines = (lines: readonly Relation[]) =>
+const relationLines = (lines: readonly Relation[], set: CardSet = 'R4') =>
   lines.map(({ to, how }) => ({
-    to: to.map((name) => ({ name, card: CARDS.has(name), url: specUrl(name) })),
+    to: to.map((name) => ({
+      name,
+      card: CARDS.has(name),
+      url: resourceSpecUrl(name, set) ?? specUrl(name),
+    })),
     how: noteParts(how),
   }));
+
+/** Each card set's hand-written notes and "How it relates" lines. */
+const CONTENT: Record<
+  CardSet,
+  { notes: Readonly<Record<string, readonly string[]>>; relations: typeof RESOURCE_RELATIONS }
+> = {
+  R4: { notes: RESOURCE_NOTES, relations: RESOURCE_RELATIONS },
+  R5: { notes: RESOURCE_NOTES_R5, relations: RESOURCE_RELATIONS_R5 },
+};
+
+const listOf = (names: readonly string[]) =>
+  names.length < 2 ? names.join('') : `${names.slice(0, -1).join(', ')} or ${names.at(-1)}`;
+
+/**
+ * R4B shares R4's cards, so an R4 card says where R4B differs, in the same voice as its notes:
+ * "In R4B, `subject` can also reference Organization, … or Substance."
+ */
+function r4bNote(d: R4bDifference): string {
+  const field = '`' + d.path.split('.').slice(1).join('.') + '`';
+  if (d.kind === 'changed' && d.added?.length)
+    return `In R4B, ${field} can also reference ${listOf(d.added)}.`;
+  return `In R4B, ${field} is ${d.kind === 'added' ? 'added' : d.kind === 'removed' ? 'not there' : 'different'}.`;
+}
 
 const EXAMPLE: CardContent = {
   name: EXAMPLE_NAME,
@@ -87,10 +122,10 @@ export class ResourcesPage {
   protected readonly groups = RESOURCE_GROUPS;
   protected readonly loadError = this.data.error;
 
-  /** The FHIR release from the shared header. The cards themselves are R4 until R5 data lands. */
+  /** The FHIR release from the shared header, and the set of cards it shows. */
   private readonly release = inject(ReleaseStore).release;
   protected readonly releaseLabel = computed(() => releaseLabel(this.release()));
-  protected readonly cardsAreR4Only = computed(() => this.release() !== 'R4');
+  protected readonly cardSet = computed(() => cardSetFor(this.release()));
   protected readonly listUrl = computed(
     () => `${RELEASES.find((r) => r.id === this.release())!.base}resourcelist.html`,
   );
@@ -118,14 +153,17 @@ export class ResourcesPage {
     const group = name ? this.groupOf(name) : undefined;
     const entry = group?.resources.find((r) => r.name === name);
     if (!name || !group || !entry) return null;
+    const set = this.cardSet();
+    const detail = this.data.details(set)?.[name] ?? null;
+    const notes = [...(CONTENT[set].notes[name] ?? []), ...(detail?.r4b ?? []).map(r4bNote)];
     return {
       name,
       group: group.name,
       blurb: entry.blurb,
-      spec: specUrl(name),
-      notes: (RESOURCE_NOTES[name] ?? []).map(noteParts),
-      relations: relationLines(RESOURCE_RELATIONS[name] ?? []),
-      detail: this.data.details()?.[name] ?? null,
+      spec: resourceSpecUrl(name, set),
+      notes: notes.map(noteParts),
+      relations: relationLines(CONTENT[set].relations[name] ?? [], set),
+      detail,
     };
   });
   protected readonly example = EXAMPLE;
@@ -158,6 +196,8 @@ export class ResourcesPage {
   });
 
   constructor() {
+    // Each card set loads the first time its release is shown.
+    effect(() => this.data.load(this.cardSet()));
     // A link to /resources#ExplanationOfBenefit selects that resource.
     const fragment = toSignal(inject(ActivatedRoute).fragment);
     effect(() => {
