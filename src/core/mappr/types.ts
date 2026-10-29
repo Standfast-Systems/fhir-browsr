@@ -1,8 +1,9 @@
 // FHIR Mappr's data: hand-written patterns (data/mappr/patterns/*.yaml), compiled with the guides
 // and resources they name into public/data/mappr.json by scripts/build-mappr.ts.
 
-/** The FHIR releases Mappr's release control offers. R6 is a preview (the continuous build). */
-export type Release = 'R4' | 'R4B' | 'R5' | 'R6';
+import type { Release } from '../release.ts';
+
+export type { Release };
 
 export type PatternType = 'workflow' | 'exchange' | 'data-shape' | 'guide-stack' | 'safeguard';
 

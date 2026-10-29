@@ -4,6 +4,7 @@ import {
   computed,
   effect,
   inject,
+  signal,
   untracked,
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -24,11 +25,13 @@ import {
   type Region,
   type RegionKey,
   type ScopedGuide,
+  type ViewState,
 } from '../../core/browsr/scope';
 import {
   PARTIES,
   type Domain,
   type Family,
+  type Guide,
   type Party,
   type ScopeOptions,
 } from '../../core/browsr/types';
@@ -76,7 +79,7 @@ export class GuidesPage {
         const g = this.data()?.guides.find((x) => x.id === wanted);
         if (!this.data()) return;
         const view = g && viewFor(g);
-        if (view) untracked(() => this.store.show(view));
+        if (view) untracked(() => this.show(g, view));
         const url = new URL(location.href);
         url.searchParams.delete('guide');
         history.replaceState(history.state, '', url);
@@ -91,8 +94,14 @@ export class GuidesPage {
       label: 'Include ballots and drafts',
       hint: 'Guides with no published release yet',
     },
-    { key: 'r5', label: 'Include R5/R6', hint: 'Guides published only for newer FHIR versions' },
   ];
+
+  /** Set when showing a guide switched the release to R5: that guide's name. */
+  protected readonly switchedFor = signal<string | null>(null);
+
+  private show(g: Guide, view: ViewState) {
+    this.switchedFor.set(this.store.show(view) ? g.name : null);
+  }
 
   protected readonly scoped = computed(() =>
     applyScope(this.data()?.guides ?? [], this.view().scope, this.view().country),
@@ -274,7 +283,7 @@ export class GuidesPage {
   protected openGuide(id: string) {
     const g = this.data()?.guides.find((x) => x.id === id);
     const view = g && viewFor(g);
-    if (view) this.store.show(view);
+    if (g && view) this.show(g, view);
   }
 
   protected readonly snapshotDate = computed(() => this.data()?.snapshot.slice(0, 10) ?? '');

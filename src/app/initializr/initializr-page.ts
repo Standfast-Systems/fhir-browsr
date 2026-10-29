@@ -18,6 +18,7 @@ import { Results } from './results';
 import { DataStore } from './data-store';
 import { ProfileStore } from './profile-store';
 import { REPO_URL } from '../repo';
+import { ReleaseStore } from '../release-store';
 import { download, zip } from './zip';
 
 /** The Initializr section: pick drivers, get the guides, download the files. */
@@ -42,6 +43,8 @@ export class InitializrPage {
   private readonly snack = inject(MatSnackBar);
   protected readonly repo = REPO_URL;
   protected readonly tool = TOOL;
+  /** The FHIR release from the shared header; Initializr only says it builds R4. */
+  protected readonly release = inject(ReleaseStore).release;
 
   constructor() {
     // A link in can pick drivers, as the CLI writes them: /initializr?driver=cms-0057-f@payer

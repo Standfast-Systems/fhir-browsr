@@ -12,6 +12,8 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RELEASES, releaseLabel, resourceSpecUrl } from '../../core/release';
+import { ReleaseStore } from '../release-store';
 import { ResourceData, type ResourceDetail, type SchemaRow } from './resource-data';
 import {
   EXAMPLE_BLURB,
@@ -22,7 +24,6 @@ import {
 } from './resource-example';
 import {
   RESOURCE_GROUPS,
-  RESOURCE_LIST_URL,
   RESOURCE_NOTES,
   RESOURCE_RELATIONS,
   noteParts,
@@ -40,7 +41,7 @@ interface CardContent {
   /** The group's name; null for the Example. */
   group: string | null;
   blurb: string;
-  /** The R4 spec page; null for the Example, which has none. */
+  /** The R4 spec page the card's content comes from; null for the Example, which has none. */
   spec: string | null;
   notes: NotePart[][];
   /** "How it relates": each line's resources (a card here, else the spec page), then how. */
@@ -84,8 +85,19 @@ const EXAMPLE: CardContent = {
 export class ResourcesPage {
   private readonly data = inject(ResourceData);
   protected readonly groups = RESOURCE_GROUPS;
-  protected readonly listUrl = RESOURCE_LIST_URL;
   protected readonly loadError = this.data.error;
+
+  /** The FHIR release from the shared header. The cards themselves are R4 until R5 data lands. */
+  private readonly release = inject(ReleaseStore).release;
+  protected readonly releaseLabel = computed(() => releaseLabel(this.release()));
+  protected readonly cardsAreR4Only = computed(() => this.release() !== 'R4');
+  protected readonly listUrl = computed(
+    () => `${RELEASES.find((r) => r.id === this.release())!.base}resourcelist.html`,
+  );
+  /** A resource's page in the chosen release's spec. */
+  protected releaseSpec(name: string): string | null {
+    return resourceSpecUrl(name, this.release());
+  }
 
   /** The selected resource; null shows the welcome card. */
   protected readonly selected = signal<string | null>(null);
