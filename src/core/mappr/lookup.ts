@@ -10,7 +10,8 @@
 // from unrelated phrasings don't add up to a match.
 
 import { guidesOf } from './library.ts';
-import type { MapprData, Pattern, Release } from './types.ts';
+import { fitsRelease, type Release } from '../release.ts';
+import type { MapprData, Pattern } from './types.ts';
 
 export type ItemKind = 'pattern' | 'guide' | 'resource';
 
@@ -199,7 +200,7 @@ export function lookup(index: LookupIndex, query: string, release: Release = 'R4
   }
   const guides = rank(index, query, 'guide').filter((h) => {
     const g = index.data.guides[h.id];
-    return h.score >= WIDER_MIN && !g.withdrawn && g.fhir.includes(release);
+    return h.score >= WIDER_MIN && !g.withdrawn && fitsRelease(g.fhir, release);
   });
   const resources = rank(index, query, 'resource').filter((h) => h.score >= WIDER_MIN);
   if (!guides.length && !resources.length) return { tier: 'none' };

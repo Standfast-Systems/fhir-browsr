@@ -1,17 +1,16 @@
-import { Injectable, signal } from '@angular/core';
-import { DEFAULT_RELEASE } from '../../core/mappr/release';
-import type { MapprData, Release } from '../../core/mappr/types';
+import { Injectable, inject, signal } from '@angular/core';
+import type { MapprData } from '../../core/mappr/types';
+import { ReleaseStore } from '../release-store';
 
 /**
  * Mappr's patterns, guides and resources (public/data/mappr.json), loaded once when a Mappr page
- * opens, and the release control's choice, shared by both pages. Held in memory: a link in from
- * another section lands on R4.
+ * opens, and the FHIR release from the shared header.
  */
 @Injectable({ providedIn: 'root' })
 export class MapprStore {
   readonly data = signal<MapprData | null>(null);
   readonly error = signal<string | null>(null);
-  readonly release = signal<Release>(DEFAULT_RELEASE);
+  readonly release = inject(ReleaseStore).release;
 
   constructor() {
     fetch('data/mappr.json')

@@ -159,8 +159,6 @@ export const RESOURCE_GROUPS: readonly ResourceGroup[] = [
 /** The resource's page in the FHIR R4 spec (not hl7.org/fhir/, which now shows R5). */
 export const specUrl = (name: string) => `https://hl7.org/fhir/R4/${name.toLowerCase()}.html`;
 
-export const RESOURCE_LIST_URL = 'https://hl7.org/fhir/R4/resourcelist.html';
-
 /**
  * "Good to know": one-sentence notes for the detail card, each checked against the FHIR R4 spec or
  * the named guide's own pages (2026-10-27). `element` is shown as code and [text](url) as a link.

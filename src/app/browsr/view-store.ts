@@ -1,4 +1,4 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import {
   DEFAULT_VIEW,
   REGION_KEYS,
@@ -9,10 +9,13 @@ import {
   type ViewState,
 } from '../../core/browsr/scope';
 import type { Country, Party, ScopeOptions } from '../../core/browsr/types';
+import { isR5OrLater } from '../../core/release';
+import { ReleaseStore } from '../release-store';
 
 /**
  * What the visitor is looking at: US or International, the selected regions, the scope toggles,
- * search, sort and page. Held in memory only; a reload starts again from DEFAULT_VIEW.
+ * search, sort and page. Held in memory only; a reload starts again from DEFAULT_VIEW. Whether
+ * R5 and R6 guides show follows the FHIR release in the shared header, not a toggle of its own.
  */
 @Injectable({ providedIn: 'root' })
 export class ViewStore {
@@ -22,7 +25,18 @@ export class ViewStore {
     scope: { ...DEFAULT_VIEW.scope },
   });
 
-  readonly view = this.state.asReadonly();
+  private readonly release = inject(ReleaseStore).release;
+
+  readonly view = computed<ViewState>(() => {
+    const v = this.state();
+    const r5 = isR5OrLater(this.release());
+    return {
+      ...v,
+      scope: { ...v.scope, r5 },
+      // The "R5/R6" added-by chip goes with them.
+      added: !r5 && v.added === 'r5' ? null : v.added,
+    };
+  });
   readonly selected = computed(() => new Set(this.state().regions));
 
   /** Any change other than turning the page goes back to page 1. */
@@ -125,8 +139,15 @@ export class ViewStore {
     this.state.update((v) => ({ ...v, page }));
   }
 
-  /** Jump to a view built elsewhere (a link in to one guide's row). */
-  show(view: ViewState) {
+  /**
+   * Jump to a view built elsewhere (a link in to one guide's row). A guide published only for R5
+   * or later switches the release to R5, since that's the only way to show it; returns whether it
+   * did, so the page can say so.
+   */
+  show(view: ViewState): boolean {
     this.state.set({ ...view, regions: [...view.regions], scope: { ...view.scope } });
+    if (!view.scope.r5 || isR5OrLater(this.release())) return false;
+    this.release.set('R5');
+    return true;
   }
 }

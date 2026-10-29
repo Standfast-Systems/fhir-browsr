@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TYPES } from '../../core/mappr/library';
-import { isR5OrLater, resourceIn, resourceSpecUrl } from '../../core/mappr/release';
+import { isR5OrLater, resourceIn, resourceSpecUrl } from '../../core/release';
 import type { Pattern, StackGuide } from '../../core/mappr/types';
 import { MapprStore } from './mappr-store';
 import { WalkthroughView } from './walkthrough';

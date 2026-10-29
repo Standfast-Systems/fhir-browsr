@@ -1,8 +1,8 @@
 <section class="resources">
   <h1>FHIR Resources</h1>
   <p class="intro">
-    Every implementation guide is built from the same building blocks, called resources. FHIR R4
-    defines about 150 of them. These are the ones you'll meet first.
+    Every implementation guide is built from the same building blocks, called resources. FHIR
+    {{ releaseLabel() }} defines about 150 of them. These are the ones you'll meet first.
   </p>
   <p class="back">
     Implementation guides add rules on top of these resources.
@@ -93,8 +93,8 @@
   </div>
 
   <p class="all">
-    <a [href]="listUrl" target="_blank" rel="noopener"
-      >See every resource in the FHIR R4 specification ↗</a
+    <a [href]="listUrl()" target="_blank" rel="noopener"
+      >See every resource in the FHIR {{ releaseLabel() }} specification ↗</a
     >
   </p>
 </section>
@@ -120,13 +120,28 @@
     <!-- The id is the resource type, so links like /resources#ExplanationOfBenefit land here. -->
     <h2 [id]="c.name">{{ c.name }}</h2>
     @if (c.spec) {
-      <a class="spec" [href]="c.spec" target="_blank" rel="noopener">FHIR R4 spec ↗</a>
+      <a class="spec" [href]="releaseSpec(c.name)" target="_blank" rel="noopener"
+        >FHIR {{ releaseLabel() }} spec ↗</a
+      >
     } @else {
-      <span class="spec" title="On a real resource, this opens its page in the FHIR R4 spec."
-        >FHIR R4 spec ↗</span
+      <span
+        class="spec"
+        [title]="'On a real resource, this opens its page in the FHIR ' + releaseLabel() + ' spec.'"
+        >FHIR {{ releaseLabel() }} spec ↗</span
       >
     }
   </div>
+  <!-- Until the R5 cards land, an R5 visitor is told plainly that this card is R4. -->
+  @if (cardsAreR4Only()) {
+    <p class="r4-only" role="note">
+      This card shows FHIR R4; R5 cards are on the way.
+      @if (c.spec) {
+        <a [href]="releaseSpec(c.name)" target="_blank" rel="noopener"
+          >Open {{ c.name }} in the {{ releaseLabel() }} spec ↗</a
+        >
+      }
+    </p>
+  }
   <p class="sentence">{{ sentence(c.blurb) }}</p>
 
   @if (c.notes.length || c.relations.length) {

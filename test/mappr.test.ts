@@ -7,7 +7,7 @@ import { describe, it } from 'node:test';
 import { parse } from 'yaml';
 import { FIRST, QUESTIONS, type QuestionId } from '../src/core/mappr/guide.ts';
 import { buildIndex, lookup, stem, terms, type Hit } from '../src/core/mappr/lookup.ts';
-import { isR5OrLater, resourceIn, resourceSpecUrl } from '../src/core/mappr/release.ts';
+import { isR5OrLater, resourceIn, resourceSpecUrl } from '../src/core/release.ts';
 import { MODEL, nearest, semanticLookup, type VectorFile } from '../src/core/mappr/semantic.ts';
 import type { MapprData } from '../src/core/mappr/types.ts';
 

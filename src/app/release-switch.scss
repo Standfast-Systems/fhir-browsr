@@ -1,0 +1,95 @@
+// A segmented control like the page switches, since there's nothing between releases. The note
+// opens under it, over the page.
+:host {
+  position: relative;
+  display: block;
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--mb-switch-edge);
+  border-radius: 999px;
+  background: var(--mb-switch-track);
+  .label {
+    padding: 0 8px 0 8px;
+    color: var(--mb-muted);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  button {
+    padding: 4px 11px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--mb-text);
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    &.on {
+      background: var(--mb-lime);
+      color: var(--mb-bg);
+      font-weight: 600;
+    }
+    // Shown so people know it exists; struck through and faint, it reads as unavailable.
+    &.locked {
+      color: var(--mb-faint);
+      text-decoration: line-through;
+      text-decoration-color: color-mix(in srgb, var(--mb-faint) 70%, transparent);
+      &:hover,
+      &[aria-expanded='true'] {
+        color: var(--mb-muted);
+      }
+    }
+    &.why {
+      width: 24px;
+      height: 24px;
+      margin-left: 2px;
+      padding: 0;
+      border: 1px solid var(--mb-line);
+      color: var(--mb-muted);
+      font-size: 12px;
+      &:hover,
+      &[aria-expanded='true'] {
+        border-color: var(--mb-lime-dim);
+        color: var(--mb-lime);
+      }
+    }
+  }
+}
+
+.about {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  width: min(340px, calc(100vw - 32px));
+  p {
+    margin: 0;
+    padding: 12px 14px;
+    border: 1px solid var(--mb-switch-edge);
+    border-radius: 10px;
+    background: var(--mb-panel-2);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 35%);
+    color: var(--mb-text);
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+  a {
+    display: block;
+    margin-top: 6px;
+    color: var(--mb-lime);
+  }
+}
+
+// On narrow screens the switch sits on its own row, at the left.
+@media (max-width: 720px) {
+  .about {
+    right: auto;
+    left: 0;
+  }
+}

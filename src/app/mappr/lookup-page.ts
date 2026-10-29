@@ -10,7 +10,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FIRST, QUESTIONS, type Answer, type QuestionId } from '../../core/mappr/guide';
 import { TYPES, guidesOf } from '../../core/mappr/library';
 import { buildIndex, lookup, patternsWith, type LookupResult } from '../../core/mappr/lookup';
-import { RELEASES, resourceIn, resourceSpecUrl } from '../../core/mappr/release';
+import { fitsRelease, releaseLabel, resourceIn, resourceSpecUrl } from '../../core/release';
 import { semanticLookup } from '../../core/mappr/semantic';
 import { REPO_URL } from '../repo';
 import { MapprStore } from './mappr-store';
@@ -59,7 +59,7 @@ export class LookupPage {
   });
 
   protected readonly releaseLabel = computed(
-    () => RELEASES.find((r) => r.id === this.store.release())!.label,
+    () => releaseLabel(this.store.release()),
   );
 
   /** The word match: patterns, then guides and resources, then none. */
@@ -169,7 +169,7 @@ export class LookupPage {
         if (q !== this.query().trim()) return;
         const keep = (id: string) => {
           const g = data.guides[id];
-          return !g.withdrawn && g.fhir.includes(release);
+          return !g.withdrawn && fitsRelease(g.fhir, release);
         };
         // No model (offline, blocked): the answer is the words' "none".
         this.byMeaning.set({ query: q, result: hits ? semanticLookup(hits, keep) : words });

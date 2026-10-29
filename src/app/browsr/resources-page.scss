@@ -137,6 +137,20 @@ h2 {
   background: color-mix(in srgb, var(--mb-bg) 45%, var(--mb-panel));
 }
 
+// An R5 visitor reading an R4 card.
+.r4-only {
+  margin: -4px 0 14px;
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--mb-warn) 45%, transparent);
+  border-radius: 8px;
+  color: var(--mb-text);
+  font-size: 13.5px;
+  a {
+    margin-left: 4px;
+    color: var(--mb-lime);
+  }
+}
+
 // "Good to know": a few short notes between the sentence and the fields.
 .notes {
   margin: 0 0 18px;
