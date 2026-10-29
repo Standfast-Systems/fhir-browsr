@@ -11,17 +11,19 @@ figcaption {
   color: var(--mb-muted);
 }
 
-// The drawing scrolls sideways inside its own frame rather than the page.
+// The frame hugs the drawing, drawn at its own size. When the card is narrower, the drawing
+// shrinks a little (the min-width set inline), then scrolls sideways inside the frame.
 .drawing {
+  width: fit-content;
+  max-width: 100%;
   overflow-x: auto;
   border: 1px solid var(--mb-line);
   border-radius: 10px;
   background: var(--mb-bg);
-  // Scales with the card, but never below a legible size: past that, the frame scrolls.
+  // SVG units are a pixel at full size, so the font sizes below are what shows.
   svg {
     display: block;
     width: 100%;
-    min-width: 760px;
     height: auto;
     font-family: Inter, Roboto, system-ui, sans-serif;
   }
@@ -39,7 +41,7 @@ figcaption {
 }
 
 .lane {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   fill: var(--mb-text);
   &.person {
@@ -64,25 +66,25 @@ figcaption {
 
 .n {
   font-family: var(--mb-mono);
-  font-size: 10.5px;
+  font-size: 11.5px;
   text-anchor: end;
   fill: var(--mb-faint);
 }
 
 .via {
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 600;
   fill: var(--mb-lime);
 }
 
 .title {
-  font-size: 12.5px;
+  font-size: 15px;
   font-weight: 700;
   fill: var(--mb-text);
 }
 
 .text {
-  font-size: 11.5px;
+  font-size: 13.5px;
   fill: var(--mb-muted);
 }
 
@@ -93,7 +95,7 @@ figcaption {
 }
 
 .result-text {
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 700;
   fill: var(--mb-lime);
 }
@@ -101,7 +103,7 @@ figcaption {
 .arrow {
   fill: none;
   stroke: var(--mb-muted);
-  stroke-width: 1.6;
+  stroke-width: 1.5;
 }
 
 .head {

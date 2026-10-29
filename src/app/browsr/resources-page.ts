@@ -93,9 +93,8 @@ export class ResourcesPage {
   protected readonly showAll = signal(false);
   /** Nested objects opened in the schema, by path (e.g. "item", "item.enableWhen"). */
   protected readonly expanded = signal<ReadonlySet<string>>(new Set());
-  protected readonly openGroups = signal<ReadonlySet<string>>(
-    new Set(RESOURCE_GROUPS.map((g) => g.id)),
-  );
+  /** Only the first group starts open; selecting a resource opens its group too. */
+  protected readonly openGroups = signal<ReadonlySet<string>>(new Set([RESOURCE_GROUPS[0].id]));
   protected readonly copied = signal(false);
 
   private readonly card = viewChild<ElementRef<HTMLElement>>('card');
