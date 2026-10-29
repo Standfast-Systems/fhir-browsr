@@ -12,7 +12,7 @@ import { RESOURCE_GROUPS } from '../src/app/browsr/resources-content.ts';
 import { viewFor } from '../src/core/browsr/scope.ts';
 import type { Dataset, Release as BrowsrRelease } from '../src/core/browsr/types.ts';
 import { guidesOf } from '../src/core/mappr/library.ts';
-import { isR4Resource } from '../src/core/mappr/release.ts';
+import { isR4Resource } from '../src/core/release.ts';
 import type { VectorFile } from '../src/core/mappr/semantic.ts';
 import { embeddedTexts, textHash } from './lib/mappr-texts.ts';
 import type {

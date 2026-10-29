@@ -106,6 +106,19 @@ h1 {
   }
 }
 
+.release-hint {
+  display: block;
+  margin-top: 2px;
+  color: var(--mb-faint);
+  font-size: 12.5px;
+}
+
+.switched {
+  margin: 0 0 8px;
+  color: var(--mb-warn);
+  font-size: 13px;
+}
+
 .switch {
   display: flex;
   gap: 12px;

@@ -35,6 +35,17 @@
   </p>
 </div>
 
+<!-- The FHIR release in the shared header doesn't change what Initializr builds. -->
+@if (release() !== 'R4') {
+  <div class="construction fhir" role="note">
+    <mat-icon fontSet="material-symbols-outlined" aria-hidden="true">info</mat-icon>
+    <p>
+      <strong>Initializr builds FHIR R4 (4.0.1) projects.</strong> Your {{ release() }} choice
+      applies to Browsr and Mappr.
+    </p>
+  </div>
+}
+
 @if (data.error(); as err) {
   <div class="error" role="alert">{{ err }}</div>
 }

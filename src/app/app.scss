@@ -63,11 +63,23 @@ small {
   letter-spacing: 0.02em;
 }
 
+.release {
+  margin-left: auto;
+}
+
 .beta {
   padding: 0 6px;
   border: 1px solid color-mix(in srgb, var(--mb-warn) 45%, transparent);
   border-radius: 999px;
   color: var(--mb-warn);
+}
+
+// Narrow screens: the release switch takes its own row.
+@media (max-width: 720px) {
+  .release {
+    flex-basis: 100%;
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 520px) {

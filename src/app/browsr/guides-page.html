@@ -41,7 +41,13 @@
     <div class="scope">
       <p class="scope-line">
         Counting <b>{{ scoped().length }}</b> {{ scopeLine() }}.
+        <span class="release-hint">R5 and R6 guides show when the FHIR release at the top is R5.</span>
       </p>
+      @if (switchedFor(); as name) {
+        <p class="switched" role="status">
+          Switched the FHIR release to R5 to show {{ name }}, which isn't published for R4.
+        </p>
+      }
       @for (t of toggles; track t.key) {
         <label class="switch">
           <input
@@ -288,7 +294,7 @@
           Show the whole Patient circle
         </button>
       } @else {
-        No guides here with the current scope. Try the toggles above.
+        No guides here with the current scope. Try the toggle above, or the FHIR release at the top.
       }
     </app-guide-table>
   }
