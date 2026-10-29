@@ -1,7 +1,10 @@
 // Refreshes data/fhir-resources.json, the schema and sample behind each resource's detail card on
-// the FHIR Resources page, straight from the FHIR R4 specification (published CC0).
+// the FHIR Resources page, straight from the FHIR specification (published CC0).
 //
-//   npm run resources
+//   npm run resources            R4, into data/fhir-resources.json
+//   npm run resources -- R5      R5, into data/fhir-resources-r5.json
+//   npm run resources -- R4B     writes nothing: checks that R4B can reuse R4's cards, failing if
+//                                any key field differs between the two
 //
 // For every resource in src/app/browsr/resources-content.ts:
 // - schema: every top-level field (housekeeping like meta and extension left out), with
@@ -15,9 +18,22 @@
 //   of plain text, `code` and links. Links to resources with a card on the page name that resource;
 //   other links point into the spec. Patient and CapabilityStatement have no such section in R4.
 import { writeFileSync } from 'node:fs';
-import { RESOURCE_GROUPS, specUrl } from '../src/app/browsr/resources-content.ts';
+import { RESOURCE_GROUPS } from '../src/app/browsr/resources-content.ts';
 
-const R4 = 'https://hl7.org/fhir/R4';
+const BASE: Record<string, string> = {
+  R4: 'https://hl7.org/fhir/R4',
+  R4B: 'https://hl7.org/fhir/R4B',
+  R5: 'https://hl7.org/fhir/R5',
+};
+const OUT: Record<string, string> = {
+  R4: 'data/fhir-resources.json',
+  R5: 'data/fhir-resources-r5.json',
+};
+const RELEASE = process.argv[2] ?? 'R4';
+if (!BASE[RELEASE]) {
+  console.error(`Unknown release ${RELEASE}: use R4, R4B or R5`);
+  process.exit(1);
+}
 
 // The fields a newcomer meets first, in the spec's element order on the page. Picked 2026-10-27.
 // The spec's own "summary" flag isn't used: it marks what a server returns for a quick search,
@@ -133,12 +149,77 @@ const KEY_FIELDS: Record<string, string[]> = {
   OperationOutcome: ['issue'],
 };
 
+// R5's key fields where it renamed or replaced R4's (picked 2026-10-29). The rest are R4's, and the
+// run fails if any of them is missing from the R5 definition.
+const KEY_FIELDS_R5: Record<string, string[]> = {
+  // telecom and availableTime became contact and availability.
+  PractitionerRole: [
+    'practitioner',
+    'organization',
+    'code',
+    'specialty',
+    'location',
+    'contact',
+    'availability',
+  ],
+  // telecom and address moved into contact.
+  Organization: ['identifier', 'active', 'type', 'name', 'contact', 'partOf'],
+  // performed[x] became occurrence[x]; reasonCode and reasonReference became reason.
+  Procedure: ['status', 'code', 'subject', 'occurrence[x]', 'performer', 'reason'],
+  // medication[x] became medication, a CodeableReference.
+  MedicationRequest: [
+    'status',
+    'intent',
+    'medication',
+    'subject',
+    'authoredOn',
+    'requester',
+    'dosageInstruction',
+  ],
+  // period became actualPeriod; reasonCode and reasonReference became reason.
+  Encounter: ['status', 'class', 'type', 'subject', 'participant', 'actualPeriod', 'reason'],
+  // payor became insurer, and kind (insurance, self-pay or other) is new and required.
+  Coverage: [
+    'status',
+    'kind',
+    'type',
+    'subscriber',
+    'subscriberId',
+    'beneficiary',
+    'insurer',
+    'class',
+  ],
+  // reasonCode and reasonReference became reason.
+  ServiceRequest: [
+    'status',
+    'intent',
+    'category',
+    'code',
+    'subject',
+    'occurrence[x]',
+    'requester',
+    'reason',
+  ],
+};
+
+const keyFields = (name: string) => (RELEASE === 'R5' && KEY_FIELDS_R5[name]) || KEY_FIELDS[name];
+
 // Examples whose default <name>-example.json is missing or too large to show.
 const EXAMPLE_FILE: Record<string, string> = {
   MedicationRequest: 'medicationrequest0301',
   Task: 'task-example1',
   DiagnosticReport: 'diagnosticreport-example-f201-brainct',
 };
+// R5's, where they differ from R4's. R5's encounter-example has none of type, participant,
+// actualPeriod or reason, the fields R5 changed; this one has every key field.
+const EXAMPLE_FILE_R5: Record<string, string> = {
+  Encounter: 'encounter-example-f203-20130311',
+};
+
+const exampleFile = (name: string) =>
+  (RELEASE === 'R5' && EXAMPLE_FILE_R5[name]) ||
+  EXAMPLE_FILE[name] ||
+  `${name.toLowerCase()}-example`;
 
 // Housekeeping every nested object has; never shown.
 const HOUSEKEEPING = new Set(['id', 'extension', 'modifierExtension']);
@@ -186,13 +267,19 @@ export interface RelPart {
 /** A paragraph, a list of items, or a subheading (a paragraph the spec sets all in bold). */
 export type RelBlock = { p: RelPart[] } | { ul: RelPart[][] } | { h: string };
 
-async function getText(url: string): Promise<string> {
-  for (let attempt = 0; attempt < 2; attempt++) {
+/**
+ * A page's body. hl7.org's firewall sometimes answers 202 with a challenge page instead of the
+ * content, so anything but a 200 is retried, with a growing pause; a 404 isn't.
+ */
+async function get(url: string): Promise<string> {
+  for (let attempt = 0; attempt < 6; attempt++) {
+    if (attempt) await new Promise((done) => setTimeout(done, 2_000 * attempt));
     try {
       const r = await fetch(url, { signal: AbortSignal.timeout(30_000) });
-      if (r.ok) return await r.text();
+      if (r.status === 200) return await r.text();
+      if (r.status === 404) break;
     } catch {
-      // retry once
+      // retry
     }
   }
   throw new Error(`Couldn't read ${url}`);
@@ -223,11 +310,11 @@ const decode = (s: string) =>
   });
 
 /**
- * The "Boundaries and Relationships" section of a resource's R4 page, or null if it has none.
+ * The "Boundaries and Relationships" section of a resource's page, or null if it has none.
  * Only paragraphs, lists and inline text are expected; anything else (a table, an image) fails the
  * run so it gets looked at.
  */
-function relations(html: string, name: string, cards: Set<string>, errors: string[]) {
+function relations(html: string, name: string, page: string, cards: Set<string>, errors: string[]) {
   const start = html.search(/<h2[^>]*>(?:(?!<\/h2>)[\s\S])*Boundaries (?:and|&amp;) Relationships/);
   if (start < 0) return null;
   const body = html.slice(html.indexOf('</h2>', start) + 5);
@@ -245,7 +332,6 @@ function relations(html: string, name: string, cards: Set<string>, errors: strin
     }
   }
   const section = body.slice(0, stop);
-  const page = specUrl(name);
 
   const blocks: RelBlock[] = [];
   let parts: RelPart[] | null = null;
@@ -339,7 +425,11 @@ function relations(html: string, name: string, cards: Set<string>, errors: strin
         const target = file && [...cards].find((c) => c.toLowerCase() === file);
         if (target === name) link = null;
         else if (target) link = { resource: target };
-        else link = { href: new URL(href, page).href };
+        else {
+          // A link a browser won't open (R5 DocumentReference's ftp:// DICOM page) stays as text.
+          const url = new URL(href, page);
+          link = /^https?:$/.test(url.protocol) ? { href: url.href } : null;
+        }
       }
     } else if (t === 'b' || t === 'strong') bold += end ? -1 : 1;
     else if (['div', 'i', 'em', 'br', 'span', 'sup'].includes(t)) {
@@ -350,18 +440,7 @@ function relations(html: string, name: string, cards: Set<string>, errors: strin
   return blocks.length ? blocks : null;
 }
 
-async function getJson<T>(url: string): Promise<T> {
-  for (let attempt = 0; attempt < 2; attempt++) {
-    try {
-      const r = await fetch(url, { signal: AbortSignal.timeout(30_000) });
-      if (r.ok) return (await r.json()) as T;
-      if (r.status === 404) break;
-    } catch {
-      // retry once
-    }
-  }
-  throw new Error(`Couldn't read ${url}`);
-}
+const getJson = async <T>(url: string) => JSON.parse(await get(url)) as T;
 
 const typeLabel = (t: { code: string; targetProfile?: string[] }) =>
   t.code === 'Reference' && t.targetProfile?.length
@@ -395,29 +474,92 @@ const resources: Record<string, unknown> = {};
 const names = RESOURCE_GROUPS.flatMap((g) => g.resources.map((r) => r.name));
 const cards = new Set(names);
 
-for (const name of names) {
-  const lower = name.toLowerCase();
-  const keys = KEY_FIELDS[name];
-  if (!keys) {
-    errors.push(`${name}: no key fields picked`);
-    continue;
-  }
+/** Every top-level field in the spec's own order, which reads naturally; key fields flagged. */
+async function schemaOf(base: string, name: string, keys: string[], label: string) {
   const sd = await getJson<{ snapshot: { element: ElementDefinition[] } }>(
-    `${R4}/${lower}.profile.json`,
+    `${base}/${name.toLowerCase()}.profile.json`,
   );
   const all = sd.snapshot.element;
   for (const key of keys) {
     if (!all.some((x) => x.path === `${name}.${key}`))
-      errors.push(`${name}.${key}: not in the R4 definition`);
+      errors.push(`${name}.${key}: not in the ${label} definition`);
   }
-  // Every top-level field in the spec's own order, which reads naturally; key fields flagged.
-  const schema: SchemaRow[] = all
+  return all
     .filter((e) => e.path.split('.').length === 2)
     .filter((e) => !TOP_HOUSEKEEPING.has(e.path.split('.')[1]))
-    .map((e) => ({ ...row(e, all), key: keys.includes(e.path.split('.')[1]) }));
+    .map((e): SchemaRow => ({ ...row(e, all), key: keys.includes(e.path.split('.')[1]) }));
+}
 
-  const file = EXAMPLE_FILE[name] ?? `${lower}-example`;
-  const example = await getJson<Record<string, unknown>>(`${R4}/${file}.json`);
+/** A schema as one line per field, nested ones included: path, cardinality and type. */
+const lines = (rows: SchemaRow[], at: string): string[] =>
+  rows.flatMap((r) => [
+    `${at}.${r.name} ${r.card} ${r.type}${r.sameAs ? ` (as ${r.sameAs})` : ''}`,
+    ...lines(r.children ?? [], `${at}.${r.name}`),
+  ]);
+
+// The key fields R4B changed, found by the check below (2026-10-29): R4B widens subject on
+// Observation and DiagnosticReport to five more targets. R4B's cards have to note or patch these.
+const R4B_KNOWN: Record<string, string> = {
+  'Observation.subject':
+    'Reference(Patient | Group | Device | Location | Organization | Procedure | Practitioner | Medication | Substance)',
+  'DiagnosticReport.subject':
+    'Reference(Patient | Group | Device | Location | Organization | Procedure | Practitioner | Medication | Substance)',
+};
+
+// R4B shows R4's cards. That holds only while every key field (and everything nested in one)
+// reads the same in both, apart from R4B_KNOWN; other differences are listed for whoever reads
+// the run.
+if (RELEASE === 'R4B') {
+  for (const name of names) {
+    const keys = KEY_FIELDS[name];
+    const [r4, r4b] = await Promise.all([
+      schemaOf(BASE['R4'], name, keys, 'R4'),
+      schemaOf(BASE['R4B'], name, keys, 'R4B'),
+    ]);
+    const was = new Set(lines(r4, name));
+    const now = new Set(lines(r4b, name));
+    const changed = [
+      ...[...was].filter((l) => !now.has(l)).map((l) => `- ${l}`),
+      ...[...now].filter((l) => !was.has(l)).map((l) => `+ ${l}`),
+    ];
+    const field = (l: string) => l.slice(2).split(/[. ]/)[1];
+    const isKey = (l: string) => keys.includes(field(l));
+    for (const l of changed.filter(isKey)) {
+      const known = R4B_KNOWN[`${name}.${field(l)}`];
+      // A known change shows as the R4 line going and the R4B line, with the recorded type, coming.
+      if (known && (l.startsWith('- ') || l.endsWith(` ${known}`))) continue;
+      errors.push(`${name}: key field differs in R4B: ${l}`);
+    }
+    for (const at of Object.keys(R4B_KNOWN).filter((k) => k.startsWith(`${name}.`))) {
+      if (!changed.some((l) => l.startsWith('+ ') && `${name}.${field(l)}` === at))
+        errors.push(`${at}: listed in R4B_KNOWN, but R4B no longer differs there`);
+    }
+    const others = changed.filter((l) => !isKey(l));
+    const keyText = changed.some(isKey) ? 'key fields differ (see R4B_KNOWN)' : 'key fields same';
+    const otherText = others.length ? 'other fields differ' : 'other fields same';
+    console.log(`${name.padEnd(22)} ${keyText}, ${otherText}`);
+    for (const l of others) console.log(`  ${l}`);
+  }
+  if (errors.length) {
+    console.error(errors.join('\n'));
+    process.exit(1);
+  }
+  console.log("R4B: every key field matches R4 apart from R4B_KNOWN, so R4B can show R4's cards.");
+  process.exit(0);
+}
+
+const base = BASE[RELEASE];
+for (const name of names) {
+  const lower = name.toLowerCase();
+  const keys = keyFields(name);
+  if (!keys) {
+    errors.push(`${name}: no key fields picked`);
+    continue;
+  }
+  const schema = await schemaOf(base, name, keys, RELEASE);
+
+  const file = exampleFile(name);
+  const example = await getJson<Record<string, unknown>>(`${base}/${file}.json`);
   if (example['resourceType'] !== name)
     errors.push(`${name}: example ${file} is a ${example['resourceType']}`);
   // Drop what the table never shows: the narrative, meta and extensions.
@@ -425,11 +567,12 @@ for (const name of names) {
     Object.entries(example).filter(([k]) => k === 'id' || !TOP_HOUSEKEEPING.has(k)),
   );
 
-  const rel = relations(await getText(`${R4}/${lower}.html`), name, cards, errors);
+  const page = `${base}/${lower}.html`;
+  const rel = relations(await get(page), name, page, cards, errors);
 
   resources[name] = {
-    spec: `${R4}/${lower}.html`,
-    example: `${R4}/${file}.json.html`,
+    spec: page,
+    example: `${base}/${file}.json.html`,
     schema,
     sample,
     ...(rel ? { relations: rel } : {}),
@@ -445,7 +588,7 @@ if (errors.length) {
 }
 
 writeFileSync(
-  'data/fhir-resources.json',
-  JSON.stringify({ generated: new Date().toISOString(), source: R4, resources }, null, 1) + '\n',
+  OUT[RELEASE],
+  JSON.stringify({ generated: new Date().toISOString(), source: base, resources }, null, 1) + '\n',
 );
-console.log(`data/fhir-resources.json: ${Object.keys(resources).length} resources`);
+console.log(`${OUT[RELEASE]}: ${Object.keys(resources).length} resources`);
