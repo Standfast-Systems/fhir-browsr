@@ -1,4 +1,5 @@
 import type { ResourceDetail } from './resource-data';
+import type { Relation } from './resources-content';
 
 /**
  * The made-up resource on the FHIR Resources page's welcome card. It has every part a real card has
@@ -12,6 +13,13 @@ export const EXAMPLE_BLURB =
 
 export const EXAMPLE_NOTES: readonly string[] = [
   'Real cards have notes like this one: companion guides, common mix-ups, and where related data lives.',
+];
+
+export const EXAMPLE_RELATIONS: readonly Relation[] = [
+  {
+    to: ['Observation', 'DiagnosticReport'],
+    how: 'resources a real one is used with or mixed up with, and where each takes over. Ones with a card here link to it; the rest open in the spec.',
+  },
 ];
 
 export const EXAMPLE_DETAIL: ResourceDetail = {
@@ -107,17 +115,4 @@ export const EXAMPLE_DETAIL: ResourceDetail = {
     date: '2026-10-27',
     author: { reference: 'Practitioner/example' },
   },
-  relations: [
-    {
-      p: [
-        {
-          text: "Most real cards can open the spec's own notes on where a resource stops and others take over, like ",
-        },
-        { text: 'Observation', resource: 'Observation' },
-        { text: ' versus ' },
-        { text: 'DiagnosticReport', resource: 'DiagnosticReport' },
-        { text: '. Resources with a card here link to it; the rest open in the spec.' },
-      ],
-    },
-  ],
 };

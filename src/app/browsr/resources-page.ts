@@ -13,14 +13,22 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ResourceData, type ResourceDetail, type SchemaRow } from './resource-data';
-import { EXAMPLE_BLURB, EXAMPLE_DETAIL, EXAMPLE_NAME, EXAMPLE_NOTES } from './resource-example';
+import {
+  EXAMPLE_BLURB,
+  EXAMPLE_DETAIL,
+  EXAMPLE_NAME,
+  EXAMPLE_NOTES,
+  EXAMPLE_RELATIONS,
+} from './resource-example';
 import {
   RESOURCE_GROUPS,
   RESOURCE_LIST_URL,
   RESOURCE_NOTES,
+  RESOURCE_RELATIONS,
   noteParts,
   specUrl,
   type NotePart,
+  type Relation,
   type ResourceGroup,
 } from './resources-content';
 
@@ -35,9 +43,19 @@ interface CardContent {
   /** The R4 spec page; null for the Example, which has none. */
   spec: string | null;
   notes: NotePart[][];
+  /** "How it relates": each line's resources (a card here, else the spec page), then how. */
+  relations: { to: { name: string; card: boolean; url: string }[]; how: NotePart[] }[];
   /** Null while the data loads. */
   detail: ResourceDetail | null;
 }
+
+const CARDS = new Set(RESOURCE_GROUPS.flatMap((g) => g.resources.map((r) => r.name)));
+
+const relationLines = (lines: readonly Relation[]) =>
+  lines.map(({ to, how }) => ({
+    to: to.map((name) => ({ name, card: CARDS.has(name), url: specUrl(name) })),
+    how: noteParts(how),
+  }));
 
 const EXAMPLE: CardContent = {
   name: EXAMPLE_NAME,
@@ -45,6 +63,7 @@ const EXAMPLE: CardContent = {
   blurb: EXAMPLE_BLURB,
   spec: null,
   notes: EXAMPLE_NOTES.map(noteParts),
+  relations: relationLines(EXAMPLE_RELATIONS),
   detail: EXAMPLE_DETAIL,
 };
 
@@ -94,6 +113,7 @@ export class ResourcesPage {
       blurb: entry.blurb,
       spec: specUrl(name),
       notes: (RESOURCE_NOTES[name] ?? []).map(noteParts),
+      relations: relationLines(RESOURCE_RELATIONS[name] ?? []),
       detail: this.data.details()?.[name] ?? null,
     };
   });

@@ -32,8 +32,7 @@
           </li>
           <li>
             Its card starts with one plain sentence and, where it helps, a few things that are good
-            to know. <b>How it relates to other resources</b> opens the spec's own notes on where it
-            stops and others take over.
+            to know and how it relates to other resources: where it stops and others take over.
           </li>
           <li>
             <b>Schema</b> shows its key fields: the field's name, its type, how many there can be
@@ -100,15 +99,14 @@
   </p>
 </section>
 
-<!-- A run of the relations section's text: a card link, a spec link, code or plain text. -->
-<ng-template #relParts let-parts>
+<!-- A note's text: plain, code or links. The container keeps Angular from adding a space before
+     the punctuation that follows a link or code. -->
+<ng-template #noteText let-parts>
   @for (part of parts; track $index) {
-    @if (part.resource) {
-      <a routerLink="/browsr/resources" [fragment]="part.resource">{{ part.text }}</a>
+    @if (part.code) {
+      <code>{{ part.text }}</code>
     } @else if (part.href) {
       <a [href]="part.href" target="_blank" rel="noopener">{{ part.text }}</a>
-    } @else if (part.code) {
-      <code>{{ part.text }}</code>
     } @else {
       <ng-container>{{ part.text }}</ng-container>
     }
@@ -131,56 +129,50 @@
   </div>
   <p class="sentence">{{ sentence(c.blurb) }}</p>
 
-  @if (c.notes.length) {
+  @if (c.notes.length || c.relations.length) {
     <div class="notes">
-      <p class="notes-title">Good to know</p>
-      <ul>
-        @for (note of c.notes; track $index) {
-          <li>
-            @for (part of note; track $index) {
-              @if (part.code) {
-                <code>{{ part.text }}</code>
-              } @else if (part.href) {
-                <a [href]="part.href" target="_blank" rel="noopener">{{ part.text }}</a>
-              } @else {
-                <ng-container>{{ part.text }}</ng-container>
-              }
-            }
-          </li>
-        }
-      </ul>
-    </div>
-  }
-
-  <!-- The spec's own "Boundaries and Relationships" section, collapsed: it runs to several
-       paragraphs. Resources with a card here link to it; anything else opens in the spec. -->
-  @if (c.detail?.relations; as rel) {
-    <details class="relations">
-      <summary>How it relates to other resources</summary>
-      @for (b of rel; track $index) {
-        @if (b.h) {
-          <p class="rel-h">{{ b.h }}</p>
-        } @else if (b.p) {
-          <p><ng-container *ngTemplateOutlet="relParts; context: { $implicit: b.p }" /></p>
-        } @else if (b.ul) {
-          <ul>
-            @for (item of b.ul; track $index) {
-              <li><ng-container *ngTemplateOutlet="relParts; context: { $implicit: item }" /></li>
-            }
-          </ul>
-        }
+      @if (c.notes.length) {
+        <p class="notes-title">Good to know</p>
+        <ul>
+          @for (note of c.notes; track $index) {
+            <li><ng-container *ngTemplateOutlet="noteText; context: { $implicit: note }" /></li>
+          }
+        </ul>
       }
-      <p class="rel-source">
-        From the
-        @if (c.spec) {
-          <a [href]="c.spec + '#bnr'" target="_blank" rel="noopener"
-            >FHIR R4 spec's Boundaries and Relationships section ↗</a
-          >
-        } @else {
-          FHIR R4 spec's Boundaries and Relationships section
-        }
-      </p>
-    </details>
+      <!-- A summary of the spec's Boundaries and Relationships section: resources with a card
+           here link to it, the rest to their spec page. -->
+      @if (c.relations.length) {
+        <p class="notes-title">How it relates</p>
+        <ul class="relations">
+          @for (r of c.relations; track $index) {
+            <li>
+              @for (t of r.to; track t.name) {
+                @if (!$first) {
+                  <ng-container>, </ng-container>
+                }
+                @if (t.card) {
+                  <a class="res" routerLink="/browsr/resources" [fragment]="t.name">{{ t.name }}</a>
+                } @else {
+                  <a class="res" [href]="t.url" target="_blank" rel="noopener">{{ t.name }} ↗</a>
+                }
+              }
+              <ng-container>: </ng-container>
+              <ng-container *ngTemplateOutlet="noteText; context: { $implicit: r.how }" />
+            </li>
+          }
+        </ul>
+        <p class="rel-source">
+          @if (c.spec) {
+            In full:
+            <a [href]="c.spec + '#bnr'" target="_blank" rel="noopener"
+              >the spec's Boundaries and Relationships section ↗</a
+            >
+          } @else {
+            On a real card, this links to the spec's Boundaries and Relationships section.
+          }
+        </p>
+      }
+    </div>
   }
 
   <div class="view-switch" role="group" aria-label="Show">
