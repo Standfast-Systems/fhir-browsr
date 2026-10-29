@@ -334,14 +334,27 @@ const out: Dataset = {
 };
 mkdirSync('public/data', { recursive: true });
 writeFileSync('public/data/guides.json', JSON.stringify(out));
-// The FHIR Resources page's schemas and samples (from `npm run resources`), loaded only on that page.
-// The spec's relations text stays behind: the page shows RESOURCE_RELATIONS, its summary, and the
-// tests check that summary against it.
-const resourceData = JSON.parse(readFileSync('data/fhir-resources.json', 'utf8')) as {
-  resources: Record<string, { relations?: unknown }>;
-};
-for (const r of Object.values(resourceData.resources)) delete r.relations;
-writeFileSync('public/data/fhir-resources.json', JSON.stringify(resourceData));
+// The FHIR Resources page's schemas and samples (from `npm run resources`), loaded only on that page:
+// R4's (which R4B shares, with R4B's few differences attached to the resources they touch) and R5's.
+// The spec's relations text stays behind: the page shows the hand-written summaries, and the tests
+// check those against it.
+const r4bDifferences = JSON.parse(readFileSync('data/r4b-differences.json', 'utf8')) as Record<
+  string,
+  unknown[]
+>;
+for (const [from, to] of [
+  ['data/fhir-resources.json', 'public/data/fhir-resources.json'],
+  ['data/fhir-resources-r5.json', 'public/data/fhir-resources-r5.json'],
+] as const) {
+  const data = JSON.parse(readFileSync(from, 'utf8')) as {
+    resources: Record<string, { relations?: unknown; r4b?: unknown[] }>;
+  };
+  for (const [name, r] of Object.entries(data.resources)) {
+    delete r.relations;
+    if (from === 'data/fhir-resources.json' && r4bDifferences[name]) r.r4b = r4bDifferences[name];
+  }
+  writeFileSync(to, JSON.stringify(data));
+}
 
 console.log(`guides.json: ${guides.length} guides`);
 for (const c of ['us', 'intl'] as const) {
