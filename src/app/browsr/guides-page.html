@@ -129,6 +129,17 @@
           >
         }
       }
+      <!-- The search narrows the table too (a link in from Mappr sets one), so it shows here. -->
+      @if (view().query.trim(); as q) {
+        <button
+          type="button"
+          class="chip on query"
+          (click)="store.setQuery('')"
+          [attr.aria-label]="'Clear the search for ' + q"
+        >
+          Search: <span class="q">“{{ q }}”</span> <span aria-hidden="true">×</span>
+        </button>
+      }
       <span class="sel-actions">
         <button type="button" class="link" (click)="store.selectAll()">Select all</button>
         <button type="button" class="link" (click)="store.clear()">Clear</button>
@@ -285,8 +296,9 @@
       (guideOpen)="openGuide($event)"
     >
       @if (view().query.trim()) {
-        Nothing matches “{{ view().query }}” here. Try clearing the search or selecting more
-        regions.
+        Nothing matches “{{ view().query }}” here.
+        <button type="button" class="link" (click)="store.setQuery('')">Clear the search</button>
+        or select more regions.
       } @else if (view().regions.length === 1 && view().regions[0] === 'pt') {
         No guide is for patients alone: a patient app always talks to a provider's or payer's
         server, so all {{ patientTotal() }} patient guides sit in the overlaps.
