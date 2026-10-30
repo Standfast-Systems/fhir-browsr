@@ -83,12 +83,15 @@ export class ViewStore {
     this.setRegions(sel);
   }
 
+  /** "Select all" and "Clear" start over: they drop the search too (a link in sets one). */
   selectAll() {
     this.setRegions(new Set(REGION_KEYS));
+    this.update({ query: '' });
   }
 
   clear() {
     this.setRegions(new Set());
+    this.update({ query: '' });
   }
 
   /** Clicking the active bucket again goes back to all of them. */
